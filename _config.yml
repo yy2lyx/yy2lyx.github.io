@@ -1,10 +1,10 @@
 # Site Settings
-title: Mere Blog Theme
-tagline: Mere Blog Theme
-email: your-email@domain.com
+title: 李小肥的YY博客
+tagline: 李小肥的YY
+email: 1282442333@qq.com
 description: >
   The demo site for Mere Blog Theme, made for Jekyll and GitHub pages websites
-baseurl: "/mere-blog-theme"
+baseurl: ""
 url: "https://www.csrhymes.com"
 permalink: pretty
 
