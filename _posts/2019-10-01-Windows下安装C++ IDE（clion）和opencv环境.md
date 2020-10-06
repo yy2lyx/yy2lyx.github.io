@@ -2,7 +2,7 @@
 layout: post
 title: Windows下安装C++ IDE（clion）和opencv环境
 date: 2019-10-01 00:00:00 +0300
-description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
+description: 在Windows下安装Clion和Opencv的运行环境 # Add post description (optional)
 img: software.jpg # Add image post (optional)
 tags: [Clion, OpenCV] # add tag
 ---
