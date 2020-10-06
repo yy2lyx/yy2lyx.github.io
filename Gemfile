@@ -1,13 +1,9 @@
-# frozen_string_literal: true
+source 'https://gems.ruby-china.com/'
 
-source "https://rubygems.org"
-gemspec
-
-gem "jekyll", "~> 3.8"
+gem 'jekyll'
 
 group :jekyll_plugins do
-    gem "jekyll-feed", "~> 0.6"
-    gem "jekyll-sitemap"
-    gem "jekyll-paginate"
-    gem "jekyll-seo-tag"
+  gem "jekyll-sitemap"
+  gem "jekyll-paginate"
+  gem "jemoji"
 end

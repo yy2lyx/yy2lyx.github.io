@@ -1,57 +1,35 @@
-# Site Settings
-title: 李小肥的YY博客
-tagline: 李小肥的YY
-email: 1282442333@qq.com
-description: >
-  The demo site for Mere Blog Theme, made for Jekyll and GitHub pages websites
-baseurl: ""
-url: "https://www.csrhymes.com"
-permalink: pretty
+title: 李小肥的YY
+description: > # this means to ignore newlines until "baseurl:"
+  欢迎来到李小肥的YY的站点，这里主要是机器学习方面的文章哦！
+permalink: ':title/'
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+site-twitter: #if your site has a twitter account, enter it here
 
-paginate: 6
-paginate_path: "/page:num"
+# Author Settings
+author: 李小肥的YY # add your name
+author-img: yy.jpg # add your photo
+about-author: 爱好机器学习，深度学习，在CV和NLP方面有些小研究。 # add description
+social-twitter: # add your Twitter handle
+social-facebook: # add your Facebook handle
+social-github: yy2lyx/ # add your Github handle
+social-linkedin: # add your Linkedin handle
+social-email: 1282442333@qq.com# add your Email address
 
+# Disqus
+discus-identifier: mr-brown # add your discus identifier
+
+# Tracker
+analytics: # Google Analytics
+
+# Build Settings
+markdown: kramdown
 plugins:
   - jekyll-sitemap
   - jekyll-paginate
-  - jekyll-feed
-  - jekyll-seo-tag
-  - kramdown
-  - rouge
+  - jemoji
 
-exclude:
-  - Gemfile
-  - clean-theme.gemspec
-  - Gemfile.lock
-  - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
+paginate: 8
+paginate_path: "/page/:num"
 
-livereload: true
-
-sass:
-  style: compressed
-  source_dir: _sass
-
-defaults:
-  -
-    scope:
-      path: ""
-      type: "posts"
-    values:
-      author: "C.S. Rhymes"
-      layout: post
-      image: /img/home.jpg
-      show_sidebar: true
-  -
-    scope:
-      path: ""
-      type: "authors"
-    values:
-      layout: "author"
-
-collections:
-  authors:
-    output: true
+exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock"]
