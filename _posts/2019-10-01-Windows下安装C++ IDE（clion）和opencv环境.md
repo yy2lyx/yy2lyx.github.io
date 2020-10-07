@@ -7,12 +7,21 @@ img: software.jpg # Add image post (optional)
 tags: [Clion, OpenCV] # add tag
 ---
 
+<!-- TOC -->
+
+- [1. 下载软件](#1-下载软件)
+- [2. MinGW和OpenCV](#2-mingw和opencv)
+- [3. 写CMakeList](#3-写cmakelist)
+- [4. 编译成可执行文件](#4-编译成可执行文件)
+
+<!-- /TOC -->
+
 #### 1. 下载软件
 
-* [clion](https://www.macw.com/mac/1893.html)
+* [clion](https://www.macw.com/mac/1893.html)：C++的IDE
 * [cmake](https://cmake.org/download/) : 这里需要添加到环境变量中 `D:\Profile\mingw64\bin`
 * [MinGW]([https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download](https://sourceforge.net/projects/mingw-w64/files/Toolchains targetting Win64/Personal Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download)) ：添加到环境变量 `D:\Profile\mingw64\bin`
-* [opencv3.4.10](https://opencv.org/releases/)
+* [opencv3.4.10](https://opencv.org/releases/)：开源的计算机视觉库
 
 #### 2. MinGW和OpenCV
 

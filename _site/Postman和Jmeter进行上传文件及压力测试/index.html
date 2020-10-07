@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Postman和Jmeter进行上传文件及压力测试 - 李小肥的YY</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="李小肥的YY" property="og:site_name">
+  
+    <meta content="Postman和Jmeter进行上传文件及压力测试" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="利用postman和jmeter对上传文件的操作进行压力测试" property="og:description">
+  
+  
+    <meta content="http://localhost:4000/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" property="og:url">
+  
+  
+    <meta content="2020-03-23T05:00:00+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/how-to-start.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="Postman" property="article:tag">
+    
+    <meta content="Jmeter" property="article:tag">
+    
+    <meta content="压力测试" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Postman和Jmeter进行上传文件及压力测试">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/">
+  
+  
+    <meta name="twitter:description" content="利用postman和jmeter对上传文件的操作进行压力测试">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/how-to-start.jpg">
+  
+
+	<meta name="description" content="利用postman和jmeter对上传文件的操作进行压力测试">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/yy.jpg" alt="李小肥的YY"></a>
+      </div>
+      <div class="author-name">李小肥的YY</div>
+      <p>爱好机器学习，深度学习，在CV和NLP方面有些小研究。</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/yy2lyx/" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1282442333@qq.com# add your Email address"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2020 &copy; 李小肥的YY</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/how-to-start.jpg alt="Postman和Jmeter进行上传文件及压力测试">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Postman和Jmeter进行上传文件及压力测试</h1>
+        <div class="page-date"><span>2020, Mar 23&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h2 id="postman和jmeter进行上传文件及压力测试">Postman和Jmeter进行上传文件及压力测试</h2>
+
+<blockquote>
+  <p>postman下载链接：https://www.postman.com/downloads/</p>
+
+  <p>Jmeter下载链接：http://jmeter.apache.org/download_jmeter.cgi</p>
+
+  <p>flask代码地址：https://github.com/YeYan1993/FlaskTutorial/tree/master/Flask-7-upload</p>
+
+  <p>windows下scoop下载jdk(这里是由于Jmeter需要)：<code class="language-plaintext highlighter-rouge">scoop install ojdkbuild</code></p>
+</blockquote>
+
+<h3 id="一-构建接口的flask服务">一. 构建接口的flask服务</h3>
+
+<p>其中包含前端表单index.html文件如下和flask的后端</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>upload<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">action = </span><span class="s">"/success"</span> <span class="na">method = </span><span class="s">"post"</span> <span class="na">enctype=</span><span class="s">"multipart/form-data"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"file"</span> <span class="na">name=</span><span class="s">"file"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type = </span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Upload"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h3 id="二-postman的http接口测试">二. Postman的http接口测试</h3>
+
+<p>postman分别在header和body中填入下图：</p>
+
+<ul>
+  <li>headers中需要填入value:multipart/form-data</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo0qznj0j30p605qmxn.jpg" alt="" /></p>
+
+<ul>
+  <li>body 中需要填入key：file(这里参考index.html文件中name=”file”)，value:eml文件地址</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo1floa4j30m20463yp.jpg" alt="" /></p>
+
+<ul>
+  <li>然后将写好的保存在collections当中，并构建tests选项（如果不填入，后面的串行压力测试无法开始，报错）</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo31nohoj30on084aaz.jpg" alt="" /></p>
+
+<ul>
+  <li>通过collections中选中保存好的请求，run即可</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo3gr20yj30va0jh75p.jpg" alt="" /></p>
+
+<h3 id="三-jmeter的http接口测试">三. Jmeter的http接口测试</h3>
+
+<p>在下载解压好的jmeter二进制文件中打开：<code class="language-plaintext highlighter-rouge">apache-jmeter-5.3\bin\jmeter.bat</code></p>
+
+<ul>
+  <li>新建一个线程组，如下图，包括http请求及监听</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo1myv4aj308903vq2y.jpg" alt="" /></p>
+
+<ul>
+  <li>线程中填入线程总数，和全部线程开启总的时间（这里由于需要测试并发1小时2万次访问）</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo3saf9cj30am0a63z4.jpg" alt="" /></p>
+
+<ul>
+  <li>在http请求页面填入请求的参数</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo41hoa3j30t1089jsj.jpg" alt="" /></p>
+
+<ul>
+  <li>http页面下面不用填Parameters和BodyData，在Files Upload中填入下图，其中file和上面一致，而MIME Type需要访问https://www.freeformatter.com/mime-types-list.html，找到其中.eml格式前面的</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo4abjwtj30sk0300t4.jpg" alt="" /></p>
+
+<ul>
+  <li>运行，即可看到并行的接口请求情况</li>
+</ul>
+
+<h3 id="四-总结">四. 总结</h3>
+
+<ul>
+  <li>
+    <p>一般的网络接口测试，功能性测试postman较为好用。</p>
+  </li>
+  <li>
+    <p>需要测试高并发的情况下，只能用Jmeter来进行测试，因为postman是串行，而Jmeter是多线程并行测试。</p>
+  </li>
+</ul>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Postman和Jmeter进行上传文件及压力测试&url=http://localhost:4000/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Postman" class="tag">&#35; Postman</a>
+          
+            <a href="/tags#Jmeter" class="tag">&#35; Jmeter</a>
+          
+            <a href="/tags#压力测试" class="tag">&#35; 压力测试</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-brown.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

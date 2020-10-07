@@ -1,149 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>机器学习常用函数 - 李小肥的YY</title>
-
-  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
-
-    <meta content="李小肥的YY" property="og:site_name">
-  
-    <meta content="机器学习常用函数" property="og:title">
-  
-  
-    <meta content="article" property="og:type">
-  
-  
-    <meta content="一些常用的数据分析处理和数学建模的工具函数" property="og:description">
-  
-  
-    <meta content="http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" property="og:url">
-  
-  
-    <meta content="2018-11-11T05:00:00+08:00" property="article:published_time">
-    <meta content="http://localhost:4000/about/" property="article:author">
-  
-  
-    <meta content="http://localhost:4000/assets/img/math.jpg" property="og:image">
-  
-  
-    
-  
-  
-    
-    <meta content="Pandas" property="article:tag">
-    
-    <meta content="Sklearn" property="article:tag">
-    
-  
-
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@">
-    <meta name="twitter:creator" content="@">
-  
-    <meta name="twitter:title" content="机器学习常用函数">
-  
-  
-    <meta name="twitter:url" content="http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/">
-  
-  
-    <meta name="twitter:description" content="一些常用的数据分析处理和数学建模的工具函数">
-  
-  
-    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/math.jpg">
-  
-
-	<meta name="description" content="一些常用的数据分析处理和数学建模的工具函数">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta property="og:image" content="">
-	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
-	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
-	<!-- Chrome, Firefox OS and Opera -->
-	<meta name="theme-color" content="#263959">
-	<!-- Windows Phone -->
-	<meta name="msapplication-navbutton-color" content="#263959">
-	<!-- iOS Safari -->
-	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
-	<!-- Styles -->
-	<link rel="stylesheet" href="/assets/css/main.css">
-</head>
-
-<body>
-
-  <div class="wrapper">
-    <aside class="sidebar">
-  <header>
-    <div class="about">
-      <div class="cover-author-image">
-        <a href="/"><img src="/assets/img/yy.jpg" alt="李小肥的YY"></a>
-      </div>
-      <div class="author-name">李小肥的YY</div>
-      <p>爱好机器学习，深度学习，在CV和NLP方面有些小研究。</p>
-    </div>
-  </header> <!-- End Header -->
-  <footer>
-    <section class="contact">
-      <h3 class="contact-title">Contact me</h3>
-      <ul>
-        
-          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-        
-        
-          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-        
-        
-          <li class="github"><a href="http://github.com/yy2lyx/" target="_blank"><i class="fa fa-github"></i></a></li>
-        
-        
-          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-        
-        
-          <li class="email"><a href="mailto:1282442333@qq.com# add your Email address"><i class="fa fa-envelope-o"></i></a></li>
-        
-      </ul>
-    </section> <!-- End Section Contact -->
-    <div class="copyright">
-      <p>2020 &copy; 李小肥的YY</p>
-    </div>
-  </footer> <!-- End Footer -->
-</aside> <!-- End Sidebar -->
-<div class="content-box clearfix">
-  <article class="article-page">
-  <div class="page-content">
-    
-    <div class="page-cover-image">
-      <figure>
-        <img class="page-image" src=/assets/img/math.jpg alt="机器学习常用函数">
-        
-      </figure>
-    </div> <!-- End Page Cover Image -->
-    
-    <div class="wrap-content">
-      <header class="header-page">
-        <h1 class="page-title">机器学习常用函数</h1>
-        <div class="page-date"><span>2018, Nov 11&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-      </header>
-      <!-- TOC -->
+I"�<!-- TOC -->
 
 <ul>
   <li><a href="#一数据处理工具pandas和numpy">一.数据处理工具pandas和numpy</a>
     <ul>
       <li><a href="#11-pandas读取数据">1.1 pandas读取数据</a></li>
       <li><a href="#12-numpyrandom-生成数据的用法">1.2 numpy.random 生成数据的用法</a></li>
-      <li><a href="#13-pandas_profiling">1.3 pandas_profiling</a></li>
+      <li><a href="#13-查看数据分布和得到数据报告pandas_profiling">1.3 查看数据分布和得到数据报告——pandas_profiling</a></li>
       <li><a href="#14-pandas去掉重复项-dfdrop_duplicates">1.4 pandas去掉重复项 df.drop_duplicates()</a></li>
-      <li><a href="#15-pandas中loc和iloc区别">1.5 pandas中loc和iloc区别</a></li>
-      <li><a href="#18-计算特征之间的相关系数">1.8 计算特征之间的相关系数</a></li>
+      <li><a href="#15-pandas-抽取dataframe中一部分行列loc和iloc区别">1.5 pandas 抽取Dataframe中一部分行列——loc和iloc区别</a></li>
+      <li><a href="#18-计算特征之间的相关系数自变量之间相关系数较大的话需要考虑共线性的问题共线性会导致模型出现开式解降低模型的稳定性">1.8 计算特征之间的相关系数（自变量之间相关系数较大的话，需要考虑共线性的问题，共线性会导致模型出现开式解，降低模型的稳定性。）</a></li>
       <li><a href="#19-dataframe的拼接">1.9 dataframe的拼接</a></li>
       <li><a href="#110-groupby的使用">1.10  groupby的使用</a></li>
-      <li><a href="#111-seriesapply">1.11  Series.apply</a></li>
+      <li><a href="#111-seriesapply用于对该series的所有元素进行处理生成一个新的series">1.11  Series.apply()用于对该series的所有元素进行处理生成一个新的series</a></li>
       <li><a href="#112-series可以直接用于2个列相加减">1.12  Series可以直接用于2个列相加减</a></li>
     </ul>
   </li>
@@ -177,7 +45,7 @@
           <li><a href="#382-自动调参神器hyperopt">3.8.2 自动调参神器——Hyperopt</a></li>
         </ul>
       </li>
-      <li><a href="#39-to_categorical">3.9 to_categorical</a></li>
+      <li><a href="#39-将label转为one_hot形式to_categorical">3.9 将label转为one_hot形式——to_categorical</a></li>
       <li><a href="#310-绘制roc曲线">3.10 绘制ROC曲线</a></li>
     </ul>
   </li>
@@ -190,7 +58,7 @@
   </li>
   <li><a href="#五聚类模型">五.聚类模型</a>
     <ul>
-      <li><a href="#51轮廓系数">5.1.轮廓系数</a></li>
+      <li><a href="#51评估聚类效果好坏轮廓系数">5.1.评估聚类效果好坏——轮廓系数</a></li>
     </ul>
   </li>
 </ul>
@@ -211,9 +79,7 @@
 <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1676</span><span class="p">)</span> <span class="o">==&gt;</span><span class="n">设置种子数</span><span class="err">，</span><span class="n">每次生成的随机数相同</span>
 </code></pre></div></div>
 
-<h4 id="13-pandas_profiling">1.3 pandas_profiling</h4>
-<p>用于简单快速查看数据分布和得到数据报告。</p>
-
+<h4 id="13-查看数据分布和得到数据报告pandas_profiling">1.3 查看数据分布和得到数据报告——pandas_profiling</h4>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas_profiling</span>
 <span class="n">pfr</span> <span class="o">=</span> <span class="n">pandas_profiling</span><span class="p">.</span><span class="n">ProfileReport</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">pfr</span><span class="p">.</span><span class="n">to_file</span><span class="p">(</span><span class="s">"./example.html"</span><span class="p">)</span>
@@ -225,7 +91,7 @@
 <span class="n">df</span><span class="p">.</span><span class="n">shape</span>
 </code></pre></div></div>
 
-<h4 id="15-pandas中loc和iloc区别">1.5 pandas中loc和iloc区别</h4>
+<h4 id="15-pandas-抽取dataframe中一部分行列loc和iloc区别">1.5 pandas 抽取Dataframe中一部分行列——loc和iloc区别</h4>
 
 <ul>
   <li>
@@ -252,11 +118,9 @@
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dummy_device_type</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_org</span><span class="p">[</span><span class="s">'platform'</span><span class="p">],</span><span class="n">prefix</span><span class="o">=</span><span class="s">'device_type'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h4 id="18-计算特征之间的相关系数">1.8 计算特征之间的相关系数</h4>
+<h4 id="18-计算特征之间的相关系数自变量之间相关系数较大的话需要考虑共线性的问题共线性会导致模型出现开式解降低模型的稳定性">1.8 计算特征之间的相关系数（自变量之间相关系数较大的话，需要考虑共线性的问题，共线性会导致模型出现开式解，降低模型的稳定性。）</h4>
 
-<p>自变量之间相关系数较大的话，需要考虑共线性的问题，共线性会导致模型出现开式解，降低模型的稳定性。</p>
-
-<p>常见方法有<strong>皮尔森相关系数</strong>和<strong>斯皮尔曼相关系数</strong>。两个系数都是介于-1和1之间，-1表示完全负相关，1表示完全正相关，0表示完全不相关。</p>
+<p>常见方法有皮尔森相关系数和斯皮尔曼相关系数。两个系数都是介于-1和1之间，-1表示完全负相关，1表示完全正相关，0表示完全不相关。</p>
 
 <p>使用皮尔森相关系数有局限：要求数据是成对的从正态分布中取得的。而斯皮尔曼相关系数是一种秩相关系数，不受数据分布的影响，它通过对变量排序，以排序后两个变量的秩次差来计算相关系数。</p>
 
@@ -283,10 +147,7 @@
 <span class="n">c</span>  <span class="mf">5.0</span>  <span class="mf">104.666667</span>
 </code></pre></div></div>
 
-<h4 id="111--seriesapply">1.11  Series.apply</h4>
-
-<p>该函数用于对该series的所有元素进行处理生成一个新的series。</p>
-
+<h4 id="111--seriesapply用于对该series的所有元素进行处理生成一个新的series">1.11  Series.apply()用于对该series的所有元素进行处理生成一个新的series</h4>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">new_series</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">Series</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]).</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="s">"""这里是函数中带2个参数的"""</span>
@@ -508,9 +369,7 @@
 <span class="k">print</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h4 id="39-to_categorical">3.9 to_categorical</h4>
-<p>功能：将label转为one_hot形式，源于keras.utils包</p>
-
+<h4 id="39-将label转为one_hot形式to_categorical">3.9 将label转为one_hot形式——to_categorical</h4>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">to_categorical</span>
 <span class="n">y_onehot</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">num_classes</span><span class="p">(</span><span class="n">总类别数</span><span class="p">))</span>
 </code></pre></div></div>
@@ -568,8 +427,8 @@
 </code></pre></div></div>
 
 <h3 id="五聚类模型">五.聚类模型</h3>
-<h4 id="51轮廓系数">5.1.轮廓系数</h4>
-<p>评估聚类效果好坏——轮廓系数（Silhouette Coefficient）结合了聚类的凝聚度（Cohesion）和分离度（Separation），用于评估聚类的效果。该值处于-1~1之间，值越大，表示聚类效果越好。</p>
+<h4 id="51评估聚类效果好坏轮廓系数">5.1.评估聚类效果好坏——轮廓系数</h4>
+<p>轮廓系数（Silhouette Coefficient）结合了聚类的凝聚度（Cohesion）和分离度（Separation），用于评估聚类的效果。该值处于-1~1之间，值越大，表示聚类效果越好。</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#聚类评估：轮廓系数
 </span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">silhouette_score</span>
@@ -578,63 +437,4 @@
 <span class="n">score</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 </code></pre></div></div>
 
-
-      <div class="page-footer">
-        <div class="page-share">
-          <a href="https://twitter.com/intent/tweet?text=机器学习常用函数&url=http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
-          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
-          <a href="https://plus.google.com/share?url=http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
-        </div>
-        <div class="page-tag">
-          
-            <a href="/tags#Pandas" class="tag">&#35; Pandas</a>
-          
-            <a href="/tags#Sklearn" class="tag">&#35; Sklearn</a>
-          
-        </div>
-      </div>
-      <section class="comment-area">
-  <div class="comment-wrapper">
-    
-    <div id="disqus_thread" class="article-comments"></div>
-    <script>
-      (function() {
-          var d = document, s = d.createElement('script');
-          s.src = '//mr-brown.disqus.com/embed.js';
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    
-  </div>
-</section> <!-- End Comment Area -->
-
-    </div> <!-- End Wrap Content -->
-  </div> <!-- End Page Content -->
-</article> <!-- End Article Page -->
-
-</div>
-
-  </div>
-  
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', '', 'auto');
-  ga('send', 'pageview');
-</script> <!-- End Analytics -->
-
-</body>
-</html>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$','$'], ['\\(','\\)']],
-      processEscapes: true
-    }
-  });
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+:ET

@@ -1,0 +1,30 @@
+I"�<h3 id="linux下python安装和包管理">LInux下python安装和包管理</h3>
+
+<h4 id="1-上传python文件并打包编译">1. 上传python文件并打包编译</h4>
+
+<ul>
+  <li>下载python版本：https://www.python.org/ftp/python/</li>
+  <li>解压：<code class="language-plaintext highlighter-rouge">tar -xf Python-3..1.tgz</code></li>
+  <li>编译：<code class="language-plaintext highlighter-rouge">sudo ./configure --prefix=/path/you/want/to/install/ --with-ssl &amp;&amp; make &amp;&amp; make install</code>(这里需要加–prefix是因为可以直接在指定文件夹下删除软件即可，加入with ssl是由于pip需要ssl),在编译结束后，正常程序会装在 /usr/local/bin 下（注意这里如果不加–with-ssl<strong>默认安装的软件涉及到ssl的功能不可用</strong>）</li>
+  <li>创建软连接：<code class="language-plaintext highlighter-rouge">ln -sf /usr/local/bin/python3.6 /usr/bin/python</code>和<code class="language-plaintext highlighter-rouge">ln -sf /usr/local/bin/python3.6-config /usr/bin/python-config</code></li>
+</ul>
+
+<h4 id="2-venv管理和包安装">2. venv管理和包安装</h4>
+
+<ul>
+  <li>
+    <p>安装vitualenvs：<code class="language-plaintext highlighter-rouge">pip3 install virtualenv</code></p>
+  </li>
+  <li>
+    <p>创建环境：<code class="language-plaintext highlighter-rouge">sudo virtualenv --python=python3.6 环境名字</code></p>
+  </li>
+  <li>
+    <p>安装第三方包：进入环境下的bin目录，<code class="language-plaintext highlighter-rouge">sudo ./pip3 install -r requirements.txt  -i 指定的pip安装源   </code>这里指定安装源较快。</p>
+  </li>
+</ul>
+
+<h4 id="3-创建软连接">3. 创建软连接</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -sf /usr/local/bin/python3.8 /usr/bin/python
+ln -sf /usr/local/bin/python3.8-config /usr/bin/python-config
+</code></pre></div></div>
+:ET

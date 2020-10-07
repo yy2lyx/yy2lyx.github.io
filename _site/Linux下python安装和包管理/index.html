@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Linux下python安装和包管理 - 李小肥的YY</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="李小肥的YY" property="og:site_name">
+  
+    <meta content="Linux下python安装和包管理" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Linux下部署python环境" property="og:description">
+  
+  
+    <meta content="http://localhost:4000/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86/" property="og:url">
+  
+  
+    <meta content="2019-06-19T05:00:00+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/linux.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="Linux" property="article:tag">
+    
+    <meta content="Python" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Linux下python安装和包管理">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86/">
+  
+  
+    <meta name="twitter:description" content="Linux下部署python环境">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/linux.jpg">
+  
+
+	<meta name="description" content="Linux下部署python环境">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/yy.jpg" alt="李小肥的YY"></a>
+      </div>
+      <div class="author-name">李小肥的YY</div>
+      <p>爱好机器学习，深度学习，在CV和NLP方面有些小研究。</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/yy2lyx/" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1282442333@qq.com# add your Email address"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2020 &copy; 李小肥的YY</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/linux.jpg alt="Linux下python安装和包管理">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Linux下python安装和包管理</h1>
+        <div class="page-date"><span>2019, Jun 19&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <!-- TOC -->
+
+<ul>
+  <li><a href="#1-上传python文件并打包编译">1. 上传python文件并打包编译</a></li>
+  <li><a href="#2-venv管理和包安装">2. venv管理和包安装</a></li>
+  <li><a href="#3-创建软连接">3. 创建软连接</a></li>
+</ul>
+
+<!-- /TOC -->
+
+<h4 id="1-上传python文件并打包编译">1. 上传python文件并打包编译</h4>
+
+<ul>
+  <li>下载python版本：https://www.python.org/ftp/python/</li>
+  <li>解压：<code class="language-plaintext highlighter-rouge">tar -xf Python-3..1.tgz</code></li>
+  <li>编译：<code class="language-plaintext highlighter-rouge">sudo ./configure --prefix=/path/you/want/to/install/ --with-ssl &amp;&amp; make &amp;&amp; make install</code>(这里需要加–prefix是因为可以直接在指定文件夹下删除软件即可，加入with ssl是由于pip需要ssl),在编译结束后，正常程序会装在 /usr/local/bin 下（注意这里如果不加–with-ssl<strong>默认安装的软件涉及到ssl的功能不可用</strong>）</li>
+  <li>创建软连接：<code class="language-plaintext highlighter-rouge">ln -sf /usr/local/bin/python3.8 /usr/bin/python</code>和<code class="language-plaintext highlighter-rouge">ln -sf /usr/local/bin/python3.8-config /usr/bin/python-config</code></li>
+</ul>
+
+<h4 id="2-venv管理和包安装">2. venv管理和包安装</h4>
+
+<ul>
+  <li>
+    <p>安装vitualenvs：<code class="language-plaintext highlighter-rouge">pip3 install virtualenv</code></p>
+  </li>
+  <li>
+    <p>创建环境：<code class="language-plaintext highlighter-rouge">sudo virtualenv --python=python3.6 环境名字</code></p>
+  </li>
+  <li>
+    <p>安装第三方包：进入环境下的bin目录，<code class="language-plaintext highlighter-rouge">sudo ./pip3 install -r requirements.txt  -i 指定的pip安装源   </code>这里指定安装源较快。</p>
+  </li>
+</ul>
+
+<h4 id="3-创建软连接">3. 创建软连接</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -sf /usr/local/bin/python3.8 /usr/bin/python
+ln -sf /usr/local/bin/python3.8-config /usr/bin/python-config
+</code></pre></div></div>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Linux下python安装和包管理&url=http://localhost:4000/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Linux" class="tag">&#35; Linux</a>
+          
+            <a href="/tags#Python" class="tag">&#35; Python</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-brown.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

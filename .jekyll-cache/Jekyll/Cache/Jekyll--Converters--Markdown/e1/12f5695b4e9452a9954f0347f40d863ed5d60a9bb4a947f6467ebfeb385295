@@ -1,0 +1,103 @@
+I"�<h2 id="postman和jmeter进行上传文件及压力测试">Postman和Jmeter进行上传文件及压力测试</h2>
+
+<blockquote>
+  <p>postman下载链接：https://www.postman.com/downloads/</p>
+
+  <p>Jmeter下载链接：http://jmeter.apache.org/download_jmeter.cgi</p>
+
+  <p>flask代码地址：https://github.com/YeYan1993/FlaskTutorial/tree/master/Flask-7-upload</p>
+
+  <p>windows下scoop下载jdk(这里是由于Jmeter需要)：<code class="language-plaintext highlighter-rouge">scoop install ojdkbuild</code></p>
+</blockquote>
+
+<h3 id="一-构建接口的flask服务">一. 构建接口的flask服务</h3>
+
+<p>其中包含前端表单index.html文件如下和flask的后端</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>upload<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">action = </span><span class="s">"/success"</span> <span class="na">method = </span><span class="s">"post"</span> <span class="na">enctype=</span><span class="s">"multipart/form-data"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"file"</span> <span class="na">name=</span><span class="s">"file"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type = </span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Upload"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h3 id="二-postman的http接口测试">二. Postman的http接口测试</h3>
+
+<p>postman分别在header和body中填入下图：</p>
+
+<ul>
+  <li>headers中需要填入value:multipart/form-data</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo0qznj0j30p605qmxn.jpg" alt="" /></p>
+
+<ul>
+  <li>body 中需要填入key：file(这里参考index.html文件中name=”file”)，value:eml文件地址</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo1floa4j30m20463yp.jpg" alt="" /></p>
+
+<ul>
+  <li>然后将写好的保存在collections当中，并构建tests选项（如果不填入，后面的串行压力测试无法开始，报错）</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo31nohoj30on084aaz.jpg" alt="" /></p>
+
+<ul>
+  <li>通过collections中选中保存好的请求，run即可</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo3gr20yj30va0jh75p.jpg" alt="" /></p>
+
+<h3 id="三-jmeter的http接口测试">三. Jmeter的http接口测试</h3>
+
+<p>在下载解压好的jmeter二进制文件中打开：<code class="language-plaintext highlighter-rouge">apache-jmeter-5.3\bin\jmeter.bat</code></p>
+
+<ul>
+  <li>新建一个线程组，如下图，包括http请求及监听</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo1myv4aj308903vq2y.jpg" alt="" /></p>
+
+<ul>
+  <li>线程中填入线程总数，和全部线程开启总的时间（这里由于需要测试并发1小时2万次访问）</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo3saf9cj30am0a63z4.jpg" alt="" /></p>
+
+<ul>
+  <li>在http请求页面填入请求的参数</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo41hoa3j30t1089jsj.jpg" alt="" /></p>
+
+<ul>
+  <li>http页面下面不用填Parameters和BodyData，在Files Upload中填入下图，其中file和上面一致，而MIME Type需要访问https://www.freeformatter.com/mime-types-list.html，找到其中.eml格式前面的</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo4abjwtj30sk0300t4.jpg" alt="" /></p>
+
+<ul>
+  <li>运行，即可看到并行的接口请求情况</li>
+</ul>
+
+<h3 id="四-总结">四. 总结</h3>
+
+<ul>
+  <li>
+    <p>一般的网络接口测试，功能性测试postman较为好用。</p>
+  </li>
+  <li>
+    <p>需要测试高并发的情况下，只能用Jmeter来进行测试，因为postman是串行，而Jmeter是多线程并行测试。</p>
+  </li>
+</ul>
+
+:ET
