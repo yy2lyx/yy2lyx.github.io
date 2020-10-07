@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>深度学习调参经验总结 - 李小肥的YY</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="李小肥的YY" property="og:site_name">
+  
+    <meta content="深度学习调参经验总结" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="一些模型调参和训练过程中出现的问题" property="og:description">
+  
+  
+    <meta content="http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93/" property="og:url">
+  
+  
+    <meta content="2019-03-09T05:00:00+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/sign1.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="Pandas" property="article:tag">
+    
+    <meta content="Sklearn" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="深度学习调参经验总结">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93/">
+  
+  
+    <meta name="twitter:description" content="一些模型调参和训练过程中出现的问题">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/sign1.jpg">
+  
+
+	<meta name="description" content="一些模型调参和训练过程中出现的问题">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/yy.jpg" alt="李小肥的YY"></a>
+      </div>
+      <div class="author-name">李小肥的YY</div>
+      <p>爱好机器学习，深度学习，在CV和NLP方面有些小研究。</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/yy2lyx/" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1282442333@qq.com# add your Email address"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2020 &copy; 李小肥的YY</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/sign1.jpg alt="深度学习调参经验总结">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">深度学习调参经验总结</h1>
+        <div class="page-date"><span>2019, Mar 09&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h3 id="一-网络中loss表现过于震荡">一. 网络中loss表现过于震荡</h3>
+<h4 id="11--模型拟合能力不够导致模型震荡">1.1  模型拟合能力不够导致模型震荡</h4>
+<p>model（层数：input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; output）此时模型的loss由1到192震动太大，acc也是在一个epoch中时好时坏，由此考虑到是模型的分类能力的问题（可能处理不了非线性或者是异或的问题）</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""增加了一层全连接层，之后效果显著，模型虽然也存在loss和acc会有极小幅度的震荡，但是趋向于收敛"""</span>
+<span class="nb">input</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="n">ful_collected_layer</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">64</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="n">lstm</span> <span class="o">==&gt;</span> <span class="n">ful_collected_layer</span> <span class="o">==&gt;</span> <span class="n">ful_collected_layer</span> <span class="o">==&gt;</span> <span class="n">output</span>
+</code></pre></div></div>
+
+<h4 id="12-batch-size-设置过小导致模型震荡">1.2 batch size 设置过小导致模型震荡</h4>
+<p>之前模型用的是batch_size = 30，经过增大batch_size之后，模型的震荡程度也减小。这里如果GPU显存小的情况下，只能将batch设置小。</p>
+
+<h4 id="13-输入模型的数据没有shuffle导致模型震荡">1.3 输入模型的数据没有shuffle导致模型震荡</h4>
+<p>之前数据没有进行shuffle，导致在某一个batch_size中学习到的全是正样本，某一个batch_size里面又全是负样本，shuffle之后，振荡减小。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">110</span><span class="p">)</span> <span class="c1"># 设定种子数，不然下面shuffle之后的y无法与X对应上
+</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">110</span><span class="p">)</span>
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="二-网络经过多轮迭代依然无法上升了acc始终在79">二. 网络经过多轮迭代依然无法上升了，acc始终在79%</h3>
+<h4 id="21-增大学习率">2.1 增大学习率</h4>
+<p>开始学习率设置的是learning_rate = 0.001,之后增大10倍，设置为learning_rate = 0.01之后，acc在70多轮的时候就能提升到90% ，300轮之后能到97%。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""理由：当我们把学习率设置较小的时候，那么梯度下降的时候迈的步子就小，可能在遇到大的坑的时候就出去，然后就一致在坑里徘徊，最终只能达到局部最优，无法达到全局最优，调参的过程中应该首先实验大的学习率，然后再依次减小实验"""</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="o">==&gt;</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="o">==&gt;</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
+</code></pre></div></div>
+
+<h4 id="22-优化器的选择">2.2 优化器的选择</h4>
+<p>实验下其他的梯度下降的优化器（optimizer），比如Adam，SGD，Adadelta，RMSProp，Momentum等，一般来说Adam较快，SGD最慢，但是却是最准确和稳定的，因此可以先用Adam进行实验，最后用SGD进行调参。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tf.train.AdadeltaOptimizer<span class="o">(</span><span class="nv">learning_rate</span><span class="o">=</span>0.001, <span class="nv">rho</span><span class="o">=</span>0.95, <span class="nv">epsilon</span><span class="o">=</span>1e-08, <span class="nv">use_locking</span><span class="o">=</span>False, <span class="nv">name</span><span class="o">=</span>’Adadelta’<span class="o">)</span>
+
+tf.train.MomentumOptimizer<span class="o">(</span>learning_rate, momentum, <span class="nv">use_locking</span><span class="o">=</span>False, <span class="nv">name</span><span class="o">=</span>’Momentum’, <span class="nv">use_nesterov</span><span class="o">=</span>False<span class="o">)</span>
+
+tf.train.AdamOptimizer<span class="o">(</span><span class="nv">learning_rate</span><span class="o">=</span>0.001, <span class="nv">beta1</span><span class="o">=</span>0.9, <span class="nv">beta2</span><span class="o">=</span>0.999, <span class="nv">epsilon</span><span class="o">=</span>1e-08, <span class="nv">use_locking</span><span class="o">=</span>False, <span class="nv">name</span><span class="o">=</span>’Adam’<span class="o">)</span>
+
+tf.train.GradientDescentOptimizer<span class="o">(</span>learning_rate, <span class="nv">use_locking</span><span class="o">=</span>False,name<span class="o">=</span>’GradientDescent’<span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="三-遇到loss和weights在训练中全是nan值的情况">三. 遇到loss和weights在训练中全是nan值的情况</h3>
+<h4 id="31-查看输入数据中是否存在nan值">3.1 查看输入数据中是否存在nan值</h4>
+<p>检查自己做完预处理的数据，看下是否存在nan值（比如需要计算0/0和log0的情况）</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""检验下input_data中是否存在nan值"""</span>
+<span class="n">input_data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">input_data</span><span class="p">).</span><span class="n">reshape</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">n_input</span><span class="p">])</span>
+<span class="c1"># 这里的input_data 是三维数组必须转成2d
+</span><span class="n">input_data_pd</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="nb">any</span><span class="p">(</span><span class="n">input_data_pd</span><span class="p">.</span><span class="n">isnull</span><span class="p">())</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"input data has nan value!"</span><span class="p">)</span>
+<span class="n">list_nan</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">input_data_pd</span><span class="p">.</span><span class="n">values</span><span class="p">))))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">list_nan</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="32-梯度爆炸或者是梯度消失">3.2 梯度爆炸或者是梯度消失</h4>
+<p>可能是<strong>梯度爆炸</strong>，有以下解决方式</p>
+
+<ul>
+  <li>（1）预训练+微调</li>
+  <li>（2）梯度剪切 + 权重正则</li>
+  <li>（3）使用不同的激活函数，比如之前用relu，可以换成tanh或者是elu</li>
+  <li>（4）使用batchnorm</li>
+  <li>（5）使用LSTM网络（如果之前用的是RNN结构）</li>
+  <li>（6）使用残差结构</li>
+</ul>
+
+<p>以下是几种在不改变模型层数和结构的情况下解决梯度爆炸和梯度消失的方案。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"""权重L2正则化"""</span>
+cross_entropy <span class="o">=</span> <span class="nt">-tf</span>.reduce_sum<span class="o">(</span>ys <span class="k">*</span> 	tf.log<span class="o">(</span>tf.clip_by_value<span class="o">(</span>tf.nn.softmax<span class="o">(</span>prediction<span class="o">)</span>, 1e-10, 1.0<span class="o">)))</span>
+weights_lossL2 <span class="o">=</span> tf.add<span class="o">(</span>tf.nn.l2_loss<span class="o">(</span>weights_in<span class="o">)</span>,tf.nn.l2_loss<span class="o">(</span>weights_out<span class="o">))</span> <span class="k">*</span> 0.01
+regularzation_loss <span class="o">=</span> cross_entropy + weights_lossL2
+cost <span class="o">=</span> tf.reduce_mean<span class="o">(</span>regularzation_loss<span class="o">)</span>
+<span class="s2">"""梯度剪裁"""</span>
+opt <span class="o">=</span> tf.train.MomentumOptimizer<span class="o">(</span><span class="nv">learning_rate</span><span class="o">=</span>0.001, <span class="nv">momentum</span><span class="o">=</span>0.5<span class="o">)</span>
+<span class="c"># Compute the gradients for a list of variables.</span>
+grads_and_vars <span class="o">=</span> opt.compute_gradients<span class="o">(</span>cross_entropy, 	 tf.trainable_variables<span class="o">())</span>
+<span class="c"># grads_and_vars is a list of tuples (gradient, variable).  Do whatever you</span>
+<span class="c"># need to the 'gradient' part, for example cap them, etc.</span>
+capped_grads_and_vars <span class="o">=</span> <span class="o">[(</span>tf.clip_by_value<span class="o">(</span>gv[0], 0.1, 5.<span class="o">)</span>, gv[1]<span class="o">)</span> <span class="k">for </span>gv <span class="k">in </span>grads_and_vars]
+<span class="c"># Ask the optimizer to apply the capped gradients.</span>
+optimizer <span class="o">=</span> opt.apply_gradients<span class="o">(</span>capped_grads_and_vars<span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="33-使用了梯度参见和l2正则之后出现loss增大的情况">3.3 使用了<strong>梯度参见和L2正则</strong>之后出现<strong>Loss增大</strong>的情况</h4>
+<p>在使用了梯度裁剪之后，其实只是人为的控制梯度的变化（将weights控制在小范围内(0.1,5)之间），此时权重依旧可以通过BP算法向负梯度的方向前进，但是由于人为的控制，导致weight的梯度极有可能朝着正梯度方向进行，这就会导致可以更新权重，但是loss反而增大的原因。</p>
+
+<h4 id="34-这里必须要修改模型结构">3.4 这里必须要<strong>修改模型结构</strong></h4>
+
+<p>举一个例子：利用4层全连接层作为一个分类器，来训练。经历过以上所有的方式（包括调整激活函数等），依旧无法使得模型的loss减少，当我将层数降低为3层的时候，模型loss开始收敛，那么这就说明当无法使得模型收敛的时候，其实极有可能是模型的结构问题，需要重新设计模型的结构层数。</p>
+
+<h3 id="四训练中模型loss不收敛的几种情况">四.训练中模型loss不收敛的几种情况</h3>
+<p>总结：</p>
+<ul>
+  <li>train loss 不断下降，val loss不断下降 ==&gt; 说明网络仍在学习</li>
+  <li>train loss 不断下降，val loss趋于不变 ==&gt; 说明网络过拟合</li>
+  <li>train loss 趋于不变，val loss不断下降 ==&gt; 说明数据集100%有问题</li>
+  <li>train loss 趋于不变，val loss趋于不变 ==&gt; 说明学习遇到瓶颈，需要减小学习率或批量数目</li>
+  <li>train loss 不断上升，val loss不断上升 ==&gt; 说明网络结构设计不当，训练超参数设置不当，数据集经过清洗等问题</li>
+  <li>train loss 到稳定的时候反而比val loss还要高 ==&gt; 测试集数据量太小了，误差计算算法有问题</li>
+  <li>train loss 和 val loss趋于不变，但是val loss趋于0，而train loss却还很高 ==&gt; 说明使用dropout层后模型拟合能力变差，去掉dropout层。</li>
+  <li>train loss 和 val loss同时极缓的形式增大，这里可以考虑降低学习率或者是从这里进行截断，以loss最低点作为模型最优点。</li>
+</ul>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=深度学习调参经验总结&url=http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Pandas" class="tag">&#35; Pandas</a>
+          
+            <a href="/tags#Sklearn" class="tag">&#35; Sklearn</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-brown.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

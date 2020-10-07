@@ -7,14 +7,6 @@ img: software.jpg # Add image post (optional)
 tags: [Clion, OpenCV] # add tag
 ---
 
-<!-- TOC -->
-
-- [1. 下载软件](#1-下载软件)
-- [2. MinGW和OpenCV](#2-mingw和opencv)
-- [3. 写CMakeList](#3-写cmakelist)
-- [4. 编译成可执行文件](#4-编译成可执行文件)
-
-<!-- /TOC -->
 
 #### 1. 下载软件
 

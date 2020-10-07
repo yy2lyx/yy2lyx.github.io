@@ -6,13 +6,7 @@ description: Linux下部署python环境 # Add post description (optional)
 img: linux.jpg # Add image post (optional)
 tags: [Linux, Python] # add tag
 ---
-<!-- TOC -->
 
-- [1. 上传python文件并打包编译](#1-上传python文件并打包编译)
-- [2. venv管理和包安装](#2-venv管理和包安装)
-- [3. 创建软连接](#3-创建软连接)
-
-<!-- /TOC -->
 
 #### 1. 上传python文件并打包编译
 

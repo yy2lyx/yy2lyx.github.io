@@ -1,4 +1,24 @@
-I"9U<h3 id="1-环境准备">1. 环境准备</h3>
+I"�W<!-- TOC -->
+
+<ul>
+  <li><a href="#一-环境准备">一. 环境准备</a></li>
+  <li><a href="#二-连接本地图数据库">二. 连接本地图数据库</a>
+    <ul>
+      <li><a href="#21-neo4j数据库语法cypher">2.1 Neo4j数据库语法Cypher</a></li>
+      <li><a href="#22-图数据库的基本操作py">2.2 图数据库的基本操作py</a></li>
+    </ul>
+  </li>
+  <li><a href="#三-中心性算法实验社区算法">三. 中心性算法实验（社区算法）</a>
+    <ul>
+      <li><a href="#31-中心性算法">3.1 中心性算法</a></li>
+      <li><a href="#32-pagerank-算法">3.2 PageRank 算法</a></li>
+    </ul>
+  </li>
+</ul>
+
+<!-- /TOC -->
+
+<h3 id="一-环境准备">一. 环境准备</h3>
 
 <ul>
   <li>
@@ -15,7 +35,7 @@
   </li>
 </ul>
 
-<h3 id="2-连接本地图数据库">2. 连接本地图数据库</h3>
+<h3 id="二-连接本地图数据库">二. 连接本地图数据库</h3>
 
 <blockquote>
   <p>py2neo V4 官方文档：https://py2neo.org/v4/index.html</p>
@@ -76,7 +96,7 @@ RETURN a,count(*) AS appearances
 ORDER BY appearances DESC SKIP 3 LIMIT 10;
 </code></pre></div></div>
 
-<h4 id="21-图数据库的基本操作py">2.1 图数据库的基本操作py</h4>
+<h4 id="22-图数据库的基本操作py">2.2 图数据库的基本操作py</h4>
 
 <ul>
   <li>这里是通过导入py2neo这个neo4j的第三方库来连接</li>
@@ -153,18 +173,23 @@ ORDER BY appearances DESC SKIP 3 LIMIT 10;
 </code></pre></div></div>
 
 <ul>
-  <li>删除Node和Relationship
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">node</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">find_one</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">'PersonTest'</span><span class="p">,</span> <span class="n">property_key</span><span class="o">=</span><span class="s">'name'</span><span class="p">,</span> <span class="n">property_value</span><span class="o">=</span><span class="s">"李四"</span><span class="p">)</span>
+  <li>删除Node和Relationship</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">node</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">find_one</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">'PersonTest'</span><span class="p">,</span> <span class="n">property_key</span><span class="o">=</span><span class="s">'name'</span><span class="p">,</span> <span class="n">property_value</span><span class="o">=</span><span class="s">"李四"</span><span class="p">)</span>
 <span class="n">relationship</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">match_one</span><span class="p">(</span><span class="n">rel_type</span><span class="o">=</span><span class="s">'KNOWNS'</span><span class="p">)</span>
 <span class="n">graph</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="n">relationship</span><span class="p">)</span>
 <span class="n">graph</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 <span class="n">data6</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">'PersonTest'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">data6</span><span class="p">:</span>
-  <span class="k">print</span> <span class="p">(</span><span class="s">"data6 = "</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-</code></pre></div>    </div>
-  </li>
-  <li>多条件查询
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s">'PersonTest'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'张三'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">21</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">'广州'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="p">(</span><span class="s">"data6 = "</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>多条件查询</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s">'PersonTest'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'张三'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">21</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">'广州'</span><span class="p">)</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s">'PersonTest'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'李四'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">'上海'</span><span class="p">)</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="s">'PersonTest'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'王五'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">21</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">'北京'</span><span class="p">)</span>
 <span class="n">r1</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s">'KNOWS'</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
@@ -173,34 +198,41 @@ ORDER BY appearances DESC SKIP 3 LIMIT 10;
 <span class="n">graph</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 <span class="n">data7</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">'PersonTest'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">data7</span><span class="p">:</span>
-  <span class="k">print</span> <span class="p">(</span><span class="s">"data7 = "</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-</code></pre></div>    </div>
-  </li>
-  <li>单条件查询
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 单条件查询，返回的是多个结果
+    <span class="k">print</span> <span class="p">(</span><span class="s">"data7 = "</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>单条件查询</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 单条件查询，返回的是多个结果
 </span><span class="n">selector</span> <span class="o">=</span> <span class="n">NodeSelector</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 <span class="n">persons</span> <span class="o">=</span> <span class="n">selector</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'PersonTest'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s">"data8 = "</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">persons</span><span class="p">))</span>
-</code></pre></div>    </div>
-  </li>
-  <li>多条件查询
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">selector</span> <span class="o">=</span> <span class="n">NodeSelector</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>多条件查询</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">selector</span> <span class="o">=</span> <span class="n">NodeSelector</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 <span class="n">persons</span> <span class="o">=</span> <span class="n">selector</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'PersonTest'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">21</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s">'广州'</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s">"data9 = "</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">persons</span><span class="p">))</span>
-</code></pre></div>    </div>
-  </li>
-  <li>复杂查询orderby
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># orderby进行更复杂的查询
+</code></pre></div></div>
+
+<ul>
+  <li>复杂查询orderby</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># orderby进行更复杂的查询
 </span><span class="n">selector</span> <span class="o">=</span> <span class="n">NodeSelector</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 <span class="n">persons</span> <span class="o">=</span> <span class="n">selector</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'PersonTest'</span><span class="p">).</span><span class="n">order_by</span><span class="p">(</span><span class="s">'_.age'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">persons</span><span class="p">:</span>
-  <span class="k">print</span> <span class="p">(</span><span class="s">"data10 = "</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-</code></pre></div>    </div>
-  </li>
-</ul>
+    <span class="k">print</span> <span class="p">(</span><span class="s">"data10 = "</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
 
-<h4 id="3-中心性算法实验社区算法">3. 中心性算法实验（社区算法）</h4>
-<h5 id="31-中心性算法">3.1 中心性算法</h5>
+<h3 id="三-中心性算法实验社区算法">三. 中心性算法实验（社区算法）</h3>
+<h4 id="31-中心性算法">3.1 中心性算法</h4>
 
 <ul>
   <li>度中心性：度中心性是最简单度量，即为某个节点在网络中的联结数。
@@ -233,7 +265,7 @@ RETURN node.name AS name, score ORDER BY score DESC
   </li>
 </ul>
 
-<h5 id="32-pagerank-算法">3.2 PageRank 算法</h5>
+<h4 id="32-pagerank-算法">3.2 PageRank 算法</h4>
 <p>PageRank算法源自Google的网页排名。它是一种特征向量中心性(eigenvector centrality)算法。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UNWIND {nodes} AS n
