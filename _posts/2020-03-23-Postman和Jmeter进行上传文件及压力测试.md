@@ -14,7 +14,7 @@ tags: [Postman, Jmeter,压力测试] # add tag
 >
 > Jmeter下载链接：http://jmeter.apache.org/download_jmeter.cgi
 >
-> flask代码地址：https://github.com/YeYan1993/FlaskTutorial/tree/master/Flask-7-upload
+> flask代码地址：https://github.com/yy2lyx/FlaskTutorial/tree/master/Flask-7-upload
 >
 > windows下scoop下载jdk(这里是由于Jmeter需要)：`scoop install ojdkbuild`
 
