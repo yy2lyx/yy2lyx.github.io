@@ -1,8 +1,9 @@
-## Windows下安装mysql和Navicat Premium
+## Windows下安装mysql和导入sql文件
 
 ### 一. 下载软件
 * mysql：这里使用的是scoop来进行安装：`scoop install mysql`，这里的优势是自动帮你配好环境了
 * 安装[Navicat Premium](https://www.navicat.com.cn/download/navicat-premium)
+* 破解[Navicat Premium](https://www.nrgh.net/archives/navicat-premium.html)
 
 ### 二. 初始化mysql
 * 初始化数据库：`mysqld --initialize --console`,并记录红色标注的字符，这是随机生成的密码
