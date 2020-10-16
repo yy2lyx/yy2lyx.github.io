@@ -1,0 +1,88 @@
+I"�<h4 id="1-下载opencv">1. 下载opencv</h4>
+
+<ul>
+  <li>
+    <p>使用简单粗暴的方式——brew进行安装：<code class="language-plaintext highlighter-rouge">brew install opencv@3</code>，注意这里通过brew下载的opencv3的地址为：<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/opencv@3/3.4.9_1</code>（后面配置include和lib有用）。</p>
+  </li>
+  <li>
+    <p>这里存在很大的问题：brew除了下载opencv以外还需要下载opencv的依赖包（很多），这里强力推荐换brew的镜像源（本人用的清华的，当然也可以用中科大的）。具体配置方式如下：</p>
+    <ul>
+      <li>
+        <p>第一步：替换brew.git：</p>
+
+        <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">cd</span><span class="w"> </span><span class="s2">"</span><span class="si">$(</span><span class="nf">brew</span><span class="w"> </span><span class="nt">--repo</span><span class="p">)</span><span class="s2">"
+git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+</span></code></pre></div>        </div>
+      </li>
+      <li>
+        <p>第二步：替换 homebrew-core.git：
+      <code class="language-plaintext highlighter-rouge">powershell
+  cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+  git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
+ </code></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="2-在xcode上搭建opencv的环境">2. 在Xcode上搭建opencv的环境</h4>
+
+<ul>
+  <li>新建项目：macOS - Command Line Tool - 这里选择语言为C++</li>
+  <li>点击项目，选择Build Settings- 在搜索框中搜索search。</li>
+  <li>在头文件路径Header Search Paths中debug中添加一下</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/Cellar/opencv@3/3.4.9_1/include
+/usr/local/Cellar/opencv@3/3.4.9_1/include/opencv
+/usr/local/Cellar/opencv@3/3.4.9_1/include/opencv2
+</code></pre></div></div>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjo3k6yqj6j31qa0ssaow.jpg" alt="" /></p>
+
+<ul>
+  <li>在Library Search Paths中添加</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/Cellar/opencv@3/3.4.9_1/lib
+</code></pre></div></div>
+
+<ul>
+  <li>在项目中添加动态链接库文件：选择项目- 右键New Group - 新建一个名字（比如lib）- 右键lib - Add files to - 按下<code class="language-plaintext highlighter-rouge">/</code>会直接提示到那个目录下找dylib，这里是<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/opencv@3/3.4.9_1/lib</code>，把当前目录下的所有dylib都添加进去即可，如下图。</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjo3v21p6hj31q80f2tap.jpg" alt="" /></p>
+
+<ul>
+  <li>以上就是整个opencv3在Xcode的环境了。</li>
+</ul>
+
+<h4 id="3-测试案例">3. 测试案例</h4>
+
+<pre><code class="language-C">#include &lt;iostream&gt;
+#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;opencv2/highgui/highgui.hpp&gt;
+
+
+using namespace std;
+using namespace cv;
+
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    cout &lt;&lt; "This is my first try C++ in xcode!\n";
+    
+    Mat img = imread("/Users/xcode_project/C++_project/opencvTutorial/test.jpeg");
+    if (img.empty()){
+        cout &lt;&lt; "Could not open image ..."&lt;&lt; endl;
+        return -1;
+    }
+    namedWindow("test",CV_WINDOW_AUTOSIZE);
+    imshow("test", img);
+    waitKey(0);
+    
+    
+    return 0;
+}
+</code></pre>
+
+:ET

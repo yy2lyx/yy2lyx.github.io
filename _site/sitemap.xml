@@ -17,6 +17,10 @@
 <lastmod>2019-10-01T05:00:00+08:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B/</loc>
+<lastmod>2019-12-04T05:00:00+08:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88/</loc>
 <lastmod>2020-02-27T05:00:00+08:00</lastmod>
 </url>
@@ -29,9 +33,16 @@
 <lastmod>2020-06-12T05:00:00+08:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83/</loc>
+<lastmod>2020-10-13T05:00:00+08:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/tags/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page/2/</loc>
 </url>
 </urlset>

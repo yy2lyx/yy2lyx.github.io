@@ -1,4 +1,12 @@
-## Windows下安装mysql和导入sql文件
+---
+layout: post
+title: Windows下安装mysql和导入sql文件
+date: 2020-10-15 00:00:00 +0300
+description: 在Windows环境下利用Visual Studio 2019搭建基于C++的opencv3环境 # Add post description (optional)
+img: pills.jpg # Add image post (optional)
+tags: [Windows, mysql, Navicat Premium] # add tag
+---
+
 
 ### 一. 下载软件
 * mysql：这里使用的是scoop来进行安装：`scoop install mysql`，这里的优势是自动帮你配好环境了
@@ -7,7 +15,7 @@
 
 ### 二. 初始化mysql
 * 初始化数据库：`mysqld --initialize --console`,并记录红色标注的字符，这是随机生成的密码
-![](pic/1.png)
+![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjrjtkoau2j30sg0lcqbu.jpg)
 * 输入`mysqld -install`将mysql安装为Windows的服务：
 * 启动mysql：`net start mysql`
 * 首次进入mysql：`mysql -u root -p`，输入第一次的系统生成的密码

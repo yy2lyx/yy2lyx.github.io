@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>无监督异常检测模型 - 李小肥的YY</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="李小肥的YY" property="og:site_name">
+  
+    <meta content="无监督异常检测模型" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="面试过程中的一些算法经验总结" property="og:description">
+  
+  
+    <meta content="http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B/" property="og:url">
+  
+  
+    <meta content="2019-12-04T05:00:00+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/junggle.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="无监督学习" property="article:tag">
+    
+    <meta content="聚类" property="article:tag">
+    
+    <meta content="评价指标" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="无监督异常检测模型">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B/">
+  
+  
+    <meta name="twitter:description" content="面试过程中的一些算法经验总结">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/junggle.jpg">
+  
+
+	<meta name="description" content="面试过程中的一些算法经验总结">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/yy.jpg" alt="李小肥的YY"></a>
+      </div>
+      <div class="author-name">李小肥的YY</div>
+      <p>爱好机器学习，深度学习，NLP和CV。</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/yy2lyx/" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1282442333@qq.com# add your Email address"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2020 &copy; 李小肥的YY</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/junggle.jpg alt="无监督异常检测模型">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">无监督异常检测模型</h1>
+        <div class="page-date"><span>2019, Dec 04&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p>异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。</p>
+
+<h3 id="一-统计和概率模型">一. 统计和概率模型</h3>
+
+<p>主要是假设和检验。假设数据的分布，检验异常。比如对一维的数据假设高斯分布，然后将3sigma以外的数据划分为异常，上升到高维，假设特征之间是独立的，可以计算每个特征维度的异常值并相加，如果特征之间是相关的，也就变成了多元高斯分布，可以用马氏距离衡量数据的异常度。这
+类方法要求对问题和数据分布有较强的先验知识。</p>
+
+<h4 id="11-3σ原则">1.1 3σ原则</h4>
+<p>如果特征服从正态分布，那么，在\(\pm 3 \sigma\)的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldfpndzdj30mu0arjth.jpg" alt="" /></p>
+
+<h4 id="12-3σ原则的适用条件">1.2 3σ原则的适用条件</h4>
+<ul>
+  <li>数据分布满足正态分布（在业务逻辑上母样本满足）。</li>
+  <li>特征之间相互独立。</li>
+</ul>
+
+<h3 id="二-线性模型">二. 线性模型</h3>
+
+<h4 id="21-pca">2.1 PCA</h4>
+<p>PCA是最常见的线性降维方法，它们按照某种准则为数据集 \(\left\{x_{i}\right\}_{i=1}^{n}\) 找到一个最优投影方向 W 和截距和截距 b ，然后做变换 \(z_{i}=W x_{i}+b\) 得到降维后的数据集 \(\left\{z_{i}\right\}_{i=1}^{n}\) 。因为 \(z_{i}=W x_{i}+b\)是一个线性变换（严格来说叫仿射变换，因为有截距项），因此PCA属于线性模型（处理线性问题）。</p>
+
+<p>假设数据在低维空间上有嵌入，那么无法、或者在低维空间投射后表现不好的数据可以认为是异常点。PCA有两种检测异常的方法，一种是将数据映射到低维空间，然后在特征空间不同维度上查看每个数据点和其他数据点的偏差，另一种是看重构误差，先映射到低维再映射回高维，异常点的重构误差较大。这两种方法的本质一样，都是关注较小特征值对应的特征向量方向上的信息。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldg4s8jzj30m808b0t4.jpg" alt="" /></p>
+
+<p>可以利用PCA将二维的特征数据映射到一维上（尽量保持原始信息），然后再映射到二维空间，对比重构的二维数据和初始的二维数据的误差值（MSE），设定阈值，大于阈值的为异常，小于等于阈值的为正常。</p>
+
+<ul>
+  <li>模型构建过程：
+    <ul>
+      <li>原始数据：\(x_{i} \in R^{d}\)</li>
+      <li>编码后的数据：\(z_{i}=W^{T}\left(x_{i}+b\right) \in R^{c}\)</li>
+      <li>解码后的数据：\(\hat{x}_{i}=W z_{i}-b \in R^{d}\)</li>
+      <li>重构的误差：\(\sum_{i=1}^{n}\left\|x_{i}-\hat{x}_{i}\right\|_{p}^{p}\)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="22-oneclass-svm">2.2 OneClass-SVM</h4>
+<ul>
+  <li>（1）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldhk5rkmj30m80gojt8.jpg" alt="" /></li>
+  <li>（2）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。</li>
+  <li><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldgv5levj30q80b4n0s.jpg" alt="" /></li>
+</ul>
+
+<h3 id="三-非线性模型">三. 非线性模型</h3>
+<h4 id="31-autoencoder">3.1 AutoEncoder</h4>
+<p>非线性降维的代表方法是AutoEncoders，AutoEncoders的非线性和神经网络的非线性是一回事，都是利用堆叠非线性激活函数来近似任意函数。事实上，AutoEncoders就是一种神经网络，只不过它的输入和输出相同，真正有意义的地方不在于网络的输出，而是在于网络的权重。</p>
+
+<ul>
+  <li>模型构建过程：
+    <ul>
+      <li>原始数据：\(x_{i} \in R^{d}\)</li>
+      <li>编码后的数据：\(z_{i}=\sigma\left(W^{T} x_{i}+b\right) \in R^{c}\)</li>
+      <li>解码后的数据：\(\hat{x}_{i}=\hat{\sigma}\left(\hat{W} z_{i}+\hat{b}\right) \in R^{d}\)</li>
+      <li>重构的误差：\(\sum_{i=1}^{n}\left\|x_{i}-\hat{x}_{i}\right\|_{p}^{p}\)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>这里\(\sigma(\cdot)\)是非线性激活函数。AutoEncoder一般都会堆叠多层（多层神经层同样也能增加模型的非线性），方便起见我们只写了一层。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldhwi8zoj30di041mx6.jpg" alt="" /></p>
+
+<p>Autoencoder可以参与构建2种不同的异常检测模型。</p>
+<ul>
+  <li>（1）非线性降维：利用训练好的模型参数，通过输入到Encoder中，直接输出中间的CODE，而这个CODE就是数据经过非线性降维后的数据，然后利用降维后的数据放入到常用的聚类算法中（比如KMeans），搭建无监督异常检测模型。</li>
+  <li>（2）本身作为异常值的判别器：在训练好的模型之后，数据通过Encoder映射到低维空间后，利用Decoder重构回高维空间，而当输入数据是异常数据的时候，重构的高维数据会和原始数据的loss（MSE）很高，在这里设定一个阈值，大于阈值的为异常，小于等于阈值的为正常。</li>
+</ul>
+
+<h4 id="32-vaevariational-autoencoder">3.2 VAE（Variational AutoEncoder）</h4>
+<p>Variational AutoEncoder（VAE）是由 Kingma 和 Welling 在“Auto-Encoding Variational Bayes, 2014”中提出的一种生成模型。</p>
+
+<p>VAE其实可以看作AutoEncoder的一个变种，它在AutoEncoder区别在于在Encoder映射到低维空间中映射成了2个Vector，一个属于原始的CODE，而另一个作为噪声增加到新的CODE中。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldi5u655j30q70ion07.jpg" alt="" /></p>
+
+<p>上图中，\(m_{1}\)，\(m_{2}\)，\(m_{3}\)作为Original Code，\(\sigma_{1}\)，\(\sigma_{2}\)，\(\sigma_{3}\)这种变分的噪点则是通过模型自动训练学习得到的，\(e_{1}\)，\(e_{2}\)，\(e_{3}\)定义为服从一个标准的正太分布的向量，那么在AutoEncoder中的低维空间code在VAE中就是上图中的\(c_{i}\)了。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldijxexzj30l00720sz.jpg" alt="" /></p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldiy1x76j30qo0zk0vi.jpg" alt="" /></p>
+
+<p>code的定义公式如下：</p>
+
+<p>​                                                                  \(c_{i}=\exp \left(\sigma_{i}\right) \times e_{i}+m_{i}\)</p>
+
+<p>当然，对于VAE来说，定义loss的function也和AutoEncoder不一样：</p>
+
+<p>​                                                            \(loss=\sum_{i=1}^{3}\left(\exp \left(\sigma_{i}\right)-\left(1+\sigma_{i}\right)+\left(m_{i}\right)^{2}\right)\)</p>
+
+<p>VAE相较于AutoEncoder的优势在于：映射到低维空间的code增加了噪声，导致重构的高维空间中的值可以和原始数据不太一样，比如AutoEncoder模型原始输入是满月和斜月，那么输出一定是满月和斜月，而VAE则是可以生成满月和斜月的结合体。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldj99g86j30nj0g2jtj.jpg" alt="" /></p>
+
+<h3 id="四-基于划分超平面的模型isolation-forest">四. 基于划分超平面的模型——Isolation Forest</h3>
+<h4 id="41-孤立森林的思想是">4.1 孤立森林的思想是</h4>
+
+<p>假设我们用一个随机超平面来切割（split）数据空间（data space）, 切一次可以生成两个子空间（想象拿刀切蛋糕一分为二）。之后我们再继续用一个随机超平面来切割每个子空间，循环下去，直到每子空间里面只有一个数据点为止。直观上来讲，我们可以发现那些密度很高的簇是可以被切很多次才会停止切割，但是那些密度很低的点很容易很早的就停到一个子空间了。</p>
+
+<h4 id="42-孤立森林的优势">4.2 孤立森林的优势</h4>
+
+<p>孤立森林算法具有线性时间复杂度。因为是ensemble的方法，所以可以用在含有海量数据的数据集上面。通常树的数量越多，算法越稳定。由于每棵树都是互相独立生成的，因此可以部署在大规模分布式系统上来加速运算。</p>
+
+<h4 id="43-孤立森林的劣势">4.3 孤立森林的劣势</h4>
+
+<p>孤立森林不适用于特别高维的数据。由于每次切数据空间都是随机选取一个维度，建完树后仍然有大量的维度信息没有被使用，导致算法可靠性降低。高维空间还可能存在大量噪音维度或无关维度（irrelevant attributes），影响树的构建。</p>
+
+<h3 id="五-基于聚类的异常检测模型">五. 基于聚类的异常检测模型</h3>
+<h4 id="51-常用的聚类算法">5.1 常用的聚类算法</h4>
+<ul>
+  <li>（1）KMeans：利用找到的簇的中心点和每一个样本的距离值，找到最偏离簇中心的点作为异常点。</li>
+  <li>（2）DBSCAN–基于密度的聚类：由于需要涉及到算法本身两个参数（min_samples和eps），这里模型会直接输出超过半径eps和确定好最小数的min_samples的样本点作为异常值（label = -1）。</li>
+  <li>（3）Birch–基于层次的聚类：BIRCH算法利用了一个树结构来帮助我们快速的聚类，这个数结构类似于平衡B+树，一般将它称之为聚类特征树(Clustering Feature Tree，简称CF Tree)。建立好CF Tree后把那些包含数据点少的MinCluster当作outlier。</li>
+</ul>
+
+<h4 id="52-聚类算法的适应性">5.2 聚类算法的适应性</h4>
+<p>每一种算法对于不同的数据分布可能存在不同优势。</p>
+
+<p>K-Means算法对于凸性数据具有良好的效果，能够根据距离来讲数据分为球状类的簇，但对于非凸形状的数据点，就无能为力了，比如环形数据等等，此时基于密度的算法DBSCAN就更令人满意了。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldjkemq7j30ch06gq3k.jpg" alt="" /></p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldjwx7jjj30c706egme.jpg" alt="" /></p>
+
+<h4 id="52-评价聚类效果指标">5.2 评价聚类效果指标</h4>
+<p>聚类算法的目标是：簇内相似度高，簇间相似度低。</p>
+
+<p>因此通过<strong>轮廓系数</strong>（Silhouette Coefficient）来评价聚类效果的好坏，适用于上述三种算法。
+1、将样本x与簇内的其他点之间的平均距离作为簇内的内聚度a
+2、将样本x与最近簇中所有点之间的平均距离看作是与最近簇的分离度b
+3、将簇的分离度与簇内聚度之差除以二者中比较大的数得到轮廓系数，计算公式如下
+\(s^{(i)}=\frac{b^{(i)}-a^{(i)}}{\max \left\{b^{(i)}, a^{(i)}\right\}}\)
+轮廓系数的取值在-1到1之间。当簇内聚度与分度离相等时，轮廓系数为0。当b»a时，轮廓系数近似取到1，此时模型的性能最佳。</p>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=无监督异常检测模型&url=http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#无监督学习" class="tag">&#35; 无监督学习</a>
+          
+            <a href="/tags#聚类" class="tag">&#35; 聚类</a>
+          
+            <a href="/tags#评价指标" class="tag">&#35; 评价指标</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-brown.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

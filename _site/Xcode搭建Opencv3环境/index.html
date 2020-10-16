@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Xcode搭建Opencv3环境 - 李小肥的YY</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="李小肥的YY" property="og:site_name">
+  
+    <meta content="Xcode搭建Opencv3环境" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="在Mac环境下利用Xcode搭建基于C++的opencv3环境" property="og:description">
+  
+  
+    <meta content="http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83/" property="og:url">
+  
+  
+    <meta content="2020-10-13T05:00:00+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/book1.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="Xcode" property="article:tag">
+    
+    <meta content="Mac" property="article:tag">
+    
+    <meta content="Opencv3" property="article:tag">
+    
+    <meta content="环境搭建" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Xcode搭建Opencv3环境">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83/">
+  
+  
+    <meta name="twitter:description" content="在Mac环境下利用Xcode搭建基于C++的opencv3环境">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/book1.jpg">
+  
+
+	<meta name="description" content="在Mac环境下利用Xcode搭建基于C++的opencv3环境">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/yy.jpg" alt="李小肥的YY"></a>
+      </div>
+      <div class="author-name">李小肥的YY</div>
+      <p>爱好机器学习，深度学习，NLP和CV。</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/yy2lyx/" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1282442333@qq.com# add your Email address"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2020 &copy; 李小肥的YY</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/book1.jpg alt="Xcode搭建Opencv3环境">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Xcode搭建Opencv3环境</h1>
+        <div class="page-date"><span>2020, Oct 13&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h4 id="1-下载opencv">1. 下载opencv</h4>
+
+<ul>
+  <li>
+    <p>使用简单粗暴的方式——brew进行安装：<code class="language-plaintext highlighter-rouge">brew install opencv@3</code>，注意这里通过brew下载的opencv3的地址为：<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/opencv@3/3.4.9_1</code>（后面配置include和lib有用）。</p>
+  </li>
+  <li>
+    <p>这里存在很大的问题：brew除了下载opencv以外还需要下载opencv的依赖包（很多），这里强力推荐换brew的镜像源（本人用的清华的，当然也可以用中科大的）。具体配置方式如下：</p>
+    <ul>
+      <li>
+        <p>第一步：替换brew.git：</p>
+
+        <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">cd</span><span class="w"> </span><span class="s2">"</span><span class="si">$(</span><span class="nf">brew</span><span class="w"> </span><span class="nt">--repo</span><span class="p">)</span><span class="s2">"
+git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+</span></code></pre></div>        </div>
+      </li>
+      <li>
+        <p>第二步：替换 homebrew-core.git：
+      <code class="language-plaintext highlighter-rouge">powershell
+  cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+  git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
+ </code></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="2-在xcode上搭建opencv的环境">2. 在Xcode上搭建opencv的环境</h4>
+
+<ul>
+  <li>新建项目：macOS - Command Line Tool - 这里选择语言为C++</li>
+  <li>点击项目，选择Build Settings- 在搜索框中搜索search。</li>
+  <li>在头文件路径Header Search Paths中debug中添加一下</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/Cellar/opencv@3/3.4.9_1/include
+/usr/local/Cellar/opencv@3/3.4.9_1/include/opencv
+/usr/local/Cellar/opencv@3/3.4.9_1/include/opencv2
+</code></pre></div></div>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjo3k6yqj6j31qa0ssaow.jpg" alt="" /></p>
+
+<ul>
+  <li>在Library Search Paths中添加</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/Cellar/opencv@3/3.4.9_1/lib
+</code></pre></div></div>
+
+<ul>
+  <li>在项目中添加动态链接库文件：选择项目- 右键New Group - 新建一个名字（比如lib）- 右键lib - Add files to - 按下<code class="language-plaintext highlighter-rouge">/</code>会直接提示到那个目录下找dylib，这里是<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/opencv@3/3.4.9_1/lib</code>，把当前目录下的所有dylib都添加进去即可，如下图。</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjo3v21p6hj31q80f2tap.jpg" alt="" /></p>
+
+<ul>
+  <li>以上就是整个opencv3在Xcode的环境了。</li>
+</ul>
+
+<h4 id="3-测试案例">3. 测试案例</h4>
+
+<pre><code class="language-C">#include &lt;iostream&gt;
+#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;opencv2/highgui/highgui.hpp&gt;
+
+
+using namespace std;
+using namespace cv;
+
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    cout &lt;&lt; "This is my first try C++ in xcode!\n";
+    
+    Mat img = imread("/Users/xcode_project/C++_project/opencvTutorial/test.jpeg");
+    if (img.empty()){
+        cout &lt;&lt; "Could not open image ..."&lt;&lt; endl;
+        return -1;
+    }
+    namedWindow("test",CV_WINDOW_AUTOSIZE);
+    imshow("test", img);
+    waitKey(0);
+    
+    
+    return 0;
+}
+</code></pre>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Xcode搭建Opencv3环境&url=http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Xcode" class="tag">&#35; Xcode</a>
+          
+            <a href="/tags#Mac" class="tag">&#35; Mac</a>
+          
+            <a href="/tags#Opencv3" class="tag">&#35; Opencv3</a>
+          
+            <a href="/tags#环境搭建" class="tag">&#35; 环境搭建</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-brown.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

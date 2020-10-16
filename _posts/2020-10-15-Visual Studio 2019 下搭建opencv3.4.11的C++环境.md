@@ -1,4 +1,11 @@
-### Visual Studio 2019 下搭建opencv3.4.11的C++环境
+---
+layout: post
+title: Visual Studio 2019 下搭建opencv3.4.11的C++环境
+date: 2020-10-15 00:00:00 +0300
+description: 在Windows环境下利用Visual Studio 2019搭建基于C++的opencv3环境 # Add post description (optional)
+img: balls.jpg # Add image post (optional)
+tags: [Visual Studio, Windows, Opencv3, C++] # add tag
+---
 
 ### 一. 下载需要的软件
 
@@ -15,7 +22,7 @@
 #### 2.2 在Visual Studio2019中配置Opencv
 * 选择视图-属性管理器- 选择Debugx64-添加新项目属性表-这里选择保存的名称和位置
 
-![](D:\yeyan\markdown文档\vs2019+opencv3.4环境搭建\pic/1.png)
+![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjrjssvz0fj30qc0hydg5.jpg)
 * 选择VC++目录-包含目录中添加以下
 ```
 D:\software\opencv\opencv\build\include
@@ -28,7 +35,7 @@ D:\software\opencv\opencv\build\include\opencv2
 * 保存即可，注意这里构建的新建项目属性表可以保存下来，直接其他的项目直接导入用即可（视图-属性管理器- 选择Debugx64-添加现有属性表）
 * 回到解决方案资源管理器-项目-属性-配置管理器-活动解决方案平台-选择x64-Debug
 
-![](D:\yeyan\markdown文档\vs2019+opencv3.4环境搭建\pic\2.png)
+![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjrjt4rjq6j30j50dfmx9.jpg)
 
 ### 三. 构建代码测试
 
