@@ -1,0 +1,82 @@
+I"�<h3 id="一-下载需要的软件">一. 下载需要的软件</h3>
+
+<ul>
+  <li><a href="https://visualstudio.microsoft.com/zh-hans/downloads/">visual studio 2019 社区版</a></li>
+  <li><a href="https://opencv.org/releases/">opencv3.4.11</a></li>
+</ul>
+
+<h3 id="二-基于c的环境搭建">二. 基于C++的环境搭建</h3>
+<h4 id="21-创建系统环境变量">2.1 创建系统环境变量</h4>
+<ul>
+  <li>
+    <p>解压opencv，到<code class="language-plaintext highlighter-rouge">D:\software</code></p>
+  </li>
+  <li>
+    <p>配置系统变量：Path下添加Opencv的路径<code class="language-plaintext highlighter-rouge">D:\software\opencv\opencv\build\x64\vc15\bin</code>（这里选择vc15更适合vs2019，如果是vs2015就选择vc14）</p>
+  </li>
+</ul>
+
+<h4 id="22-在visual-studio2019中配置opencv">2.2 在Visual Studio2019中配置Opencv</h4>
+<ul>
+  <li>选择视图-属性管理器- 选择Debugx64-添加新项目属性表-这里选择保存的名称和位置</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjrjssvz0fj30qc0hydg5.jpg" alt="" /></p>
+<ul>
+  <li>选择VC++目录-包含目录中添加以下
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>D:\software\opencv\opencv\build\include
+D:\software\opencv\opencv\build\include\opencv
+D:\software\opencv\opencv\build\include\opencv2
+</code></pre></div>    </div>
+  </li>
+  <li>选择VC++目录-库目录中添加<code class="language-plaintext highlighter-rouge">D:\software\opencv\opencv\build\x64\vc15\lib</code></li>
+  <li>选择链接器-输入-附加依赖项中添加<code class="language-plaintext highlighter-rouge">opencv_world3411d.lib</code></li>
+  <li>保存即可，注意这里构建的新建项目属性表可以保存下来，直接其他的项目直接导入用即可（视图-属性管理器- 选择Debugx64-添加现有属性表）</li>
+  <li>回到解决方案资源管理器-项目-属性-配置管理器-活动解决方案平台-选择x64-Debug</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjrjt4rjq6j30j50dfmx9.jpg" alt="" /></p>
+
+<h3 id="三-构建代码测试">三. 构建代码测试</h3>
+
+<ul>
+  <li>构建cpp源码：解决方案-源文件-添加-新建项-cpp文件</li>
+</ul>
+
+<p>用以下代码进行测试</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;iostream&gt;
+#include&lt;opencv2/core/core.hpp&gt;
+#include&lt;opencv2/highgui/highgui.hpp&gt;
+#include&lt;opencv2/opencv.hpp&gt;
+#include&lt;math.h&gt;
+</span>
+
+<span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
+<span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+
+	<span class="c1">//Mat img = imread("D:\\vs_project\\opencvtest\\1.jpg");</span>
+	<span class="n">Mat</span> <span class="n">img</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="s">"D:/vs_project/opencvtest/1.jpg"</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Could not load img..."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">namedWindow</span><span class="p">(</span><span class="s">"ori_img"</span><span class="p">,</span> <span class="n">WINDOW_AUTOSIZE</span><span class="p">);</span>
+	<span class="n">imshow</span><span class="p">(</span><span class="s">"ori_img"</span><span class="p">,</span> <span class="n">img</span><span class="p">);</span>
+
+	<span class="c1">// 图像转成灰度图像</span>
+	<span class="n">Mat</span> <span class="n">gray_img</span><span class="p">;</span>
+	<span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gray_img</span><span class="p">,</span> <span class="n">CV_RGB2GRAY</span><span class="p">);</span>
+	<span class="n">namedWindow</span><span class="p">(</span><span class="s">"gray_img"</span><span class="p">,</span> <span class="n">WINDOW_AUTOSIZE</span><span class="p">);</span>
+	<span class="n">imshow</span><span class="p">(</span><span class="s">"gray_img"</span><span class="p">,</span> <span class="n">gray_img</span><span class="p">);</span>
+	<span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+:ET

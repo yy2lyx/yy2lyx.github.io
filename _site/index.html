@@ -109,6 +109,30 @@
   
 <article class="post">
   
+    <a class="post-thumbnail" style="background-image: url(/assets/img/pills.jpg)" href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85mysql%E5%92%8C%E5%AF%BC%E5%85%A5sql%E6%96%87%E4%BB%B6/"></a>
+  
+  <div class="post-content">
+    <h2 class="post-title"><a href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85mysql%E5%92%8C%E5%AF%BC%E5%85%A5sql%E6%96%87%E4%BB%B6/">Windows下安装mysql和导入sql文件</a></h2>
+    <p>一. 下载软件 mysql：这里使用的是scoop来进行安装：scoop install mysql，这里的优势是自动帮你配好环境了 安装Navicat Premium 破解Navicat Premium 二. 初始化mysql 初始化数据库：mysqld --initialize --console,并记录红色标注的字符，这是随机生成的密码 输入mysqld...</p>
+    <span class="post-date">2020, Oct 15&nbsp;&nbsp;&nbsp;—&nbsp;</span>
+    <span class="post-words">1 minute read</span>
+  </div>
+</article>
+
+<article class="post">
+  
+    <a class="post-thumbnail" style="background-image: url(/assets/img/balls.jpg)" href="/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83/"></a>
+  
+  <div class="post-content">
+    <h2 class="post-title"><a href="/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83/">Visual Studio 2019 下搭建opencv3.4.11的C++环境</a></h2>
+    <p>一. 下载需要的软件 visual studio 2019 社区版 opencv3.4.11 二. 基于C++的环境搭建 2.1 创建系统环境变量 解压opencv，到D:\software 配置系统变量：Path下添加Opencv的路径D:\software\opencv\opencv\build\x64\vc15\bin（这里选择vc15更适合vs2019，如果是vs2015就选择vc14） 2.2 在Visual...</p>
+    <span class="post-date">2020, Oct 15&nbsp;&nbsp;&nbsp;—&nbsp;</span>
+    <span class="post-words">1 minute read</span>
+  </div>
+</article>
+
+<article class="post">
+  
     <a class="post-thumbnail" style="background-image: url(/assets/img/book1.jpg)" href="/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83/"></a>
   
   <div class="post-content">
@@ -176,30 +200,6 @@
     <p>1. 下载软件 clion：C++的IDE cmake : 这里需要添加到环境变量中 D:\Profile\mingw64\bin MinGW ：添加到环境变量 D:\Profile\mingw64\bin opencv3.4.10：开源的计算机视觉库 2. MinGW和OpenCV 主要是如何用你的编译器来编译OpenCV。我们需要有include文件夹，这个在写代码时就用的到，还有lib和dll，这俩货我也不是很懂，dll的话没有是可以编译成功的，但运行是要失败的，所以我们是肯定要把dll加入到系统环境变量Path里的。lib是编译时就需要的，所以我们得把lib放在CLion的CMakeLists里面。 下载完Windows的OpenCV，其实我们只有给Visual...</p>
     <span class="post-date">2019, Oct 01&nbsp;&nbsp;&nbsp;—&nbsp;</span>
     <span class="post-words">1 minute read</span>
-  </div>
-</article>
-
-<article class="post">
-  
-    <a class="post-thumbnail" style="background-image: url(/assets/img/linux.jpg)" href="/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86/"></a>
-  
-  <div class="post-content">
-    <h2 class="post-title"><a href="/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86/">Linux下python安装和包管理</a></h2>
-    <p>1. 上传python文件并打包编译 下载python版本：https://www.python.org/ftp/python/ 解压：tar -xf Python-3..1.tgz 编译：sudo ./configure --prefix=/path/you/want/to/install/ --with-ssl &amp;&amp; make &amp;&amp; make install(这里需要加–prefix是因为可以直接在指定文件夹下删除软件即可，加入with...</p>
-    <span class="post-date">2019, Jun 19&nbsp;&nbsp;&nbsp;—&nbsp;</span>
-    <span class="post-words">1 minute read</span>
-  </div>
-</article>
-
-<article class="post">
-  
-    <a class="post-thumbnail" style="background-image: url(/assets/img/sign1.jpg)" href="/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93/"></a>
-  
-  <div class="post-content">
-    <h2 class="post-title"><a href="/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93/">深度学习调参经验总结</a></h2>
-    <p>一. 网络中loss表现过于震荡 1.1 模型拟合能力不够导致模型震荡 model（层数：input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; output）此时模型的loss由1到192震动太大，acc也是在一个epoch中时好时坏，由此考虑到是模型的分类能力的问题（可能处理不了非线性或者是异或的问题） """增加了一层全连接层，之后效果显著，模型虽然也存在loss和acc会有极小幅度的震荡，但是趋向于收敛""" input(30,300,3)...</p>
-    <span class="post-date">2019, Mar 09&nbsp;&nbsp;&nbsp;—&nbsp;</span>
-    <span class="post-words">3 minute read</span>
   </div>
 </article>
 
