@@ -1,0 +1,75 @@
+I"y<h4 id="一-安装cuda101">一. 安装CUDA10.1</h4>
+
+<blockquote>
+  <p>这里需要安装鲁大师，查看自己电脑的显卡型号，这里是gtx 1060 ，6g</p>
+</blockquote>
+
+<h5 id="11-安装nvidia驱动">1.1 安装Nvidia驱动</h5>
+
+<ul>
+  <li>首先在Nvidia官网上安装显卡驱动，连接地址：https://www.nvidia.com/Download/index.aspx</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7vzmyjnj30io0ak3zx.jpg" alt="" /></p>
+
+<ul>
+  <li>这里需要去nVidia官网 https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html 查看cuda和显卡驱动对应表上cuda10.1对应驱动的版本号。</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7wolh48j30n80ctmxv.jpg" alt="" /></p>
+
+<ul>
+  <li>查看自己安装驱动的版本号：NVIDIA控制面板-帮助-系统信息中查看，这里可以看到我的驱动的版本号为456，这里是大于官网安装cuda10.1需要的418的驱动的。</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7wcmibaj30qh0jh3z7.jpg" alt="" /></p>
+
+<h5 id="12-安装cuda101">1.2 安装CUDA10.1</h5>
+
+<ul>
+  <li>安装CUDA：适合哪个版本的CUDA，就可以去官网下载对应的CUDA了，但是官网首页的CUDA一般是最新版，我们可能需要下载旧版本比如CUDA10.1，可以cuu点击下面连接进行下载：https://developer.nvidia.com/cuda-toolkit-archiv，这里直接选择<a href="https://developer.nvidia.com/cuda-10.1-download-archive-base">CUDA Toolkit 10.1 </a>(Feb 2019)即可。这里一般选择自定义安装，可以通过命令行查看是否安装成功：<code class="language-plaintext highlighter-rouge">nvcc -V</code>，这里如果提升没有整个命令，说明还没有将cuda的路径添加到环境变量中，需要设置环境变量，添加CUDA安装目录下的<code class="language-plaintext highlighter-rouge">bin</code>和<code class="language-plaintext highlighter-rouge">libnvvp</code>目录，如下所示：</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7xf2l38j30jx09e74w.jpg" alt="" /></p>
+
+<ul>
+  <li>安装cuDNN：选择对应的版本号和系统，这里注意官网最前面的几个连接中都是windows10 的x86（32位）的，这里需要选择老一点的cuDNN的版本，如下所示</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7ww4z84j30rl0g9t9n.jpg" alt="" /></p>
+
+<ul>
+  <li>下载后，将压缩包解压得到cuda文件夹，文件夹下有三个文件夹，复制这三个文件夹到CUDA安装的目录’D:\soft\cuda’下，会自动将cudnn的三个文件夹的文件合并到其三个同名文件夹<code class="language-plaintext highlighter-rouge">bin</code>、<code class="language-plaintext highlighter-rouge">include</code>和<code class="language-plaintext highlighter-rouge">lib</code>中。</li>
+</ul>
+
+<h4 id="二-安装pytorch">二. 安装pytorch</h4>
+
+<blockquote>
+  <p>pytorch官网安装地址：https://pytorch.org/get-started/locally/</p>
+</blockquote>
+
+<h4 id="21-修改pip源提升下载包速度">2.1 修改pip源，提升下载包速度</h4>
+
+<p>如果本地pip下载很慢，修改pip源：Linux下，修改 ~/.pip/pip.conf (没有就创建一个文件夹及文件。文件夹要加“.”，表示是隐藏文件夹)</p>
+
+<p>内容如下：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+[install]
+trusted-host=mirrors.aliyun.com
+</code></pre></div></div>
+
+<p>windows下，直接在user目录中创建一个pip目录，如：C:\Users\xx\pip，新建文件pip.ini。内容同上。</p>
+
+<h5 id="22-通过pip安装pytorch">2.2 通过pip安装pytorch</h5>
+
+<p>pip安装：<code class="language-plaintext highlighter-rouge">pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html</code></p>
+
+<h5 id="23-查看是否安装成功并查看能否驱动cuda">2.3 查看是否安装成功，并查看能否驱动cuda</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="k">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">())</span>
+</code></pre></div></div>
+
+:ET

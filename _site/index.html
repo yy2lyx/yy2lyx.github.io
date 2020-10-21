@@ -109,6 +109,18 @@
   
 <article class="post">
   
+    <a class="post-thumbnail" style="background-image: url(/assets/img/science.png)" href="/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6/"></a>
+  
+  <div class="post-content">
+    <h2 class="post-title"><a href="/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6/">Windows10环境下搭建CUDA10.1和pytorch1.6</a></h2>
+    <p>一. 安装CUDA10.1 这里需要安装鲁大师，查看自己电脑的显卡型号，这里是gtx 1060 ，6g 1.1 安装Nvidia驱动 首先在Nvidia官网上安装显卡驱动，连接地址：https://www.nvidia.com/Download/index.aspx 这里需要去nVidia官网 https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html 查看cuda和显卡驱动对应表上cuda10.1对应驱动的版本号。 查看自己安装驱动的版本号：NVIDIA控制面板-帮助-系统信息中查看，这里可以看到我的驱动的版本号为456，这里是大于官网安装cuda10.1需要的418的驱动的。 1.2 安装CUDA10.1 安装CUDA：适合哪个版本的CUDA，就可以去官网下载对应的CUDA了，但是官网首页的CUDA一般是最新版，我们可能需要下载旧版本比如CUDA10.1，可以cuu点击下面连接进行下载：https://developer.nvidia.com/cuda-toolkit-archiv，这里直接选择CUDA...</p>
+    <span class="post-date">2020, Oct 20&nbsp;&nbsp;&nbsp;—&nbsp;</span>
+    <span class="post-words">1 minute read</span>
+  </div>
+</article>
+
+<article class="post">
+  
     <a class="post-thumbnail" style="background-image: url(/assets/img/man.png)" href="/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub-pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"></a>
   
   <div class="post-content">
@@ -188,18 +200,6 @@
     <p>一. 环境准备 neo4j python包：pip3 install neo4j 和pip3 install py2neo（这里的py2neo 是python对Neo4j的驱动库,同时这里必须是py2neo版本必须是最新版4，不然会报连接数据库的错误，老版本不兼容的问题） Java8：这里由于neo4j 数据库是依赖于java8的。 Neo4j_3.5.14：这里由于neo4j 在中国地区下载慢，并且neo4j3.X版本才支持java8，到4.0版本就是需要java11了。 Neo4j_Desktop：neo4j的桌面端（可以远程数据库和连接本地数据库，同时包含很多额外的扩展）...</p>
     <span class="post-date">2020, Feb 27&nbsp;&nbsp;&nbsp;—&nbsp;</span>
     <span class="post-words">5 minute read</span>
-  </div>
-</article>
-
-<article class="post">
-  
-    <a class="post-thumbnail" style="background-image: url(/assets/img/junggle.jpg)" href="/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B/"></a>
-  
-  <div class="post-content">
-    <h2 class="post-title"><a href="/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B/">无监督异常检测模型</a></h2>
-    <p>异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。 一. 统计和概率模型 主要是假设和检验。假设数据的分布，检验异常。比如对一维的数据假设高斯分布，然后将3sigma以外的数据划分为异常，上升到高维，假设特征之间是独立的，可以计算每个特征维度的异常值并相加，如果特征之间是相关的，也就变成了多元高斯分布，可以用马氏距离衡量数据的异常度。这 类方法要求对问题和数据分布有较强的先验知识。 1.1 3σ原则 如果特征服从正态分布，那么，在\(\pm 3 \sigma\)的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。 1.2 3σ原则的适用条件 数据分布满足正态分布（在业务逻辑上母样本满足）。 特征之间相互独立。 二....</p>
-    <span class="post-date">2019, Dec 04&nbsp;&nbsp;&nbsp;—&nbsp;</span>
-    <span class="post-words">1 minute read</span>
   </div>
 </article>
 

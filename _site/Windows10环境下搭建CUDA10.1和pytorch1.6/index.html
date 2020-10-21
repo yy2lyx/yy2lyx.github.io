@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Windows10环境下搭建CUDA10.1和pytorch1.6 - 李小肥的YY</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="李小肥的YY" property="og:site_name">
+  
+    <meta content="Windows10环境下搭建CUDA10.1和pytorch1.6" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="在Windows10环境下搭建CUDA10.1和pytorch1.6" property="og:description">
+  
+  
+    <meta content="http://localhost:4000/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6/" property="og:url">
+  
+  
+    <meta content="2020-10-20T05:00:00+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/science.png" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="Mac" property="article:tag">
+    
+    <meta content="Jekyll" property="article:tag">
+    
+    <meta content="Github Pages" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Windows10环境下搭建CUDA10.1和pytorch1.6">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6/">
+  
+  
+    <meta name="twitter:description" content="在Windows10环境下搭建CUDA10.1和pytorch1.6">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/science.png">
+  
+
+	<meta name="description" content="在Windows10环境下搭建CUDA10.1和pytorch1.6">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/yy.jpg" alt="李小肥的YY"></a>
+      </div>
+      <div class="author-name">李小肥的YY</div>
+      <p>爱好机器学习，深度学习，NLP和CV。</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/yy2lyx/" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1282442333@qq.com# add your Email address"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2020 &copy; 李小肥的YY</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/science.png alt="Windows10环境下搭建CUDA10.1和pytorch1.6">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Windows10环境下搭建CUDA10.1和pytorch1.6</h1>
+        <div class="page-date"><span>2020, Oct 20&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <h4 id="一-安装cuda101">一. 安装CUDA10.1</h4>
+
+<blockquote>
+  <p>这里需要安装鲁大师，查看自己电脑的显卡型号，这里是gtx 1060 ，6g</p>
+</blockquote>
+
+<h5 id="11-安装nvidia驱动">1.1 安装Nvidia驱动</h5>
+
+<ul>
+  <li>首先在Nvidia官网上安装显卡驱动，连接地址：https://www.nvidia.com/Download/index.aspx</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7vzmyjnj30io0ak3zx.jpg" alt="" /></p>
+
+<ul>
+  <li>这里需要去nVidia官网 https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html 查看cuda和显卡驱动对应表上cuda10.1对应驱动的版本号。</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7wolh48j30n80ctmxv.jpg" alt="" /></p>
+
+<ul>
+  <li>查看自己安装驱动的版本号：NVIDIA控制面板-帮助-系统信息中查看，这里可以看到我的驱动的版本号为456，这里是大于官网安装cuda10.1需要的418的驱动的。</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7wcmibaj30qh0jh3z7.jpg" alt="" /></p>
+
+<h5 id="12-安装cuda101">1.2 安装CUDA10.1</h5>
+
+<ul>
+  <li>安装CUDA：适合哪个版本的CUDA，就可以去官网下载对应的CUDA了，但是官网首页的CUDA一般是最新版，我们可能需要下载旧版本比如CUDA10.1，可以cuu点击下面连接进行下载：https://developer.nvidia.com/cuda-toolkit-archiv，这里直接选择<a href="https://developer.nvidia.com/cuda-10.1-download-archive-base">CUDA Toolkit 10.1 </a>(Feb 2019)即可。这里一般选择自定义安装，可以通过命令行查看是否安装成功：<code class="language-plaintext highlighter-rouge">nvcc -V</code>，这里如果提升没有整个命令，说明还没有将cuda的路径添加到环境变量中，需要设置环境变量，添加CUDA安装目录下的<code class="language-plaintext highlighter-rouge">bin</code>和<code class="language-plaintext highlighter-rouge">libnvvp</code>目录，如下所示：</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7xf2l38j30jx09e74w.jpg" alt="" /></p>
+
+<ul>
+  <li>安装cuDNN：选择对应的版本号和系统，这里注意官网最前面的几个连接中都是windows10 的x86（32位）的，这里需要选择老一点的cuDNN的版本，如下所示</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7ww4z84j30rl0g9t9n.jpg" alt="" /></p>
+
+<ul>
+  <li>下载后，将压缩包解压得到cuda文件夹，文件夹下有三个文件夹，复制这三个文件夹到CUDA安装的目录’D:\soft\cuda’下，会自动将cudnn的三个文件夹的文件合并到其三个同名文件夹<code class="language-plaintext highlighter-rouge">bin</code>、<code class="language-plaintext highlighter-rouge">include</code>和<code class="language-plaintext highlighter-rouge">lib</code>中。</li>
+</ul>
+
+<h4 id="二-安装pytorch">二. 安装pytorch</h4>
+
+<blockquote>
+  <p>pytorch官网安装地址：https://pytorch.org/get-started/locally/</p>
+</blockquote>
+
+<h4 id="21-修改pip源提升下载包速度">2.1 修改pip源，提升下载包速度</h4>
+
+<p>如果本地pip下载很慢，修改pip源：Linux下，修改 ~/.pip/pip.conf (没有就创建一个文件夹及文件。文件夹要加“.”，表示是隐藏文件夹)</p>
+
+<p>内容如下：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+[install]
+trusted-host=mirrors.aliyun.com
+</code></pre></div></div>
+
+<p>windows下，直接在user目录中创建一个pip目录，如：C:\Users\xx\pip，新建文件pip.ini。内容同上。</p>
+
+<h5 id="22-通过pip安装pytorch">2.2 通过pip安装pytorch</h5>
+
+<p>pip安装：<code class="language-plaintext highlighter-rouge">pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html</code></p>
+
+<h5 id="23-查看是否安装成功并查看能否驱动cuda">2.3 查看是否安装成功，并查看能否驱动cuda</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="k">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">())</span>
+</code></pre></div></div>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Windows10环境下搭建CUDA10.1和pytorch1.6&url=http://localhost:4000/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Mac" class="tag">&#35; Mac</a>
+          
+            <a href="/tags#Jekyll" class="tag">&#35; Jekyll</a>
+          
+            <a href="/tags#Github Pages" class="tag">&#35; Github Pages</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-brown.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

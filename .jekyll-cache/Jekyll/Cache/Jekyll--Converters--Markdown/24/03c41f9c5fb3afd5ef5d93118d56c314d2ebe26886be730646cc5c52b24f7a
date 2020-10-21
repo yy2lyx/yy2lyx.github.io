@@ -1,4 +1,4 @@
-I"��<h3 id="一数据处理工具pandas和numpy">一.数据处理工具pandas和numpy</h3>
+I"�<h3 id="一数据处理工具pandas和numpy">一.数据处理工具pandas和numpy</h3>
 <h4 id="11-pandas读取数据">1.1 pandas读取数据</h4>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"data.csv"</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">encoding</span> <span class="o">=</span> <span class="s">"utf-8"</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_tabel</span><span class="p">(</span><span class="s">"data.txt"</span><span class="p">,</span><span class="n">sep</span> <span class="o">=</span> <span class="s">","</span><span class="p">)</span>
@@ -45,11 +45,13 @@
 </span><span class="n">new_dataframe</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index_list</span><span class="p">,:]</span>
 </code></pre></div></div>
 
-<p>####1.6 找到Nan值——np.isnan()</p>
+<h4 id="16-找到nan值npisnan">1.6 找到Nan值——np.isnan()</h4>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nan_np_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">np_data</span><span class="p">))</span>
 </code></pre></div></div>
 
-<p>####1.7 哑变量生成——pd.get_dummies()</p>
+<h4 id="17-哑变量生成pdget_dummies">1.7 哑变量生成——pd.get_dummies()</h4>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dummy_device_type</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_org</span><span class="p">[</span><span class="s">'platform'</span><span class="p">],</span><span class="n">prefix</span><span class="o">=</span><span class="s">'device_type'</span><span class="p">)</span>
 </code></pre></div></div>
 
@@ -102,7 +104,19 @@
 <span class="n">diff_series</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
 </code></pre></div></div>
 
+<h4 id="113-sort_values将dataframe根据某一列顺序重新生成">1.13 sort_values将dataframe根据某一列顺序重新生成</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 比如这里需要将整个dataframe根据时间戳的顺序（True）进行重新调整
+</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s">'timestamp'</span><span class="p">]</span><span class="err">，</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="114-concat-将dataframe或者是series进行合并">1.14 concat 将Dataframe或者是Series进行合并</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">concat</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 这里是三个Series根据每个的index进行合并（按列）
+</span></code></pre></div></div>
+
 <h3 id="二绘图查看数据分布seaborn和matplotlib">二.绘图查看数据分布——seaborn和matplotlib</h3>
+
 <h4 id="21-频数分布直方图">2.1 频数分布直方图</h4>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">plot_bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">color</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">width</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
     <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
