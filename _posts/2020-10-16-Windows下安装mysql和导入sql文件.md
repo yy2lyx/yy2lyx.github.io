@@ -2,7 +2,7 @@
 layout: post
 title: Windows下安装mysql和导入sql文件
 date: 2020-10-15 00:00:00 +0300
-description: 在Windows环境下利用Visual Studio 2019搭建基于C++的opencv3环境 # Add post description (optional)
+description: 在Windows环境下安装mysql # Add post description (optional)
 img: pills.jpg # Add image post (optional)
 tags: [Windows, mysql, Navicat Premium] # add tag
 ---
