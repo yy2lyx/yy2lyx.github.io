@@ -1,4 +1,11 @@
-## pytorch使用YOLOv5训练数据
+---
+layout: post
+title: pytorch使用YOLOv5训练数据
+date: 2020-10-26 00:00:00 +0300
+description: pytorch使用YOLOv5训练数据 # Add post description (optional)
+img: mir.png # Add image post (optional)
+tags: [pytorch, YOLOv5, 训练] # add tag
+---
 
 ### 一. 需要下载的资源
 
@@ -117,11 +124,11 @@ File "C:\soft\python3.7.9\lib\multiprocessing\reduction.py", line 60, in dump   
 
 这里可以参考文章：https://github.com/pytorch/pytorch/issues/2341。解决方案：将`utils\datasets.py`文件中`num_workers`改成0即可（代码第68行）。训练完成后如下图：
 
-![](pic/1.png)
+![](https://tva1.sinaimg.cn/large/0081Kckwgy1gk47ziddqvj30jg01vt8i.jpg)
 
 11. 可以查看本地tensorboard训练过程：`tensorboard --logdir=runs`
 
-![](pic/2.png)
+![](https://tva1.sinaimg.cn/large/0081Kckwgy1gk4804vrrkj310d0gajt5.jpg)
 
 12. 这里还可以使用coco数据集的[预训练模型](https://drive.google.com/drive/folders/1Drs_Aiu7xx6S-ix95f9kNsA6ueKRpN2J)进行训练，可能效果会更好
 
