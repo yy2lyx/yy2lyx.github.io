@@ -115,11 +115,13 @@ python3 train.py --img 1024 --batch 8 --epoch 100 --data wheat.yaml --cfg .\mode
 File "C:\soft\python3.7.9\lib\multiprocessing\reduction.py", line 60, in dump     ForkingPickler(file, protocol).dump(obj) BrokenPipeError: [Errno 32] Broken pipe
 ```
 
-这里可以参考文章：https://github.com/pytorch/pytorch/issues/2341。解决方案：将`utils\datasets.py`文件中`num_workers`改成0即可（代码第68行）
+这里可以参考文章：https://github.com/pytorch/pytorch/issues/2341。解决方案：将`utils\datasets.py`文件中`num_workers`改成0即可（代码第68行）。训练完成后如下图：
+
+![](pic/1.png)
 
 11. 可以查看本地tensorboard训练过程：`tensorboard --logdir=runs`
 
-![](pic/1.png)
+![](pic/2.png)
 
 12. 这里还可以使用coco数据集的[预训练模型](https://drive.google.com/drive/folders/1Drs_Aiu7xx6S-ix95f9kNsA6ueKRpN2J)进行训练，可能效果会更好
 
@@ -127,3 +129,5 @@ File "C:\soft\python3.7.9\lib\multiprocessing\reduction.py", line 60, in dump   
 python3 train.py --img 1024 --batch 8 --epoch 100 --data wheat.yaml --cfg .\models\yolov5s.yaml --name wm --weights
 ```
 
+13. 将训练好的模型放到当前文件夹下：`cp runs/exp0_wm/weights/best.pt . `
+14. 选择测试图片的文件夹进行生成测试：`python detect.py --source ./test_data --weights best.pt `，这里可以看到新生成一个文件夹`inference/output`中就是测试后标记bbox后的图片。
