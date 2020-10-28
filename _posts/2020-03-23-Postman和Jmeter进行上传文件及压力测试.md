@@ -56,8 +56,6 @@ postman分别在header和body中填入下图：
 
 * 通过collections中选中保存好的请求，run即可
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo3gr20yj30va0jh75p.jpg)
-
 ### 三. Jmeter的http接口测试
 
 在下载解压好的jmeter二进制文件中打开：`apache-jmeter-5.3\bin\jmeter.bat`
@@ -77,8 +75,6 @@ postman分别在header和body中填入下图：
 ![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo41hoa3j30t1089jsj.jpg)
 
 * http页面下面不用填Parameters和BodyData，在Files Upload中填入下图，其中file和上面一致，而MIME Type需要访问https://www.freeformatter.com/mime-types-list.html，找到其中.eml格式前面的
-
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo4abjwtj30sk0300t4.jpg)
 
 * 运行，即可看到并行的接口请求情况
 
