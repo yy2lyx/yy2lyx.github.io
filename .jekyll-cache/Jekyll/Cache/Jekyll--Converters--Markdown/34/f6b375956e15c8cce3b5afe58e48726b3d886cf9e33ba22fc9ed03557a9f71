@@ -1,0 +1,144 @@
+I"�@<h3 id="一-需要下载的资源">一. 需要下载的资源</h3>
+
+<ul>
+  <li>Fork 下官方的开源项目：https://github.com/ultralytics/yolov5</li>
+  <li>git clone 下Fork之后的项目到自己本地仓库中。</li>
+  <li>采用的训练集（简单的，仅有一个类）：源自<a href="https://www.kaggle.com/c/global-wheat-detection/data">Kaggle的小麦数据集</a></li>
+  <li>如果有gpu的话，最好安装cuda进行训练加速，这里可以参考本人的另一篇文章：<a href="https://yy2lyx.github.io/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6/">Windows10环境下搭建CUDA10.1和pytorch1.6</a></li>
+</ul>
+
+<h3 id="二--构建属于自己的目标检测模型">二 . 构建属于自己的目标检测模型</h3>
+
+<h4 id="21-在官网的开源yolo5项目的基础上进行构建">2.1 在官网的开源yolo5项目的基础上进行构建</h4>
+
+<ol>
+  <li>git 克隆到本地仓库：<code class="language-plaintext highlighter-rouge">git clone https://github.com/xx/yolov5.git</code></li>
+  <li>进入项目中，并安装需要的第三方依赖：<code class="language-plaintext highlighter-rouge">pip install -r requirements.txt</code></li>
+  <li>新建一个原始数据的目录：：<code class="language-plaintext highlighter-rouge">mkdir ori_data</code>，将下载好的小麦数据集解压后放到项目。</li>
+  <li>创建输出一个文件输出目录：<code class="language-plaintext highlighter-rouge">mkdir wheat_data</code>，并在此目录下新建以下目录，如下图所示</li>
+</ol>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">├─</span><span class="nx">images</span>
+<span class="err">│</span>  <span class="err">├─</span><span class="nx">train</span>
+<span class="err">│</span>  <span class="err">└─</span><span class="nx">val</span>
+<span class="err">└─</span><span class="nx">labels</span>
+    <span class="err">├─</span><span class="nx">train</span>
+    <span class="err">└─</span><span class="nx">val</span>
+</code></pre></div></div>
+
+<ol>
+  <li>构建数据集，新建一个<code class="language-plaintext highlighter-rouge">munge_data.py</code>文件</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">ast</span> 
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+
+<span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">'ori_data'</span>
+<span class="n">OUTPUT_PATH</span> <span class="o">=</span> <span class="s">'wheat_data'</span>
+
+<span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">data_type</span> <span class="o">=</span> <span class="s">'train'</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">row</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">iterrows</span><span class="p">(),</span><span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">image_name</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">'image_id'</span><span class="p">]</span>
+        <span class="n">bounding_boxes</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s">'bbox'</span><span class="p">]</span>
+        <span class="n">yolo_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">bbox</span> <span class="ow">in</span> <span class="n">bounding_boxes</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">x_center</span> <span class="o">=</span> <span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">y_center</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span>
+            <span class="c1"># 这里需要将图像数据归一化处理（yolo需要的输入为归一化后的数据,且为浮点数）
+</span>            <span class="n">x_center</span> <span class="o">/=</span> <span class="mf">1024.0</span>
+            <span class="n">y_center</span> <span class="o">/=</span> <span class="mf">1024.0</span>
+            <span class="n">w</span> <span class="o">/=</span> <span class="mf">1024.0</span>
+            <span class="n">h</span> <span class="o">/=</span> <span class="mf">1024.0</span>
+            <span class="n">yolo_data</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">x_center</span><span class="p">,</span><span class="n">y_center</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">])</span>
+        <span class="n">yolo_data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">yolo_data</span><span class="p">)</span>
+        <span class="c1"># 保存bbox的图片信息
+</span>        <span class="n">np</span><span class="p">.</span><span class="n">savetxt</span><span class="p">(</span>
+            <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">OUTPUT_PATH</span><span class="p">,</span><span class="s">f'labels/</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s">.txt'</span><span class="p">),</span>
+            <span class="n">yolo_data</span><span class="p">,</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s">'%d'</span><span class="p">,</span><span class="s">'%f'</span><span class="p">,</span><span class="s">'%f'</span><span class="p">,</span><span class="s">'%f'</span><span class="p">,</span><span class="s">'%f'</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># 将目标图片文件保存到指定文件中
+</span>        <span class="n">shutil</span><span class="p">.</span><span class="n">copyfile</span><span class="p">(</span>
+            <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">,</span><span class="s">f'train/</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s">.jpg'</span><span class="p">),</span>
+            <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">OUTPUT_PATH</span><span class="p">,</span><span class="s">f'images/</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s">.jpg'</span><span class="p">),</span>
+        <span class="p">)</span>
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">,</span><span class="s">'train.csv'</span><span class="p">))</span>
+    <span class="c1"># 将string of list 转成list数据
+</span>    <span class="n">df</span><span class="p">.</span><span class="n">bbox</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">ast</span><span class="p">.</span><span class="n">literal_eval</span><span class="p">)</span>
+    <span class="c1"># 利用groupby 将同一个image_id的数据进行聚合，方式为list进行，并且用reset_index直接转变成dataframe
+</span>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">'image_id'</span><span class="p">])[</span><span class="s">'bbox'</span><span class="p">].</span><span class="nb">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">).</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">'bbox'</span><span class="p">)</span>
+
+    <span class="c1"># 划分数据集
+</span>    <span class="n">df_train</span><span class="p">,</span><span class="n">df_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="c1"># 重设 index （这里数据被打乱，index改变混乱）
+</span>    <span class="n">df_train</span> <span class="o">=</span> <span class="n">df_train</span><span class="p">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">df_val</span> <span class="o">=</span> <span class="n">df_val</span><span class="p">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">process_data</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span><span class="n">data_type</span><span class="o">=</span><span class="s">'train'</span><span class="p">)</span>
+    <span class="n">process_data</span><span class="p">(</span><span class="n">df_val</span><span class="p">,</span><span class="n">data_type</span><span class="o">=</span><span class="s">'val'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<ol>
+  <li>运行构建数据的py文件：<code class="language-plaintext highlighter-rouge">python munge_data.py</code></li>
+  <li>这里可以看到在输出结果目录中，放入了需要的整理后的数据集</li>
+  <li>新建一个<code class="language-plaintext highlighter-rouge">wheat.yaml</code>yaml文件，指定模型训练时候的输入及其类别（注意这里冒号后面要加空格，yamal格式问题）</li>
+</ol>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">train</span><span class="pi">:</span> <span class="s">wheat_data/images/train // 指定训练目录</span>
+<span class="na">val</span><span class="pi">:</span> <span class="s">wheat_data/images/val // 指定验证目录</span>
+<span class="na">nc</span><span class="pi">:</span> <span class="s">1 // 指定类别</span>
+<span class="na">names</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">wheat"</span><span class="pi">]</span>  <span class="s">// 指定类别名字</span>
+</code></pre></div></div>
+
+<ol>
+  <li>进行模型训练：</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 train.py <span class="nt">--img</span> 1024 <span class="nt">--batch</span> 8 <span class="nt">--epoch</span> 100 <span class="nt">--data</span> wheat.yaml <span class="nt">--cfg</span> .<span class="se">\m</span>odels<span class="se">\y</span>olov5s.yaml <span class="nt">--name</span> wm
+</code></pre></div></div>
+
+<ol>
+  <li>这里可能会报错（Dataloader中设置了多进程导致的），报错信息如下所示：</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>File <span class="s2">"C:</span><span class="se">\s</span><span class="s2">oft</span><span class="se">\p</span><span class="s2">ython3.7.9</span><span class="se">\l</span><span class="s2">ib</span><span class="se">\m</span><span class="s2">ultiprocessing</span><span class="se">\r</span><span class="s2">eduction.py"</span>, line 60, <span class="k">in </span>dump     ForkingPickler<span class="o">(</span>file, protocol<span class="o">)</span>.dump<span class="o">(</span>obj<span class="o">)</span> BrokenPipeError: <span class="o">[</span>Errno 32] Broken pipe
+</code></pre></div></div>
+
+<p>这里可以参考文章：https://github.com/pytorch/pytorch/issues/2341。解决方案：将<code class="language-plaintext highlighter-rouge">utils\datasets.py</code>文件中<code class="language-plaintext highlighter-rouge">num_workers</code>改成0即可（代码第68行）。训练完成后如下图：</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gk47ziddqvj30jg01vt8i.jpg" alt="" /></p>
+
+<ol>
+  <li>可以查看本地tensorboard训练过程：<code class="language-plaintext highlighter-rouge">tensorboard --logdir=runs</code></li>
+</ol>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gk4804vrrkj310d0gajt5.jpg" alt="" /></p>
+
+<ol>
+  <li>这里还可以使用coco数据集的<a href="https://drive.google.com/drive/folders/1Drs_Aiu7xx6S-ix95f9kNsA6ueKRpN2J">预训练模型</a>进行训练，可能效果会更好</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 train.py <span class="nt">--img</span> 1024 <span class="nt">--batch</span> 8 <span class="nt">--epoch</span> 100 <span class="nt">--data</span> wheat.yaml <span class="nt">--cfg</span> .<span class="se">\m</span>odels<span class="se">\y</span>olov5s.yaml <span class="nt">--name</span> wm <span class="nt">--weights</span>
+</code></pre></div></div>
+
+<ol>
+  <li>将训练好的模型放到当前文件夹下：<code class="language-plaintext highlighter-rouge">cp runs/exp0_wm/weights/best.pt . </code></li>
+  <li>选择测试图片的文件夹进行生成测试：<code class="language-plaintext highlighter-rouge">python detect.py --source ./test_data --weights best.pt </code>，这里可以看到新生成一个文件夹<code class="language-plaintext highlighter-rouge">inference/output</code>中就是测试后标记bbox后的图片。</li>
+</ol>
+:ET

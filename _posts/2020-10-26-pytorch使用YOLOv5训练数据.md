@@ -18,11 +18,10 @@ tags: [pytorch, YOLOv5, 训练] # add tag
 
 #### 2.1 在官网的开源yolo5项目的基础上进行构建
 
-1. git 克隆到本地仓库：`git clone https://github.com/xx/yolov5.git`
-2. 进入项目中，并安装需要的第三方依赖：`pip install -r requirements.txt`
-3. 新建一个原始数据的目录：：`mkdir ori_data`，将下载好的小麦数据集解压后放到项目。
-4. 创建输出一个文件输出目录：`mkdir wheat_data`，并在此目录下新建以下目录，如下图所示
-
+*  git 克隆到本地仓库：`git clone https://github.com/xx/yolov5.git`
+* 进入项目中，并安装需要的第三方依赖：`pip install -r requirements.txt`
+* 新建一个原始数据的目录：：`mkdir ori_data`，将下载好的小麦数据集解压后放到项目。
+* 创建输出一个文件输出目录：`mkdir wheat_data`，并在此目录下新建以下目录，如下图所示
 ```js
 ├─images
 │  ├─train
@@ -32,7 +31,7 @@ tags: [pytorch, YOLOv5, 训练] # add tag
     └─val
 ```
 
-5. 构建数据集，新建一个`munge_data.py`文件
+* 构建数据集，新建一个`munge_data.py`文件
 
 ```python
 import os
@@ -99,9 +98,11 @@ if __name__ == "__main__":
 
 ```
 
-6. 运行构建数据的py文件：`python munge_data.py`
-7. 这里可以看到在输出结果目录中，放入了需要的整理后的数据集
-8. 新建一个`wheat.yaml`yaml文件，指定模型训练时候的输入及其类别（注意这里冒号后面要加空格，yamal格式问题）
+* 运行构建数据的py文件：`python munge_data.py`
+
+* 这里可以看到在输出结果目录中，放入了需要的整理后的数据集
+
+* 新建一个`wheat.yaml`yaml文件，指定模型训练时候的输入及其类别（注意这里冒号后面要加空格，yamal格式问题）
 
 ```yaml
 train: wheat_data/images/train // 指定训练目录
@@ -110,13 +111,13 @@ nc: 1 // 指定类别
 names: ["wheat"]  // 指定类别名字
 ```
 
-9. 进行模型训练：
+* 进行模型训练：
 
 ```bash
 python3 train.py --img 1024 --batch 8 --epoch 100 --data wheat.yaml --cfg .\models\yolov5s.yaml --name wm
 ```
 
-10. 这里可能会报错（Dataloader中设置了多进程导致的），报错信息如下所示：
+* 这里可能会报错（Dataloader中设置了多进程导致的），报错信息如下所示：
 
 ```bash
 File "C:\soft\python3.7.9\lib\multiprocessing\reduction.py", line 60, in dump     ForkingPickler(file, protocol).dump(obj) BrokenPipeError: [Errno 32] Broken pipe
@@ -126,15 +127,16 @@ File "C:\soft\python3.7.9\lib\multiprocessing\reduction.py", line 60, in dump   
 
 ![](https://tva1.sinaimg.cn/large/0081Kckwgy1gk47ziddqvj30jg01vt8i.jpg)
 
-11. 可以查看本地tensorboard训练过程：`tensorboard --logdir=runs`
+* 可以查看本地tensorboard训练过程：`tensorboard --logdir=runs`
 
 ![](https://tva1.sinaimg.cn/large/0081Kckwgy1gk4804vrrkj310d0gajt5.jpg)
 
-12. 这里还可以使用coco数据集的[预训练模型](https://drive.google.com/drive/folders/1Drs_Aiu7xx6S-ix95f9kNsA6ueKRpN2J)进行训练，可能效果会更好
+* 这里还可以使用coco数据集的[预训练模型](https://drive.google.com/drive/folders/1Drs_Aiu7xx6S-ix95f9kNsA6ueKRpN2J)进行训练，可能效果会更好
 
 ```bash
 python3 train.py --img 1024 --batch 8 --epoch 100 --data wheat.yaml --cfg .\models\yolov5s.yaml --name wm --weights
 ```
 
-13. 将训练好的模型放到当前文件夹下：`cp runs/exp0_wm/weights/best.pt . `
-14. 选择测试图片的文件夹进行生成测试：`python detect.py --source ./test_data --weights best.pt `，这里可以看到新生成一个文件夹`inference/output`中就是测试后标记bbox后的图片。
+* 将训练好的模型放到当前文件夹下：`cp runs/exp0_wm/weights/best.pt . `
+
+* 选择测试图片的文件夹进行生成测试：`python detect.py --source ./test_data --weights best.pt `，这里可以看到新生成一个文件夹`inference/output`中就是测试后标记bbox后的图片。
