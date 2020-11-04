@@ -1,4 +1,12 @@
-### Window下搭建Tensorflow的C++环境
+---
+layout: post
+title: Window下搭建Tensorflow的C++环境
+date: 2020-10-26 00:00:00 +0300
+description:  Window下搭建Tensorflow的C++环境 # Add post description (optional)
+img: 2.jpeg # Add image post (optional)
+tags: [Windows, Tensorflow, C++] # add tag
+---
+
 
 > 参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn
 
