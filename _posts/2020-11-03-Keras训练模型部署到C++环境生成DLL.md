@@ -117,6 +117,8 @@ def pred_with_pt(img, pb_file_path):
 
 * VS2019部署（参考本人的上一篇博客）：新建一个动态链接库(DLL)，新建一个头文件`tf_clf.h`和源文件`tf_clf.cpp`，这里是生成DLL包（点击`生成` ==> `重新生成DLLTF`）
 
+* 这里要把`tensorflow_cc.dll`放到生成的`x64/release`里面
+
 * 这里还需要在Release属性页里配置`C/C++`的预处理器(防止后面编译时出现这种错误`tstring.h(350,40): error C2589: “(”:“::”`)：
 
 	```bash
@@ -315,6 +317,8 @@ NOMINMAX
   * 新建一个控制台的空项目，并将打包好的`DllTF.dll`和`DllTF.lib`复制到工程中
 
   * 配置属性管理器：这里需要在`Release | x64`添加之前配置好的`opencv_release.props`和`tf_release.props`。
+
+  * 这里要把`tensorflow_cc.dll`放到生成的`x64/release`里面
 
   * 新建一个头文件`tf_clf.h`
 
