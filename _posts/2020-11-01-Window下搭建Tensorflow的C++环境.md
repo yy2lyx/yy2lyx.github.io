@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Window下搭建Tensorflow的C++环境
-date: 2020-10-26 00:00:00 +0300
+date: 2020-11-01 00:00:00 +0300
 description:  Window下搭建Tensorflow的C++环境 # Add post description (optional)
 img: 2.jpeg # Add image post (optional)
 tags: [Windows, Tensorflow, C++] # add tag
@@ -120,7 +120,7 @@ Preconfigured Bazel build configs to DISABLE default on features:
 
 * 使用以下代码进行测试
 
-```C++
+```
 #include <iostream>
 #include <opencv2/highgui/highgui.hpp>
 #include<opencv2/opencv.hpp>
@@ -227,7 +227,7 @@ int main()
 
 #### 4.1 生成解决方案的时候报错无法打开包括文件：
 
-![](pic/1.png)
+![](https://tva1.sinaimg.cn/large/0081Kckwgy1gkelmo3blhj30gz01ia9t.jpg)
 
 解决方式：
 
@@ -235,13 +235,13 @@ int main()
 
 #### 4.2 生成解决方案的时候报错Link1120:
 
-![](pic/2.png)
+![](https://tva1.sinaimg.cn/large/0081Kckwgy1gkeln9lgpwj30zt01owec.jpg)
 
 解决方式：
 
 * 将vs2019上报错信息复制，cd到`tensorflow-master\tensorflow\tools\def_file_filter`(这里的tensorflow-master是自己下载tensorflow源码的地方），编辑`def_file_filter.py.tpl`文件：
 
-  ```python
+  ```bash
   # Header for the def file. (找到这一行代码)
       if args.target:
         def_fp.write("LIBRARY " + args.target + "\n")

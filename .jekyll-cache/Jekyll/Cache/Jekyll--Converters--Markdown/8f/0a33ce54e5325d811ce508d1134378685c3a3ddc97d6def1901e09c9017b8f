@@ -1,0 +1,420 @@
+I"dd<h3 id="一-准备工作">一. 准备工作</h3>
+
+<ul>
+  <li>在Windows上搭建完成Tensorflow的C++环境，这里参考本人的上一篇博客</li>
+  <li>在windows上部署opencv3的C++环境</li>
+  <li>python3的keras和tf2.X的环境：<code class="language-plaintext highlighter-rouge">pip3 install keras==2.4.3</code>和<code class="language-plaintext highlighter-rouge">pip3 install tensorflow==2.3.1</code></li>
+  <li>python3的opencv环境：<code class="language-plaintext highlighter-rouge">pip3 install opencv-python</code></li>
+</ul>
+
+<h3 id="二-python模型训练">二. python模型训练</h3>
+
+<blockquote>
+  <p>python模型构建：<a href="https://www.kaggle.com/tongpython/cat-and-dog">Kaggle猫狗分类</a></p>
+
+  <p>python完整代码放在本人的<a href="">git仓库</a>上面</p>
+</blockquote>
+
+<h4 id="21-模型训练保存h5格式的模型文件">2.1 模型训练，保存.h5格式的模型文件</h4>
+
+<p>在keras的<code class="language-plaintext highlighter-rouge">model.save()</code>模型保存的函数中，只支持2种保存方式：</p>
+
+<ul>
+  <li>
+    <p>.h5格式的文件进行保存模型整个结构及其权重。</p>
+  </li>
+  <li>
+    <p>以文件夹（包含assets  saved_model.pb  variables）来保存，模型架构和训练配置（包括优化器、损失和指标）存储在 <code class="language-plaintext highlighter-rouge">saved_model.pb</code> 中。权重保存在 <code class="language-plaintext highlighter-rouge">variables/</code> 目录下。</p>
+  </li>
+</ul>
+
+<p>因此使用.h5格式来存储模型结构及权重。</p>
+
+<h4 id="22-h5文件转pt文件">2.2 h5文件转pt文件</h4>
+
+<p>将训练好的模型以.h5格式进行存储，再通过转成.pt格式的模型文件，提供C++的tensorflow调用模型。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">load_model</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow.python.keras.backend</span> <span class="k">as</span> <span class="n">K</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="kn">import</span> <span class="n">graph_io</span>
+<span class="c1"># 针对tf2.x来说不支持freezegraph的，这里需要使用tf1的方式
+</span><span class="n">tf</span><span class="p">.</span><span class="n">compat</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">disable_eager_execution</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">freeze_session</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">keep_var_names</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">clear_devices</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">tensorflow.python.framework.graph_util</span> <span class="kn">import</span> <span class="n">convert_variables_to_constants</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">session</span><span class="p">.</span><span class="n">graph</span>
+    <span class="k">with</span> <span class="n">graph</span><span class="p">.</span><span class="n">as_default</span><span class="p">():</span>
+        <span class="n">freeze_var_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">op</span><span class="p">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tf</span><span class="p">.</span><span class="n">compat</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">global_variables</span><span class="p">()).</span><span class="n">difference</span><span class="p">(</span><span class="n">keep_var_names</span> <span class="ow">or</span> <span class="p">[]))</span>
+        <span class="n">output_names</span> <span class="o">=</span> <span class="n">output_names</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">output_names</span> <span class="o">+=</span> <span class="p">[</span><span class="n">v</span><span class="p">.</span><span class="n">op</span><span class="p">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tf</span><span class="p">.</span><span class="n">compat</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">global_variables</span><span class="p">()]</span>
+        <span class="n">input_graph_def</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">as_graph_def</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">clear_devices</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">input_graph_def</span><span class="p">.</span><span class="n">node</span><span class="p">:</span>
+                <span class="n">node</span><span class="p">.</span><span class="n">device</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="n">frozen_graph</span> <span class="o">=</span> <span class="n">convert_variables_to_constants</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">input_graph_def</span><span class="p">,</span>
+                                                      <span class="n">output_names</span><span class="p">,</span> <span class="n">freeze_var_names</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">frozen_graph</span>
+
+
+<span class="s">"""----------------------------------配置路径-----------------------------------"""</span>
+<span class="n">h5_model_path</span> <span class="o">=</span> <span class="s">'model/model.h5'</span>
+<span class="n">pb_model_name</span> <span class="o">=</span> <span class="s">'model.pt'</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="s">'.'</span>
+
+<span class="s">"""----------------------------------导入keras模型------------------------------"""</span>
+<span class="n">K</span><span class="p">.</span><span class="n">set_learning_phase</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">net_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">h5_model_path</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'input is :'</span><span class="p">,</span> <span class="n">net_model</span><span class="p">.</span><span class="nb">input</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'output is:'</span><span class="p">,</span> <span class="n">net_model</span><span class="p">.</span><span class="n">output</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="s">"""----------------------------------保存为.pb格式------------------------------"""</span>
+<span class="n">sess</span> <span class="o">=</span> <span class="n">K</span><span class="p">.</span><span class="n">get_session</span><span class="p">()</span>
+<span class="n">frozen_graph</span> <span class="o">=</span> <span class="n">freeze_session</span><span class="p">(</span><span class="n">K</span><span class="p">.</span><span class="n">get_session</span><span class="p">(),</span><span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="n">out</span><span class="p">.</span><span class="n">op</span><span class="p">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">net_model</span><span class="p">.</span><span class="n">outputs</span><span class="p">])</span>
+<span class="n">graph_io</span><span class="p">.</span><span class="n">write_graph</span><span class="p">(</span><span class="n">frozen_graph</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">pb_model_name</span><span class="p">,</span> <span class="n">as_text</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="23-测试pt模型文件">2.3 测试pt模型文件</h4>
+
+<p>对同一个图片分别利用.h5模型文件和.pt模型文件进行预测。.pt格式的模型预测代码如下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">pred_with_pt</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">pb_file_path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Graph</span><span class="p">().</span><span class="n">as_default</span><span class="p">():</span>
+        <span class="n">output_graph_def</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">compat</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">GraphDef</span><span class="p">()</span>
+
+        <span class="c1"># 打开.pb模型
+</span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pb_file_path</span><span class="p">,</span> <span class="s">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">output_graph_def</span><span class="p">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">())</span>
+            <span class="n">tensors</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">import_graph_def</span><span class="p">(</span><span class="n">output_graph_def</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">""</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"tensors:"</span><span class="p">,</span> <span class="n">tensors</span><span class="p">)</span>
+
+        <span class="c1"># 在一个session中去run一个前向
+</span>        <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">compat</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">compat</span><span class="p">.</span><span class="n">v1</span><span class="p">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+            <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+
+            <span class="n">op</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="n">graph</span><span class="p">.</span><span class="n">get_operations</span><span class="p">()</span>
+
+            <span class="n">input_x</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="n">graph</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="s">"conv2d_input:0"</span><span class="p">)</span>  <span class="c1"># 具体名称看上一段代码的input.name
+</span>            <span class="k">print</span><span class="p">(</span><span class="s">"input_X:"</span><span class="p">,</span> <span class="n">input_x</span><span class="p">)</span>
+
+            <span class="n">out_softmax</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="n">graph</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="s">"dense/Softmax:0"</span><span class="p">)</span>  <span class="c1"># 具体名称看上一段代码的output.name
+</span>            <span class="k">print</span><span class="p">(</span><span class="s">"Output:"</span><span class="p">,</span> <span class="n">out_softmax</span><span class="p">)</span>
+
+            <span class="n">img_out_softmax</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">out_softmax</span><span class="p">,</span>
+                                       <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">input_x</span><span class="p">:</span> <span class="n">img</span><span class="p">})</span>
+
+            <span class="k">return</span> <span class="n">img_out_softmax</span>
+</code></pre></div></div>
+
+<h3 id="三-c-模型预测">三. C++ 模型预测</h3>
+
+<h4 id="31-将模型预测类进行封装并生成动态链接库dll">3.1 将模型预测类进行封装并生成动态链接库DLL</h4>
+
+<ul>
+  <li>
+    <p>VS2019部署（参考本人的上一篇博客）：新建一个动态链接库(DLL)，新建一个头文件<code class="language-plaintext highlighter-rouge">tf_clf.h</code>和源文件<code class="language-plaintext highlighter-rouge">tf_clf.cpp</code>，这里是生成DLL包（点击<code class="language-plaintext highlighter-rouge">生成</code> ==&gt; <code class="language-plaintext highlighter-rouge">重新生成DLLTF</code>）</p>
+  </li>
+  <li>
+    <p>这里要把<code class="language-plaintext highlighter-rouge">tensorflow_cc.dll</code>放到生成的<code class="language-plaintext highlighter-rouge">x64/release</code>里面</p>
+  </li>
+  <li>
+    <p>这里还需要在Release属性页里配置<code class="language-plaintext highlighter-rouge">C/C++</code>的预处理器(防止后面编译时出现这种错误<code class="language-plaintext highlighter-rouge">tstring.h(350,40): error C2589: “(”:“::”</code>)：</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_XKEYCHECK_H
+NOMINMAX
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>头文件<code class="language-plaintext highlighter-rouge">tf_clf.h</code>中声明类的导出</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#pragma once
+#ifndef TF_CLF_H
+#endif // !TF_CLF_H
+
+
+#include &lt;fstream&gt;
+#include &lt;utility&gt;
+#include &lt;Eigen/Core&gt;
+#include &lt;Eigen/Dense&gt;
+#include &lt;iostream&gt;
+
+#include "tensorflow/cc/ops/const_op.h"
+#include "tensorflow/cc/ops/image_ops.h"
+#include "tensorflow/cc/ops/standard_ops.h"
+
+#include "tensorflow/core/framework/graph.pb.h"
+#include "tensorflow/core/framework/tensor.h"
+
+#include "tensorflow/core/graph/default_device.h"
+#include "tensorflow/core/graph/graph_def_builder.h"
+
+#include "tensorflow/core/lib/core/errors.h"
+#include "tensorflow/core/lib/core/stringpiece.h"
+#include "tensorflow/core/lib/core/threadpool.h"
+#include "tensorflow/core/lib/io/path.h"
+#include "tensorflow/core/lib/strings/stringprintf.h"
+
+#include "tensorflow/core/public/session.h"
+#include "tensorflow/core/util/command_line_flags.h"
+
+#include "tensorflow/core/platform/env.h"
+#include "tensorflow/core/platform/init_main.h"
+#include "tensorflow/core/platform/logging.h"
+#include "tensorflow/core/platform/types.h"
+
+#include "opencv2/opencv.hpp"
+
+using namespace tensorflow::ops;
+using namespace tensorflow;
+using namespace std;
+using namespace cv;
+using tensorflow::Flag;
+using tensorflow::Tensor;
+using tensorflow::Status;
+using tensorflow::string;
+using tensorflow::int32;
+
+class __declspec(dllexport) TFClf;
+class TFClf {
+private:
+vector&lt;float&gt; mean = { 103.939,116.779,123.68 };
+int resize_col = 224;
+int resize_row = 224;
+string input_tensor_name = "conv2d_input";
+string output_tensor_name = "dense/Softmax";
+Point draw_point = Point(50, 50);
+
+public:
+string image_path, model_path;
+TFClf(string img, string model) :image_path(img), model_path(model) {}
+void mat_to_tensor(Mat img, Tensor* output_tensor);
+Mat preprocess_img(Mat img);
+void model_pred();
+void show_result_pic(Mat img, int output_class_id, double output_prob);
+};
+</code></pre></div></div>
+
+<ul>
+  <li>源文件<code class="language-plaintext highlighter-rouge">tf_clf.cpp</code>完成类的具体实现，注意这里要<code class="language-plaintext highlighter-rouge">#include "pch.h"</code></li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include "pch.h"
+#include "tf_clf.h"
+
+
+Mat TFClf::preprocess_img(Mat img) {
+    //图像进行resize处理
+    resize(img, img, cv::Size(resize_col, resize_row));
+
+    //去均值
+    img.convertTo(img, CV_32FC3);
+    // 遍历所有的像素的每个通道，减去对应的均值（BGR这种顺序）
+    for (int row = 0; row &lt; img.rows; row++) {
+        for (int col = 0; col &lt; img.cols; col++) {
+            img.at&lt;Vec3f&gt;(row, col)[0] -= mean[0];
+            img.at&lt;Vec3f&gt;(row, col)[1] -= mean[1];
+            img.at&lt;Vec3f&gt;(row, col)[2] -= mean[2];
+        }
+    }
+    return img;
+}
+
+void TFClf::mat_to_tensor(Mat img, Tensor* output_tensor) {
+    //创建一个指向tensor的内容的指针
+    float* p = output_tensor-&gt;flat&lt;float&gt;().data();
+
+    //创建一个Mat，与tensor的指针绑定,改变这个Mat的值，就相当于改变tensor的值
+    cv::Mat tempMat(resize_row, resize_col, CV_32FC3, p);
+    img.convertTo(tempMat, CV_32FC3);
+}
+
+void TFClf::show_result_pic(Mat img, int output_class_id,double output_prob) {
+    string rs_string;
+    if (output_class_id == 0) {
+        rs_string = "Class:Dog Proba:" + to_string(output_prob);
+    }
+    else {
+        rs_string = "Class:Cat Proba:" + to_string(output_prob);
+    }
+    // 把label输出到图片中
+    cv::putText(img, rs_string, draw_point, FONT_HERSHEY_TRIPLEX, 0.8, cv::Scalar(255, 200, 200), 2, CV_AA);
+    cv::imshow("result", img);
+    cv::waitKey(0);
+}
+
+void TFClf::model_pred() {
+    /*--------------------------------创建session------------------------------*/
+    Session* session;
+    Status status = NewSession(SessionOptions(), &amp;session);//创建新会话Session
+
+    /*--------------------------------从pb文件中读取模型--------------------------------*/
+    GraphDef graphdef; //Graph Definition for current model
+
+    Status status_load = ReadBinaryProto(Env::Default(), model_path, &amp;graphdef); //从pb文件中读取图模型;
+    if (!status_load.ok()) {
+        std::cout &lt;&lt; "ERROR: Loading model failed..." &lt;&lt; model_path &lt;&lt; std::endl;
+        std::cout &lt;&lt; status_load.ToString() &lt;&lt; "\n";
+    }
+    Status status_create = session-&gt;Create(graphdef); //将模型导入会话Session中;
+    if (!status_create.ok()) {
+        std::cout &lt;&lt; "ERROR: Creating graph in session failed..." &lt;&lt; status_create.ToString() &lt;&lt; std::endl;
+    }
+    std::cout &lt;&lt; "&lt;----Successfully created session and load graph.-------&gt;" &lt;&lt; endl;
+
+    /*---------------------------------载入测试图片-------------------------------------*/
+    std::cout &lt;&lt; endl &lt;&lt; "&lt;------------loading test_image--------------&gt;" &lt;&lt; endl;
+    Mat img = imread(image_path);
+
+
+    if (img.empty())
+    {
+        std::cout &lt;&lt; "can't open the image!!!!!!!" &lt;&lt; endl;
+    }
+    // 图像预处理
+    Mat resize_img;
+    resize_img = preprocess_img(img);
+    //创建一个tensor作为输入网络的接口
+    Tensor resized_tensor(DT_FLOAT, TensorShape({ 1,resize_row,resize_col,3 }));
+
+    //将Opencv的Mat格式的图片存入tensor
+    mat_to_tensor(resize_img, &amp;resized_tensor);
+
+    /*-----------------------------------用网络进行测试-----------------------------------------*/
+    std::cout &lt;&lt; endl &lt;&lt; "&lt;-------------Running the model with test_image---------------&gt;" &lt;&lt; endl;
+    //前向运行，输出结果一定是一个tensor的vector
+    vector&lt;tensorflow::Tensor&gt; outputs;
+    string output_node = output_tensor_name;
+    Status status_run = session-&gt;Run({ {input_tensor_name, resized_tensor} }, { output_node }, {}, &amp;outputs);
+
+    if (!status_run.ok()) {
+        std::cout &lt;&lt; "ERROR: RUN failed..." &lt;&lt; std::endl;
+        std::cout &lt;&lt; status_run.ToString() &lt;&lt; "\n";
+    }
+    //把输出值给提取出来
+    Tensor t = outputs[0];                   // Fetch the first tensor
+    auto tmap = t.tensor&lt;float, 2&gt;();        // Tensor Shape: [batch_size, target_class_num]
+    int output_dim = t.shape().dim_size(1);  // Get the target_class_num from 1st dimension
+    // Argmax: Get Final Prediction Label and Probability
+    int output_class_id = -1;
+    double output_prob = 0.0;
+    for (int j = 0; j &lt; output_dim; j++)
+    {
+        std::cout &lt;&lt; "Class " &lt;&lt; j &lt;&lt; " prob:" &lt;&lt; tmap(0, j) &lt;&lt; "," &lt;&lt; std::endl;
+        if (tmap(0, j) &gt;= output_prob) {
+            output_class_id = j;
+            output_prob = tmap(0, j);
+        }
+    }
+    // 展示图片结果
+    show_result_pic(img, output_class_id, output_prob);
+
+}
+</code></pre></div></div>
+
+<h4 id="32-新建一个项目测试dll">3.2 新建一个项目测试DLL</h4>
+
+<ul>
+  <li>
+    <p>新建一个控制台的空项目，并将打包好的<code class="language-plaintext highlighter-rouge">DllTF.dll</code>和<code class="language-plaintext highlighter-rouge">DllTF.lib</code>复制到工程中</p>
+  </li>
+  <li>
+    <p>配置属性管理器：这里需要在<code class="language-plaintext highlighter-rouge">Release | x64</code>添加之前配置好的<code class="language-plaintext highlighter-rouge">opencv_release.props</code>和<code class="language-plaintext highlighter-rouge">tf_release.props</code>。</p>
+  </li>
+  <li>
+    <p>这里要把<code class="language-plaintext highlighter-rouge">tensorflow_cc.dll</code>放到生成的<code class="language-plaintext highlighter-rouge">x64/release</code>里面</p>
+  </li>
+  <li>
+    <p>新建一个头文件<code class="language-plaintext highlighter-rouge">tf_clf.h</code></p>
+  </li>
+</ul>
+
+<pre><code class="language-C++">#pragma once
+#ifndef TF_CLF_H
+
+#endif // !TF_CLF_H
+
+#pragma comment(lib,"DllTF.lib")
+class __declspec(dllexport) TFClf;
+
+#include &lt;fstream&gt;
+#include &lt;utility&gt;
+#include &lt;Eigen/Core&gt;
+#include &lt;Eigen/Dense&gt;
+#include &lt;iostream&gt;
+
+#include "tensorflow/cc/ops/const_op.h"
+#include "tensorflow/cc/ops/image_ops.h"
+#include "tensorflow/cc/ops/standard_ops.h"
+
+#include "tensorflow/core/framework/graph.pb.h"
+#include "tensorflow/core/framework/tensor.h"
+
+#include "tensorflow/core/graph/default_device.h"
+#include "tensorflow/core/graph/graph_def_builder.h"
+
+#include "tensorflow/core/lib/core/errors.h"
+#include "tensorflow/core/lib/core/stringpiece.h"
+#include "tensorflow/core/lib/core/threadpool.h"
+#include "tensorflow/core/lib/io/path.h"
+#include "tensorflow/core/lib/strings/stringprintf.h"
+
+#include "tensorflow/core/public/session.h"
+#include "tensorflow/core/util/command_line_flags.h"
+
+#include "tensorflow/core/platform/env.h"
+#include "tensorflow/core/platform/init_main.h"
+#include "tensorflow/core/platform/logging.h"
+#include "tensorflow/core/platform/types.h"
+
+#include "opencv2/opencv.hpp"
+
+using namespace tensorflow::ops;
+using namespace tensorflow;
+using namespace std;
+using namespace cv;
+using tensorflow::Flag;
+using tensorflow::Tensor;
+using tensorflow::Status;
+using tensorflow::string;
+using tensorflow::int32;
+
+
+
+class TFClf {
+private:
+    vector&lt;float&gt; mean = { 103.939,116.779,123.68 };
+    int resize_col = 224;
+    int resize_row = 224;
+    string input_tensor_name = "conv2d_input";
+    string output_tensor_name = "dense/Softmax";
+    Point draw_point = Point(50, 50);
+
+public:
+    string image_path, model_path;
+    TFClf(string img, string model) :image_path(img), model_path(model) {}
+    void mat_to_tensor(Mat img, Tensor* output_tensor);
+    Mat preprocess_img(Mat img);
+    void model_pred();
+    void show_result_pic(Mat img, int output_class_id, double output_prob);
+};
+</code></pre>
+
+<ul>
+  <li>新建一个源文件<code class="language-plaintext highlighter-rouge">main.cpp</code></li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># include "tf_clf.h"
+
+int main() {
+string model_path = "D:/yeyan/pycharm_project/dogcat/model/model.pt";
+string img_path = "D:/yeyan/pycharm_project/dogcat/data/test_set/test_set/cats/cat.4001.jpg";
+TFClf clf = TFClf(img_path, model_path);
+clf.model_pred();
+}
+</code></pre></div></div>
+
+:ET

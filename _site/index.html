@@ -109,6 +109,30 @@
   
 <article class="post">
   
+    <a class="post-thumbnail" style="background-image: url(/assets/img/1.jpeg)" href="/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL/"></a>
+  
+  <div class="post-content">
+    <h2 class="post-title"><a href="/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL/">Keras训练模型部署到C++环境并生成DLL</a></h2>
+    <p>一. 准备工作 在Windows上搭建完成Tensorflow的C++环境，这里参考本人的上一篇博客 在windows上部署opencv3的C++环境 python3的keras和tf2.X的环境：pip3 install keras==2.4.3和pip3 install tensorflow==2.3.1 python3的opencv环境：pip3 install opencv-python 二. python模型训练 python模型构建：Kaggle猫狗分类...</p>
+    <span class="post-date">2020, Nov 03&nbsp;&nbsp;&nbsp;—&nbsp;</span>
+    <span class="post-words">6 minute read</span>
+  </div>
+</article>
+
+<article class="post">
+  
+    <a class="post-thumbnail" style="background-image: url(/assets/img/2.jpeg)" href="/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83/"></a>
+  
+  <div class="post-content">
+    <h2 class="post-title"><a href="/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83/">Window下搭建Tensorflow的C++环境</a></h2>
+    <p>参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn 一. 下载需要的软件 bazel：Google 的一款可再生的代码构建工具，类似于Cmake。使用scoop进行安装：scoop install bazel python3.7：这里最好用pip 安装下必要的第三方包，比如tensorflow,kears,numpy等。 下载官方源码：git clone https://github.com/tensorflow/tensorflow.git 二. 进行bazel源码编译 2.1...</p>
+    <span class="post-date">2020, Nov 01&nbsp;&nbsp;&nbsp;—&nbsp;</span>
+    <span class="post-words">4 minute read</span>
+  </div>
+</article>
+
+<article class="post">
+  
     <a class="post-thumbnail" style="background-image: url(/assets/img/mir.png)" href="/pytorch%E4%BD%BF%E7%94%A8YOLOv5%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE/"></a>
   
   <div class="post-content">
@@ -175,30 +199,6 @@
     <h2 class="post-title"><a href="/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83/">Xcode搭建Opencv3环境</a></h2>
     <p>1. 下载opencv 使用简单粗暴的方式——brew进行安装：brew install opencv@3，注意这里通过brew下载的opencv3的地址为：/usr/local/Cellar/opencv@3/3.4.9_1（后面配置include和lib有用）。 这里存在很大的问题：brew除了下载opencv以外还需要下载opencv的依赖包（很多），这里强力推荐换brew的镜像源（本人用的清华的，当然也可以用中科大的）。具体配置方式如下： 第一步：替换brew.git： cd "$(brew --repo)" git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git...</p>
     <span class="post-date">2020, Oct 13&nbsp;&nbsp;&nbsp;—&nbsp;</span>
-    <span class="post-words">1 minute read</span>
-  </div>
-</article>
-
-<article class="post">
-  
-    <a class="post-thumbnail" style="background-image: url(/assets/img/question.jpg)" href="/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/"></a>
-  
-  <div class="post-content">
-    <h2 class="post-title"><a href="/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/">面试总结</a></h2>
-    <p>面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。 一.数据处理 海量数据： （1）数据量太大，无法短时间内处理完成 （2）无法一次性将数据放入内存中。 1. 1缺失值处理 填充固定值：选取某个固定值/默认值填充缺失值。 填充均值：对每一列的缺失值，填充当列的均值。 填充中位数：对每一列的缺失值，填充当列的中位数。 填充众数：对每一列的缺失值，填充当列的众数。由于存在某列缺失值过多，众数为nan的情况，因此这里取的是每列删除掉nan值后的众数。 填充上下条的数据：对每一条数据的缺失值，填充其上下条数据的值。 填充插值得到的数据：用插值法拟合出缺失的数据，然后进行填充。插值是离散函数逼近的重要方法，利用它可通过函数在有限个点处的取值状况，估算出函数在其他点处的近似值。 二.机器学习 2.1...</p>
-    <span class="post-date">2020, Jun 12&nbsp;&nbsp;&nbsp;—&nbsp;</span>
-    <span class="post-words">3 minute read</span>
-  </div>
-</article>
-
-<article class="post">
-  
-    <a class="post-thumbnail" style="background-image: url(/assets/img/how-to-start.jpg)" href="/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"></a>
-  
-  <div class="post-content">
-    <h2 class="post-title"><a href="/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/">Postman和Jmeter进行上传文件及压力测试</a></h2>
-    <p>Postman和Jmeter进行上传文件及压力测试 postman下载链接：https://www.postman.com/downloads/ Jmeter下载链接：http://jmeter.apache.org/download_jmeter.cgi flask代码地址：https://github.com/yy2lyx/FlaskTutorial/tree/master/Flask-7-upload windows下scoop下载jdk(这里是由于Jmeter需要)：scoop install ojdkbuild 一. 构建接口的flask服务 其中包含前端表单index.html文件如下和flask的后端 &lt;!DOCTYPE html&gt; &lt;html lang="en"&gt; &lt;head&gt;...</p>
-    <span class="post-date">2020, Mar 23&nbsp;&nbsp;&nbsp;—&nbsp;</span>
     <span class="post-words">1 minute read</span>
   </div>
 </article>

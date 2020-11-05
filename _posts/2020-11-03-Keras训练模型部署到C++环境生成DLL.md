@@ -128,7 +128,7 @@ NOMINMAX
 
 * 头文件`tf_clf.h`中声明类的导出
 
-```C++
+```
 #pragma once
 #ifndef TF_CLF_H
 #endif // !TF_CLF_H
@@ -198,7 +198,7 @@ void show_result_pic(Mat img, int output_class_id, double output_prob);
 
 * 源文件`tf_clf.cpp`完成类的具体实现，注意这里要`#include "pch.h"`
 
-```C++
+```
 #include "pch.h"
 #include "tf_clf.h"
 
@@ -322,7 +322,7 @@ void TFClf::model_pred() {
 
   * 新建一个头文件`tf_clf.h`
 
-```C++
+```
 #pragma once
 #ifndef TF_CLF_H
 
@@ -396,7 +396,7 @@ public:
 
 * 新建一个源文件`main.cpp`
 
-```C++
+```
 # include "tf_clf.h"
 
 int main() {
