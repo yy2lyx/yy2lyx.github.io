@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Window下搭建Tensorflow的C++环境 - 李小肥的YY</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="李小肥的YY" property="og:site_name">
+  
+    <meta content="Window下搭建Tensorflow的C++环境" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="Window下搭建Tensorflow的C++环境" property="og:description">
+  
+  
+    <meta content="http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83/" property="og:url">
+  
+  
+    <meta content="2020-11-01T05:00:00+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/2.jpeg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="Windows" property="article:tag">
+    
+    <meta content="Tensorflow" property="article:tag">
+    
+    <meta content="C++" property="article:tag">
+    
+  
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Window下搭建Tensorflow的C++环境">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83/">
+  
+  
+    <meta name="twitter:description" content="Window下搭建Tensorflow的C++环境">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/2.jpeg">
+  
+
+	<meta name="description" content="Window下搭建Tensorflow的C++环境">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700|Lato:300,400,700&display=swap" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/yy.jpg" alt="李小肥的YY"></a>
+      </div>
+      <div class="author-name">李小肥的YY</div>
+      <p>爱好机器学习，深度学习，NLP和CV。</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/yy2lyx/" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1282442333@qq.com# add your Email address"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2020 &copy; 李小肥的YY</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <figure>
+        <img class="page-image" src=/assets/img/2.jpeg alt="Window下搭建Tensorflow的C++环境">
+        
+      </figure>
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Window下搭建Tensorflow的C++环境</h1>
+        <div class="page-date"><span>2020, Nov 01&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <blockquote>
+  <p>参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn</p>
+</blockquote>
+
+<h3 id="一-下载需要的软件">一. 下载需要的软件</h3>
+
+<ul>
+  <li>bazel：Google 的一款可再生的代码构建工具，类似于Cmake。使用scoop进行安装：<code class="language-plaintext highlighter-rouge">scoop install bazel</code></li>
+  <li>python3.7：这里最好用pip 安装下必要的第三方包，比如<code class="language-plaintext highlighter-rouge">tensorflow,kears,numpy</code>等。</li>
+  <li>下载官方源码：<code class="language-plaintext highlighter-rouge">git clone https://github.com/tensorflow/tensorflow.git</code></li>
+</ul>
+
+<h3 id="二-进行bazel源码编译">二. 进行bazel源码编译</h3>
+
+<h4 id="21-配置build">2.1 配置build</h4>
+
+<ul>
+  <li>cd到源码目录：<code class="language-plaintext highlighter-rouge">cd tensorflow-master</code></li>
+  <li>通过在 TensorFlow 源代码树的根目录下运行以下命令来配置系统构建：<code class="language-plaintext highlighter-rouge">python3 ./configure.py</code></li>
+  <li>这里选择的是cpu版本的，每个配置的选择如下：</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You have bazel 3.7.0 installed.
+Please specify the location of python. <span class="o">[</span>Default is C:<span class="se">\s</span>oft<span class="se">\p</span>ython3.7.9<span class="se">\p</span>ython3.exe]:
+
+
+Found possible Python library paths:
+  C:<span class="se">\s</span>oft<span class="se">\p</span>ython3.7.9<span class="se">\l</span>ib<span class="se">\s</span>ite-packages
+Please input the desired Python library path to use.  Default is <span class="o">[</span>C:<span class="se">\s</span>oft<span class="se">\p</span>ython3.7.9<span class="se">\l</span>ib<span class="se">\s</span>ite-packages]
+
+Do you wish to build TensorFlow with ROCm support? <span class="o">[</span>y/N]: n
+
+Do you wish to build TensorFlow with CUDA support? <span class="o">[</span>y/N]: n
+No CUDA support will be enabled <span class="k">for </span>TensorFlow.
+
+Please specify optimization flags to use during compilation when bazel option <span class="s2">"--config=opt"</span> is specified <span class="o">[</span>Default is /arch:AVX]:
+
+
+Would you like to override eigen strong inline <span class="k">for </span>some C++ compilation to reduce the compilation <span class="nb">time</span>? <span class="o">[</span>Y/n]: y
+Eigen strong inline overridden.
+
+Would you like to interactively configure ./WORKSPACE <span class="k">for </span>Android builds? <span class="o">[</span>y/N]: n
+Not configuring the WORKSPACE <span class="k">for </span>Android builds.
+
+Preconfigured Bazel build configs. You can use any of the below by adding <span class="s2">"--config=&lt;&gt;"</span> to your build command. See .bazelrc <span class="k">for </span>more details.
+        <span class="nt">--config</span><span class="o">=</span>mkl            <span class="c"># Build with MKL support.</span>
+        <span class="nt">--config</span><span class="o">=</span>mkl_aarch64    <span class="c"># Build with oneDNN support for Aarch64.</span>
+        <span class="nt">--config</span><span class="o">=</span>monolithic     <span class="c"># Config for mostly static monolithic build.</span>
+        <span class="nt">--config</span><span class="o">=</span>numa           <span class="c"># Build with NUMA support.</span>
+        <span class="nt">--config</span><span class="o">=</span>dynamic_kernels        <span class="c"># (Experimental) Build kernels into separate shared objects.</span>
+        <span class="nt">--config</span><span class="o">=</span>v2             <span class="c"># Build TensorFlow 2.x instead of 1.x.</span>
+Preconfigured Bazel build configs to DISABLE default on features:
+        <span class="nt">--config</span><span class="o">=</span>noaws          <span class="c"># Disable AWS S3 filesystem support.</span>
+        <span class="nt">--config</span><span class="o">=</span>nogcp          <span class="c"># Disable GCP support.</span>
+        <span class="nt">--config</span><span class="o">=</span>nohdfs         <span class="c"># Disable HDFS support.</span>
+        <span class="nt">--config</span><span class="o">=</span>nonccl         <span class="c"># Disable NVIDIA NCCL support.</span>
+</code></pre></div></div>
+
+<h4 id="22-bazel编译">2.2 bazel编译</h4>
+
+<ul>
+  <li>
+    <p>修改bazel中间文件存储的路径（<strong>磁盘可用空间 Release 版本 &gt;= 16G , Debug版本 &gt;= 40G</strong> 编译的中间文件默认会放到 <strong>C:\用户\你的账号名\ _bazel_你的账号名</strong> 下. C 盘可能没有那么大的空间, 所以要改一下输出文件的路径），打开tensorflow文件夹，<code class="language-plaintext highlighter-rouge">vim .bazelrc</code>，在最后一行加上<code class="language-plaintext highlighter-rouge">startup --output_user_root=D:/tf</code>，如果不修改路径，可能会编译到一半就卡死。</p>
+  </li>
+  <li>bazel编译动态链接库命令（这里加上使用的最大内存）：
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> bazel build <span class="nt">--config</span><span class="o">=</span>opt //tensorflow:tensorflow_cc.dll <span class="nt">--local_ram_resources</span><span class="o">=</span>1024
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>编译的过程可能会很长，千万不要以为有问题就<code class="language-plaintext highlighter-rouge">Ctrl C</code>了（分2个过程：下中间资源+编译），编译完成后会出现</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Build completed successfully
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>编译好的库文件在<code class="language-plaintext highlighter-rouge">tensorflow-master\bazel-bin\tensorflow</code>目录下，分别是<code class="language-plaintext highlighter-rouge">tensorflow_cc.dll</code>和<code class="language-plaintext highlighter-rouge">tensorflow_cc.dll.if.lib</code>。</p>
+  </li>
+  <li>
+    <p>bazel编译头文件命令：</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> bazel build <span class="nt">--config</span><span class="o">=</span>opt //tensorflow:install_headers <span class="nt">--local_ram_resources</span><span class="o">=</span>1024
+</code></pre></div>    </div>
+  </li>
+  <li>编译好的头文件在<code class="language-plaintext highlighter-rouge">tensorflow-master\bazel-bin\tensorflow\include</code>目录下。</li>
+</ul>
+
+<h3 id="三-新建项目测试">三. 新建项目测试</h3>
+
+<blockquote>
+  <p>注意：</p>
+
+  <p>​	1. 这里编译的是tensorflow的release版本，因此构建项目的时候把环境从debug变成release</p>
+
+  <p>​	2. 在新建项目属性表（这里无论是opencv还是tensorflow）中，要选择release版本的x64（64位）</p>
+</blockquote>
+
+<ul>
+  <li>新建一个项目</li>
+  <li>在项目中新建一个文件夹存放之前编译好的头文件，库文件，具体结构如下所示</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">├──</span> <span class="nx">tf_test</span><span class="c1">// 整个项目</span>
+	<span class="err">├──</span> <span class="nx">x64</span> <span class="c1">// 这里是生成解决方案得到的</span>
+	<span class="err">├──</span> <span class="nx">tf</span> <span class="c1">// 这里存放所有编译好的文件</span>
+    	<span class="err">├──</span><span class="nx">bin</span> <span class="c1">// 存放dll动态库文件</span>
+        	<span class="err">├──</span><span class="nx">tensorflow_cc</span><span class="p">.</span><span class="nx">dll</span>
+        <span class="err">├──</span><span class="nx">lib</span> <span class="c1">// 存放静态库文件</span>
+        	<span class="err">├──</span><span class="nx">tensorflow_cc</span><span class="p">.</span><span class="nx">lib</span>
+        <span class="err">├──</span><span class="nx">include</span> <span class="c1">// 直接是tensorflow编译好的include目录</span>
+    <span class="err">├──</span><span class="nx">main</span><span class="p">.</span><span class="nx">cpp</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>属性管理器 —— Release X64 —— 添加新项目属性表（如果代码中还需要添加opencv库的可以参考本人<a href="https://yy2lyx.github.io/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83/">另一篇博客</a>）</p>
+
+    <ul>
+      <li>
+        <p>VC++目录中的包含目录中添加：<code class="language-plaintext highlighter-rouge">D:tf_test\tf\include</code></p>
+      </li>
+      <li>VC++目录中的库目录中添加：<code class="language-plaintext highlighter-rouge">D:tf_test\tf\lib</code></li>
+      <li>链接器——输入——附加依赖项中添加：<code class="language-plaintext highlighter-rouge">tensorflow_cc.lib</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>选择项目为release和x64平台。</p>
+  </li>
+  <li>
+    <p>使用以下代码进行测试</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;iostream&gt;
+#include &lt;opencv2/highgui/highgui.hpp&gt;
+#include&lt;opencv2/opencv.hpp&gt;
+#include"tensorflow/core/public/session.h"
+#include"tensorflow/core/platform/env.h"
+
+using namespace std;
+using namespace tensorflow;
+using namespace cv;
+
+int main()
+{
+    const string model_path = "D:\\code\\yinbao_face\\live.pb";
+    const string image_path = "0.jpg";
+
+
+    Mat img = imread(image_path);
+    cvtColor(img, img, COLOR_BGR2RGB);
+    resize(img, img, Size(112, 112), 0, 0, INTER_NEAREST);
+    int height = img.rows;
+    int width = img.cols;
+    int depth = img.channels();
+
+    // 图像预处理
+    img = (img - 0) / 255.0;
+   // img.convertTo(img, CV_32FC3, 1.0 / 255, 0);
+
+    // 取图像数据，赋给tensorflow支持的Tensor变量中
+    const float* source_data = (float*)img.data;
+    Tensor input_tensor(DT_FLOAT, TensorShape({ 1, height, width, 3 }));
+    auto input_tensor_mapped = input_tensor.tensor&lt;float, 4&gt;();
+
+    for (int i = 0; i &lt; height; i++) {
+        const float* source_row = source_data + (i * width * depth);
+        for (int j = 0; j &lt; width; j++) {
+            const float* source_pixel = source_row + (j * depth);
+            for (int c = 0; c &lt; depth; c++) {
+                const float* source_value = source_pixel + c;
+                input_tensor_mapped(0, i, j, c) = *source_value;
+                //printf("%d");
+            }
+        }
+    }
+
+    Session* session;
+
+    Status status = NewSession(SessionOptions(), &amp;session);
+    if (!status.ok()) {
+        cerr &lt;&lt; status.ToString() &lt;&lt; endl;
+        return -1;
+    }
+    else {
+        cout &lt;&lt; "Session created successfully" &lt;&lt; endl;
+    }
+    GraphDef graph_def;
+    Status status_load = ReadBinaryProto(Env::Default(), model_path, &amp;graph_def);
+    if (!status_load.ok()) {
+        cerr &lt;&lt; status_load.ToString() &lt;&lt; endl;
+        return -1;
+    }
+    else {
+        cout &lt;&lt; "Load graph protobuf successfully" &lt;&lt; endl;
+    }
+
+    // 将graph加载到session
+    Status status_create = session-&gt;Create(graph_def);
+    if (!status_create.ok()) {
+        cerr &lt;&lt; status_create.ToString() &lt;&lt; endl;
+        return -1;
+    }
+    else {
+        cout &lt;&lt; "Add graph to session successfully" &lt;&lt; endl;
+    }
+
+    cout &lt;&lt; input_tensor.DebugString() &lt;&lt; endl; //打印输入
+    vector&lt;pair&lt;string, Tensor&gt;&gt; inputs = {
+        { "input_1:0", input_tensor },  //input_1:0为输入节点名
+    };
+
+    // 输出outputs
+    vector&lt;Tensor&gt; outputs;
+    vector&lt;string&gt; output_nodes;
+    output_nodes.push_back("output_1:0");  //输出有多个节点的话就继续push_back
+
+    double start = clock();
+    // 运行会话，最终结果保存在outputs中
+    Status status_run = session-&gt;Run({ inputs }, { output_nodes }, {}, &amp;outputs);
+    Tensor boxes = move(outputs.at(0));
+    cout &lt;&lt; boxes.DebugString() &lt;&lt; endl; //打印输出
+
+    double end = clock();
+    cout &lt;&lt; "time = " &lt;&lt; (end - start) &lt;&lt; "\n";
+    if (!status_run.ok()) {
+        cerr &lt;&lt; status_run.ToString() &lt;&lt; endl;
+        return -1;
+    }
+    else {
+        //cout &lt;&lt; "Run session successfully" &lt;&lt; endl;
+    }
+}
+</code></pre></div></div>
+
+<h3 id="四-测试中出现的问题">四. 测试中出现的问题</h3>
+
+<h4 id="41-生成解决方案的时候报错无法打开包括文件">4.1 生成解决方案的时候报错无法打开包括文件：</h4>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gkelmo3blhj30gz01ia9t.jpg" alt="" /></p>
+
+<p>解决方式：</p>
+
+<ul>
+  <li>在本地的通过python pip安装后的tensorflow文件夹中（<code class="language-plaintext highlighter-rouge">C:\soft\python3.7.9\Lib\site-packages\tensorflow\include</code>）将<code class="language-plaintext highlighter-rouge">google</code>文件夹复制到<code class="language-plaintext highlighter-rouge">D:tf_test\tf\include</code>下面，即可解决</li>
+</ul>
+
+<h4 id="42-生成解决方案的时候报错link1120">4.2 生成解决方案的时候报错Link1120:</h4>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gkeln9lgpwj30zt01owec.jpg" alt="" /></p>
+
+<p>解决方式：</p>
+
+<ul>
+  <li>
+    <p>将vs2019上报错信息复制，cd到<code class="language-plaintext highlighter-rouge">tensorflow-master\tensorflow\tools\def_file_filter</code>(这里的tensorflow-master是自己下载tensorflow源码的地方），编辑<code class="language-plaintext highlighter-rouge">def_file_filter.py.tpl</code>文件：</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Header for the def file. (找到这一行代码)</span>
+    <span class="k">if </span>args.target:
+      def_fp.write<span class="o">(</span><span class="s2">"LIBRARY "</span> + args.target + <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+    def_fp.write<span class="o">(</span><span class="s2">"EXPORTS</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+    def_fp.write<span class="o">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2"> ??1OpDef@tensorflow@@UEAA@XZ</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+    <span class="c"># 下面两个就是复制的错误信息</span>
+    def_fp.write<span class="o">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2"> ?NewSession@tensorflow@@YA?AVStatus@1@AEBUSessionOptions@1@PEAPEAVSession@1@@Z</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+    def_fp.write<span class="o">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2"> ??0SessionOptions@tensorflow@@QEAA@XZ</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>重新编译DLL，头文件（虽然很麻烦，但是还是得做啊）</p>
+  </li>
+</ul>
+
+<h4 id="43-有太多的错误导致intellisense引擎无法正常工作其中有些错误无法在编辑器">4.3 有太多的错误导致IntelliSense引擎无法正常工作,其中有些错误无法在编辑器</h4>
+
+<p>解决方式：</p>
+
+<ul>
+  <li>在项目-&gt;属性-&gt;配置属性-&gt;C/C++-&gt;预处理器-&gt;预处理器定义中加入<code class="language-plaintext highlighter-rouge">_XKEYCHECK_H</code>就消失了</li>
+</ul>
+
+<h4 id="44-找不到tensorflow_ccdll文件">4.4 找不到tensorflow_cc.dll文件</h4>
+
+<p>解决方式：</p>
+
+<ul>
+  <li>将<code class="language-plaintext highlighter-rouge">tensorflow_cc.dll</code>文件复制到<code class="language-plaintext highlighter-rouge">x64/release</code>文件夹下。</li>
+</ul>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Window下搭建Tensorflow的C++环境&url=http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#Windows" class="tag">&#35; Windows</a>
+          
+            <a href="/tags#Tensorflow" class="tag">&#35; Tensorflow</a>
+          
+            <a href="/tags#C++" class="tag">&#35; C++</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-brown.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
