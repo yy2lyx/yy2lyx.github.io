@@ -10,7 +10,7 @@ tags: [keras, 部署, C++] # add tag
 
 ### 一. 准备工作
 
-* 在Windows上搭建完成Tensorflow的C++环境，这里参考本人的上一篇博客
+* 在Windows上搭建完成Tensorflow的C++环境，这里参考本人的上一篇[博客](https://yy2lyx.github.io/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83/)
 * 在windows上部署opencv3的C++环境
 * python3的keras和tf2.X的环境：`pip3 install keras==2.4.3`和`pip3 install tensorflow==2.3.1`
 * python3的opencv环境：`pip3 install opencv-python`
