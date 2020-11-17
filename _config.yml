@@ -1,6 +1,6 @@
 title: 李小肥的YY
 description: > # this means to ignore newlines until "baseurl:"
-  欢迎来到李小肥的YY的站点，这里主要是机器学习方面的文章哦！
+  感谢各位看官光临李小肥的YY的站点！
 permalink: ':title/'
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
@@ -9,7 +9,7 @@ site-twitter: #if your site has a twitter account, enter it here
 # Author Settings
 author: 李小肥的YY # add your name
 author-img: yy.jpg # add your photo
-about-author: 爱好机器学习，深度学习，NLP和CV。 # add description
+about-author: 专注于机器学习，深度学习，NLP和CV。 # add description
 social-twitter: # add your Twitter handle
 social-facebook: # add your Facebook handle
 social-github: yy2lyx/ # add your Github handle
