@@ -15,7 +15,7 @@ cover: assets/images/blog-cover.jpg
 logo: 
 logo_dark: assets/images/yy.jpg
 favicon: assets/images/yy.jpg
-CNAME: cname.vercel-dns.com #add cname for website to be created
+CNAME: www.lixiaofei2yy.website #add cname for website to be created
 
 # Social info
 navigation: True # show the navbar links
@@ -76,8 +76,8 @@ branch: master
 relative_source: ../jasper2/
 # relative_source: ../
 destination: ../jasper2-pages/
-production_url:  www.lixiaofei2yy.website
-source_url:  https://https://github.com/yy2lyx/yy2lyx.github.io
+production_url: www.lixiaofei2yy.website
+source_url:  https://github.com/yy2lyx/yy2lyx.github.io
 
 exclude:
   - assets/css
