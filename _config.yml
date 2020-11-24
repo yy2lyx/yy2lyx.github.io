@@ -15,7 +15,7 @@ cover: assets/images/blog-cover.jpg
 logo: 
 logo_dark: assets/images/yy.jpg
 favicon: assets/images/yy.jpg
-CNAME:  #add cname for website to be created
+CNAME: lixiaofei2yy.website #add cname for website to be created
 
 # Social info
 navigation: True # show the navbar links
