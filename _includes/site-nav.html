@@ -13,11 +13,11 @@
     </div>
     <div class="site-nav-right">
         <div class="social-links">
-            {% if site.facebook %}
-                <a class="social-link social-link-fb" href="https://facebook.com/{{ site.facebook }}" target="_blank" rel="noopener">{% include facebook.html %}</a>
+            {% if site.github %}
+                <a class="social-link social-link-github" href="https://github.com/{{ site.github }}" target="_blank" rel="noopener">{% include github.html %}</a>
             {% endif %}
-            {% if site.twitter %}
-                <a class="social-link social-link-tw" href="https://twitter.com/{{ site.twitter }}" target="_blank" rel="noopener">{% include twitter.html %}</a>
+            {% if site.mail %}
+                <a class="social-link social-link-mail" href="mailto:{{site.mail}}" target="_blank" rel="noopener">{% include mail.html %}</a>
             {% endif %}
         </div>
         {% if site.subscribers %}
