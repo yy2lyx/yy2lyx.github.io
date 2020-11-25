@@ -3,14 +3,13 @@ layout: post
 current: post
 cover: assets/images/question.jpg
 navigation: True
-title: 面试总结
+title: Facetime Interview
 date: 2020-06-12  15:21:00
 tags: [Machinelearning]
 class: post-template
 subclass: 'post'
 
 ---
-
 
 
 > 面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。
