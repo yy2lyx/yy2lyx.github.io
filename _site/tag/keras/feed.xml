@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/tag/keras/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2020-11-25T22:40:00+08:00</updated>
+  <id>http://localhost:4000/tag/keras/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">李小肥的YY | </title>
+  
+
+  
+    <subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Keras训练模型部署到C++环境并生成DLL</title>
+      <link href="http://localhost:4000/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL" rel="alternate" type="text/html" title="Keras训练模型部署到C++环境并生成DLL" />
+      <published>2020-11-03T22:21:00+08:00</published>
+      <updated>2020-11-03T22:21:00+08:00</updated>
+      <id>http://localhost:4000/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL</id>
+      <content type="html" xml:base="http://localhost:4000/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL">&lt;h3 id=&quot;一-准备工作&quot;&gt;一. 准备工作&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在Windows上搭建完成Tensorflow的C++环境，这里参考本人的上一篇博客&lt;/li&gt;
+  &lt;li&gt;在windows上部署opencv3的C++环境&lt;/li&gt;
+  &lt;li&gt;python3的keras和tf2.X的环境：&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install keras==2.4.3&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install tensorflow==2.3.1&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;python3的opencv环境：&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install opencv-python&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-python模型训练&quot;&gt;二. python模型训练&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;python模型构建：&lt;a href=&quot;https://www.kaggle.com/tongpython/cat-and-dog&quot;&gt;Kaggle猫狗分类&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;python完整代码放在本人的&lt;a href=&quot;&quot;&gt;git仓库&lt;/a&gt;上面&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;21-模型训练保存h5格式的模型文件&quot;&gt;2.1 模型训练，保存.h5格式的模型文件&lt;/h4&gt;
+
+&lt;p&gt;在keras的&lt;code class=&quot;highlighter-rouge&quot;&gt;model.save()&lt;/code&gt;模型保存的函数中，只支持2种保存方式：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;.h5格式的文件进行保存模型整个结构及其权重。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;以文件夹（包含assets  saved_model.pb  variables）来保存，模型架构和训练配置（包括优化器、损失和指标）存储在 &lt;code class=&quot;highlighter-rouge&quot;&gt;saved_model.pb&lt;/code&gt; 中。权重保存在 &lt;code class=&quot;highlighter-rouge&quot;&gt;variables/&lt;/code&gt; 目录下。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;因此使用.h5格式来存储模型结构及权重。&lt;/p&gt;
+
+&lt;h4 id=&quot;22-h5文件转pt文件&quot;&gt;2.2 h5文件转pt文件&lt;/h4&gt;
+
+&lt;p&gt;将训练好的模型以.h5格式进行存储，再通过转成.pt格式的模型文件，提供C++的tensorflow调用模型。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;keras.models&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load_model&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.python.keras.backend&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.python.framework&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph_io&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 针对tf2.x来说不支持freezegraph的，这里需要使用tf1的方式&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;disable_eager_execution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;freeze_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keep_var_names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clear_devices&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.python.framework.graph_util&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;convert_variables_to_constants&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as_default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;freeze_var_names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global_variables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;difference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keep_var_names&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]))&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global_variables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;input_graph_def&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as_graph_def&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clear_devices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input_graph_def&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;frozen_graph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;convert_variables_to_constants&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input_graph_def&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                                      &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeze_var_names&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frozen_graph&lt;/span&gt;
+
+
+&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;----------------------------------配置路径-----------------------------------&quot;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;h5_model_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'model/model.h5'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pb_model_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'model.pt'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;output_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'.'&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;----------------------------------导入keras模型------------------------------&quot;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_learning_phase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;net_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h5_model_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'input is :'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;net_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'output is:'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;net_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;----------------------------------保存为.pb格式------------------------------&quot;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;frozen_graph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeze_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;net_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outputs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;graph_io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write_graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frozen_graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pb_model_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;as_text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;23-测试pt模型文件&quot;&gt;2.3 测试pt模型文件&lt;/h4&gt;
+
+&lt;p&gt;对同一个图片分别利用.h5模型文件和.pt模型文件进行预测。.pt格式的模型预测代码如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pred_with_pt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;img&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pb_file_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as_default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;output_graph_def&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GraphDef&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# 打开.pb模型&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pb_file_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;rb&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;output_graph_def&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ParseFromString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;tensors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;import_graph_def&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output_graph_def&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tensors:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tensors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# 在一个session中去run一个前向&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;init&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global_variables_initializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;op&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_operations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;input_x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_tensor_by_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;conv2d_input:0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# 具体名称看上一段代码的input.name&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;input_X:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;out_softmax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_tensor_by_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dense/Softmax:0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# 具体名称看上一段代码的output.name&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Output:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;out_softmax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;img_out_softmax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out_softmax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                       &lt;span class=&quot;n&quot;&gt;feed_dict&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img_out_softmax&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;三-c-模型预测&quot;&gt;三. C++ 模型预测&lt;/h3&gt;
+
+&lt;h4 id=&quot;31-将模型预测类进行封装并生成动态链接库dll&quot;&gt;3.1 将模型预测类进行封装并生成动态链接库DLL&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;VS2019部署（参考本人的上一篇博客）：新建一个动态链接库(DLL)，新建一个头文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.h&lt;/code&gt;和源文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.cpp&lt;/code&gt;，这里是生成DLL包（点击&lt;code class=&quot;highlighter-rouge&quot;&gt;生成&lt;/code&gt; ==&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;重新生成DLLTF&lt;/code&gt;）&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里要把&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow_cc.dll&lt;/code&gt;放到生成的&lt;code class=&quot;highlighter-rouge&quot;&gt;x64/release&lt;/code&gt;里面&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里还需要在Release属性页里配置&lt;code class=&quot;highlighter-rouge&quot;&gt;C/C++&lt;/code&gt;的预处理器(防止后面编译时出现这种错误&lt;code class=&quot;highlighter-rouge&quot;&gt;tstring.h(350,40): error C2589: “(”:“::”&lt;/code&gt;)：&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;_XKEYCHECK_H
+NOMINMAX
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;头文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.h&lt;/code&gt;中声明类的导出&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#pragma once
+#ifndef TF_CLF_H
+#endif // !TF_CLF_H
+
+
+#include &amp;lt;fstream&amp;gt;
+#include &amp;lt;utility&amp;gt;
+#include &amp;lt;Eigen/Core&amp;gt;
+#include &amp;lt;Eigen/Dense&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+
+#include &quot;tensorflow/cc/ops/const_op.h&quot;
+#include &quot;tensorflow/cc/ops/image_ops.h&quot;
+#include &quot;tensorflow/cc/ops/standard_ops.h&quot;
+
+#include &quot;tensorflow/core/framework/graph.pb.h&quot;
+#include &quot;tensorflow/core/framework/tensor.h&quot;
+
+#include &quot;tensorflow/core/graph/default_device.h&quot;
+#include &quot;tensorflow/core/graph/graph_def_builder.h&quot;
+
+#include &quot;tensorflow/core/lib/core/errors.h&quot;
+#include &quot;tensorflow/core/lib/core/stringpiece.h&quot;
+#include &quot;tensorflow/core/lib/core/threadpool.h&quot;
+#include &quot;tensorflow/core/lib/io/path.h&quot;
+#include &quot;tensorflow/core/lib/strings/stringprintf.h&quot;
+
+#include &quot;tensorflow/core/public/session.h&quot;
+#include &quot;tensorflow/core/util/command_line_flags.h&quot;
+
+#include &quot;tensorflow/core/platform/env.h&quot;
+#include &quot;tensorflow/core/platform/init_main.h&quot;
+#include &quot;tensorflow/core/platform/logging.h&quot;
+#include &quot;tensorflow/core/platform/types.h&quot;
+
+#include &quot;opencv2/opencv.hpp&quot;
+
+using namespace tensorflow::ops;
+using namespace tensorflow;
+using namespace std;
+using namespace cv;
+using tensorflow::Flag;
+using tensorflow::Tensor;
+using tensorflow::Status;
+using tensorflow::string;
+using tensorflow::int32;
+
+class __declspec(dllexport) TFClf;
+class TFClf {
+private:
+vector&amp;lt;float&amp;gt; mean = { 103.939,116.779,123.68 };
+int resize_col = 224;
+int resize_row = 224;
+string input_tensor_name = &quot;conv2d_input&quot;;
+string output_tensor_name = &quot;dense/Softmax&quot;;
+Point draw_point = Point(50, 50);
+
+public:
+string image_path, model_path;
+TFClf(string img, string model) :image_path(img), model_path(model) {}
+void mat_to_tensor(Mat img, Tensor* output_tensor);
+Mat preprocess_img(Mat img);
+void model_pred();
+void show_result_pic(Mat img, int output_class_id, double output_prob);
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;源文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.cpp&lt;/code&gt;完成类的具体实现，注意这里要&lt;code class=&quot;highlighter-rouge&quot;&gt;#include &quot;pch.h&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include &quot;pch.h&quot;
+#include &quot;tf_clf.h&quot;
+
+
+Mat TFClf::preprocess_img(Mat img) {
+    //图像进行resize处理
+    resize(img, img, cv::Size(resize_col, resize_row));
+
+    //去均值
+    img.convertTo(img, CV_32FC3);
+    // 遍历所有的像素的每个通道，减去对应的均值（BGR这种顺序）
+    for (int row = 0; row &amp;lt; img.rows; row++) {
+        for (int col = 0; col &amp;lt; img.cols; col++) {
+            img.at&amp;lt;Vec3f&amp;gt;(row, col)[0] -= mean[0];
+            img.at&amp;lt;Vec3f&amp;gt;(row, col)[1] -= mean[1];
+            img.at&amp;lt;Vec3f&amp;gt;(row, col)[2] -= mean[2];
+        }
+    }
+    return img;
+}
+
+void TFClf::mat_to_tensor(Mat img, Tensor* output_tensor) {
+    //创建一个指向tensor的内容的指针
+    float* p = output_tensor-&amp;gt;flat&amp;lt;float&amp;gt;().data();
+
+    //创建一个Mat，与tensor的指针绑定,改变这个Mat的值，就相当于改变tensor的值
+    cv::Mat tempMat(resize_row, resize_col, CV_32FC3, p);
+    img.convertTo(tempMat, CV_32FC3);
+}
+
+void TFClf::show_result_pic(Mat img, int output_class_id,double output_prob) {
+    string rs_string;
+    if (output_class_id == 0) {
+        rs_string = &quot;Class:Dog Proba:&quot; + to_string(output_prob);
+    }
+    else {
+        rs_string = &quot;Class:Cat Proba:&quot; + to_string(output_prob);
+    }
+    // 把label输出到图片中
+    cv::putText(img, rs_string, draw_point, FONT_HERSHEY_TRIPLEX, 0.8, cv::Scalar(255, 200, 200), 2, CV_AA);
+    cv::imshow(&quot;result&quot;, img);
+    cv::waitKey(0);
+}
+
+void TFClf::model_pred() {
+    /*--------------------------------创建session------------------------------*/
+    Session* session;
+    Status status = NewSession(SessionOptions(), &amp;amp;session);//创建新会话Session
+
+    /*--------------------------------从pb文件中读取模型--------------------------------*/
+    GraphDef graphdef; //Graph Definition for current model
+
+    Status status_load = ReadBinaryProto(Env::Default(), model_path, &amp;amp;graphdef); //从pb文件中读取图模型;
+    if (!status_load.ok()) {
+        std::cout &amp;lt;&amp;lt; &quot;ERROR: Loading model failed...&quot; &amp;lt;&amp;lt; model_path &amp;lt;&amp;lt; std::endl;
+        std::cout &amp;lt;&amp;lt; status_load.ToString() &amp;lt;&amp;lt; &quot;\n&quot;;
+    }
+    Status status_create = session-&amp;gt;Create(graphdef); //将模型导入会话Session中;
+    if (!status_create.ok()) {
+        std::cout &amp;lt;&amp;lt; &quot;ERROR: Creating graph in session failed...&quot; &amp;lt;&amp;lt; status_create.ToString() &amp;lt;&amp;lt; std::endl;
+    }
+    std::cout &amp;lt;&amp;lt; &quot;&amp;lt;----Successfully created session and load graph.-------&amp;gt;&quot; &amp;lt;&amp;lt; endl;
+
+    /*---------------------------------载入测试图片-------------------------------------*/
+    std::cout &amp;lt;&amp;lt; endl &amp;lt;&amp;lt; &quot;&amp;lt;------------loading test_image--------------&amp;gt;&quot; &amp;lt;&amp;lt; endl;
+    Mat img = imread(image_path);
+
+
+    if (img.empty())
+    {
+        std::cout &amp;lt;&amp;lt; &quot;can't open the image!!!!!!!&quot; &amp;lt;&amp;lt; endl;
+    }
+    // 图像预处理
+    Mat resize_img;
+    resize_img = preprocess_img(img);
+    //创建一个tensor作为输入网络的接口
+    Tensor resized_tensor(DT_FLOAT, TensorShape({ 1,resize_row,resize_col,3 }));
+
+    //将Opencv的Mat格式的图片存入tensor
+    mat_to_tensor(resize_img, &amp;amp;resized_tensor);
+
+    /*-----------------------------------用网络进行测试-----------------------------------------*/
+    std::cout &amp;lt;&amp;lt; endl &amp;lt;&amp;lt; &quot;&amp;lt;-------------Running the model with test_image---------------&amp;gt;&quot; &amp;lt;&amp;lt; endl;
+    //前向运行，输出结果一定是一个tensor的vector
+    vector&amp;lt;tensorflow::Tensor&amp;gt; outputs;
+    string output_node = output_tensor_name;
+    Status status_run = session-&amp;gt;Run({ {input_tensor_name, resized_tensor} }, { output_node }, {}, &amp;amp;outputs);
+
+    if (!status_run.ok()) {
+        std::cout &amp;lt;&amp;lt; &quot;ERROR: RUN failed...&quot; &amp;lt;&amp;lt; std::endl;
+        std::cout &amp;lt;&amp;lt; status_run.ToString() &amp;lt;&amp;lt; &quot;\n&quot;;
+    }
+    //把输出值给提取出来
+    Tensor t = outputs[0];                   // Fetch the first tensor
+    auto tmap = t.tensor&amp;lt;float, 2&amp;gt;();        // Tensor Shape: [batch_size, target_class_num]
+    int output_dim = t.shape().dim_size(1);  // Get the target_class_num from 1st dimension
+    // Argmax: Get Final Prediction Label and Probability
+    int output_class_id = -1;
+    double output_prob = 0.0;
+    for (int j = 0; j &amp;lt; output_dim; j++)
+    {
+        std::cout &amp;lt;&amp;lt; &quot;Class &quot; &amp;lt;&amp;lt; j &amp;lt;&amp;lt; &quot; prob:&quot; &amp;lt;&amp;lt; tmap(0, j) &amp;lt;&amp;lt; &quot;,&quot; &amp;lt;&amp;lt; std::endl;
+        if (tmap(0, j) &amp;gt;= output_prob) {
+            output_class_id = j;
+            output_prob = tmap(0, j);
+        }
+    }
+    // 展示图片结果
+    show_result_pic(img, output_class_id, output_prob);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;32-新建一个项目测试dll&quot;&gt;3.2 新建一个项目测试DLL&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;新建一个控制台的空项目，并将打包好的&lt;code class=&quot;highlighter-rouge&quot;&gt;DllTF.dll&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;DllTF.lib&lt;/code&gt;复制到工程中&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;配置属性管理器：这里需要在&lt;code class=&quot;highlighter-rouge&quot;&gt;Release | x64&lt;/code&gt;添加之前配置好的&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv_release.props&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_release.props&lt;/code&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里要把&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow_cc.dll&lt;/code&gt;放到生成的&lt;code class=&quot;highlighter-rouge&quot;&gt;x64/release&lt;/code&gt;里面&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;新建一个头文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.h&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#pragma once
+#ifndef TF_CLF_H
+
+#endif // !TF_CLF_H
+
+#pragma comment(lib,&quot;DllTF.lib&quot;)
+class __declspec(dllexport) TFClf;
+
+#include &amp;lt;fstream&amp;gt;
+#include &amp;lt;utility&amp;gt;
+#include &amp;lt;Eigen/Core&amp;gt;
+#include &amp;lt;Eigen/Dense&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+
+#include &quot;tensorflow/cc/ops/const_op.h&quot;
+#include &quot;tensorflow/cc/ops/image_ops.h&quot;
+#include &quot;tensorflow/cc/ops/standard_ops.h&quot;
+
+#include &quot;tensorflow/core/framework/graph.pb.h&quot;
+#include &quot;tensorflow/core/framework/tensor.h&quot;
+
+#include &quot;tensorflow/core/graph/default_device.h&quot;
+#include &quot;tensorflow/core/graph/graph_def_builder.h&quot;
+
+#include &quot;tensorflow/core/lib/core/errors.h&quot;
+#include &quot;tensorflow/core/lib/core/stringpiece.h&quot;
+#include &quot;tensorflow/core/lib/core/threadpool.h&quot;
+#include &quot;tensorflow/core/lib/io/path.h&quot;
+#include &quot;tensorflow/core/lib/strings/stringprintf.h&quot;
+
+#include &quot;tensorflow/core/public/session.h&quot;
+#include &quot;tensorflow/core/util/command_line_flags.h&quot;
+
+#include &quot;tensorflow/core/platform/env.h&quot;
+#include &quot;tensorflow/core/platform/init_main.h&quot;
+#include &quot;tensorflow/core/platform/logging.h&quot;
+#include &quot;tensorflow/core/platform/types.h&quot;
+
+#include &quot;opencv2/opencv.hpp&quot;
+
+using namespace tensorflow::ops;
+using namespace tensorflow;
+using namespace std;
+using namespace cv;
+using tensorflow::Flag;
+using tensorflow::Tensor;
+using tensorflow::Status;
+using tensorflow::string;
+using tensorflow::int32;
+
+
+
+class TFClf {
+private:
+    vector&amp;lt;float&amp;gt; mean = { 103.939,116.779,123.68 };
+    int resize_col = 224;
+    int resize_row = 224;
+    string input_tensor_name = &quot;conv2d_input&quot;;
+    string output_tensor_name = &quot;dense/Softmax&quot;;
+    Point draw_point = Point(50, 50);
+
+public:
+    string image_path, model_path;
+    TFClf(string img, string model) :image_path(img), model_path(model) {}
+    void mat_to_tensor(Mat img, Tensor* output_tensor);
+    Mat preprocess_img(Mat img);
+    void model_pred();
+    void show_result_pic(Mat img, int output_class_id, double output_prob);
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新建一个源文件&lt;code class=&quot;highlighter-rouge&quot;&gt;main.cpp&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# include &quot;tf_clf.h&quot;
+
+int main() {
+string model_path = &quot;D:/yeyan/pycharm_project/dogcat/model/model.pt&quot;;
+string img_path = &quot;D:/yeyan/pycharm_project/dogcat/data/test_set/test_set/cats/cat.4001.jpg&quot;;
+TFClf clf = TFClf(img_path, model_path);
+clf.model_pred();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="keras" />
+      
+        <category term="C++" />
+      
+
+      
+        <summary type="html">一. 准备工作</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

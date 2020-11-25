@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>深度学习调参经验总结</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="欢迎各位看官光临本小站，希望共同学习进步哈！" />
+    <link rel="shortcut icon" href="http://localhost:4000/assets/images/yy.jpg" type="image/png" />
+    <link rel="canonical" href="http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="李小肥的YY" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="深度学习调参经验总结" />
+    <meta property="og:description" content="一. 网络中loss表现过于震荡 1.1 模型拟合能力不够导致模型震荡 model（层数：input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; output）此时模型的loss由1到192震动太大，acc也是在一个epoch中时好时坏，由此考虑到是模型的分类能力的问题（可能处理不了非线性或者是异或的问题） """增加了一层全连接层，之后效果显著，模型虽然也存在loss和acc会有极小幅度的震荡，但是趋向于收敛""" input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; ful_collected_layer ==&gt; output 1.2 batch size 设置过小导致模型震荡 之前模型用的是batch_size = 30，经过增大batch_size之后，模型的震荡程度也减小。这里如果GPU显存小的情况下，只能将batch设置小。 1.3 输入模型的数据没有shuffle导致模型震荡 之前数据没有进行shuffle，导致在某一个batch_size中学习到的全是正样本，某一个batch_size里面又全是负样本，shuffle之后，振荡减小。 np.random.seed(110) # 设定种子数，不然下面shuffle之后的y无法与X对应上 np.random.shuffle(X) np.random.seed(110) np.random.shuffle(y) 二. 网络经过多轮迭代依然无法上升了，acc始终在79% 2.1 增大学习率 开始学习率设置的是learning_rate = 0.001,之后增大10倍，设置为learning_rate = 0.01之后，acc在70多轮的时候就能提升到90%" />
+    <meta property="og:url" content="http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93" />
+    <meta property="og:image" content="http://localhost:4000/assets/images/sign1.jpg" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2019-03-09T18:20:00+08:00" />
+    <meta property="article:modified_time" content="2019-03-09T18:20:00+08:00" />
+    <meta property="article:tag" content="模型调参" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="深度学习调参经验总结" />
+    <meta name="twitter:description" content="一. 网络中loss表现过于震荡 1.1 模型拟合能力不够导致模型震荡 model（层数：input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; output）此时模型的loss由1到192震动太大，acc也是在一个epoch中时好时坏，由此考虑到是模型的分类能力的问题（可能处理不了非线性或者是异或的问题） """增加了一层全连接层，之后效果显著，模型虽然也存在loss和acc会有极小幅度的震荡，但是趋向于收敛""" input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; ful_collected_layer ==&gt; output 1.2 batch size 设置过小导致模型震荡 之前模型用的是batch_size = 30，经过增大batch_size之后，模型的震荡程度也减小。这里如果GPU显存小的情况下，只能将batch设置小。 1.3 输入模型的数据没有shuffle导致模型震荡 之前数据没有进行shuffle，导致在某一个batch_size中学习到的全是正样本，某一个batch_size里面又全是负样本，shuffle之后，振荡减小。 np.random.seed(110) # 设定种子数，不然下面shuffle之后的y无法与X对应上 np.random.shuffle(X) np.random.seed(110) np.random.shuffle(y) 二. 网络经过多轮迭代依然无法上升了，acc始终在79% 2.1 增大学习率 开始学习率设置的是learning_rate = 0.001,之后增大10倍，设置为learning_rate = 0.01之后，acc在70多轮的时候就能提升到90%" />
+    <meta name="twitter:url" content="http://localhost:4000/" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/sign1.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="李小肥的YY" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="模型调参" />
+    <meta name="twitter:site" content="@" />
+    <meta name="twitter:creator" content="@" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "李小肥的YY",
+        "logo": "http://localhost:4000/"
+    },
+    "url": "http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:4000/assets/images/sign1.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93"
+    },
+    "description": "一. 网络中loss表现过于震荡 1.1 模型拟合能力不够导致模型震荡 model（层数：input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; output）此时模型的loss由1到192震动太大，acc也是在一个epoch中时好时坏，由此考虑到是模型的分类能力的问题（可能处理不了非线性或者是异或的问题） """增加了一层全连接层，之后效果显著，模型虽然也存在loss和acc会有极小幅度的震荡，但是趋向于收敛""" input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; ful_collected_layer ==&gt; output 1.2 batch size 设置过小导致模型震荡 之前模型用的是batch_size = 30，经过增大batch_size之后，模型的震荡程度也减小。这里如果GPU显存小的情况下，只能将batch设置小。 1.3 输入模型的数据没有shuffle导致模型震荡 之前数据没有进行shuffle，导致在某一个batch_size中学习到的全是正样本，某一个batch_size里面又全是负样本，shuffle之后，振荡减小。 np.random.seed(110) # 设定种子数，不然下面shuffle之后的y无法与X对应上 np.random.shuffle(X) np.random.seed(110) np.random.shuffle(y) 二. 网络经过多轮迭代依然无法上升了，acc始终在79% 2.1 增大学习率 开始学习率设置的是learning_rate = 0.001,之后增大10倍，设置为learning_rate = 0.01之后，acc在70多轮的时候就能提升到90%"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="深度学习调参经验总结" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="http://localhost:4000/">李小肥的YY</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+                <a class="social-link social-link-github" href="https://github.com/yy2lyx" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 .395c-8.836 0-16 7.163-16 16 0 7.069 4.585 13.067 10.942 15.182.8.148 1.094-.347 1.094-.77 0-.381-.015-1.642-.022-2.979-4.452.968-5.391-1.888-5.391-1.888-.728-1.849-1.776-2.341-1.776-2.341-1.452-.993.11-.973.11-.973 1.606.113 2.452 1.649 2.452 1.649 1.427 2.446 3.743 1.739 4.656 1.33.143-1.034.558-1.74 1.016-2.14-3.554-.404-7.29-1.777-7.29-7.907 0-1.747.625-3.174 1.649-4.295-.166-.403-.714-2.03.155-4.234 0 0 1.344-.43 4.401 1.64a15.353 15.353 0 0 1 4.005-.539c1.359.006 2.729.184 4.008.539 3.054-2.07 4.395-1.64 4.395-1.64.871 2.204.323 3.831.157 4.234 1.026 1.12 1.647 2.548 1.647 4.295 0 6.145-3.743 7.498-7.306 7.895.574.497 1.085 1.47 1.085 2.963 0 2.141-.019 3.864-.019 4.391 0 .426.288.925 1.099.768C27.421 29.457 32 23.462 32 16.395c0-8.837-7.164-16-16-16z"/></svg>
+</a>
+            
+            
+                <a class="social-link social-link-mail" href="mailto:yeyansiwangtt@gmail.com" target="_blank" rel="noopener"><!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M26.666 0H5.334C2.4 0 0 2.4 0 5.333v21.333C0 29.6 2.4 32 5.334 32h21.332C29.602 32 32 29.6 32 26.666V5.333C32 2.399 29.602 0 26.666 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.864-6.842c.003.041.004.083.004.125v12z"/></svg> -->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35"><path d="M26.667 0H5.334C2.4 0 0 2.4 0 5.334v21.332C0 29.602 2.4 32 5.334 32h21.333C29.601 32 32 29.602 32 26.666V5.334C32 2.4 29.601 0 26.667 0zm0 4c.25 0 .486.073.688.198L16 13.586 4.645 4.199c.202-.125.439-.198.689-.198h21.333zM5.334 28a1.32 1.32 0 0 1-.178-.013l7.051-9.78-.914-.914L4 24.586V5.488L16 20 28 5.488v19.098l-7.293-7.293-.914.914 7.051 9.78a1.294 1.294 0 0 1-.177.013H5.334z"/></svg>
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M26.667 0H5.334C2.4 0 0 2.4 0 5.334v21.332C0 29.602 2.4 32 5.334 32h21.333C29.601 32 32 29.602 32 26.666V5.334C32 2.4 29.601 0 26.667 0zM5.707 27.707l-2.414-2.414 8-8 .914.914-6.5 9.5zm-.914-21.5l.914-.914L16 13.586l10.293-8.293.914.914L16 19.414 4.793 6.207zm21.5 21.5l-6.5-9.5.914-.914 8 8-2.414 2.414z"/></svg> -->
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.865-6.842c.003.041.004.083.004.125v12z"/></svg> -->
+</a>
+            
+        </div>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag- tag- post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime=" 9 March 2019"> 9 March 2019</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag//'>模型调参</a>,
+                            
+                        
+                            
+                               <a href='/tag//'>深度学习</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">深度学习调参经验总结</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/sign1.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <h3 id="一-网络中loss表现过于震荡">一. 网络中loss表现过于震荡</h3>
+<h4 id="11--模型拟合能力不够导致模型震荡">1.1  模型拟合能力不够导致模型震荡</h4>
+<p>model（层数：input(30,300,3) ==&gt; ful_collected_layer(30,300,64) ==&gt; lstm ==&gt; ful_collected_layer ==&gt; output）此时模型的loss由1到192震动太大，acc也是在一个epoch中时好时坏，由此考虑到是模型的分类能力的问题（可能处理不了非线性或者是异或的问题）</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""增加了一层全连接层，之后效果显著，模型虽然也存在loss和acc会有极小幅度的震荡，但是趋向于收敛"""</span>
+<span class="nb">input</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="n">ful_collected_layer</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">64</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="n">lstm</span> <span class="o">==&gt;</span> <span class="n">ful_collected_layer</span> <span class="o">==&gt;</span> <span class="n">ful_collected_layer</span> <span class="o">==&gt;</span> <span class="n">output</span>
+</code></pre></div></div>
+
+<h4 id="12-batch-size-设置过小导致模型震荡">1.2 batch size 设置过小导致模型震荡</h4>
+<p>之前模型用的是batch_size = 30，经过增大batch_size之后，模型的震荡程度也减小。这里如果GPU显存小的情况下，只能将batch设置小。</p>
+
+<h4 id="13-输入模型的数据没有shuffle导致模型震荡">1.3 输入模型的数据没有shuffle导致模型震荡</h4>
+<p>之前数据没有进行shuffle，导致在某一个batch_size中学习到的全是正样本，某一个batch_size里面又全是负样本，shuffle之后，振荡减小。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">110</span><span class="p">)</span> <span class="c"># 设定种子数，不然下面shuffle之后的y无法与X对应上</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">110</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="二-网络经过多轮迭代依然无法上升了acc始终在79">二. 网络经过多轮迭代依然无法上升了，acc始终在79%</h3>
+<h4 id="21-增大学习率">2.1 增大学习率</h4>
+<p>开始学习率设置的是learning_rate = 0.001,之后增大10倍，设置为learning_rate = 0.01之后，acc在70多轮的时候就能提升到90% ，300轮之后能到97%。</p>
+
+<p>理由：当我们把学习率设置较小的时候，那么梯度下降的时候迈的步子就小，可能在遇到大的坑的时候就出去，然后就一致在坑里徘徊，最终只能达到局部最优，无法达到全局最优，调参的过程中应该首先实验大的学习率，然后再依次减小实验。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="o">==&gt;</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="o">==&gt;</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
+</code></pre></div></div>
+
+<h4 id="22-优化器的选择">2.2 优化器的选择</h4>
+<p>实验下其他的梯度下降的优化器（optimizer），比如Adam，SGD，Adadelta，RMSProp，Momentum等，一般来说Adam较快，SGD最慢，但是却是最准确和稳定的，因此可以先用Adam进行实验，最后用SGD进行调参。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tf.train.AdadeltaOptimizer<span class="o">(</span><span class="nv">learning_rate</span><span class="o">=</span>0.001, <span class="nv">rho</span><span class="o">=</span>0.95, <span class="nv">epsilon</span><span class="o">=</span>1e-08, <span class="nv">use_locking</span><span class="o">=</span>False, <span class="nv">name</span><span class="o">=</span>’Adadelta’<span class="o">)</span>
+
+tf.train.MomentumOptimizer<span class="o">(</span>learning_rate, momentum, <span class="nv">use_locking</span><span class="o">=</span>False, <span class="nv">name</span><span class="o">=</span>’Momentum’, <span class="nv">use_nesterov</span><span class="o">=</span>False<span class="o">)</span>
+
+tf.train.AdamOptimizer<span class="o">(</span><span class="nv">learning_rate</span><span class="o">=</span>0.001, <span class="nv">beta1</span><span class="o">=</span>0.9, <span class="nv">beta2</span><span class="o">=</span>0.999, <span class="nv">epsilon</span><span class="o">=</span>1e-08, <span class="nv">use_locking</span><span class="o">=</span>False, <span class="nv">name</span><span class="o">=</span>’Adam’<span class="o">)</span>
+
+tf.train.GradientDescentOptimizer<span class="o">(</span>learning_rate, <span class="nv">use_locking</span><span class="o">=</span>False,name<span class="o">=</span>’GradientDescent’<span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="三-遇到loss和weights在训练中全是nan值的情况">三. 遇到loss和weights在训练中全是nan值的情况</h3>
+<h4 id="31-查看输入数据中是否存在nan值">3.1 查看输入数据中是否存在nan值</h4>
+<p>检查自己做完预处理的数据，看下是否存在nan值（比如需要计算0/0和log0的情况）</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""检验下input_data中是否存在nan值"""</span>
+<span class="n">input_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">n_input</span><span class="p">])</span>
+<span class="c"># 这里的input_data 是三维数组必须转成2d</span>
+<span class="n">input_data_pd</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="nb">any</span><span class="p">(</span><span class="n">input_data_pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"input data has nan value!"</span><span class="p">)</span>
+<span class="n">list_nan</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">input_data_pd</span><span class="o">.</span><span class="n">values</span><span class="p">))))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">list_nan</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="32-梯度爆炸或者是梯度消失">3.2 梯度爆炸或者是梯度消失</h4>
+<p>可能是<strong>梯度爆炸</strong>，有以下解决方式</p>
+
+<ul>
+  <li>（1）预训练+微调</li>
+  <li>（2）梯度剪切 + 权重正则</li>
+  <li>（3）使用不同的激活函数，比如之前用relu，可以换成tanh或者是elu</li>
+  <li>（4）使用batchnorm</li>
+  <li>（5）使用LSTM网络（如果之前用的是RNN结构）</li>
+  <li>（6）使用残差结构</li>
+</ul>
+
+<p>以下是几种在不改变模型层数和结构的情况下解决梯度爆炸和梯度消失的方案。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"""权重L2正则化"""</span>
+cross_entropy <span class="o">=</span> <span class="nt">-tf</span>.reduce_sum<span class="o">(</span>ys <span class="k">*</span> 	tf.log<span class="o">(</span>tf.clip_by_value<span class="o">(</span>tf.nn.softmax<span class="o">(</span>prediction<span class="o">)</span>, 1e-10, 1.0<span class="o">)))</span>
+weights_lossL2 <span class="o">=</span> tf.add<span class="o">(</span>tf.nn.l2_loss<span class="o">(</span>weights_in<span class="o">)</span>,tf.nn.l2_loss<span class="o">(</span>weights_out<span class="o">))</span> <span class="k">*</span> 0.01
+regularzation_loss <span class="o">=</span> cross_entropy + weights_lossL2
+cost <span class="o">=</span> tf.reduce_mean<span class="o">(</span>regularzation_loss<span class="o">)</span>
+<span class="s2">"""梯度剪裁"""</span>
+opt <span class="o">=</span> tf.train.MomentumOptimizer<span class="o">(</span><span class="nv">learning_rate</span><span class="o">=</span>0.001, <span class="nv">momentum</span><span class="o">=</span>0.5<span class="o">)</span>
+<span class="c"># Compute the gradients for a list of variables.</span>
+grads_and_vars <span class="o">=</span> opt.compute_gradients<span class="o">(</span>cross_entropy, 	 tf.trainable_variables<span class="o">())</span>
+<span class="c"># grads_and_vars is a list of tuples (gradient, variable).  Do whatever you</span>
+<span class="c"># need to the 'gradient' part, for example cap them, etc.</span>
+capped_grads_and_vars <span class="o">=</span> <span class="o">[(</span>tf.clip_by_value<span class="o">(</span>gv[0], 0.1, 5.<span class="o">)</span>, gv[1]<span class="o">)</span> <span class="k">for </span>gv <span class="k">in </span>grads_and_vars]
+<span class="c"># Ask the optimizer to apply the capped gradients.</span>
+optimizer <span class="o">=</span> opt.apply_gradients<span class="o">(</span>capped_grads_and_vars<span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="33-使用了梯度参见和l2正则之后出现loss增大的情况">3.3 使用了<strong>梯度参见和L2正则</strong>之后出现<strong>Loss增大</strong>的情况</h4>
+<p>在使用了梯度裁剪之后，其实只是人为的控制梯度的变化（将weights控制在小范围内(0.1,5)之间），此时权重依旧可以通过BP算法向负梯度的方向前进，但是由于人为的控制，导致weight的梯度极有可能朝着正梯度方向进行，这就会导致可以更新权重，但是loss反而增大的原因。</p>
+
+<h4 id="34-这里必须要修改模型结构">3.4 这里必须要<strong>修改模型结构</strong></h4>
+
+<p>举一个例子：利用4层全连接层作为一个分类器，来训练。经历过以上所有的方式（包括调整激活函数等），依旧无法使得模型的loss减少，当我将层数降低为3层的时候，模型loss开始收敛，那么这就说明当无法使得模型收敛的时候，其实极有可能是模型的结构问题，需要重新设计模型的结构层数。</p>
+
+<h3 id="四训练中模型loss不收敛的几种情况">四.训练中模型loss不收敛的几种情况</h3>
+<p>总结：</p>
+<ul>
+  <li>train loss 不断下降，val loss不断下降 ==&gt; 说明网络仍在学习</li>
+  <li>train loss 不断下降，val loss趋于不变 ==&gt; 说明网络过拟合</li>
+  <li>train loss 趋于不变，val loss不断下降 ==&gt; 说明数据集100%有问题</li>
+  <li>train loss 趋于不变，val loss趋于不变 ==&gt; 说明学习遇到瓶颈，需要减小学习率或批量数目</li>
+  <li>train loss 不断上升，val loss不断上升 ==&gt; 说明网络结构设计不当，训练超参数设置不当，数据集经过清洗等问题</li>
+  <li>train loss 到稳定的时候反而比val loss还要高 ==&gt; 测试集数据量太小了，误差计算算法有问题</li>
+  <li>train loss 和 val loss趋于不变，但是val loss趋于0，而train loss却还很高 ==&gt; 说明使用dropout层后模型拟合能力变差，去掉dropout层。</li>
+  <li>train loss 和 val loss同时极缓的形式增大，这里可以考虑降低学习率或者是从这里进行截断，以loss最低点作为模型最优点。</li>
+</ul>
+
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86">
+                <div class="post-card-image" style="background-image: url(/assets/images/linux.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Linux,</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Python]</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Linux下python安装和包管理</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="http://localhost:4000/">
+            
+                <img src="/assets/images/yy.jpg" alt="李小肥的YY icon" />
+            
+            <span>李小肥的YY</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">深度学习调参经验总结</div>
+    <!-- <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93&amp;url=www.lixiaofei2yy.website%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.lixiaofei2yy.website%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div> -->
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="http://localhost:4000/">李小肥的YY</a> &copy; 2020</section>
+                <!-- <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav> -->
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-69281367-1', 'auto');
+  ga('send', 'pageview');
+
+ </script>
+
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

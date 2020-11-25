@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/tag/xcode/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2020-11-25T22:40:00+08:00</updated>
+  <id>http://localhost:4000/tag/xcode/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">李小肥的YY | </title>
+  
+
+  
+    <subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Xcode搭建Opencv3环境</title>
+      <link href="http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83" rel="alternate" type="text/html" title="Xcode搭建Opencv3环境" />
+      <published>2020-10-14T03:21:00+08:00</published>
+      <updated>2020-10-14T03:21:00+08:00</updated>
+      <id>http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83</id>
+      <content type="html" xml:base="http://localhost:4000/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83">&lt;h4 id=&quot;1-下载opencv&quot;&gt;1. 下载opencv&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用简单粗暴的方式——brew进行安装：&lt;code class=&quot;highlighter-rouge&quot;&gt;brew install opencv@3&lt;/code&gt;，注意这里通过brew下载的opencv3的地址为：&lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/Cellar/opencv@3/3.4.9_1&lt;/code&gt;（后面配置include和lib有用）。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里存在很大的问题：brew除了下载opencv以外还需要下载opencv的依赖包（很多），这里强力推荐换brew的镜像源（本人用的清华的，当然也可以用中科大的）。具体配置方式如下：&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;第一步：替换brew.git：&lt;/p&gt;
+
+        &lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;brew --repo&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+git remote &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;第二步：替换 homebrew-core.git：
+      &lt;code class=&quot;highlighter-rouge&quot;&gt;powershell
+  cd &quot;$(brew --repo)/Library/Taps/homebrew/homebrew-core&quot;
+  git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
+ &lt;/code&gt;&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;2-在xcode上搭建opencv的环境&quot;&gt;2. 在Xcode上搭建opencv的环境&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新建项目：macOS - Command Line Tool - 这里选择语言为C++&lt;/li&gt;
+  &lt;li&gt;点击项目，选择Build Settings- 在搜索框中搜索search。&lt;/li&gt;
+  &lt;li&gt;在头文件路径Header Search Paths中debug中添加一下&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/Cellar/opencv@3/3.4.9_1/include
+/usr/local/Cellar/opencv@3/3.4.9_1/include/opencv
+/usr/local/Cellar/opencv@3/3.4.9_1/include/opencv2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjo3k6yqj6j31qa0ssaow.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在Library Search Paths中添加&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/Cellar/opencv@3/3.4.9_1/lib
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在项目中添加动态链接库文件：选择项目- 右键New Group - 新建一个名字（比如lib）- 右键lib - Add files to - 按下&lt;code class=&quot;highlighter-rouge&quot;&gt;/&lt;/code&gt;会直接提示到那个目录下找dylib，这里是&lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/Cellar/opencv@3/3.4.9_1/lib&lt;/code&gt;，把当前目录下的所有dylib都添加进去即可，如下图。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjo3v21p6hj31q80f2tap.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;以上就是整个opencv3在Xcode的环境了。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;3-测试案例&quot;&gt;3. 测试案例&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;opencv2/opencv.hpp&amp;gt;
+#include &amp;lt;opencv2/highgui/highgui.hpp&amp;gt;
+
+
+using namespace std;
+using namespace cv;
+
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    cout &amp;lt;&amp;lt; &quot;This is my first try C++ in xcode!\n&quot;;
+    
+    Mat img = imread(&quot;/Users/xcode_project/C++_project/opencvTutorial/test.jpeg&quot;);
+    if (img.empty()){
+        cout &amp;lt;&amp;lt; &quot;Could not open image ...&quot;&amp;lt;&amp;lt; endl;
+        return -1;
+    }
+    namedWindow(&quot;test&quot;,CV_WINDOW_AUTOSIZE);
+    imshow(&quot;test&quot;, img);
+    waitKey(0);
+    
+    
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="Xcode" />
+      
+        <category term="Mac" />
+      
+        <category term="Opencv3" />
+      
+        <category term="环境搭建" />
+      
+
+      
+        <summary type="html">1. 下载opencv</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

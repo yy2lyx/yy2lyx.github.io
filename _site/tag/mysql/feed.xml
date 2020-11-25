@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/tag/mysql/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2020-11-25T22:40:00+08:00</updated>
+  <id>http://localhost:4000/tag/mysql/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">李小肥的YY | </title>
+  
+
+  
+    <subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Windows下安装mysql和导入sql文件</title>
+      <link href="http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85mysql%E5%92%8C%E5%AF%BC%E5%85%A5sql%E6%96%87%E4%BB%B6" rel="alternate" type="text/html" title="Windows下安装mysql和导入sql文件" />
+      <published>2020-10-17T03:21:00+08:00</published>
+      <updated>2020-10-17T03:21:00+08:00</updated>
+      <id>http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85mysql%E5%92%8C%E5%AF%BC%E5%85%A5sql%E6%96%87%E4%BB%B6</id>
+      <content type="html" xml:base="http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85mysql%E5%92%8C%E5%AF%BC%E5%85%A5sql%E6%96%87%E4%BB%B6">&lt;h3 id=&quot;一-下载软件&quot;&gt;一. 下载软件&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;mysql：这里使用的是scoop来进行安装：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install mysql&lt;/code&gt;，这里的优势是自动帮你配好环境了&lt;/li&gt;
+  &lt;li&gt;安装&lt;a href=&quot;https://www.navicat.com.cn/download/navicat-premium&quot;&gt;Navicat Premium&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;破解&lt;a href=&quot;https://www.nrgh.net/archives/navicat-premium.html&quot;&gt;Navicat Premium&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-初始化mysql&quot;&gt;二. 初始化mysql&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;初始化数据库：&lt;code class=&quot;highlighter-rouge&quot;&gt;mysqld --initialize --console&lt;/code&gt;,并记录红色标注的字符，这是随机生成的密码
+&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjrjtkoau2j30sg0lcqbu.jpg&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;输入&lt;code class=&quot;highlighter-rouge&quot;&gt;mysqld -install&lt;/code&gt;将mysql安装为Windows的服务：&lt;/li&gt;
+  &lt;li&gt;启动mysql：&lt;code class=&quot;highlighter-rouge&quot;&gt;net start mysql&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;首次进入mysql：&lt;code class=&quot;highlighter-rouge&quot;&gt;mysql -u root -p&lt;/code&gt;，输入第一次的系统生成的密码&lt;/li&gt;
+  &lt;li&gt;输入&lt;code class=&quot;highlighter-rouge&quot;&gt;ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'mysql的密码'&lt;/code&gt;;回车  别漏了后面有个分号  mysql的密码是安装mysql时设置的密码&lt;/li&gt;
+  &lt;li&gt;输入&lt;code class=&quot;highlighter-rouge&quot;&gt;FLUSH PRIVILEGES;&lt;/code&gt;，这里一定要输入，不然用navicat链接的时候会报&lt;code class=&quot;highlighter-rouge&quot;&gt;1251连接不成功&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;修改my.ini文件：首先进入scoop安装的mysql文件夹中（C:\Users\Administrator\scoop\apps\mysql\8.0.21），修改my.ini文件，如果不加&lt;code class=&quot;highlighter-rouge&quot;&gt;secure_file_priv=''&lt;/code&gt;，会导致无法导入导出数据。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mysqld]
+&lt;span class=&quot;nv&quot;&gt;datadir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;D:/yeyan/mysql_data/data
+&lt;span class=&quot;nv&quot;&gt;secure_file_priv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;   
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;client]
+&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;三--导入sql文件&quot;&gt;三.  导入.sql文件&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;启动mysql：&lt;code class=&quot;highlighter-rouge&quot;&gt;net start mysql&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;首次进入mysql：&lt;code class=&quot;highlighter-rouge&quot;&gt;mysql -u root -p&lt;/code&gt;，输入自己的密码&lt;/li&gt;
+  &lt;li&gt;查看数据库：&lt;code class=&quot;highlighter-rouge&quot;&gt;show databases;&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;使用某个数据库：&lt;code class=&quot;highlighter-rouge&quot;&gt;use test&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;查看该数据库下的表：&lt;code class=&quot;highlighter-rouge&quot;&gt;show tables;&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;导入sql文件：&lt;code class=&quot;highlighter-rouge&quot;&gt;source D:/git_repo/Trace/data.sql;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="Windows" />
+      
+        <category term="mysql" />
+      
+        <category term="Navicat Premium" />
+      
+
+      
+        <summary type="html">一. 下载软件 mysql：这里使用的是scoop来进行安装：scoop install mysql，这里的优势是自动帮你配好环境了 安装Navicat Premium 破解Navicat Premium</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

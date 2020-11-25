@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/tag/opencv/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2020-11-25T22:40:00+08:00</updated>
+  <id>http://localhost:4000/tag/opencv/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">李小肥的YY | </title>
+  
+
+  
+    <subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Windows下安装C++ IDE（clion）和opencv环境</title>
+      <link href="http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83" rel="alternate" type="text/html" title="Windows下安装C++ IDE（clion）和opencv环境" />
+      <published>2019-10-01T18:18:00+08:00</published>
+      <updated>2019-10-01T18:18:00+08:00</updated>
+      <id>http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++%20IDE(clion)%E5%92%8Copencv%E7%8E%AF%E5%A2%83</id>
+      <content type="html" xml:base="http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83">&lt;h4 id=&quot;1-下载软件&quot;&gt;1. 下载软件&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.macw.com/mac/1893.html&quot;&gt;clion&lt;/a&gt;：C++的IDE&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cmake.org/download/&quot;&gt;cmake&lt;/a&gt; : 这里需要添加到环境变量中 &lt;code class=&quot;highlighter-rouge&quot;&gt;D:\Profile\mingw64\bin&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;[https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download](https://sourceforge.net/projects/mingw-w64/files/Toolchains targetting Win64/Personal Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download)&quot;&gt;MinGW&lt;/a&gt; ：添加到环境变量 &lt;code class=&quot;highlighter-rouge&quot;&gt;D:\Profile\mingw64\bin&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://opencv.org/releases/&quot;&gt;opencv3.4.10&lt;/a&gt;：开源的计算机视觉库&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;2-mingw和opencv&quot;&gt;2. MinGW和OpenCV&lt;/h4&gt;
+
+&lt;p&gt;主要是如何用你的编译器来编译OpenCV。我们需要有include文件夹，这个在写代码时就用的到，还有lib和dll，这俩货我也不是很懂，dll的话没有是可以编译成功的，但运行是要失败的，所以我们是肯定要把dll加入到系统环境变量Path里的。lib是编译时就需要的，所以我们得把lib放在CLion的CMakeLists里面。&lt;/p&gt;
+
+&lt;p&gt;下载完Windows的OpenCV，其实我们只有给Visual Studio用的dll和lib，可是我们想要g++来编译和运行，所以就得自己根据OpenCV的sources文件夹来自己编译OpenCV。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;这里需要在cmake中加入&lt;code class=&quot;highlighter-rouge&quot;&gt;OPENCV_ALLOCATOR_STATS_COUNTER_TYPE=int64_t&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;add Entry&lt;/code&gt; ==&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;string&lt;/code&gt;，这里参考&lt;a href=&quot;https://github.com/opencv/opencv/issues/17065&quot;&gt;报错信息1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;这里还需要再cmake中加入&lt;code class=&quot;highlighter-rouge&quot;&gt;OPENCV_ENABLE_ALLOCATOR_STATS=OFF&lt;/code&gt;，参考&lt;a href=&quot;https://answers.opencv.org/question/228737/gcc-error-long-no-such-file-or-directory/&quot;&gt;报错信息2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjehgzemrbj30fl0ep0ug.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;需要2次Configure和1次Genrate即可编译完成。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd opencv\mingw-build&lt;/code&gt;目录下输入&lt;code class=&quot;highlighter-rouge&quot;&gt;mingw32-make&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;等待完成，&lt;code class=&quot;highlighter-rouge&quot;&gt;mingw32-make install&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;打开你的mingw-build文件夹，里面有个install目录就是你要的，可以复制一下这个文件夹，以后就不用重新编译了。我在C盘建立了OpenCV目录，并且把install文件夹下的文件复制进去了,&lt;code class=&quot;highlighter-rouge&quot;&gt;C:\OpenCV\x64\mingw\bin&lt;/code&gt;加入系统环境变量Path中。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;3-写cmakelist&quot;&gt;3. 写CMakeList&lt;/h4&gt;
+
+&lt;p&gt;其实就是加入lib目录和include目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cmake_minimum_required(VERSION 3.16)
+project(opencv_test)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(opencv_test main.cpp)
+
+## 添加的OpenCVConfig.cmake的路径
+set(OpenCV_DIR &quot;D:/Profile/opencv_builded&quot;)
+
+## 搜索OpenCV目录
+find_package(OpenCV REQUIRED)
+
+## 添加OpenCV头文件目录
+include_directories(&quot;D:/Profile/opencv_builded/include&quot;)
+
+## 链接OpenCV库文件
+target_link_libraries(opencv_test ${OpenCV_LIBS})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;4-编译成可执行文件&quot;&gt;4. 编译成可执行文件&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;main.cpp&lt;/code&gt;文件中写完后，&lt;code class=&quot;highlighter-rouge&quot;&gt;cd 项目目录&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;cmake .&lt;/code&gt;，即可看到项目中新加了文件夹&lt;code class=&quot;highlighter-rouge&quot;&gt;cmake-build-debug&lt;/code&gt;中里面存在&lt;code class=&quot;highlighter-rouge&quot;&gt;.exe&lt;/code&gt;可执行文件。&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="Clion" />
+      
+        <category term="OpenCV" />
+      
+
+      
+        <summary type="html">1. 下载软件</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

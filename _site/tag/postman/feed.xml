@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/tag/postman/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2020-11-25T22:40:00+08:00</updated>
+  <id>http://localhost:4000/tag/postman/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">李小肥的YY | </title>
+  
+
+  
+    <subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Postman和Jmeter进行上传文件及压力测试</title>
+      <link href="http://localhost:4000/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95" rel="alternate" type="text/html" title="Postman和Jmeter进行上传文件及压力测试" />
+      <published>2020-03-23T23:21:00+08:00</published>
+      <updated>2020-03-23T23:21:00+08:00</updated>
+      <id>http://localhost:4000/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95</id>
+      <content type="html" xml:base="http://localhost:4000/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95">&lt;h3 id=&quot;一-准备工作&quot;&gt;一. 准备工作&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;postman下载链接：https://www.postman.com/downloads/&lt;/p&gt;
+
+  &lt;p&gt;Jmeter下载链接：http://jmeter.apache.org/download_jmeter.cgi&lt;/p&gt;
+
+  &lt;p&gt;flask代码地址：https://github.com/yy2lyx/FlaskTutorial/tree/master/Flask-7-upload&lt;/p&gt;
+
+  &lt;p&gt;windows下scoop下载jdk(这里是由于Jmeter需要)：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install ojdkbuild&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;二-构建接口的flask服务&quot;&gt;二. 构建接口的flask服务&lt;/h3&gt;
+
+&lt;p&gt;其中包含前端表单index.html文件如下和flask的后端&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;UTF-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;upload&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action =&lt;/span&gt;&lt;span class=&quot;err&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/success&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method =&lt;/span&gt;&lt;span class=&quot;err&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;enctype=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;multipart/form-data&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;file&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;file&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type =&lt;/span&gt;&lt;span class=&quot;err&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Upload&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;三-postman的http接口测试&quot;&gt;三. Postman的http接口测试&lt;/h3&gt;
+
+&lt;p&gt;postman分别在header和body中填入下图：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;headers中需要填入value:multipart/form-data&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo0qznj0j30p605qmxn.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;body 中需要填入key：file(这里参考index.html文件中name=”file”)，value:eml文件地址&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo1floa4j30m20463yp.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;然后将写好的保存在collections当中，并构建tests选项（如果不填入，后面的串行压力测试无法开始，报错）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo31nohoj30on084aaz.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;通过collections中选中保存好的请求，run即可&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;四-jmeter的http接口测试&quot;&gt;四. Jmeter的http接口测试&lt;/h3&gt;
+
+&lt;p&gt;在下载解压好的jmeter二进制文件中打开：&lt;code class=&quot;highlighter-rouge&quot;&gt;apache-jmeter-5.3\bin\jmeter.bat&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新建一个线程组，如下图，包括http请求及监听&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo1myv4aj308903vq2y.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;线程中填入线程总数，和全部线程开启总的时间（这里由于需要测试并发1小时2万次访问）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo3saf9cj30am0a63z4.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在http请求页面填入请求的参数&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo41hoa3j30t1089jsj.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;http页面下面不用填Parameters和BodyData，在Files Upload中填入下图，其中file和上面一致，而MIME Type需要访问https://www.freeformatter.com/mime-types-list.html，找到其中.eml格式前面的&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;运行，即可看到并行的接口请求情况&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;五-总结&quot;&gt;五. 总结&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;一般的网络接口测试，功能性测试postman较为好用。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;需要测试高并发的情况下，只能用Jmeter来进行测试，因为postman是串行，而Jmeter是多线程并行测试。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="Postman" />
+      
+        <category term="Jmeter" />
+      
+        <category term="压力测试" />
+      
+
+      
+        <summary type="html">一. 准备工作</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

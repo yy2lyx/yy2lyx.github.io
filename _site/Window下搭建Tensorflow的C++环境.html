@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>Window下搭建Tensorflow的C++环境</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="欢迎各位看官光临本小站，希望共同学习进步哈！" />
+    <link rel="shortcut icon" href="http://localhost:4000/assets/images/yy.jpg" type="image/png" />
+    <link rel="canonical" href="http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="李小肥的YY" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Window下搭建Tensorflow的C++环境" />
+    <meta property="og:description" content="参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn 一. 下载需要的软件 bazel：Google 的一款可再生的代码构建工具，类似于Cmake。使用scoop进行安装：scoop install bazel python3.7：这里最好用pip 安装下必要的第三方包，比如tensorflow,kears,numpy等。 下载官方源码：git clone https://github.com/tensorflow/tensorflow.git 二. 进行bazel源码编译 2.1 配置build cd到源码目录：cd tensorflow-master 通过在 TensorFlow 源代码树的根目录下运行以下命令来配置系统构建：python3 ./configure.py 这里选择的是cpu版本的，每个配置的选择如下： You have bazel 3.7.0 installed. Please specify the location of python. [Default is C:\soft\python3.7.9\python3.exe]: Found possible Python library paths: C:\soft\python3.7.9\lib\site-packages Please input the desired Python library path" />
+    <meta property="og:url" content="http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83" />
+    <meta property="og:image" content="http://localhost:4000/assets/images/2.jpeg" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2020-11-02T03:21:00+08:00" />
+    <meta property="article:modified_time" content="2020-11-02T03:21:00+08:00" />
+    <meta property="article:tag" content="Windows" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Window下搭建Tensorflow的C++环境" />
+    <meta name="twitter:description" content="参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn 一. 下载需要的软件 bazel：Google 的一款可再生的代码构建工具，类似于Cmake。使用scoop进行安装：scoop install bazel python3.7：这里最好用pip 安装下必要的第三方包，比如tensorflow,kears,numpy等。 下载官方源码：git clone https://github.com/tensorflow/tensorflow.git 二. 进行bazel源码编译 2.1 配置build cd到源码目录：cd tensorflow-master 通过在 TensorFlow 源代码树的根目录下运行以下命令来配置系统构建：python3 ./configure.py 这里选择的是cpu版本的，每个配置的选择如下： You have bazel 3.7.0 installed. Please specify the location of python. [Default is C:\soft\python3.7.9\python3.exe]: Found possible Python library paths: C:\soft\python3.7.9\lib\site-packages Please input the desired Python library path" />
+    <meta name="twitter:url" content="http://localhost:4000/" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/2.jpeg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="李小肥的YY" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Windows" />
+    <meta name="twitter:site" content="@" />
+    <meta name="twitter:creator" content="@" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "李小肥的YY",
+        "logo": "http://localhost:4000/"
+    },
+    "url": "http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:4000/assets/images/2.jpeg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83"
+    },
+    "description": "参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn 一. 下载需要的软件 bazel：Google 的一款可再生的代码构建工具，类似于Cmake。使用scoop进行安装：scoop install bazel python3.7：这里最好用pip 安装下必要的第三方包，比如tensorflow,kears,numpy等。 下载官方源码：git clone https://github.com/tensorflow/tensorflow.git 二. 进行bazel源码编译 2.1 配置build cd到源码目录：cd tensorflow-master 通过在 TensorFlow 源代码树的根目录下运行以下命令来配置系统构建：python3 ./configure.py 这里选择的是cpu版本的，每个配置的选择如下： You have bazel 3.7.0 installed. Please specify the location of python. [Default is C:\soft\python3.7.9\python3.exe]: Found possible Python library paths: C:\soft\python3.7.9\lib\site-packages Please input the desired Python library path"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="Window下搭建Tensorflow的C++环境" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="http://localhost:4000/">李小肥的YY</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+                <a class="social-link social-link-github" href="https://github.com/yy2lyx" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 .395c-8.836 0-16 7.163-16 16 0 7.069 4.585 13.067 10.942 15.182.8.148 1.094-.347 1.094-.77 0-.381-.015-1.642-.022-2.979-4.452.968-5.391-1.888-5.391-1.888-.728-1.849-1.776-2.341-1.776-2.341-1.452-.993.11-.973.11-.973 1.606.113 2.452 1.649 2.452 1.649 1.427 2.446 3.743 1.739 4.656 1.33.143-1.034.558-1.74 1.016-2.14-3.554-.404-7.29-1.777-7.29-7.907 0-1.747.625-3.174 1.649-4.295-.166-.403-.714-2.03.155-4.234 0 0 1.344-.43 4.401 1.64a15.353 15.353 0 0 1 4.005-.539c1.359.006 2.729.184 4.008.539 3.054-2.07 4.395-1.64 4.395-1.64.871 2.204.323 3.831.157 4.234 1.026 1.12 1.647 2.548 1.647 4.295 0 6.145-3.743 7.498-7.306 7.895.574.497 1.085 1.47 1.085 2.963 0 2.141-.019 3.864-.019 4.391 0 .426.288.925 1.099.768C27.421 29.457 32 23.462 32 16.395c0-8.837-7.164-16-16-16z"/></svg>
+</a>
+            
+            
+                <a class="social-link social-link-mail" href="mailto:yeyansiwangtt@gmail.com" target="_blank" rel="noopener"><!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M26.666 0H5.334C2.4 0 0 2.4 0 5.333v21.333C0 29.6 2.4 32 5.334 32h21.332C29.602 32 32 29.6 32 26.666V5.333C32 2.399 29.602 0 26.666 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.864-6.842c.003.041.004.083.004.125v12z"/></svg> -->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35"><path d="M26.667 0H5.334C2.4 0 0 2.4 0 5.334v21.332C0 29.602 2.4 32 5.334 32h21.333C29.601 32 32 29.602 32 26.666V5.334C32 2.4 29.601 0 26.667 0zm0 4c.25 0 .486.073.688.198L16 13.586 4.645 4.199c.202-.125.439-.198.689-.198h21.333zM5.334 28a1.32 1.32 0 0 1-.178-.013l7.051-9.78-.914-.914L4 24.586V5.488L16 20 28 5.488v19.098l-7.293-7.293-.914.914 7.051 9.78a1.294 1.294 0 0 1-.177.013H5.334z"/></svg>
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M26.667 0H5.334C2.4 0 0 2.4 0 5.334v21.332C0 29.602 2.4 32 5.334 32h21.333C29.601 32 32 29.602 32 26.666V5.334C32 2.4 29.601 0 26.667 0zM5.707 27.707l-2.414-2.414 8-8 .914.914-6.5 9.5zm-.914-21.5l.914-.914L16 13.586l10.293-8.293.914.914L16 19.414 4.793 6.207zm21.5 21.5l-6.5-9.5.914-.914 8 8-2.414 2.414z"/></svg> -->
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.865-6.842c.003.041.004.083.004.125v12z"/></svg> -->
+</a>
+            
+        </div>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag-windows tag-tensorflow tag-c post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime=" 2 November 2020"> 2 November 2020</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/windows/'>WINDOWS</a>,
+                            
+                        
+                            
+                               <a href='/tag/tensorflow/'>TENSORFLOW</a>,
+                            
+                        
+                            
+                               <a href='/tag/c/'>C++</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">Window下搭建Tensorflow的C++环境</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/2.jpeg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <blockquote>
+  <p>参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn</p>
+</blockquote>
+
+<h3 id="一-下载需要的软件">一. 下载需要的软件</h3>
+
+<ul>
+  <li>bazel：Google 的一款可再生的代码构建工具，类似于Cmake。使用scoop进行安装：<code class="highlighter-rouge">scoop install bazel</code></li>
+  <li>python3.7：这里最好用pip 安装下必要的第三方包，比如<code class="highlighter-rouge">tensorflow,kears,numpy</code>等。</li>
+  <li>下载官方源码：<code class="highlighter-rouge">git clone https://github.com/tensorflow/tensorflow.git</code></li>
+</ul>
+
+<h3 id="二-进行bazel源码编译">二. 进行bazel源码编译</h3>
+
+<h4 id="21-配置build">2.1 配置build</h4>
+
+<ul>
+  <li>cd到源码目录：<code class="highlighter-rouge">cd tensorflow-master</code></li>
+  <li>通过在 TensorFlow 源代码树的根目录下运行以下命令来配置系统构建：<code class="highlighter-rouge">python3 ./configure.py</code></li>
+  <li>这里选择的是cpu版本的，每个配置的选择如下：</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You have bazel 3.7.0 installed.
+Please specify the location of python. <span class="o">[</span>Default is C:<span class="se">\s</span>oft<span class="se">\p</span>ython3.7.9<span class="se">\p</span>ython3.exe]:
+
+
+Found possible Python library paths:
+  C:<span class="se">\s</span>oft<span class="se">\p</span>ython3.7.9<span class="se">\l</span>ib<span class="se">\s</span>ite-packages
+Please input the desired Python library path to use.  Default is <span class="o">[</span>C:<span class="se">\s</span>oft<span class="se">\p</span>ython3.7.9<span class="se">\l</span>ib<span class="se">\s</span>ite-packages]
+
+Do you wish to build TensorFlow with ROCm support? <span class="o">[</span>y/N]: n
+
+Do you wish to build TensorFlow with CUDA support? <span class="o">[</span>y/N]: n
+No CUDA support will be enabled <span class="k">for </span>TensorFlow.
+
+Please specify optimization flags to use during compilation when bazel option <span class="s2">"--config=opt"</span> is specified <span class="o">[</span>Default is /arch:AVX]:
+
+
+Would you like to override eigen strong inline <span class="k">for </span>some C++ compilation to reduce the compilation <span class="nb">time</span>? <span class="o">[</span>Y/n]: y
+Eigen strong inline overridden.
+
+Would you like to interactively configure ./WORKSPACE <span class="k">for </span>Android builds? <span class="o">[</span>y/N]: n
+Not configuring the WORKSPACE <span class="k">for </span>Android builds.
+
+Preconfigured Bazel build configs. You can use any of the below by adding <span class="s2">"--config=&lt;&gt;"</span> to your build command. See .bazelrc <span class="k">for </span>more details.
+        <span class="nt">--config</span><span class="o">=</span>mkl            <span class="c"># Build with MKL support.</span>
+        <span class="nt">--config</span><span class="o">=</span>mkl_aarch64    <span class="c"># Build with oneDNN support for Aarch64.</span>
+        <span class="nt">--config</span><span class="o">=</span>monolithic     <span class="c"># Config for mostly static monolithic build.</span>
+        <span class="nt">--config</span><span class="o">=</span>numa           <span class="c"># Build with NUMA support.</span>
+        <span class="nt">--config</span><span class="o">=</span>dynamic_kernels        <span class="c"># (Experimental) Build kernels into separate shared objects.</span>
+        <span class="nt">--config</span><span class="o">=</span>v2             <span class="c"># Build TensorFlow 2.x instead of 1.x.</span>
+Preconfigured Bazel build configs to DISABLE default on features:
+        <span class="nt">--config</span><span class="o">=</span>noaws          <span class="c"># Disable AWS S3 filesystem support.</span>
+        <span class="nt">--config</span><span class="o">=</span>nogcp          <span class="c"># Disable GCP support.</span>
+        <span class="nt">--config</span><span class="o">=</span>nohdfs         <span class="c"># Disable HDFS support.</span>
+        <span class="nt">--config</span><span class="o">=</span>nonccl         <span class="c"># Disable NVIDIA NCCL support.</span>
+</code></pre></div></div>
+
+<h4 id="22-bazel编译">2.2 bazel编译</h4>
+
+<ul>
+  <li>
+    <p>修改bazel中间文件存储的路径（<strong>磁盘可用空间 Release 版本 &gt;= 16G , Debug版本 &gt;= 40G</strong> 编译的中间文件默认会放到 <strong>C:\用户\你的账号名\ _bazel_你的账号名</strong> 下. C 盘可能没有那么大的空间, 所以要改一下输出文件的路径），打开tensorflow文件夹，<code class="highlighter-rouge">vim .bazelrc</code>，在最后一行加上<code class="highlighter-rouge">startup --output_user_root=D:/tf</code>，如果不修改路径，可能会编译到一半就卡死。</p>
+  </li>
+  <li>bazel编译动态链接库命令（这里加上使用的最大内存）：
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> bazel build <span class="nt">--config</span><span class="o">=</span>opt //tensorflow:tensorflow_cc.dll <span class="nt">--local_ram_resources</span><span class="o">=</span>1024
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>编译的过程可能会很长，千万不要以为有问题就<code class="highlighter-rouge">Ctrl C</code>了（分2个过程：下中间资源+编译），编译完成后会出现</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Build completed successfully
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>编译好的库文件在<code class="highlighter-rouge">tensorflow-master\bazel-bin\tensorflow</code>目录下，分别是<code class="highlighter-rouge">tensorflow_cc.dll</code>和<code class="highlighter-rouge">tensorflow_cc.dll.if.lib</code>。</p>
+  </li>
+  <li>
+    <p>bazel编译头文件命令：</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> bazel build <span class="nt">--config</span><span class="o">=</span>opt //tensorflow:install_headers <span class="nt">--local_ram_resources</span><span class="o">=</span>1024
+</code></pre></div>    </div>
+  </li>
+  <li>编译好的头文件在<code class="highlighter-rouge">tensorflow-master\bazel-bin\tensorflow\include</code>目录下。</li>
+</ul>
+
+<h3 id="三-新建项目测试">三. 新建项目测试</h3>
+
+<blockquote>
+  <p>注意：</p>
+
+  <p>​	1. 这里编译的是tensorflow的release版本，因此构建项目的时候把环境从debug变成release</p>
+
+  <p>​	2. 在新建项目属性表（这里无论是opencv还是tensorflow）中，要选择release版本的x64（64位）</p>
+</blockquote>
+
+<ul>
+  <li>新建一个项目</li>
+  <li>在项目中新建一个文件夹存放之前编译好的头文件，库文件，具体结构如下所示</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">├──</span> <span class="nx">tf_test</span><span class="c1">// 整个项目</span>
+	<span class="err">├──</span> <span class="nx">x64</span> <span class="c1">// 这里是生成解决方案得到的</span>
+	<span class="err">├──</span> <span class="nx">tf</span> <span class="c1">// 这里存放所有编译好的文件</span>
+    	<span class="err">├──</span><span class="nx">bin</span> <span class="c1">// 存放dll动态库文件</span>
+        	<span class="err">├──</span><span class="nx">tensorflow_cc</span><span class="p">.</span><span class="nx">dll</span>
+        <span class="err">├──</span><span class="nx">lib</span> <span class="c1">// 存放静态库文件</span>
+        	<span class="err">├──</span><span class="nx">tensorflow_cc</span><span class="p">.</span><span class="nx">lib</span>
+        <span class="err">├──</span><span class="nx">include</span> <span class="c1">// 直接是tensorflow编译好的include目录</span>
+    <span class="err">├──</span><span class="nx">main</span><span class="p">.</span><span class="nx">cpp</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>属性管理器 —— Release X64 —— 添加新项目属性表（如果代码中还需要添加opencv库的可以参考本人<a href="https://yy2lyx.github.io/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83/">另一篇博客</a>）</p>
+
+    <ul>
+      <li>
+        <p>VC++目录中的包含目录中添加：<code class="highlighter-rouge">D:tf_test\tf\include</code></p>
+      </li>
+      <li>VC++目录中的库目录中添加：<code class="highlighter-rouge">D:tf_test\tf\lib</code></li>
+      <li>链接器——输入——附加依赖项中添加：<code class="highlighter-rouge">tensorflow_cc.lib</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>选择项目为release和x64平台。</p>
+  </li>
+  <li>
+    <p>使用以下代码进行测试</p>
+  </li>
+</ul>
+
+<pre><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;opencv2/highgui/highgui.hpp&gt;
+#include&lt;opencv2/opencv.hpp&gt;
+#include"tensorflow/core/public/session.h"
+#include"tensorflow/core/platform/env.h"
+
+using namespace std;
+using namespace tensorflow;
+using namespace cv;
+
+int main()
+{
+    const string model_path = "D:\\code\\yinbao_face\\live.pb";
+    const string image_path = "0.jpg";
+
+
+    Mat img = imread(image_path);
+    cvtColor(img, img, COLOR_BGR2RGB);
+    resize(img, img, Size(112, 112), 0, 0, INTER_NEAREST);
+    int height = img.rows;
+    int width = img.cols;
+    int depth = img.channels();
+
+    // 图像预处理
+    img = (img - 0) / 255.0;
+   // img.convertTo(img, CV_32FC3, 1.0 / 255, 0);
+
+    // 取图像数据，赋给tensorflow支持的Tensor变量中
+    const float* source_data = (float*)img.data;
+    Tensor input_tensor(DT_FLOAT, TensorShape({ 1, height, width, 3 }));
+    auto input_tensor_mapped = input_tensor.tensor&lt;float, 4&gt;();
+
+    for (int i = 0; i &lt; height; i++) {
+        const float* source_row = source_data + (i * width * depth);
+        for (int j = 0; j &lt; width; j++) {
+            const float* source_pixel = source_row + (j * depth);
+            for (int c = 0; c &lt; depth; c++) {
+                const float* source_value = source_pixel + c;
+                input_tensor_mapped(0, i, j, c) = *source_value;
+                //printf("%d");
+            }
+        }
+    }
+
+    Session* session;
+
+    Status status = NewSession(SessionOptions(), &amp;session);
+    if (!status.ok()) {
+        cerr &lt;&lt; status.ToString() &lt;&lt; endl;
+        return -1;
+    }
+    else {
+        cout &lt;&lt; "Session created successfully" &lt;&lt; endl;
+    }
+    GraphDef graph_def;
+    Status status_load = ReadBinaryProto(Env::Default(), model_path, &amp;graph_def);
+    if (!status_load.ok()) {
+        cerr &lt;&lt; status_load.ToString() &lt;&lt; endl;
+        return -1;
+    }
+    else {
+        cout &lt;&lt; "Load graph protobuf successfully" &lt;&lt; endl;
+    }
+
+    // 将graph加载到session
+    Status status_create = session-&gt;Create(graph_def);
+    if (!status_create.ok()) {
+        cerr &lt;&lt; status_create.ToString() &lt;&lt; endl;
+        return -1;
+    }
+    else {
+        cout &lt;&lt; "Add graph to session successfully" &lt;&lt; endl;
+    }
+
+    cout &lt;&lt; input_tensor.DebugString() &lt;&lt; endl; //打印输入
+    vector&lt;pair&lt;string, Tensor&gt;&gt; inputs = {
+        { "input_1:0", input_tensor },  //input_1:0为输入节点名
+    };
+
+    // 输出outputs
+    vector&lt;Tensor&gt; outputs;
+    vector&lt;string&gt; output_nodes;
+    output_nodes.push_back("output_1:0");  //输出有多个节点的话就继续push_back
+
+    double start = clock();
+    // 运行会话，最终结果保存在outputs中
+    Status status_run = session-&gt;Run({ inputs }, { output_nodes }, {}, &amp;outputs);
+    Tensor boxes = move(outputs.at(0));
+    cout &lt;&lt; boxes.DebugString() &lt;&lt; endl; //打印输出
+
+    double end = clock();
+    cout &lt;&lt; "time = " &lt;&lt; (end - start) &lt;&lt; "\n";
+    if (!status_run.ok()) {
+        cerr &lt;&lt; status_run.ToString() &lt;&lt; endl;
+        return -1;
+    }
+    else {
+        //cout &lt;&lt; "Run session successfully" &lt;&lt; endl;
+    }
+}
+</code></pre>
+
+<h3 id="四-测试中出现的问题">四. 测试中出现的问题</h3>
+
+<h4 id="41-生成解决方案的时候报错无法打开包括文件">4.1 生成解决方案的时候报错无法打开包括文件：</h4>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gkelmo3blhj30gz01ia9t.jpg" alt="" /></p>
+
+<p>解决方式：在本地的通过python pip安装后的tensorflow文件夹中（<code class="highlighter-rouge">C:\soft\python3.7.9\Lib\site-packages\tensorflow\include</code>）将<code class="highlighter-rouge">google</code>文件夹复制到<code class="highlighter-rouge">D:tf_test\tf\include</code>下面，即可解决</p>
+
+<h4 id="42-生成解决方案的时候报错link1120">4.2 生成解决方案的时候报错Link1120:</h4>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gkeln9lgpwj30zt01owec.jpg" alt="" /></p>
+
+<p>解决方式：将vs2019上报错信息复制，cd到<code class="highlighter-rouge">tensorflow-master\tensorflow\tools\def_file_filter</code>(这里的tensorflow-master是自己下载tensorflow源码的地方），编辑<code class="highlighter-rouge">def_file_filter.py.tpl</code>文件：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Header for the def file. (找到这一行代码)</span>
+    <span class="k">if </span>args.target:
+    def_fp.write<span class="o">(</span><span class="s2">"LIBRARY "</span> + args.target + <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+    def_fp.write<span class="o">(</span><span class="s2">"EXPORTS</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+    def_fp.write<span class="o">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2"> ??1OpDef@tensorflow@@UEAA@XZ</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+    <span class="c"># 下面两个就是复制的错误信息</span>
+    def_fp.write<span class="o">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2"> ?NewSession@tensorflow@@YA?AVStatus@1@AEBUSessionOptions@1@PEAPEAVSession@1@@Z</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+    def_fp.write<span class="o">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2"> ??0SessionOptions@tensorflow@@QEAA@XZ</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>重新编译DLL，头文件（虽然很麻烦，但是还是得做啊）</p>
+
+<h4 id="43-有太多的错误导致intellisense引擎无法正常工作其中有些错误无法在编辑器">4.3 有太多的错误导致IntelliSense引擎无法正常工作,其中有些错误无法在编辑器</h4>
+
+<p>解决方式：在项目-&gt;属性-&gt;配置属性-&gt;C/C++-&gt;预处理器-&gt;预处理器定义中加入<code class="highlighter-rouge">_XKEYCHECK_H</code>就消失了</p>
+
+<h4 id="44-找不到tensorflow_ccdll文件">4.4 找不到tensorflow_cc.dll文件</h4>
+
+<p>解决方式：将<code class="highlighter-rouge">tensorflow_cc.dll</code>文件复制到<code class="highlighter-rouge">x64/release</code>文件夹下。</p>
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/blog-cover.jpg)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/windows/">Windows</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85mysql%E5%92%8C%E5%AF%BC%E5%85%A5sql%E6%96%87%E4%BB%B6">Windows下安装mysql和导入sql文件</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83">Visual Studio 2019 下搭建opencv3.4.11的C++环境</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/windows/">
+                                
+                                    查看相关的 2 篇文章  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL">
+                <div class="post-card-image" style="background-image: url(/assets/images/1.jpeg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Keras</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">C++</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Keras训练模型部署到C++环境并生成DLL</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/pytorch%E4%BD%BF%E7%94%A8YOLOv5%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE">
+                <div class="post-card-image" style="background-image: url(/assets/images/mir.png)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/pytorch%E4%BD%BF%E7%94%A8YOLOv5%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Pytorch</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Yolov5</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">训练</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">pytorch使用YOLOv5训练数据</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="http://localhost:4000/">
+            
+                <img src="/assets/images/yy.jpg" alt="李小肥的YY icon" />
+            
+            <span>李小肥的YY</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Window下搭建Tensorflow的C++环境</div>
+    <!-- <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C%2B%2B%E7%8E%AF%E5%A2%83&amp;url=www.lixiaofei2yy.websiteWindow%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.lixiaofei2yy.websiteWindow%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div> -->
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="http://localhost:4000/">李小肥的YY</a> &copy; 2020</section>
+                <!-- <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav> -->
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-69281367-1', 'auto');
+  ga('send', 'pageview');
+
+ </script>
+
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>机器学习常用函数</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="欢迎各位看官光临本小站，希望共同学习进步哈！" />
+    <link rel="shortcut icon" href="http://localhost:4000/assets/images/yy.jpg" type="image/png" />
+    <link rel="canonical" href="http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="李小肥的YY" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="机器学习常用函数" />
+    <meta property="og:description" content="一.数据处理工具pandas和numpy 1.1 pandas读取数据 data = pd.read_csv("data.csv",index_col=False,encoding = "utf-8") data = pd.read_tabel("data.txt",sep = ",") 1.2 numpy.random 生成数据的用法 numpy.random.rand(4,2,3) ==&gt;生成4*2*3的矩阵，其中元素在[0,1)，float np.random.randn(4,2,3) ==&gt;生成4*2*3的矩阵，元素是标准正态分布（以0为均值、以1为标准差的正态分布，记为N（0，1）），float np.random.randint(-5,5,size=(2,2)) ==&gt;生成一个2*2的矩阵，元素值在[-5,5)随机整数，int np.random.random_sample(size=(2,2)) ==&gt;生成一个2*2的矩阵，元素是[0,1),float np.random.seed(1676) ==&gt;设置种子数，每次生成的随机数相同 1.3 pandas_profiling 用于简单快速查看数据分布和得到数据报告。 import pandas_profiling pfr = pandas_profiling.ProfileReport(data) pfr.to_file("./example.html") 1.4 pandas去掉重复项 df.drop_duplicates() df[df.duplicated()].shape df = df.drop_duplicates() df.shape 1.5 pandas中loc和iloc区别 loc利用index的名称（这里可以是index和行号不一致），来获取想要的行（或列）。（名称导向的这个特点，使得df[df.loc[‘col_name’] == ‘condition’, ‘col_name’] =" />
+    <meta property="og:url" content="http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0" />
+    <meta property="og:image" content="http://localhost:4000/assets/images/math.jpg" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2020-10-20T18:18:00+08:00" />
+    <meta property="article:modified_time" content="2020-10-20T18:18:00+08:00" />
+    <meta property="article:tag" content="Machinelearning" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="机器学习常用函数" />
+    <meta name="twitter:description" content="一.数据处理工具pandas和numpy 1.1 pandas读取数据 data = pd.read_csv("data.csv",index_col=False,encoding = "utf-8") data = pd.read_tabel("data.txt",sep = ",") 1.2 numpy.random 生成数据的用法 numpy.random.rand(4,2,3) ==&gt;生成4*2*3的矩阵，其中元素在[0,1)，float np.random.randn(4,2,3) ==&gt;生成4*2*3的矩阵，元素是标准正态分布（以0为均值、以1为标准差的正态分布，记为N（0，1）），float np.random.randint(-5,5,size=(2,2)) ==&gt;生成一个2*2的矩阵，元素值在[-5,5)随机整数，int np.random.random_sample(size=(2,2)) ==&gt;生成一个2*2的矩阵，元素是[0,1),float np.random.seed(1676) ==&gt;设置种子数，每次生成的随机数相同 1.3 pandas_profiling 用于简单快速查看数据分布和得到数据报告。 import pandas_profiling pfr = pandas_profiling.ProfileReport(data) pfr.to_file("./example.html") 1.4 pandas去掉重复项 df.drop_duplicates() df[df.duplicated()].shape df = df.drop_duplicates() df.shape 1.5 pandas中loc和iloc区别 loc利用index的名称（这里可以是index和行号不一致），来获取想要的行（或列）。（名称导向的这个特点，使得df[df.loc[‘col_name’] == ‘condition’, ‘col_name’] =" />
+    <meta name="twitter:url" content="http://localhost:4000/" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/math.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="李小肥的YY" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Machinelearning" />
+    <meta name="twitter:site" content="@" />
+    <meta name="twitter:creator" content="@" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "李小肥的YY",
+        "logo": "http://localhost:4000/"
+    },
+    "url": "http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:4000/assets/images/math.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"
+    },
+    "description": "一.数据处理工具pandas和numpy 1.1 pandas读取数据 data = pd.read_csv("data.csv",index_col=False,encoding = "utf-8") data = pd.read_tabel("data.txt",sep = ",") 1.2 numpy.random 生成数据的用法 numpy.random.rand(4,2,3) ==&gt;生成4*2*3的矩阵，其中元素在[0,1)，float np.random.randn(4,2,3) ==&gt;生成4*2*3的矩阵，元素是标准正态分布（以0为均值、以1为标准差的正态分布，记为N（0，1）），float np.random.randint(-5,5,size=(2,2)) ==&gt;生成一个2*2的矩阵，元素值在[-5,5)随机整数，int np.random.random_sample(size=(2,2)) ==&gt;生成一个2*2的矩阵，元素是[0,1),float np.random.seed(1676) ==&gt;设置种子数，每次生成的随机数相同 1.3 pandas_profiling 用于简单快速查看数据分布和得到数据报告。 import pandas_profiling pfr = pandas_profiling.ProfileReport(data) pfr.to_file("./example.html") 1.4 pandas去掉重复项 df.drop_duplicates() df[df.duplicated()].shape df = df.drop_duplicates() df.shape 1.5 pandas中loc和iloc区别 loc利用index的名称（这里可以是index和行号不一致），来获取想要的行（或列）。（名称导向的这个特点，使得df[df.loc[‘col_name’] == ‘condition’, ‘col_name’] ="
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="机器学习常用函数" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="http://localhost:4000/">李小肥的YY</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+                <a class="social-link social-link-github" href="https://github.com/yy2lyx" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 .395c-8.836 0-16 7.163-16 16 0 7.069 4.585 13.067 10.942 15.182.8.148 1.094-.347 1.094-.77 0-.381-.015-1.642-.022-2.979-4.452.968-5.391-1.888-5.391-1.888-.728-1.849-1.776-2.341-1.776-2.341-1.452-.993.11-.973.11-.973 1.606.113 2.452 1.649 2.452 1.649 1.427 2.446 3.743 1.739 4.656 1.33.143-1.034.558-1.74 1.016-2.14-3.554-.404-7.29-1.777-7.29-7.907 0-1.747.625-3.174 1.649-4.295-.166-.403-.714-2.03.155-4.234 0 0 1.344-.43 4.401 1.64a15.353 15.353 0 0 1 4.005-.539c1.359.006 2.729.184 4.008.539 3.054-2.07 4.395-1.64 4.395-1.64.871 2.204.323 3.831.157 4.234 1.026 1.12 1.647 2.548 1.647 4.295 0 6.145-3.743 7.498-7.306 7.895.574.497 1.085 1.47 1.085 2.963 0 2.141-.019 3.864-.019 4.391 0 .426.288.925 1.099.768C27.421 29.457 32 23.462 32 16.395c0-8.837-7.164-16-16-16z"/></svg>
+</a>
+            
+            
+                <a class="social-link social-link-mail" href="mailto:yeyansiwangtt@gmail.com" target="_blank" rel="noopener"><!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M26.666 0H5.334C2.4 0 0 2.4 0 5.333v21.333C0 29.6 2.4 32 5.334 32h21.332C29.602 32 32 29.6 32 26.666V5.333C32 2.399 29.602 0 26.666 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.864-6.842c.003.041.004.083.004.125v12z"/></svg> -->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35"><path d="M26.667 0H5.334C2.4 0 0 2.4 0 5.334v21.332C0 29.602 2.4 32 5.334 32h21.333C29.601 32 32 29.602 32 26.666V5.334C32 2.4 29.601 0 26.667 0zm0 4c.25 0 .486.073.688.198L16 13.586 4.645 4.199c.202-.125.439-.198.689-.198h21.333zM5.334 28a1.32 1.32 0 0 1-.178-.013l7.051-9.78-.914-.914L4 24.586V5.488L16 20 28 5.488v19.098l-7.293-7.293-.914.914 7.051 9.78a1.294 1.294 0 0 1-.177.013H5.334z"/></svg>
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M26.667 0H5.334C2.4 0 0 2.4 0 5.334v21.332C0 29.602 2.4 32 5.334 32h21.333C29.601 32 32 29.602 32 26.666V5.334C32 2.4 29.601 0 26.667 0zM5.707 27.707l-2.414-2.414 8-8 .914.914-6.5 9.5zm-.914-21.5l.914-.914L16 13.586l10.293-8.293.914.914L16 19.414 4.793 6.207zm21.5 21.5l-6.5-9.5.914-.914 8 8-2.414 2.414z"/></svg> -->
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.865-6.842c.003.041.004.083.004.125v12z"/></svg> -->
+</a>
+            
+        </div>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag-machinelearning tag-pandas tag-sklearn post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="20 October 2020">20 October 2020</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/machinelearning/'>MACHINELEARNING</a>,
+                            
+                        
+                            
+                               <a href='/tag/pandas/'>PANDAS</a>,
+                            
+                        
+                            
+                               <a href='/tag/sklearn/'>SKLEARN</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">机器学习常用函数</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/math.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <h3 id="一数据处理工具pandas和numpy">一.数据处理工具pandas和numpy</h3>
+<h4 id="11-pandas读取数据">1.1 pandas读取数据</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"data.csv"</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">encoding</span> <span class="o">=</span> <span class="s">"utf-8"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_tabel</span><span class="p">(</span><span class="s">"data.txt"</span><span class="p">,</span><span class="n">sep</span> <span class="o">=</span> <span class="s">","</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="12-numpyrandom-生成数据的用法">1.2 numpy.random 生成数据的用法</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="o">==&gt;</span><span class="err">生成</span><span class="mi">4</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="mi">3</span><span class="err">的矩阵，其中元素在</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="err">，</span><span class="nb">float</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="o">==&gt;</span><span class="err">生成</span><span class="mi">4</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="mi">3</span><span class="err">的矩阵，元素是标准正态分布（以</span><span class="mi">0</span><span class="err">为均值、以</span><span class="mi">1</span><span class="err">为标准差的正态分布，记为</span><span class="n">N</span><span class="err">（</span><span class="mi">0</span><span class="err">，</span><span class="mi">1</span><span class="err">）），</span><span class="nb">float</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>  <span class="o">==&gt;</span><span class="err">生成一个</span><span class="mi">2</span><span class="o">*</span><span class="mi">2</span><span class="err">的矩阵，元素值在</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="err">随机整数，</span><span class="nb">int</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_sample</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>  <span class="o">==&gt;</span><span class="err">生成一个</span><span class="mi">2</span><span class="o">*</span><span class="mi">2</span><span class="err">的矩阵，元素是</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="nb">float</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1676</span><span class="p">)</span> <span class="o">==&gt;</span><span class="err">设置种子数，每次生成的随机数相同</span>
+</code></pre></div></div>
+
+<h4 id="13-pandas_profiling">1.3 pandas_profiling</h4>
+<p>用于简单快速查看数据分布和得到数据报告。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas_profiling</span>
+<span class="n">pfr</span> <span class="o">=</span> <span class="n">pandas_profiling</span><span class="o">.</span><span class="n">ProfileReport</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">pfr</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s">"./example.html"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="14-pandas去掉重复项-dfdrop_duplicates">1.4 pandas去掉重复项 df.drop_duplicates()</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<h4 id="15-pandas中loc和iloc区别">1.5 pandas中loc和iloc区别</h4>
+
+<ul>
+  <li>
+    <p><strong>loc</strong>利用index的名称（<strong>这里可以是index和行号不一致</strong>），来获取想要的行（或列）。（名称导向的这个特点，使得df[df.loc[‘col_name’] == ‘condition’, ‘col_name’] = value_1成立。
+具体的实际应用，可参考 代码案例 一步实现EXCEL的合并数据、数据筛选、数据透视功能。</p>
+  </li>
+  <li>
+    <p><strong>iloc</strong>利用index的具体位置（所以它<strong>只能是整数型参数</strong>，<strong>行号</strong>），来获取想要的<strong>行</strong>（或<strong>列</strong>）。</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 这里loc就可以直接用自己写的索引来构成</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s">'C'</span><span class="p">:</span><span class="s">'6'</span><span class="p">,</span> <span class="s">'3'</span><span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> 
+
+<span class="c"># 利用iloc抽取指定位置（所在的行整数值）的索引所构成的新的dataframe</span>
+<span class="n">new_dataframe</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index_list</span><span class="p">,:]</span>
+</code></pre></div></div>
+
+<h4 id="16-找到nan值npisnan">1.6 找到Nan值——np.isnan()</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nan_np_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">np_data</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h4 id="17-哑变量生成pdget_dummies">1.7 哑变量生成——pd.get_dummies()</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dummy_device_type</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data_org</span><span class="p">[</span><span class="s">'platform'</span><span class="p">],</span><span class="n">prefix</span><span class="o">=</span><span class="s">'device_type'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="18-计算特征之间的相关系数">1.8 计算特征之间的相关系数</h4>
+
+<p>自变量之间相关系数较大的话，需要考虑共线性的问题，共线性会导致模型出现开式解，降低模型的稳定性。</p>
+
+<p>常见方法有<strong>皮尔森相关系数</strong>和<strong>斯皮尔曼相关系数</strong>。两个系数都是介于-1和1之间，-1表示完全负相关，1表示完全正相关，0表示完全不相关。</p>
+
+<p>使用皮尔森相关系数有局限：要求数据是成对的从正态分布中取得的。而斯皮尔曼相关系数是一种秩相关系数，不受数据分布的影响，它通过对变量排序，以排序后两个变量的秩次差来计算相关系数。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pearson</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span> <span class="c"># 适用于都是连续性变量</span>
+<span class="n">spearman</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="s">'spearman'</span><span class="p">)</span> <span class="c"># 适用于离散和连续变量</span>
+</code></pre></div></div>
+
+<h4 id="19-dataframe的拼接">1.9 dataframe的拼接</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_all_row</span> <span class="o">=</span> <span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span><span class="n">df2</span><span class="p">])</span>  <span class="c">#等价于 df1.append(df2)，纵着拼接</span>
+
+<span class="c">#等价于 merge(df1,df2,left_index=True,right_index=True,how='outer')</span>
+<span class="n">df_all_col</span> <span class="o">=</span> <span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span><span class="n">df2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c"># 横着拼接</span>
+</code></pre></div></div>
+
+<h4 id="110--groupby的使用">1.10  groupby的使用</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'A'</span><span class="p">:</span> <span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">],</span> 
+                   <span class="s">'B'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> 
+                   <span class="s">'C'</span><span class="p">:</span> <span class="p">[</span><span class="mi">102</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">107</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">115</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="mi">123</span><span class="p">]})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'A'</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="o">==&gt;</span>     
+<span class="n">A</span>   <span class="n">B</span>       <span class="n">C</span>                 
+<span class="n">a</span>  <span class="mf">2.0</span>  <span class="mf">108.000000</span>
+<span class="n">b</span>  <span class="mf">6.5</span>   <span class="mf">95.000000</span>
+<span class="n">c</span>  <span class="mf">5.0</span>  <span class="mf">104.666667</span>
+</code></pre></div></div>
+
+<h4 id="111--seriesapply">1.11  Series.apply</h4>
+
+<p>该函数用于对该series的所有元素进行处理生成一个新的series。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">new_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="s">"""这里是函数中带2个参数的"""</span>
+<span class="k">def</span> <span class="nf">subtract_custom_value</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">custom_value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">custom_value</span>
+<span class="n">new_series_2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">subtract_custom_value</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,))</span>
+</code></pre></div></div>
+
+<h4 id="112--series可以直接用于2个列相加减">1.12  Series可以直接用于2个列相加减</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+<span class="n">diff_series</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+</code></pre></div></div>
+
+<h4 id="113-sort_values将dataframe根据某一列顺序重新生成">1.13 sort_values将dataframe根据某一列顺序重新生成</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 比如这里需要将整个dataframe根据时间戳的顺序（True）进行重新调整</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s">'timestamp'</span><span class="p">]</span><span class="err">，</span><span class="n">ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="114-concat-将dataframe或者是series进行合并">1.14 concat 将Dataframe或者是Series进行合并</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c"># 这里是三个Series根据每个的index进行合并（按列）</span>
+</code></pre></div></div>
+
+<h4 id="115-seriesreset_index-直接将series转成dataframe">1.15 Series.reset_index 直接将Series转成Dataframe</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">'index_name'</span><span class="p">)</span>  <span class="c"># 这里给series的index设置名字为'index_name'，并变成一列</span>
+</code></pre></div></div>
+
+<h4 id="116-dfgroupby的apply方式使用">1.16 df.groupby()的apply方式使用</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 初始的dataframe</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'A'</span><span class="p">:</span> <span class="s">'a a b'</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="s">'B'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s">'C'</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]})</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'A'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="nb">sum</span><span class="p">()))</span>
+         <span class="n">B</span>    <span class="n">C</span>
+<span class="mi">0</span>  <span class="mf">0.333333</span>  <span class="mf">0.4</span>
+<span class="mi">1</span>  <span class="mf">0.666667</span>  <span class="mf">0.6</span>
+<span class="mi">2</span>  <span class="mf">1.000000</span>  <span class="mf">1.0</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+      <span class="n">B</span>    <span class="n">C</span>
+<span class="mi">0</span>  <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>  <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="mi">1</span>  <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>  <span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+
+</code></pre></div></div>
+
+<h4 id="117-dfgroupby-直接分成2个组的dataframe">1.17 df.groupby() 直接分成2个组的dataframe</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'A'</span><span class="p">:</span> <span class="s">'a a b'</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="s">'B'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="s">'C'</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]})</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupyby</span><span class="p">(</span><span class="s">'A'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span><span class="n">group</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+    <span class="n">name_i</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">df_i</span> <span class="o">=</span> <span class="n">group</span> <span class="c"># 这里就是A只有a的dataframe</span>
+</code></pre></div></div>
+
+<h3 id="二绘图查看数据分布seaborn和matplotlib">二.绘图查看数据分布——seaborn和matplotlib</h3>
+
+<h4 id="21-频数分布直方图">2.1 频数分布直方图</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">plot_bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">color</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">width</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="s">'</span><span class="si">%.2</span><span class="s">f</span><span class="si">%%</span><span class="s">'</span> <span class="o">%</span> 			          <span class="p">((</span><span class="n">yy</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="nb">sum</span><span class="p">())</span><span class="o">*</span><span class="mi">100</span><span class="p">)),</span> <span class="n">ha</span><span class="o">=</span><span class="s">'center'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Hour'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Trade-Frequence'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">15</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="c"># the histogram of the data</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">'g'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Smarts'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Probability'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Histogram of IQ'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="o">.</span><span class="mo">025</span><span class="p">,</span> <span class="s">r'$\mu=100,\ \sigma=15$'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">40</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjei4iy6bdj30hs0dcq3t.jpg" alt="" /></p>
+
+<h4 id="22-散点图">2.2 散点图</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="23-直线图">2.3 直线图</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="24-双变量分布图">2.4 双变量分布图</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">two_dims_draw_relationship</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">xlabel</span><span class="p">,</span><span class="n">ylabel</span><span class="p">):</span>
+    <span class="c"># 双变量分布 x,ylabel是字符串，df必须是双维度的dataframe</span>
+    <span class="n">sns</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ylabel</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s">"kde"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"y"</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">plot_joint</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">"m"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">"+"</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">ax_joint</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c"># 画背景网格线</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">set_axis_labels</span><span class="p">(</span><span class="s">"${}$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xlabel</span><span class="p">),</span> <span class="s">"${}$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ylabel</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjei4tn70wj30go0goaav.jpg" alt="" /></p>
+
+<h4 id="25-多变量两两之间的分布图">2.5 多变量两两之间的分布图</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">all_two_feature_distribution</span><span class="p">(</span><span class="n">df</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s">'iris'</span><span class="p">)):</span>
+    <span class="n">sns</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s">"ticks"</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s">"species"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjei41be5cj30v40qutd8.jpg" alt="" /></p>
+
+<h4 id="26-热度图">2.6 热度图</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scores_h</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scores_h</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">scores_h</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
+<span class="n">scores_h</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">scores_h</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">xticklabels</span><span class="o">=</span><span class="n">cols_all_features</span><span class="p">,</span>
+                 <span class="n">yticklabels</span><span class="o">=</span><span class="n">cols_all_features</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s">'.2f'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"N_cluster"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"linkages"</span><span class="p">)</span>
+<span class="c"># 必须先savefig，之后再show，就不会出现保存时白色图片了</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">"h.jpg"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="三机器学习包sklearn">三.机器学习包sklearn</h3>
+<h4 id="31-划分数据集">3.1 划分数据集</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="p">(</span><span class="n">trainX</span><span class="p">,</span><span class="n">testX</span><span class="p">,</span><span class="n">trainY</span><span class="p">,</span><span class="n">testY</span><span class="p">)</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="32-特征标准化">3.2 特征标准化</h4>
+<ul>
+  <li>标准化：使用scale模块直接计算标准化，将标准化的array放在x_scale中，同时可以查看均值和标准差，但是该方式的一个不足是当存在新的样本到来时，无法利用已有的模块直接复用，需要利用mean和std自己计算。
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_scale</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">DatMat</span><span class="p">)</span>  
+<span class="n">x_scale</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x_scale</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>归一化：使用StandardScaler模块计算标准化，可以利用训练集数据建立一个转化的类，类似于实现将mean和std存储在该类中，将数据输入，就可以直接求出结果。
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scaler</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">datingDatMat</span><span class="p">)</span>
+<span class="n">datingDatMat</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">datingDatMat</span><span class="p">)</span>
+<span class="n">new_date</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">new_date_std</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_date</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</code></pre></div>    </div>
+    <p>这里的scaler更象是扮演一个计算器的角色，本身并不存储数据。</p>
+  </li>
+</ul>
+
+<h4 id="33-交叉验证查验模型稳定性">3.3 交叉验证——查验模型稳定性</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+ <span class="n">model_stability</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                              <span class="n">trainX</span><span class="p">,</span><span class="n">trainY</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s">"accuracy"</span><span class="p">)</span>
+<span class="n">mean_score_model</span> <span class="o">=</span> <span class="n">model_stability</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h4 id="34-模型评估方式混淆矩阵">3.4 模型评估方式——混淆矩阵</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="k">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">testY</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h4 id="35-分类结果展示准确性召回率f1-score">3.5 分类结果展示（准确性，召回率，f1-score）</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="k">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">testY</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h4 id="36-模型的保存和加载">3.6 模型的保存和加载</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="c"># 保存模型</span>
+<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">rf_clf</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s">'model/model.model'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">))</span>
+<span class="c"># 导入模型</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">'model_save/model.model'</span><span class="p">,</span><span class="s">'wb'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h4 id="37-数据样本不均衡smoteenn">3.7 数据样本不均衡——SMOTEENN</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">imblearn.combine</span> <span class="kn">import</span> <span class="n">SMOTEENN</span>
+<span class="n">smote_enn</span> <span class="o">=</span> <span class="n">SMOTEENN</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_resampled</span><span class="p">,</span><span class="n">y_resampled</span> <span class="o">=</span> <span class="n">smote_enn</span><span class="o">.</span><span class="n">fit_sample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="38-自动超参调节">3.8 自动超参调节</h4>
+<ul>
+  <li>自动调参——GridSearchCV</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="n">rcl</span><span class="o">=</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">min_samples_split</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">max_features</span><span class="o">=</span><span class="s">'sqrt'</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="c"># 现在不确定RandomForest其中一个参数n_estimators的个数</span>
+<span class="n">param_test1</span> <span class="o">=</span> <span class="p">{</span><span class="s">'n_estimators'</span><span class="p">:</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">71</span><span class="p">,</span><span class="mi">10</span><span class="p">)}</span>
+<span class="n">gsearch1</span><span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span> <span class="o">=</span><span class="n">rcl</span><span class="p">,</span><span class="n">param_grid</span><span class="o">=</span>                                              <span class="n">param_test1</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s">'roc_auc'</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">gsearch1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">gsearch1</span><span class="o">.</span><span class="n">grid_scores_</span><span class="p">,</span> <span class="n">gsearch1</span><span class="o">.</span><span class="n">best_params_</span><span class="p">,</span> 	           <span class="n">gsearch1</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>自动调参神器——Hyperopt</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">hyperopt</span> <span class="kn">import</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">tpe</span><span class="p">,</span> <span class="n">hp</span><span class="p">,</span> <span class="n">rand</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="c"># SVM的三个超参数：C为惩罚因子，kernel为核函数类型，gamma为核函数的额外参数（对于不同类型的核函数有不同的含义）</span>
+<span class="c"># 有别于传统的网格搜索（GridSearch），这里只需要给出最优参数的概率分布即可，而不需要按照步长把具体的值给一个个枚举出来</span>
+<span class="n">parameter_space_svc</span> <span class="o">=</span><span class="p">{</span>
+    <span class="c"># loguniform表示该参数取对数后符合均匀分布</span>
+    <span class="s">'C'</span><span class="p">:</span><span class="n">hp</span><span class="o">.</span><span class="n">loguniform</span><span class="p">(</span><span class="s">"C"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">100</span><span class="p">)),</span>
+    <span class="s">'kernel'</span><span class="p">:</span><span class="n">hp</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="s">'kernel'</span><span class="p">,[</span><span class="s">'rbf'</span><span class="p">,</span><span class="s">'poly'</span><span class="p">]),</span>
+    <span class="s">'gamma'</span><span class="p">:</span> <span class="n">hp</span><span class="o">.</span><span class="n">loguniform</span><span class="p">(</span><span class="s">"gamma"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.001</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)),</span>
+<span class="p">}</span>
+
+<span class="c"># 鸢尾花卉数据集，是一类多重变量分析的数据集</span>
+<span class="c"># 通过花萼长度，花萼宽度，花瓣长度，花瓣宽度4个属性预测鸢尾花卉属于（Setosa，Versicolour，Virginica）三个种类中的哪一类</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">()</span>
+
+<span class="c">#--------------------划分训练集和测试集--------------------</span>
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1300</span><span class="p">]</span>
+<span class="n">train_target</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1300</span><span class="p">]</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1300</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">test_target</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="mi">1300</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="c">#-----------------------------------------------------------</span>
+
+<span class="c"># 计数器，每一次参数组合的枚举都会使它加1</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">"C"</span><span class="p">]</span>
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">"kernel"</span><span class="p">]</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">"gamma"</span><span class="p">]</span>
+
+    <span class="c"># **可以把dict转换为关键字参数，可以大大简化复杂的函数调用</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">c</span><span class="p">,</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">,</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">)</span>
+
+    <span class="c"># 训练模型</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span><span class="n">train_target</span><span class="p">)</span>
+
+    <span class="c"># 预测测试集</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+
+    <span class="k">global</span> <span class="n">count</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">test_target</span><span class="p">,</span><span class="n">prediction</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"第</span><span class="si">%</span><span class="s">s次，测试集正确率为："</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">),</span><span class="n">score</span><span class="p">)</span>
+
+    <span class="c"># 由于hyperopt仅提供fmin接口，因此如果要求最大值，则需要取相反数</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">score</span>
+
+<span class="c"># algo指定搜索算法，目前支持以下算法：</span>
+<span class="c"># ①随机搜索(hyperopt.rand.suggest)</span>
+<span class="c"># ②模拟退火(hyperopt.anneal.suggest)</span>
+<span class="c"># ③TPE算法（hyperopt.tpe.suggest，算法全称为Tree-structured Parzen Estimator Approach）</span>
+<span class="c"># max_evals指定枚举次数上限，即使第max_evals次枚举仍未能确定全局最优解，也要结束搜索，返回目前搜索到的最优解</span>
+<span class="n">best</span> <span class="o">=</span> <span class="n">fmin</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">parameter_space_svc</span><span class="p">,</span> <span class="n">algo</span><span class="o">=</span><span class="n">tpe</span><span class="o">.</span><span class="n">suggest</span><span class="p">,</span> <span class="n">max_evals</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c"># best["kernel"]返回的是数组下标，因此需要把它还原回来</span>
+<span class="n">kernel_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">'rbf'</span><span class="p">,</span><span class="s">'poly'</span><span class="p">]</span>
+<span class="n">best</span><span class="p">[</span><span class="s">"kernel"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel_list</span><span class="p">[</span><span class="n">best</span><span class="p">[</span><span class="s">"kernel"</span><span class="p">]]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"最佳参数为："</span><span class="p">,</span><span class="n">best</span><span class="p">)</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="o">**</span><span class="n">best</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="39-to_categorical">3.9 to_categorical</h4>
+<p>功能：将label转为one_hot形式，源于keras.utils包</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">to_categorical</span>
+<span class="n">y_onehot</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">num_classes</span><span class="p">(</span><span class="err">总类别数</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h4 id="310-绘制roc曲线">3.10 绘制ROC曲线</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">auc</span>
+<span class="k">def</span> <span class="nf">draw_ROC_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">,</span> <span class="n">savepath</span><span class="p">):</span>
+    <span class="s">'''画ROC曲线'''</span>
+    <span class="n">false_positive_rate</span><span class="p">,</span> <span class="n">true_positive_rate</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span>
+    <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">auc</span><span class="p">(</span><span class="n">false_positive_rate</span><span class="p">,</span> <span class="n">true_positive_rate</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'ROC'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">false_positive_rate</span><span class="p">,</span> <span class="n">true_positive_rate</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'AUC = </span><span class="si">%0.2</span><span class="s">f'</span> <span class="o">%</span> <span class="n">roc_auc</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">'lower right'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">'r--'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'TPR'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'FPR'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">savepath</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="四分类模型">四.分类模型</h3>
+<h4 id="41-随机森林">4.1 随机森林</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">rf_clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">700</span>
+<span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">rf_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainX</span><span class="p">,</span><span class="n">trainY</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">rf_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">testX</span><span class="p">)</span>
+<span class="c"># 特征重要性</span>
+<span class="n">feature_importance</span> <span class="o">=</span> <span class="n">rf_clf</span><span class="o">.</span><span class="n">feature_importances_</span>
+</code></pre></div></div>
+
+<h4 id="42xgboost">4.2.Xgboost</h4>
+<p>优势：表现快，训练时可以用所有的 CPU 内核来并行化建树；用分布式计算来训练非常大的模型；对于非常大的数据集还可以进行 Out-of-Core Computing)。参数：learning_rate ＝ 0.1 或更小，越小就需要多加入弱学习器；tree_depth ＝ 2～8；subsample ＝ 训练集的 30%～80%。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBClassifier</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">XGBClassifier</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="c"># 可以在每加入一颗树后打印出 logloss</span>
+<span class="n">eval_set</span> <span class="o">=</span> <span class="p">[(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">eval_metric</span><span class="o">=</span><span class="s">"logloss"</span><span class="p">,</span> <span class="n">eval_set</span><span class="o">=</span><span class="n">eval_set</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c"># 输出特征重要性</span>
+<span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">plot_importance</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+<span class="n">plot_importance</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h4 id="43-svm">4.3 SVM</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="s">'auto'</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">kernel</span> <span class="o">=</span> <span class="s">"RBF"</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">testX</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="五聚类模型">五.聚类模型</h3>
+<h4 id="51轮廓系数">5.1.轮廓系数</h4>
+<p>评估聚类效果好坏——轮廓系数（Silhouette Coefficient）结合了聚类的凝聚度（Cohesion）和分离度（Separation），用于评估聚类的效果。该值处于-1~1之间，值越大，表示聚类效果越好。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#聚类评估：轮廓系数</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">silhouette_score</span>
+<span class="c"># Kmeans的聚类结果来进行测试</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</code></pre></div></div>
+
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/blog-cover.jpg)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/machinelearning/">Machinelearning</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/facetime-interview">Facetime Interview</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B">无监督异常检测模型</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/machinelearning/">
+                                
+                                    查看相关的 2 篇文章  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6">
+                <div class="post-card-image" style="background-image: url(/assets/images/science.png)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Windows10</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Cuda10</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Pytorch</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Windows10环境下搭建CUDA10.1和pytorch1.6</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub-pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2">
+                <div class="post-card-image" style="background-image: url(/assets/images/blog.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub-pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Mac</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Jekyll</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Github pages</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Mac下利用jekyll和github pages搭建个人博客</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="http://localhost:4000/">
+            
+                <img src="/assets/images/yy.jpg" alt="李小肥的YY icon" />
+            
+            <span>李小肥的YY</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">机器学习常用函数</div>
+    <!-- <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0&amp;url=www.lixiaofei2yy.website%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.lixiaofei2yy.website%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div> -->
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="http://localhost:4000/">李小肥的YY</a> &copy; 2020</section>
+                <!-- <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav> -->
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-69281367-1', 'auto');
+  ga('send', 'pageview');
+
+ </script>
+
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>无监督异常检测模型</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="欢迎各位看官光临本小站，希望共同学习进步哈！" />
+    <link rel="shortcut icon" href="http://localhost:4000/assets/images/yy.jpg" type="image/png" />
+    <link rel="canonical" href="http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="李小肥的YY" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="无监督异常检测模型" />
+    <meta property="og:description" content="异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。 一. 统计和概率模型 主要是假设和检验。假设数据的分布，检验异常。比如对一维的数据假设高斯分布，然后将3sigma以外的数据划分为异常，上升到高维，假设特征之间是独立的，可以计算每个特征维度的异常值并相加，如果特征之间是相关的，也就变成了多元高斯分布，可以用马氏距离衡量数据的异常度。这 类方法要求对问题和数据分布有较强的先验知识。 1.1 3σ原则 如果特征服从正态分布，那么，在的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。 1.2 3σ原则的适用条件 数据分布满足正态分布（在业务逻辑上母样本满足）。 特征之间相互独立。 二. 线性模型 2.1 PCA PCA是最常见的线性降维方法，它们按照某种准则为数据集 找到一个最优投影方向 W 和截距和截距 b ，然后做变换 得到降维后的数据集 。因为 是一个线性变换（严格来说叫仿射变换，因为有截距项），因此PCA属于线性模型（处理线性问题）。 假设数据在低维空间上有嵌入，那么无法、或者在低维空间投射后表现不好的数据可以认为是异常点。PCA有两种检测异常的方法，一种是将数据映射到低维空间，然后在特征空间不同维度上查看每个数据点和其他数据点的偏差，另一种是看重构误差，先映射到低维再映射回高维，异常点的重构误差较大。这两种方法的本质一样，都是关注较小特征值对应的特征向量方向上的信息。 可以利用PCA将二维的特征数据映射到一维上（尽量保持原始信息），然后再映射到二维空间，对比重构的二维数据和初始的二维数据的误差值（MSE），设定阈值，大于阈值的为异常，小于等于阈值的为正常。 模型构建过程： 原始数据： 编码后的数据： 解码后的数据： 重构的误差： 2.2 OneClass-SVM （1）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。 （2）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。 三. 非线性模型 3.1 AutoEncoder 非线性降维的代表方法是AutoEncoders，AutoEncoders的非线性和神经网络的非线性是一回事，都是利用堆叠非线性激活函数来近似任意函数。事实上，AutoEncoders就是一种神经网络，只不过它的输入和输出相同，真正有意义的地方不在于网络的输出，而是在于网络的权重。" />
+    <meta property="og:url" content="http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B" />
+    <meta property="og:image" content="http://localhost:4000/assets/images/junggle.jpg" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2019-12-05T03:20:00+08:00" />
+    <meta property="article:modified_time" content="2019-12-05T03:20:00+08:00" />
+    <meta property="article:tag" content="Machinelearning" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="无监督异常检测模型" />
+    <meta name="twitter:description" content="异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。 一. 统计和概率模型 主要是假设和检验。假设数据的分布，检验异常。比如对一维的数据假设高斯分布，然后将3sigma以外的数据划分为异常，上升到高维，假设特征之间是独立的，可以计算每个特征维度的异常值并相加，如果特征之间是相关的，也就变成了多元高斯分布，可以用马氏距离衡量数据的异常度。这 类方法要求对问题和数据分布有较强的先验知识。 1.1 3σ原则 如果特征服从正态分布，那么，在的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。 1.2 3σ原则的适用条件 数据分布满足正态分布（在业务逻辑上母样本满足）。 特征之间相互独立。 二. 线性模型 2.1 PCA PCA是最常见的线性降维方法，它们按照某种准则为数据集 找到一个最优投影方向 W 和截距和截距 b ，然后做变换 得到降维后的数据集 。因为 是一个线性变换（严格来说叫仿射变换，因为有截距项），因此PCA属于线性模型（处理线性问题）。 假设数据在低维空间上有嵌入，那么无法、或者在低维空间投射后表现不好的数据可以认为是异常点。PCA有两种检测异常的方法，一种是将数据映射到低维空间，然后在特征空间不同维度上查看每个数据点和其他数据点的偏差，另一种是看重构误差，先映射到低维再映射回高维，异常点的重构误差较大。这两种方法的本质一样，都是关注较小特征值对应的特征向量方向上的信息。 可以利用PCA将二维的特征数据映射到一维上（尽量保持原始信息），然后再映射到二维空间，对比重构的二维数据和初始的二维数据的误差值（MSE），设定阈值，大于阈值的为异常，小于等于阈值的为正常。 模型构建过程： 原始数据： 编码后的数据： 解码后的数据： 重构的误差： 2.2 OneClass-SVM （1）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。 （2）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。 三. 非线性模型 3.1 AutoEncoder 非线性降维的代表方法是AutoEncoders，AutoEncoders的非线性和神经网络的非线性是一回事，都是利用堆叠非线性激活函数来近似任意函数。事实上，AutoEncoders就是一种神经网络，只不过它的输入和输出相同，真正有意义的地方不在于网络的输出，而是在于网络的权重。" />
+    <meta name="twitter:url" content="http://localhost:4000/" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/junggle.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="李小肥的YY" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Machinelearning" />
+    <meta name="twitter:site" content="@" />
+    <meta name="twitter:creator" content="@" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "李小肥的YY",
+        "logo": "http://localhost:4000/"
+    },
+    "url": "http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:4000/assets/images/junggle.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B"
+    },
+    "description": "异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。 一. 统计和概率模型 主要是假设和检验。假设数据的分布，检验异常。比如对一维的数据假设高斯分布，然后将3sigma以外的数据划分为异常，上升到高维，假设特征之间是独立的，可以计算每个特征维度的异常值并相加，如果特征之间是相关的，也就变成了多元高斯分布，可以用马氏距离衡量数据的异常度。这 类方法要求对问题和数据分布有较强的先验知识。 1.1 3σ原则 如果特征服从正态分布，那么，在的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。 1.2 3σ原则的适用条件 数据分布满足正态分布（在业务逻辑上母样本满足）。 特征之间相互独立。 二. 线性模型 2.1 PCA PCA是最常见的线性降维方法，它们按照某种准则为数据集 找到一个最优投影方向 W 和截距和截距 b ，然后做变换 得到降维后的数据集 。因为 是一个线性变换（严格来说叫仿射变换，因为有截距项），因此PCA属于线性模型（处理线性问题）。 假设数据在低维空间上有嵌入，那么无法、或者在低维空间投射后表现不好的数据可以认为是异常点。PCA有两种检测异常的方法，一种是将数据映射到低维空间，然后在特征空间不同维度上查看每个数据点和其他数据点的偏差，另一种是看重构误差，先映射到低维再映射回高维，异常点的重构误差较大。这两种方法的本质一样，都是关注较小特征值对应的特征向量方向上的信息。 可以利用PCA将二维的特征数据映射到一维上（尽量保持原始信息），然后再映射到二维空间，对比重构的二维数据和初始的二维数据的误差值（MSE），设定阈值，大于阈值的为异常，小于等于阈值的为正常。 模型构建过程： 原始数据： 编码后的数据： 解码后的数据： 重构的误差： 2.2 OneClass-SVM （1）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。 （2）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。 三. 非线性模型 3.1 AutoEncoder 非线性降维的代表方法是AutoEncoders，AutoEncoders的非线性和神经网络的非线性是一回事，都是利用堆叠非线性激活函数来近似任意函数。事实上，AutoEncoders就是一种神经网络，只不过它的输入和输出相同，真正有意义的地方不在于网络的输出，而是在于网络的权重。"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="无监督异常检测模型" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="http://localhost:4000/">李小肥的YY</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+                <a class="social-link social-link-github" href="https://github.com/yy2lyx" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 .395c-8.836 0-16 7.163-16 16 0 7.069 4.585 13.067 10.942 15.182.8.148 1.094-.347 1.094-.77 0-.381-.015-1.642-.022-2.979-4.452.968-5.391-1.888-5.391-1.888-.728-1.849-1.776-2.341-1.776-2.341-1.452-.993.11-.973.11-.973 1.606.113 2.452 1.649 2.452 1.649 1.427 2.446 3.743 1.739 4.656 1.33.143-1.034.558-1.74 1.016-2.14-3.554-.404-7.29-1.777-7.29-7.907 0-1.747.625-3.174 1.649-4.295-.166-.403-.714-2.03.155-4.234 0 0 1.344-.43 4.401 1.64a15.353 15.353 0 0 1 4.005-.539c1.359.006 2.729.184 4.008.539 3.054-2.07 4.395-1.64 4.395-1.64.871 2.204.323 3.831.157 4.234 1.026 1.12 1.647 2.548 1.647 4.295 0 6.145-3.743 7.498-7.306 7.895.574.497 1.085 1.47 1.085 2.963 0 2.141-.019 3.864-.019 4.391 0 .426.288.925 1.099.768C27.421 29.457 32 23.462 32 16.395c0-8.837-7.164-16-16-16z"/></svg>
+</a>
+            
+            
+                <a class="social-link social-link-mail" href="mailto:yeyansiwangtt@gmail.com" target="_blank" rel="noopener"><!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M26.666 0H5.334C2.4 0 0 2.4 0 5.333v21.333C0 29.6 2.4 32 5.334 32h21.332C29.602 32 32 29.6 32 26.666V5.333C32 2.399 29.602 0 26.666 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.864-6.842c.003.041.004.083.004.125v12z"/></svg> -->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 35 35"><path d="M26.667 0H5.334C2.4 0 0 2.4 0 5.334v21.332C0 29.602 2.4 32 5.334 32h21.333C29.601 32 32 29.602 32 26.666V5.334C32 2.4 29.601 0 26.667 0zm0 4c.25 0 .486.073.688.198L16 13.586 4.645 4.199c.202-.125.439-.198.689-.198h21.333zM5.334 28a1.32 1.32 0 0 1-.178-.013l7.051-9.78-.914-.914L4 24.586V5.488L16 20 28 5.488v19.098l-7.293-7.293-.914.914 7.051 9.78a1.294 1.294 0 0 1-.177.013H5.334z"/></svg>
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M26.667 0H5.334C2.4 0 0 2.4 0 5.334v21.332C0 29.602 2.4 32 5.334 32h21.333C29.601 32 32 29.602 32 26.666V5.334C32 2.4 29.601 0 26.667 0zM5.707 27.707l-2.414-2.414 8-8 .914.914-6.5 9.5zm-.914-21.5l.914-.914L16 13.586l10.293-8.293.914.914L16 19.414 4.793 6.207zm21.5 21.5l-6.5-9.5.914-.914 8 8-2.414 2.414z"/></svg> -->
+<!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.865-6.842c.003.041.004.083.004.125v12z"/></svg> -->
+</a>
+            
+        </div>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag-machinelearning tag- tag- post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime=" 5 December 2019"> 5 December 2019</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/machinelearning/'>MACHINELEARNING</a>,
+                            
+                        
+                            
+                               <a href='/tag//'>无监督学习</a>,
+                            
+                        
+                            
+                               <a href='/tag//'>聚类</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">无监督异常检测模型</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/junggle.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <blockquote>
+  <p>异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。</p>
+</blockquote>
+
+<h3 id="一-统计和概率模型">一. 统计和概率模型</h3>
+
+<p>主要是假设和检验。假设数据的分布，检验异常。比如对一维的数据假设高斯分布，然后将3sigma以外的数据划分为异常，上升到高维，假设特征之间是独立的，可以计算每个特征维度的异常值并相加，如果特征之间是相关的，也就变成了多元高斯分布，可以用马氏距离衡量数据的异常度。这
+类方法要求对问题和数据分布有较强的先验知识。</p>
+
+<h4 id="11-3σ原则">1.1 3σ原则</h4>
+<p>如果特征服从正态分布，那么，在<script type="math/tex">\pm 3 \sigma</script>的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldfpndzdj30mu0arjth.jpg" alt="" /></p>
+
+<h4 id="12-3σ原则的适用条件">1.2 3σ原则的适用条件</h4>
+<ul>
+  <li>数据分布满足正态分布（在业务逻辑上母样本满足）。</li>
+  <li>特征之间相互独立。</li>
+</ul>
+
+<h3 id="二-线性模型">二. 线性模型</h3>
+
+<h4 id="21-pca">2.1 PCA</h4>
+<p>PCA是最常见的线性降维方法，它们按照某种准则为数据集 <script type="math/tex">\left\{x_{i}\right\}_{i=1}^{n}</script> 找到一个最优投影方向 W 和截距和截距 b ，然后做变换 <script type="math/tex">z_{i}=W x_{i}+b</script> 得到降维后的数据集 <script type="math/tex">\left\{z_{i}\right\}_{i=1}^{n}</script> 。因为 <script type="math/tex">z_{i}=W x_{i}+b</script>是一个线性变换（严格来说叫仿射变换，因为有截距项），因此PCA属于线性模型（处理线性问题）。</p>
+
+<p>假设数据在低维空间上有嵌入，那么无法、或者在低维空间投射后表现不好的数据可以认为是异常点。PCA有两种检测异常的方法，一种是将数据映射到低维空间，然后在特征空间不同维度上查看每个数据点和其他数据点的偏差，另一种是看重构误差，先映射到低维再映射回高维，异常点的重构误差较大。这两种方法的本质一样，都是关注较小特征值对应的特征向量方向上的信息。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldg4s8jzj30m808b0t4.jpg" alt="" /></p>
+
+<p>可以利用PCA将二维的特征数据映射到一维上（尽量保持原始信息），然后再映射到二维空间，对比重构的二维数据和初始的二维数据的误差值（MSE），设定阈值，大于阈值的为异常，小于等于阈值的为正常。</p>
+
+<ul>
+  <li>模型构建过程：
+    <ul>
+      <li>原始数据：<script type="math/tex">x_{i} \in R^{d}</script></li>
+      <li>编码后的数据：<script type="math/tex">z_{i}=W^{T}\left(x_{i}+b\right) \in R^{c}</script></li>
+      <li>解码后的数据：<script type="math/tex">\hat{x}_{i}=W z_{i}-b \in R^{d}</script></li>
+      <li>重构的误差：<script type="math/tex">\sum_{i=1}^{n}\left\|x_{i}-\hat{x}_{i}\right\|_{p}^{p}</script></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="22-oneclass-svm">2.2 OneClass-SVM</h4>
+<ul>
+  <li>（1）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。
+<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldhk5rkmj30m80gojt8.jpg" alt="" /></li>
+  <li>（2）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。</li>
+  <li><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldgv5levj30q80b4n0s.jpg" alt="" /></li>
+</ul>
+
+<h3 id="三-非线性模型">三. 非线性模型</h3>
+<h4 id="31-autoencoder">3.1 AutoEncoder</h4>
+<p>非线性降维的代表方法是AutoEncoders，AutoEncoders的非线性和神经网络的非线性是一回事，都是利用堆叠非线性激活函数来近似任意函数。事实上，AutoEncoders就是一种神经网络，只不过它的输入和输出相同，真正有意义的地方不在于网络的输出，而是在于网络的权重。</p>
+
+<ul>
+  <li>模型构建过程：
+    <ul>
+      <li>原始数据：<script type="math/tex">x_{i} \in R^{d}</script></li>
+      <li>编码后的数据：<script type="math/tex">z_{i}=\sigma\left(W^{T} x_{i}+b\right) \in R^{c}</script></li>
+      <li>解码后的数据：<script type="math/tex">\hat{x}_{i}=\hat{\sigma}\left(\hat{W} z_{i}+\hat{b}\right) \in R^{d}</script></li>
+      <li>重构的误差：<script type="math/tex">\sum_{i=1}^{n}\left\|x_{i}-\hat{x}_{i}\right\|_{p}^{p}</script></li>
+    </ul>
+  </li>
+</ul>
+
+<p>这里<script type="math/tex">\sigma(\cdot)</script>是非线性激活函数。AutoEncoder一般都会堆叠多层（多层神经层同样也能增加模型的非线性），方便起见我们只写了一层。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldhwi8zoj30di041mx6.jpg" alt="" /></p>
+
+<p>Autoencoder可以参与构建2种不同的异常检测模型。</p>
+<ul>
+  <li>（1）非线性降维：利用训练好的模型参数，通过输入到Encoder中，直接输出中间的CODE，而这个CODE就是数据经过非线性降维后的数据，然后利用降维后的数据放入到常用的聚类算法中（比如KMeans），搭建无监督异常检测模型。</li>
+  <li>（2）本身作为异常值的判别器：在训练好的模型之后，数据通过Encoder映射到低维空间后，利用Decoder重构回高维空间，而当输入数据是异常数据的时候，重构的高维数据会和原始数据的loss（MSE）很高，在这里设定一个阈值，大于阈值的为异常，小于等于阈值的为正常。</li>
+</ul>
+
+<h4 id="32-vaevariational-autoencoder">3.2 VAE（Variational AutoEncoder）</h4>
+<p>Variational AutoEncoder（VAE）是由 Kingma 和 Welling 在“Auto-Encoding Variational Bayes, 2014”中提出的一种生成模型。</p>
+
+<p>VAE其实可以看作AutoEncoder的一个变种，它在AutoEncoder区别在于在Encoder映射到低维空间中映射成了2个Vector，一个属于原始的CODE，而另一个作为噪声增加到新的CODE中。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldi5u655j30q70ion07.jpg" alt="" /></p>
+
+<p>上图中，<script type="math/tex">m_{1}</script>，<script type="math/tex">m_{2}</script>，<script type="math/tex">m_{3}</script>作为Original Code，<script type="math/tex">\sigma_{1}</script>，<script type="math/tex">\sigma_{2}</script>，<script type="math/tex">\sigma_{3}</script>这种变分的噪点则是通过模型自动训练学习得到的，<script type="math/tex">e_{1}</script>，<script type="math/tex">e_{2}</script>，<script type="math/tex">e_{3}</script>定义为服从一个标准的正太分布的向量，那么在AutoEncoder中的低维空间code在VAE中就是上图中的<script type="math/tex">c_{i}</script>了。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldijxexzj30l00720sz.jpg" alt="" /></p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldiy1x76j30qo0zk0vi.jpg" alt="" /></p>
+
+<p>code的定义公式如下：</p>
+
+<p>​                                                                  <script type="math/tex">c_{i}=\exp \left(\sigma_{i}\right) \times e_{i}+m_{i}</script></p>
+
+<p>当然，对于VAE来说，定义loss的function也和AutoEncoder不一样：</p>
+
+<p>​                                                            <script type="math/tex">loss=\sum_{i=1}^{3}\left(\exp \left(\sigma_{i}\right)-\left(1+\sigma_{i}\right)+\left(m_{i}\right)^{2}\right)</script></p>
+
+<p>VAE相较于AutoEncoder的优势在于：映射到低维空间的code增加了噪声，导致重构的高维空间中的值可以和原始数据不太一样，比如AutoEncoder模型原始输入是满月和斜月，那么输出一定是满月和斜月，而VAE则是可以生成满月和斜月的结合体。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldj99g86j30nj0g2jtj.jpg" alt="" /></p>
+
+<h3 id="四-基于划分超平面的模型isolation-forest">四. 基于划分超平面的模型——Isolation Forest</h3>
+<h4 id="41-孤立森林的思想是">4.1 孤立森林的思想是</h4>
+
+<p>假设我们用一个随机超平面来切割（split）数据空间（data space）, 切一次可以生成两个子空间（想象拿刀切蛋糕一分为二）。之后我们再继续用一个随机超平面来切割每个子空间，循环下去，直到每子空间里面只有一个数据点为止。直观上来讲，我们可以发现那些密度很高的簇是可以被切很多次才会停止切割，但是那些密度很低的点很容易很早的就停到一个子空间了。</p>
+
+<h4 id="42-孤立森林的优势">4.2 孤立森林的优势</h4>
+
+<p>孤立森林算法具有线性时间复杂度。因为是ensemble的方法，所以可以用在含有海量数据的数据集上面。通常树的数量越多，算法越稳定。由于每棵树都是互相独立生成的，因此可以部署在大规模分布式系统上来加速运算。</p>
+
+<h4 id="43-孤立森林的劣势">4.3 孤立森林的劣势</h4>
+
+<p>孤立森林不适用于特别高维的数据。由于每次切数据空间都是随机选取一个维度，建完树后仍然有大量的维度信息没有被使用，导致算法可靠性降低。高维空间还可能存在大量噪音维度或无关维度（irrelevant attributes），影响树的构建。</p>
+
+<h3 id="五-基于聚类的异常检测模型">五. 基于聚类的异常检测模型</h3>
+<h4 id="51-常用的聚类算法">5.1 常用的聚类算法</h4>
+<ul>
+  <li>（1）KMeans：利用找到的簇的中心点和每一个样本的距离值，找到最偏离簇中心的点作为异常点。</li>
+  <li>（2）DBSCAN–基于密度的聚类：由于需要涉及到算法本身两个参数（min_samples和eps），这里模型会直接输出超过半径eps和确定好最小数的min_samples的样本点作为异常值（label = -1）。</li>
+  <li>（3）Birch–基于层次的聚类：BIRCH算法利用了一个树结构来帮助我们快速的聚类，这个数结构类似于平衡B+树，一般将它称之为聚类特征树(Clustering Feature Tree，简称CF Tree)。建立好CF Tree后把那些包含数据点少的MinCluster当作outlier。</li>
+</ul>
+
+<h4 id="52-聚类算法的适应性">5.2 聚类算法的适应性</h4>
+<p>每一种算法对于不同的数据分布可能存在不同优势。</p>
+
+<p>K-Means算法对于凸性数据具有良好的效果，能够根据距离来讲数据分为球状类的簇，但对于非凸形状的数据点，就无能为力了，比如环形数据等等，此时基于密度的算法DBSCAN就更令人满意了。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldjkemq7j30ch06gq3k.jpg" alt="" /></p>
+
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldjwx7jjj30c706egme.jpg" alt="" /></p>
+
+<h4 id="52-评价聚类效果指标">5.2 评价聚类效果指标</h4>
+<p>聚类算法的目标是：簇内相似度高，簇间相似度低。</p>
+
+<p>因此通过<strong>轮廓系数</strong>（Silhouette Coefficient）来评价聚类效果的好坏，适用于上述三种算法。
+1、将样本x与簇内的其他点之间的平均距离作为簇内的内聚度a
+2、将样本x与最近簇中所有点之间的平均距离看作是与最近簇的分离度b
+3、将簇的分离度与簇内聚度之差除以二者中比较大的数得到轮廓系数，计算公式如下
+<script type="math/tex">s^{(i)}=\frac{b^{(i)}-a^{(i)}}{\max \left\{b^{(i)}, a^{(i)}\right\}}</script>
+轮廓系数的取值在-1到1之间。当簇内聚度与分度离相等时，轮廓系数为0。当b»a时，轮廓系数近似取到1，此时模型的性能最佳。</p>
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/blog-cover.jpg)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/machinelearning/">Machinelearning</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0">机器学习常用函数</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/facetime-interview">Facetime Interview</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/machinelearning/">
+                                
+                                    查看相关的 2 篇文章  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88">
+                <div class="post-card-image" style="background-image: url(/assets/images/tags.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Neo4j</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">图挖掘算法</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Neo4j数据库与图数据挖掘算法结合</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83">
+                <div class="post-card-image" style="background-image: url(/assets/images/software.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Clion</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Opencv</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Windows下安装C++ IDE（clion）和opencv环境</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="http://localhost:4000/">
+            
+                <img src="/assets/images/yy.jpg" alt="李小肥的YY icon" />
+            
+            <span>李小肥的YY</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">无监督异常检测模型</div>
+    <!-- <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B&amp;url=www.lixiaofei2yy.website%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.lixiaofei2yy.website%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div> -->
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="http://localhost:4000/">李小肥的YY</a> &copy; 2020</section>
+                <!-- <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav> -->
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-69281367-1', 'auto');
+  ga('send', 'pageview');
+
+ </script>
+
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>
