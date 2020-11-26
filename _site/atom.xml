@@ -154,7 +154,7 @@
     
       
       <item>
-        <title>Facetime Interview</title>
+        <title>面试总结</title>
         
           <description>&lt;blockquote&gt;
   &lt;p&gt;面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。&lt;/p&gt;
@@ -164,8 +164,8 @@
         
         <pubDate>Fri, 12 Jun 2020 23:21:00 +0800</pubDate>
         <link>
-        http://localhost:4000/facetime-interview</link>
-        <guid isPermaLink="true">http://localhost:4000/facetime-interview</guid>
+        http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93</link>
+        <guid isPermaLink="true">http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93</guid>
       </item>
       
     

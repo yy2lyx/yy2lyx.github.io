@@ -11,7 +11,7 @@
 
 
 
-    <title>Facetime Interview</title>
+    <title>面试总结</title>
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Styles'n'Scripts -->
@@ -36,30 +36,30 @@
     <!-- This tag outputs SEO meta+structured data and other important settings -->
     <meta name="description" content="欢迎各位看官光临本小站，希望共同学习进步哈！" />
     <link rel="shortcut icon" href="http://localhost:4000/assets/images/yy.jpg" type="image/png" />
-    <link rel="canonical" href="http://localhost:4000/facetime-interview" />
+    <link rel="canonical" href="http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
 
      <!--title below is coming from _includes/dynamic_title-->
     <meta property="og:site_name" content="李小肥的YY" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Facetime Interview" />
+    <meta property="og:title" content="面试总结" />
     <meta property="og:description" content="面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。 一.数据处理 海量数据： （1）数据量太大，无法短时间内处理完成 （2）无法一次性将数据放入内存中。 1.1 缺失值处理 填充固定值：选取某个固定值/默认值填充缺失值。 填充均值：对每一列的缺失值，填充当列的均值。 填充中位数：对每一列的缺失值，填充当列的中位数。 填充众数：对每一列的缺失值，填充当列的众数。由于存在某列缺失值过多，众数为nan的情况，因此这里取的是每列删除掉nan值后的众数。 填充上下条的数据：对每一条数据的缺失值，填充其上下条数据的值。 填充插值得到的数据：用插值法拟合出缺失的数据，然后进行填充。插值是离散函数逼近的重要方法，利用它可通过函数在有限个点处的取值状况，估算出函数在其他点处的近似值。 二.机器学习 2.1 SVM和LR的区别与联系？ SVM 和 LR 都是属于分类算法，不过 SVM 是通过划分超平面的方法来进行分类，而 LR 则是通过计算样本属于哪个类别的概率，从而达到分类效果 2.2 交叉熵函数系列问题？与最大似然函数的关系和区别？ 在二分类中，交叉熵函数和负最大似然函数的表达式是相同的，但是交叉熵函数是从信息论角度得到的，而最大似然函数则是从概率论角度得到的 交叉熵涉及到2点： 信息量：假设X是一个离散型随机变量，其取值集合为X，概率分布函数为p(x)=Pr(X=x),x∈X，我们定义事件X=x0的信息量为： I(x0)=−log(p(x0))，可以理解为，一个事件发生的概率越大，则它所携带的信息量就越小，而当p(x0)=1时，熵将等于0，也就是说该事件的发生不会导致任何信息量的增加。举个例子，小明平时不爱学习，考试经常不及格，而小王是个勤奋学习的好学生，经常得满分，所以我们可以做如下假设： 事件A：小明考试及格，对应的概率P(xA)=0.1，信息量为I(xA)=−log(0.1)=3.3219 事件B：小王考试及格，对应的概率P(xB)=0.999，信息量为I(xB)=−log(0.999)=0.0014 可以看出，结果非常符合直观：小明及格的可能性很低(十次考试只有一次及格)，因此如果某次考试及格了（大家都会说：XXX竟然及格了！），必然会引入较大的信息量，对应的I值也较高。 熵：假设小明的考试结果是一个0-1分布XA只有两个取值{0：不及格，1：及格}，在某次考试结果公布前，小明的考试结果有多大的不确定度呢？你肯定会说：十有八九不及格！因为根据先验知识，小明及格的概率仅有0.1,90%的可能都是不及格的。怎么来度量这个不确定度？求期望！不错，我们对所有可能结果带来的额外信息量求取均值（期望），其结果不就能够衡量出小明考试成绩的不确定度了吗。熵其实是信息量的期望值，它是一个随机变量的确定性的度量。熵越大，变量的取值越不确定，反之就越确定。 相对熵：称为KL散度，是两个随机分布间距离的度量。越小说明分布越一致。 交叉熵：交叉熵与KL距离在行为上是等价的，都反映了分布p，q的相似程度。特别的，在logistic regression中， p:真实样本分布，服从参数为p的0-1分布，即X∼B(1,p)X∼B(1,p) q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交叉熵为 三. NLP 3.1 什么是TF-IDF? 词频-逆文档频率TF-IDF(term frequency–inverse document frequency)是一种用于信息检索与数据挖掘的常用加权技术，常用于挖掘文章中的关键词，而且算法简单高效，常被工业用于最开始的文本数据清洗。 当有TF(词频)和IDF(逆文档频率)后，将这两个词相乘，就能得到一个词的TF-IDF的值。某个词在文章中的TF-IDF越大，那么一般而言这个词在这篇文章的重要性会越高，所以通过计算文章中各个词的TF-IDF，由大到小排序，排在最前面的几个词，就是该文章的关键词。 3.2 什么是word2vec" />
-    <meta property="og:url" content="http://localhost:4000/facetime-interview" />
+    <meta property="og:url" content="http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93" />
     <meta property="og:image" content="http://localhost:4000/assets/images/question.jpg" />
     <meta property="article:publisher" content="https://www.facebook.com/" />
     <meta property="article:author" content="https://www.facebook.com/" />
     <meta property="article:published_time" content="2020-06-12T23:21:00+08:00" />
     <meta property="article:modified_time" content="2020-06-12T23:21:00+08:00" />
-    <meta property="article:tag" content="Machinelearning" />
+    <meta property="article:tag" content="面试" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Facetime Interview" />
+    <meta name="twitter:title" content="面试总结" />
     <meta name="twitter:description" content="面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。 一.数据处理 海量数据： （1）数据量太大，无法短时间内处理完成 （2）无法一次性将数据放入内存中。 1.1 缺失值处理 填充固定值：选取某个固定值/默认值填充缺失值。 填充均值：对每一列的缺失值，填充当列的均值。 填充中位数：对每一列的缺失值，填充当列的中位数。 填充众数：对每一列的缺失值，填充当列的众数。由于存在某列缺失值过多，众数为nan的情况，因此这里取的是每列删除掉nan值后的众数。 填充上下条的数据：对每一条数据的缺失值，填充其上下条数据的值。 填充插值得到的数据：用插值法拟合出缺失的数据，然后进行填充。插值是离散函数逼近的重要方法，利用它可通过函数在有限个点处的取值状况，估算出函数在其他点处的近似值。 二.机器学习 2.1 SVM和LR的区别与联系？ SVM 和 LR 都是属于分类算法，不过 SVM 是通过划分超平面的方法来进行分类，而 LR 则是通过计算样本属于哪个类别的概率，从而达到分类效果 2.2 交叉熵函数系列问题？与最大似然函数的关系和区别？ 在二分类中，交叉熵函数和负最大似然函数的表达式是相同的，但是交叉熵函数是从信息论角度得到的，而最大似然函数则是从概率论角度得到的 交叉熵涉及到2点： 信息量：假设X是一个离散型随机变量，其取值集合为X，概率分布函数为p(x)=Pr(X=x),x∈X，我们定义事件X=x0的信息量为： I(x0)=−log(p(x0))，可以理解为，一个事件发生的概率越大，则它所携带的信息量就越小，而当p(x0)=1时，熵将等于0，也就是说该事件的发生不会导致任何信息量的增加。举个例子，小明平时不爱学习，考试经常不及格，而小王是个勤奋学习的好学生，经常得满分，所以我们可以做如下假设： 事件A：小明考试及格，对应的概率P(xA)=0.1，信息量为I(xA)=−log(0.1)=3.3219 事件B：小王考试及格，对应的概率P(xB)=0.999，信息量为I(xB)=−log(0.999)=0.0014 可以看出，结果非常符合直观：小明及格的可能性很低(十次考试只有一次及格)，因此如果某次考试及格了（大家都会说：XXX竟然及格了！），必然会引入较大的信息量，对应的I值也较高。 熵：假设小明的考试结果是一个0-1分布XA只有两个取值{0：不及格，1：及格}，在某次考试结果公布前，小明的考试结果有多大的不确定度呢？你肯定会说：十有八九不及格！因为根据先验知识，小明及格的概率仅有0.1,90%的可能都是不及格的。怎么来度量这个不确定度？求期望！不错，我们对所有可能结果带来的额外信息量求取均值（期望），其结果不就能够衡量出小明考试成绩的不确定度了吗。熵其实是信息量的期望值，它是一个随机变量的确定性的度量。熵越大，变量的取值越不确定，反之就越确定。 相对熵：称为KL散度，是两个随机分布间距离的度量。越小说明分布越一致。 交叉熵：交叉熵与KL距离在行为上是等价的，都反映了分布p，q的相似程度。特别的，在logistic regression中， p:真实样本分布，服从参数为p的0-1分布，即X∼B(1,p)X∼B(1,p) q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交叉熵为 三. NLP 3.1 什么是TF-IDF? 词频-逆文档频率TF-IDF(term frequency–inverse document frequency)是一种用于信息检索与数据挖掘的常用加权技术，常用于挖掘文章中的关键词，而且算法简单高效，常被工业用于最开始的文本数据清洗。 当有TF(词频)和IDF(逆文档频率)后，将这两个词相乘，就能得到一个词的TF-IDF的值。某个词在文章中的TF-IDF越大，那么一般而言这个词在这篇文章的重要性会越高，所以通过计算文章中各个词的TF-IDF，由大到小排序，排在最前面的几个词，就是该文章的关键词。 3.2 什么是word2vec" />
     <meta name="twitter:url" content="http://localhost:4000/" />
     <meta name="twitter:image" content="http://localhost:4000/assets/images/question.jpg" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="李小肥的YY" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Machinelearning" />
+    <meta name="twitter:data2" content="面试" />
     <meta name="twitter:site" content="@" />
     <meta name="twitter:creator" content="@" />
     <meta property="og:image:width" content="1400" />
@@ -74,7 +74,7 @@
         "name": "李小肥的YY",
         "logo": "http://localhost:4000/"
     },
-    "url": "http://localhost:4000/facetime-interview",
+    "url": "http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93",
     "image": {
         "@type": "ImageObject",
         "url": "http://localhost:4000/assets/images/question.jpg",
@@ -83,7 +83,7 @@
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "http://localhost:4000/facetime-interview"
+        "@id": "http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93"
     },
     "description": "面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。 一.数据处理 海量数据： （1）数据量太大，无法短时间内处理完成 （2）无法一次性将数据放入内存中。 1.1 缺失值处理 填充固定值：选取某个固定值/默认值填充缺失值。 填充均值：对每一列的缺失值，填充当列的均值。 填充中位数：对每一列的缺失值，填充当列的中位数。 填充众数：对每一列的缺失值，填充当列的众数。由于存在某列缺失值过多，众数为nan的情况，因此这里取的是每列删除掉nan值后的众数。 填充上下条的数据：对每一条数据的缺失值，填充其上下条数据的值。 填充插值得到的数据：用插值法拟合出缺失的数据，然后进行填充。插值是离散函数逼近的重要方法，利用它可通过函数在有限个点处的取值状况，估算出函数在其他点处的近似值。 二.机器学习 2.1 SVM和LR的区别与联系？ SVM 和 LR 都是属于分类算法，不过 SVM 是通过划分超平面的方法来进行分类，而 LR 则是通过计算样本属于哪个类别的概率，从而达到分类效果 2.2 交叉熵函数系列问题？与最大似然函数的关系和区别？ 在二分类中，交叉熵函数和负最大似然函数的表达式是相同的，但是交叉熵函数是从信息论角度得到的，而最大似然函数则是从概率论角度得到的 交叉熵涉及到2点： 信息量：假设X是一个离散型随机变量，其取值集合为X，概率分布函数为p(x)=Pr(X=x),x∈X，我们定义事件X=x0的信息量为： I(x0)=−log(p(x0))，可以理解为，一个事件发生的概率越大，则它所携带的信息量就越小，而当p(x0)=1时，熵将等于0，也就是说该事件的发生不会导致任何信息量的增加。举个例子，小明平时不爱学习，考试经常不及格，而小王是个勤奋学习的好学生，经常得满分，所以我们可以做如下假设： 事件A：小明考试及格，对应的概率P(xA)=0.1，信息量为I(xA)=−log(0.1)=3.3219 事件B：小王考试及格，对应的概率P(xB)=0.999，信息量为I(xB)=−log(0.999)=0.0014 可以看出，结果非常符合直观：小明及格的可能性很低(十次考试只有一次及格)，因此如果某次考试及格了（大家都会说：XXX竟然及格了！），必然会引入较大的信息量，对应的I值也较高。 熵：假设小明的考试结果是一个0-1分布XA只有两个取值{0：不及格，1：及格}，在某次考试结果公布前，小明的考试结果有多大的不确定度呢？你肯定会说：十有八九不及格！因为根据先验知识，小明及格的概率仅有0.1,90%的可能都是不及格的。怎么来度量这个不确定度？求期望！不错，我们对所有可能结果带来的额外信息量求取均值（期望），其结果不就能够衡量出小明考试成绩的不确定度了吗。熵其实是信息量的期望值，它是一个随机变量的确定性的度量。熵越大，变量的取值越不确定，反之就越确定。 相对熵：称为KL散度，是两个随机分布间距离的度量。越小说明分布越一致。 交叉熵：交叉熵与KL距离在行为上是等价的，都反映了分布p，q的相似程度。特别的，在logistic regression中， p:真实样本分布，服从参数为p的0-1分布，即X∼B(1,p)X∼B(1,p) q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交叉熵为 三. NLP 3.1 什么是TF-IDF? 词频-逆文档频率TF-IDF(term frequency–inverse document frequency)是一种用于信息检索与数据挖掘的常用加权技术，常用于挖掘文章中的关键词，而且算法简单高效，常被工业用于最开始的文本数据清洗。 当有TF(词频)和IDF(逆文档频率)后，将这两个词相乘，就能得到一个词的TF-IDF的值。某个词在文章中的TF-IDF越大，那么一般而言这个词在这篇文章的重要性会越高，所以通过计算文章中各个词的TF-IDF，由大到小排序，排在最前面的几个词，就是该文章的关键词。 3.2 什么是word2vec"
 }
@@ -98,7 +98,7 @@
     </script> -->
 
     <meta name="generator" content="Jekyll 3.6.2" />
-    <link rel="alternate" type="application/rss+xml" title="Facetime Interview" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="面试总结" href="/feed.xml" />
 
 
 </head>
@@ -117,7 +117,7 @@ into the {body} of the default.hbs template -->
     <div class="site-nav-left">
         
             
-                <a class="site-nav-logo" href="http://localhost:4000/">李小肥的YY</a>
+                <a class="site-nav-logo">李小肥的YY</a>
             
         
         
@@ -156,7 +156,7 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-machinelearning post ">
+        <article class="post-full  tag- tag-machinelearning post ">
 
             <header class="post-full-header">
                 <section class="post-full-meta">
@@ -165,12 +165,16 @@ into the {body} of the default.hbs template -->
                         <span class="date-divider">/</span>
                         
                             
+                               <a href='/tag//'>面试</a>,
+                            
+                        
+                            
                                <a href='/tag/machinelearning/'>MACHINELEARNING</a>
                             
                         
                     
                 </section>
-                <h1 class="post-full-title">Facetime Interview</h1>
+                <h1 class="post-full-title">面试总结</h1>
             </header>
 
             
@@ -607,82 +611,6 @@ s_{y}=\left[\begin{array}{ccc}
                 
                 
                 
-                    <article class="read-next-card"
-                        
-                            style="background-image: url(/assets/images/blog-cover.jpg)"
-                        
-                    >
-                        <header class="read-next-card-header">
-                            <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
-                            
-                                <h3 class="read-next-card-header-title"><a href="/tag/machinelearning/">Machinelearning</a></h3>
-                            
-                        </header>
-                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
-</div>
-                        <div class="read-next-card-content">
-                            <ul>
-                                
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                    
-                                        
-                                        
-                                            <li><a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0">机器学习常用函数</a></li>
-                                        
-                                    
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                    
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                    
-                                        
-                                        
-                                            <li><a href="/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B">无监督异常检测模型</a></li>
-                                        
-                                    
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                            </ul>
-                        </div>
-                        <footer class="read-next-card-footer">
-                            <a href="/tag/machinelearning/">
-                                
-                                    查看相关的 2 篇文章  →
-                                
-                            </a>
-                        </footer>
-                    </article>
-                
             
 
             <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
@@ -834,18 +762,18 @@ s_{y}=\left[\begin{array}{ccc}
         </a>
     </div>
     <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">Facetime Interview</div>
+    <div class="floating-header-title">面试总结</div>
     <!-- <div class="floating-header-share">
         <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
 </svg>
 </div>
-        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Facetime+Interview&amp;url=www.lixiaofei2yy.websitefacetime-interview"
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93&amp;url=www.lixiaofei2yy.website%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93"
             onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
 
         </a>
-        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.lixiaofei2yy.websitefacetime-interview"
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.lixiaofei2yy.website%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93"
             onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
 
