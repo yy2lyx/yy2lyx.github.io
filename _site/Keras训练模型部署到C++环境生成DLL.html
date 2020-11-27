@@ -185,12 +185,19 @@ into the {body} of the default.hbs template -->
             <section class="post-full-content">
                 <div class="kg-card-markdown">
                     <h3 id="一-准备工作">一. 准备工作</h3>
-
 <ul>
-  <li>在Windows上搭建完成Tensorflow的C++环境，这里参考本人的上一篇博客</li>
-  <li>在windows上部署opencv3的C++环境</li>
-  <li>python3的keras和tf2.X的环境：<code class="highlighter-rouge">pip3 install keras==2.4.3</code>和<code class="highlighter-rouge">pip3 install tensorflow==2.3.1</code></li>
-  <li>python3的opencv环境：<code class="highlighter-rouge">pip3 install opencv-python</code></li>
+  <li>
+    <p>在Windows上搭建完成Tensorflow的C++环境，这里参考本人的上一篇博客</p>
+  </li>
+  <li>
+    <p>在windows上部署opencv3的C++环境</p>
+  </li>
+  <li>
+    <p>python3的keras和tf2.X的环境：<code class="highlighter-rouge">pip3 install keras==2.4.3</code>和<code class="highlighter-rouge">pip3 install tensorflow==2.3.1</code></p>
+  </li>
+  <li>
+    <p>python3的opencv环境：<code class="highlighter-rouge">pip3 install opencv-python</code></p>
+  </li>
 </ul>
 
 <h3 id="二-python模型训练">二. python模型训练</h3>
@@ -317,54 +324,7 @@ NOMINMAX
   </li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#pragma once
-#ifndef TF_CLF_H
-#endif // !TF_CLF_H
-
-
-#include &lt;fstream&gt;
-#include &lt;utility&gt;
-#include &lt;Eigen/Core&gt;
-#include &lt;Eigen/Dense&gt;
-#include &lt;iostream&gt;
-
-#include "tensorflow/cc/ops/const_op.h"
-#include "tensorflow/cc/ops/image_ops.h"
-#include "tensorflow/cc/ops/standard_ops.h"
-
-#include "tensorflow/core/framework/graph.pb.h"
-#include "tensorflow/core/framework/tensor.h"
-
-#include "tensorflow/core/graph/default_device.h"
-#include "tensorflow/core/graph/graph_def_builder.h"
-
-#include "tensorflow/core/lib/core/errors.h"
-#include "tensorflow/core/lib/core/stringpiece.h"
-#include "tensorflow/core/lib/core/threadpool.h"
-#include "tensorflow/core/lib/io/path.h"
-#include "tensorflow/core/lib/strings/stringprintf.h"
-
-#include "tensorflow/core/public/session.h"
-#include "tensorflow/core/util/command_line_flags.h"
-
-#include "tensorflow/core/platform/env.h"
-#include "tensorflow/core/platform/init_main.h"
-#include "tensorflow/core/platform/logging.h"
-#include "tensorflow/core/platform/types.h"
-
-#include "opencv2/opencv.hpp"
-
-using namespace tensorflow::ops;
-using namespace tensorflow;
-using namespace std;
-using namespace cv;
-using tensorflow::Flag;
-using tensorflow::Tensor;
-using tensorflow::Status;
-using tensorflow::string;
-using tensorflow::int32;
-
-class __declspec(dllexport) TFClf;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class __declspec(dllexport) TFClf;
 class TFClf {
 private:
 vector&lt;float&gt; mean = { 103.939,116.779,123.68 };
@@ -387,119 +347,6 @@ void show_result_pic(Mat img, int output_class_id, double output_prob);
 <ul>
   <li>源文件<code class="highlighter-rouge">tf_clf.cpp</code>完成类的具体实现，注意这里要<code class="highlighter-rouge">#include "pch.h"</code></li>
 </ul>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include "pch.h"
-#include "tf_clf.h"
-
-
-Mat TFClf::preprocess_img(Mat img) {
-    //图像进行resize处理
-    resize(img, img, cv::Size(resize_col, resize_row));
-
-    //去均值
-    img.convertTo(img, CV_32FC3);
-    // 遍历所有的像素的每个通道，减去对应的均值（BGR这种顺序）
-    for (int row = 0; row &lt; img.rows; row++) {
-        for (int col = 0; col &lt; img.cols; col++) {
-            img.at&lt;Vec3f&gt;(row, col)[0] -= mean[0];
-            img.at&lt;Vec3f&gt;(row, col)[1] -= mean[1];
-            img.at&lt;Vec3f&gt;(row, col)[2] -= mean[2];
-        }
-    }
-    return img;
-}
-
-void TFClf::mat_to_tensor(Mat img, Tensor* output_tensor) {
-    //创建一个指向tensor的内容的指针
-    float* p = output_tensor-&gt;flat&lt;float&gt;().data();
-
-    //创建一个Mat，与tensor的指针绑定,改变这个Mat的值，就相当于改变tensor的值
-    cv::Mat tempMat(resize_row, resize_col, CV_32FC3, p);
-    img.convertTo(tempMat, CV_32FC3);
-}
-
-void TFClf::show_result_pic(Mat img, int output_class_id,double output_prob) {
-    string rs_string;
-    if (output_class_id == 0) {
-        rs_string = "Class:Dog Proba:" + to_string(output_prob);
-    }
-    else {
-        rs_string = "Class:Cat Proba:" + to_string(output_prob);
-    }
-    // 把label输出到图片中
-    cv::putText(img, rs_string, draw_point, FONT_HERSHEY_TRIPLEX, 0.8, cv::Scalar(255, 200, 200), 2, CV_AA);
-    cv::imshow("result", img);
-    cv::waitKey(0);
-}
-
-void TFClf::model_pred() {
-    /*--------------------------------创建session------------------------------*/
-    Session* session;
-    Status status = NewSession(SessionOptions(), &amp;session);//创建新会话Session
-
-    /*--------------------------------从pb文件中读取模型--------------------------------*/
-    GraphDef graphdef; //Graph Definition for current model
-
-    Status status_load = ReadBinaryProto(Env::Default(), model_path, &amp;graphdef); //从pb文件中读取图模型;
-    if (!status_load.ok()) {
-        std::cout &lt;&lt; "ERROR: Loading model failed..." &lt;&lt; model_path &lt;&lt; std::endl;
-        std::cout &lt;&lt; status_load.ToString() &lt;&lt; "\n";
-    }
-    Status status_create = session-&gt;Create(graphdef); //将模型导入会话Session中;
-    if (!status_create.ok()) {
-        std::cout &lt;&lt; "ERROR: Creating graph in session failed..." &lt;&lt; status_create.ToString() &lt;&lt; std::endl;
-    }
-    std::cout &lt;&lt; "&lt;----Successfully created session and load graph.-------&gt;" &lt;&lt; endl;
-
-    /*---------------------------------载入测试图片-------------------------------------*/
-    std::cout &lt;&lt; endl &lt;&lt; "&lt;------------loading test_image--------------&gt;" &lt;&lt; endl;
-    Mat img = imread(image_path);
-
-
-    if (img.empty())
-    {
-        std::cout &lt;&lt; "can't open the image!!!!!!!" &lt;&lt; endl;
-    }
-    // 图像预处理
-    Mat resize_img;
-    resize_img = preprocess_img(img);
-    //创建一个tensor作为输入网络的接口
-    Tensor resized_tensor(DT_FLOAT, TensorShape({ 1,resize_row,resize_col,3 }));
-
-    //将Opencv的Mat格式的图片存入tensor
-    mat_to_tensor(resize_img, &amp;resized_tensor);
-
-    /*-----------------------------------用网络进行测试-----------------------------------------*/
-    std::cout &lt;&lt; endl &lt;&lt; "&lt;-------------Running the model with test_image---------------&gt;" &lt;&lt; endl;
-    //前向运行，输出结果一定是一个tensor的vector
-    vector&lt;tensorflow::Tensor&gt; outputs;
-    string output_node = output_tensor_name;
-    Status status_run = session-&gt;Run({ {input_tensor_name, resized_tensor} }, { output_node }, {}, &amp;outputs);
-
-    if (!status_run.ok()) {
-        std::cout &lt;&lt; "ERROR: RUN failed..." &lt;&lt; std::endl;
-        std::cout &lt;&lt; status_run.ToString() &lt;&lt; "\n";
-    }
-    //把输出值给提取出来
-    Tensor t = outputs[0];                   // Fetch the first tensor
-    auto tmap = t.tensor&lt;float, 2&gt;();        // Tensor Shape: [batch_size, target_class_num]
-    int output_dim = t.shape().dim_size(1);  // Get the target_class_num from 1st dimension
-    // Argmax: Get Final Prediction Label and Probability
-    int output_class_id = -1;
-    double output_prob = 0.0;
-    for (int j = 0; j &lt; output_dim; j++)
-    {
-        std::cout &lt;&lt; "Class " &lt;&lt; j &lt;&lt; " prob:" &lt;&lt; tmap(0, j) &lt;&lt; "," &lt;&lt; std::endl;
-        if (tmap(0, j) &gt;= output_prob) {
-            output_class_id = j;
-            output_prob = tmap(0, j);
-        }
-    }
-    // 展示图片结果
-    show_result_pic(img, output_class_id, output_prob);
-
-}
-</code></pre></div></div>
 
 <h4 id="32-新建一个项目测试dll">3.2 新建一个项目测试DLL</h4>
 
@@ -525,49 +372,6 @@ void TFClf::model_pred() {
 
 #pragma comment(lib,"DllTF.lib")
 class __declspec(dllexport) TFClf;
-
-#include &lt;fstream&gt;
-#include &lt;utility&gt;
-#include &lt;Eigen/Core&gt;
-#include &lt;Eigen/Dense&gt;
-#include &lt;iostream&gt;
-
-#include "tensorflow/cc/ops/const_op.h"
-#include "tensorflow/cc/ops/image_ops.h"
-#include "tensorflow/cc/ops/standard_ops.h"
-
-#include "tensorflow/core/framework/graph.pb.h"
-#include "tensorflow/core/framework/tensor.h"
-
-#include "tensorflow/core/graph/default_device.h"
-#include "tensorflow/core/graph/graph_def_builder.h"
-
-#include "tensorflow/core/lib/core/errors.h"
-#include "tensorflow/core/lib/core/stringpiece.h"
-#include "tensorflow/core/lib/core/threadpool.h"
-#include "tensorflow/core/lib/io/path.h"
-#include "tensorflow/core/lib/strings/stringprintf.h"
-
-#include "tensorflow/core/public/session.h"
-#include "tensorflow/core/util/command_line_flags.h"
-
-#include "tensorflow/core/platform/env.h"
-#include "tensorflow/core/platform/init_main.h"
-#include "tensorflow/core/platform/logging.h"
-#include "tensorflow/core/platform/types.h"
-
-#include "opencv2/opencv.hpp"
-
-using namespace tensorflow::ops;
-using namespace tensorflow;
-using namespace std;
-using namespace cv;
-using tensorflow::Flag;
-using tensorflow::Tensor;
-using tensorflow::Status;
-using tensorflow::string;
-using tensorflow::int32;
-
 
 
 class TFClf {
@@ -653,6 +457,64 @@ clf.model_pred();
             
 
             <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/Jasper2%E5%8D%9A%E5%AE%A2%E8%B7%9F%E6%96%B0">
+                <div class="post-card-image" style="background-image: url(/assets/images/blog.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/Jasper2%E5%8D%9A%E5%AE%A2%E8%B7%9F%E6%96%B0">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Netlify</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">博客</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">利用Jasper2主题和Netlify完善个人博客</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
             
 
             <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->

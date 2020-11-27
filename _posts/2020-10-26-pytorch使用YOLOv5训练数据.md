@@ -6,6 +6,7 @@ navigation: True
 title: pytorch使用YOLOv5训练数据
 date: 2020-10-26 19:21:00
 tags: [pytorch, YOLOv5, 训练]
+excerpt: 介绍如何利用官方开源的Yolov5训练一个属于自己的模型
 class: post-template
 subclass: 'post'
 ---

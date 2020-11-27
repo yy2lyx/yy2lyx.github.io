@@ -6,6 +6,7 @@ navigation: True
 title: Visual Studio 2019 下搭建opencv3.4.11的C++环境
 date: 2020-10-15 19:21:00
 tags: [Visual Studio, Windows, Opencv3, C++]
+excerpt: 在Windows下利用Visual Studio2019 来搭建opencv3.4.11的C++环境
 class: post-template
 subclass: 'post'
 ---

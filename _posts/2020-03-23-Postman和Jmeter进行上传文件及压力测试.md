@@ -6,6 +6,7 @@ navigation: True
 title: Postman和Jmeter进行上传文件及压力测试
 date: 2020-03-23 15:21:00
 tags: [Postman, Jmeter,压力测试]
+excerpt: 讲述如何利用Postman和Jmeter对网络接口进行压力测试
 class: post-template
 subclass: 'post'
 ---

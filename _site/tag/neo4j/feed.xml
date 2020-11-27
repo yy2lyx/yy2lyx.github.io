@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/neo4j/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2020-11-26T21:50:15+08:00</updated>
+  <updated>2020-11-27T21:56:45+08:00</updated>
   <id>http://localhost:4000/tag/neo4j/feed.xml</id>
 
   
@@ -332,7 +332,7 @@ RETURN n.name AS name, n.pagerank AS pagerank ORDER BY pagerank DESC LIMIT 10
       
 
       
-        <summary type="html">一. 环境准备</summary>
+        <summary type="html">讲述Neo4j图数据库的使用，图挖掘算法（社区算法）的实现</summary>
       
 
       

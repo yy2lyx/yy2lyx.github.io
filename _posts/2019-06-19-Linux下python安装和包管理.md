@@ -6,6 +6,7 @@ navigation: True
 title: Linux下python安装和包管理
 date: 2019-06-19 20:20:00
 tags: Linux, Python]
+excerpt: 讲述在Linux环境下python包编译及安装过程，以及包管理工具virtualenv
 class: post-template
 subclass: 'post'
 ---
@@ -20,7 +21,7 @@ subclass: 'post'
 
 #### 2. venv管理和包安装
 
-* 安装vitualenvs：`pip3 install virtualenv`
+* 安装virtualenvs：`pip3 install virtualenv`
 
 * 创建环境：`sudo virtualenv --python=python3.6 环境名字`
 

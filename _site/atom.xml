@@ -8,11 +8,22 @@
     
       
       <item>
+        <title>利用Jasper2主题和Netlify完善个人博客</title>
+        
+          <description>介绍如何利用Jasper2主题（jekyll）完成个人博客设置和利用netlify加速访问速度</description>
+        
+        <pubDate>Fri, 27 Nov 2020 04:21:00 +0800</pubDate>
+        <link>
+        http://localhost:4000/Jasper2%E5%8D%9A%E5%AE%A2%E8%B7%9F%E6%96%B0</link>
+        <guid isPermaLink="true">http://localhost:4000/Jasper2%E5%8D%9A%E5%AE%A2%E8%B7%9F%E6%96%B0</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>Keras训练模型部署到C++环境并生成DLL</title>
         
-          <description>&lt;h3 id=&quot;一-准备工作&quot;&gt;一. 准备工作&lt;/h3&gt;
-
-</description>
+          <description>主要讲述将Keras训练好的.h5模型转换成.pt格式，并将其转换后的模型部署到C++环境中，并生成DLL</description>
         
         <pubDate>Tue, 03 Nov 2020 22:21:00 +0800</pubDate>
         <link>
@@ -25,11 +36,7 @@
       <item>
         <title>Window下搭建Tensorflow的C++环境</title>
         
-          <description>&lt;blockquote&gt;
-  &lt;p&gt;参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn&lt;/p&gt;
-&lt;/blockquote&gt;
-
-</description>
+          <description>介绍如何在windows下搭建tensorflow的C++环境</description>
         
         <pubDate>Mon, 02 Nov 2020 03:21:00 +0800</pubDate>
         <link>
@@ -42,9 +49,7 @@
       <item>
         <title>pytorch使用YOLOv5训练数据</title>
         
-          <description>&lt;h3 id=&quot;一-需要下载的资源&quot;&gt;一. 需要下载的资源&lt;/h3&gt;
-
-</description>
+          <description>介绍如何利用官方开源的Yolov5训练一个属于自己的模型</description>
         
         <pubDate>Tue, 27 Oct 2020 03:21:00 +0800</pubDate>
         <link>
@@ -57,9 +62,7 @@
       <item>
         <title>Windows10环境下搭建CUDA10.1和pytorch1.6</title>
         
-          <description>&lt;h3 id=&quot;一-安装cuda101&quot;&gt;一. 安装CUDA10.1&lt;/h3&gt;
-
-</description>
+          <description>介绍如何在Windows10环境中搭建GPU使用环境和pytorch</description>
         
         <pubDate>Tue, 20 Oct 2020 18:18:00 +0800</pubDate>
         <link>
@@ -72,13 +75,7 @@
       <item>
         <title>机器学习常用函数</title>
         
-          <description>&lt;h3 id=&quot;一数据处理工具pandas和numpy&quot;&gt;一.数据处理工具pandas和numpy&lt;/h3&gt;
-&lt;h4 id=&quot;11-pandas读取数据&quot;&gt;1.1 pandas读取数据&lt;/h4&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data.csv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index_col&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encoding&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_tabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data.txt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;,&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-</description>
+          <description>介绍python的数据分析常用工具pandas、numpy和机器学习工具sklearn的总结</description>
         
         <pubDate>Tue, 20 Oct 2020 18:18:00 +0800</pubDate>
         <link>
@@ -91,9 +88,7 @@
       <item>
         <title>Mac下利用jekyll和github pages搭建个人博客</title>
         
-          <description>&lt;h3 id=&quot;一-搭建环境&quot;&gt;一. 搭建环境&lt;/h3&gt;
-
-</description>
+          <description>在Mac环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。</description>
         
         <pubDate>Sun, 18 Oct 2020 03:21:00 +0800</pubDate>
         <link>
@@ -106,14 +101,7 @@
       <item>
         <title>Windows下安装mysql和导入sql文件</title>
         
-          <description>&lt;h3 id=&quot;一-下载软件&quot;&gt;一. 下载软件&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;mysql：这里使用的是scoop来进行安装：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install mysql&lt;/code&gt;，这里的优势是自动帮你配好环境了&lt;/li&gt;
-  &lt;li&gt;安装&lt;a href=&quot;https://www.navicat.com.cn/download/navicat-premium&quot;&gt;Navicat Premium&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;破解&lt;a href=&quot;https://www.nrgh.net/archives/navicat-premium.html&quot;&gt;Navicat Premium&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
+          <description>介绍在Windows环境下本地安装mysql和导入sql文件的使用</description>
         
         <pubDate>Sat, 17 Oct 2020 03:21:00 +0800</pubDate>
         <link>
@@ -126,9 +114,7 @@
       <item>
         <title>Visual Studio 2019 下搭建opencv3.4.11的C++环境</title>
         
-          <description>&lt;h3 id=&quot;一-下载需要的软件&quot;&gt;一. 下载需要的软件&lt;/h3&gt;
-
-</description>
+          <description>在Windows下利用Visual Studio2019 来搭建opencv3.4.11的C++环境</description>
         
         <pubDate>Fri, 16 Oct 2020 03:21:00 +0800</pubDate>
         <link>
@@ -141,9 +127,7 @@
       <item>
         <title>Xcode搭建Opencv3环境</title>
         
-          <description>&lt;h4 id=&quot;1-下载opencv&quot;&gt;1. 下载opencv&lt;/h4&gt;
-
-</description>
+          <description>在Mac中利用Xcode神器搭建opencv3的C++环境</description>
         
         <pubDate>Wed, 14 Oct 2020 03:21:00 +0800</pubDate>
         <link>
@@ -156,11 +140,7 @@
       <item>
         <title>面试总结</title>
         
-          <description>&lt;blockquote&gt;
-  &lt;p&gt;面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-</description>
+          <description>面试中机器学习中常问的问题总结</description>
         
         <pubDate>Fri, 12 Jun 2020 23:21:00 +0800</pubDate>
         <link>
@@ -173,9 +153,7 @@
       <item>
         <title>Postman和Jmeter进行上传文件及压力测试</title>
         
-          <description>&lt;h3 id=&quot;一-准备工作&quot;&gt;一. 准备工作&lt;/h3&gt;
-
-</description>
+          <description>讲述如何利用Postman和Jmeter对网络接口进行压力测试</description>
         
         <pubDate>Mon, 23 Mar 2020 23:21:00 +0800</pubDate>
         <link>
@@ -188,9 +166,7 @@
       <item>
         <title>Neo4j数据库与图数据挖掘算法结合</title>
         
-          <description>&lt;h3 id=&quot;一-环境准备&quot;&gt;一. 环境准备&lt;/h3&gt;
-
-</description>
+          <description>讲述Neo4j图数据库的使用，图挖掘算法（社区算法）的实现</description>
         
         <pubDate>Thu, 27 Feb 2020 23:21:00 +0800</pubDate>
         <link>
@@ -203,11 +179,7 @@
       <item>
         <title>无监督异常检测模型</title>
         
-          <description>&lt;blockquote&gt;
-  &lt;p&gt;异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-</description>
+          <description>主要讲述无监督的异常检测模型</description>
         
         <pubDate>Thu, 05 Dec 2019 03:20:00 +0800</pubDate>
         <link>
@@ -220,9 +192,7 @@
       <item>
         <title>Windows下安装C++ IDE（clion）和opencv环境</title>
         
-          <description>&lt;h4 id=&quot;1-下载软件&quot;&gt;1. 下载软件&lt;/h4&gt;
-
-</description>
+          <description>讲述如何在Windows环境中安装clion和配置opencv环境</description>
         
         <pubDate>Tue, 01 Oct 2019 18:18:00 +0800</pubDate>
         <link>
@@ -235,9 +205,7 @@
       <item>
         <title>Linux下python安装和包管理</title>
         
-          <description>&lt;h4 id=&quot;1-上传python文件并打包编译&quot;&gt;1. 上传python文件并打包编译&lt;/h4&gt;
-
-</description>
+          <description>讲述在Linux环境下python包编译及安装过程，以及包管理工具virtualenv</description>
         
         <pubDate>Thu, 20 Jun 2019 04:20:00 +0800</pubDate>
         <link>
@@ -250,11 +218,7 @@
       <item>
         <title>深度学习调参经验总结</title>
         
-          <description>&lt;h3 id=&quot;一-网络中loss表现过于震荡&quot;&gt;一. 网络中loss表现过于震荡&lt;/h3&gt;
-&lt;h4 id=&quot;11--模型拟合能力不够导致模型震荡&quot;&gt;1.1  模型拟合能力不够导致模型震荡&lt;/h4&gt;
-&lt;p&gt;model（层数：input(30,300,3) ==&amp;gt; ful_collected_layer(30,300,64) ==&amp;gt; lstm ==&amp;gt; ful_collected_layer ==&amp;gt; output）此时模型的loss由1到192震动太大，acc也是在一个epoch中时好时坏，由此考虑到是模型的分类能力的问题（可能处理不了非线性或者是异或的问题）&lt;/p&gt;
-
-</description>
+          <description>讲述在深度学习建模过程中遇到的问题及其解决思路</description>
         
         <pubDate>Sat, 09 Mar 2019 18:20:00 +0800</pubDate>
         <link>
