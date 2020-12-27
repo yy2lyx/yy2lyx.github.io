@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "https://gems.ruby-china.com"
 
 gem "jekyll", "~> 3.7.4"
 gem "github-pages", "~> 192"

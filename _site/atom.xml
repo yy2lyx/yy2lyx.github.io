@@ -8,6 +8,19 @@
     
       
       <item>
+        <title>C++的包管理工具——VCPKG</title>
+        
+          <description>介绍如何利用vcpkg来管理C++的库</description>
+        
+        <pubDate>Fri, 27 Nov 2020 04:21:00 +0800</pubDate>
+        <link>
+        http://localhost:4000/C++%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-VCPKG</link>
+        <guid isPermaLink="true">http://localhost:4000/C++%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-VCPKG</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>利用Jasper2主题和Netlify完善个人博客</title>
         
           <description>介绍如何利用Jasper2主题（jekyll）完成个人博客设置和利用netlify加速访问速度</description>
