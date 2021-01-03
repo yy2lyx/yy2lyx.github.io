@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/c--/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2020-12-27T11:09:22+08:00</updated>
+  <updated>2021-01-03T19:38:50+08:00</updated>
   <id>http://localhost:4000/tag/c--/feed.xml</id>
 
   
@@ -42,6 +42,185 @@
   
   
 
+  
+    <entry>
+      <title type="html">windows下搭建libtorch和paddle的C++环境搭建</title>
+      <link href="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" rel="alternate" type="text/html" title="windows下搭建libtorch和paddle的C++环境搭建" />
+      <published>2020-11-27T04:21:00+08:00</published>
+      <updated>2020-11-27T04:21:00+08:00</updated>
+      <id>http://localhost:4000/windows%20%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA</id>
+      <content type="html" xml:base="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">&lt;blockquote&gt;
+  &lt;p&gt;参考文章：&lt;a href=&quot;https://pytorch.org/cppdocs/installing.html&quot;&gt;NSTALLING C++ DISTRIBUTIONS OF PYTORCH&lt;/a&gt;，&lt;a href=&quot;https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html&quot;&gt;安装与编译 Windows 预测库&lt;/a&gt;，&lt;a href=&quot;https://pytorch.apachecn.org/docs/1.0/cpp_export.html&quot;&gt;在C++中加载PYTORCH模型&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;一-必要软件&quot;&gt;一. 必要软件&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://visualstudio.microsoft.com/zh-hans/vs/&quot;&gt;vs2019&lt;/a&gt;：paddle和torch这里的编译都是由Visual Studio 2019完成的&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pytorch.org/get-started/locally/&quot;&gt;libtorch&lt;/a&gt;：直接在官网上进行下载压缩包，这里说明下分为release和debug版本，直接下载release版本即可。&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html&quot;&gt;paddle&lt;/a&gt;：这里选择2.0-rc1的cpu版本的直接进行解压安装。&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://opencv.org/releases/&quot;&gt;opencv&lt;/a&gt;：windows下直接安装exe到本地即可。&lt;/li&gt;
+  &lt;li&gt;cmake：直接用scoop安装&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install cmake&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-安装libtorch环境&quot;&gt;二. 安装libtorch环境&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-构建一个c项目&quot;&gt;2.1 构建一个C++项目&lt;/h4&gt;
+
+&lt;p&gt;目录层级如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;├─example-app
+	 ├─build // 新建一个空目录
+	 ├─CMakeLists.txt // 构建一个cmakelist
+	 └─example-app.cpp // 构建一个cpp文件用于测试
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;其中，&lt;code class=&quot;highlighter-rouge&quot;&gt;CMakeList.txt&lt;/code&gt;具体设置如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-cmake highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cmake_minimum_required&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;VERSION 3.12 FATAL_ERROR&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# add CMAKE_PREFIX_PATH&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#增加opencv和libtorch的路径&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv/build/x64/vc15/lib&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+&lt;span class=&quot;c1&quot;&gt;# 注意这里如果是vs2015的版本，需要改成 /build/x64/vc14/lib&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/libtorch&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;Torch REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OpenCV REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;NOT Torch_FOUND&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;FATAL_ERROR &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch Not Found!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;endif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;NOT Torch_FOUND&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;OpenCV library status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    version: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_VERSION&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    include path: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_INCLUDE_DIRS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;nb&quot;&gt;add_executable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app example-app.cpp&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;target_link_libraries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set_property&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;TARGET example-app PROPERTY CXX_STANDARD 11&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;C++测试代码（&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.cpp&lt;/code&gt;）如下（测试opencv和libtorch）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;torch/torch.h&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;opencv2/core.hpp&amp;gt;
+#include &amp;lt;opencv2/highgui/highgui.hpp&amp;gt;
+
+using namespace std;
+using namespace cv;
+
+int main() {
+  torch::Tensor tensor = torch::rand({2, 3});
+  std::cout &amp;lt;&amp;lt; tensor &amp;lt;&amp;lt; std::endl;
+  std::cout &amp;lt;&amp;lt; &quot;ok!&quot; &amp;lt;&amp;lt; std::endl;
+  Mat img = imread(&quot;1.jpg&quot;);
+  imshow(&quot;1&quot;,img);
+  waitKey(0);
+  return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;22-编译和生成项目&quot;&gt;2.2 编译和生成项目&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;进入到&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;目录：&lt;code class=&quot;highlighter-rouge&quot;&gt;cd build&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;利用cmake进行编译： &lt;code class=&quot;highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;编译顺利的话，就可以看到&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;目录下生成了如下所示：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqn8ispmj30j706dq3s.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;利用vs2019打开项目&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.sln&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;点击&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app&lt;/code&gt; 右键选择&lt;code class=&quot;highlighter-rouge&quot;&gt;设为启动项&lt;/code&gt;，并且将版本选择&lt;code class=&quot;highlighter-rouge&quot;&gt;release&lt;/code&gt;版本，点击&lt;code class=&quot;highlighter-rouge&quot;&gt;本地Windows调试器&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnkotpsj30kk0blmxs.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;23-调试问题的解决&quot;&gt;2.3 调试问题的解决&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;报错信息：&lt;code class=&quot;highlighter-rouge&quot;&gt;由于找不到c10.dll&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;torch.dll&lt;/code&gt;这种找不到dll文件的，直接将dll文件(这些dll文件都在&lt;code class=&quot;highlighter-rouge&quot;&gt;libtorch/lib&lt;/code&gt;路径下)复制到&lt;code class=&quot;highlighter-rouge&quot;&gt;build/release&lt;/code&gt;文件夹下&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv_world3411.dll&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv_ffmpeg3411_64.dll&lt;/code&gt;等都在opencv的&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv\opencv\build\x64\vc15\lib&lt;/code&gt;路径下。&lt;/li&gt;
+  &lt;li&gt;这里注意测试opencv的时候，需要将图片放置到和&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.vcxproj&lt;/code&gt;同级目录下&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;24-exe生成文件的平台移植&quot;&gt;2.4 exe生成文件的平台移植&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果需要将生成的exe文件移植到其他PC上面，只需要将release文件夹下所有文件（包括dll文件和exe文件）复制到其他PC即可。&lt;/li&gt;
+  &lt;li&gt;生成的exe文件在找图片的时候也是同级目录下找，因此需要将图片放置到&lt;code class=&quot;highlighter-rouge&quot;&gt;exe&lt;/code&gt;文件的同级目录下。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;25-pytorch模型在c平台的使用&quot;&gt;2.5 pytorch模型在C++平台的使用&lt;/h4&gt;
+
+&lt;p&gt;PyTorch模型从Python到C++的转换由&lt;a href=&quot;https://pytorch.org/docs/master/jit.html&quot;&gt;Torch Script&lt;/a&gt;实现。Torch Script是PyTorch模型的一种表示，可由Torch Script编译器理解，编译和序列化。一般利用trace将PyTorch模型转换为Torch脚本,必须将模型的实例以及样本输入传递给&lt;code class=&quot;highlighter-rouge&quot;&gt;torch.jit.trace&lt;/code&gt;函数。这将生成一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;torch.jit.ScriptModule&lt;/code&gt;对象，并在模块的&lt;code class=&quot;highlighter-rouge&quot;&gt;forward&lt;/code&gt;方法中嵌入模型评估的跟踪。&lt;/p&gt;
+
+&lt;h3 id=&quot;三-安装paddle的c环境&quot;&gt;三. 安装paddle的C++环境&lt;/h3&gt;
+
+&lt;h4 id=&quot;31-下载安装paddle&quot;&gt;3.1 下载安装paddle&lt;/h4&gt;
+
+&lt;p&gt;这里官网有2种方式在windows上安装paddle环境：一个是通过git下载paddle源码进行编译安装，另一种直接从官网下载zip编译好的文件（本文使用该种方式）。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnvgko9j30q707iaac.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;32-结合paddleocr测试并使用paddle预测库&quot;&gt;3.2 结合paddleOCR测试并使用paddle预测库&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;paddleOCR的git地址：https://github.com/PaddlePaddle/PaddleOCR&lt;/li&gt;
+  &lt;li&gt;下载到本地之后，&lt;code class=&quot;highlighter-rouge&quot;&gt;cd PaddleOCR\deploy\cpp_infer&lt;/code&gt;，修改&lt;code class=&quot;highlighter-rouge&quot;&gt;CMakeList.txt&lt;/code&gt;文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-cmake highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;SET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;PADDLE_LIB &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/paddle_inference_install_dir&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 这里是下载的paddle预测库的路径&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;SET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OPENCV_DIR &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 这里是下载的opencv的路径&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OpenCV REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新建一个build文件夹：&lt;code class=&quot;highlighter-rouge&quot;&gt;mkdir build&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;进入build：&lt;code class=&quot;highlighter-rouge&quot;&gt;cd build&lt;/code&gt; ， 编译：&lt;code class=&quot;highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;同样的利用vs2019打开项目&lt;code class=&quot;highlighter-rouge&quot;&gt;ocr_system.sln&lt;/code&gt;，生成即可。&lt;/li&gt;
+  &lt;li&gt;这里注意需要将&lt;code class=&quot;highlighter-rouge&quot;&gt;paddle_fluid.dll&lt;/code&gt;放入到&lt;code class=&quot;highlighter-rouge&quot;&gt;Release&lt;/code&gt;目录下。&lt;/li&gt;
+&lt;/ul&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="libtorch" />
+      
+        <category term="paddle" />
+      
+        <category term="C++" />
+      
+
+      
+        <summary type="html">介绍在C++平台下搭建torch和paddle的环境</summary>
+      
+
+      
+      
+    </entry>
   
     <entry>
       <title type="html">C++的包管理工具——VCPKG</title>

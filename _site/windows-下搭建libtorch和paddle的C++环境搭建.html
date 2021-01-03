@@ -11,7 +11,7 @@
 
 
 
-    <title>Windows下安装C++ IDE（clion）和opencv环境</title>
+    <title>windows下搭建libtorch和paddle的C++环境搭建</title>
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Styles'n'Scripts -->
@@ -36,30 +36,30 @@
     <!-- This tag outputs SEO meta+structured data and other important settings -->
     <meta name="description" content="欢迎各位看官光临本小站，希望共同学习进步哈！" />
     <link rel="shortcut icon" href="http://localhost:4000/assets/images/yy.jpg" type="image/png" />
-    <link rel="canonical" href="http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83" />
+    <link rel="canonical" href="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
 
      <!--title below is coming from _includes/dynamic_title-->
     <meta property="og:site_name" content="李小肥的YY" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Windows下安装C++ IDE（clion）和opencv环境" />
-    <meta property="og:description" content="1. 下载软件 clion：C++的IDE cmake : 这里需要添加到环境变量中 D:\Profile\mingw64\bin MinGW ：添加到环境变量 D:\Profile\mingw64\bin opencv3.4.10：开源的计算机视觉库 2. MinGW和OpenCV 主要是如何用你的编译器来编译OpenCV。我们需要有include文件夹，这个在写代码时就用的到，还有lib和dll，这俩货我也不是很懂，dll的话没有是可以编译成功的，但运行是要失败的，所以我们是肯定要把dll加入到系统环境变量Path里的。lib是编译时就需要的，所以我们得把lib放在CLion的CMakeLists里面。 下载完Windows的OpenCV，其实我们只有给Visual Studio用的dll和lib，可是我们想要g++来编译和运行，所以就得自己根据OpenCV的sources文件夹来自己编译OpenCV。 这里需要在cmake中加入OPENCV_ALLOCATOR_STATS_COUNTER_TYPE=int64_t，add Entry ==&gt; string，这里参考报错信息1 这里还需要再cmake中加入OPENCV_ENABLE_ALLOCATOR_STATS=OFF，参考报错信息2 需要2次Configure和1次Genrate即可编译完成。 cd opencv\mingw-build目录下输入mingw32-make 等待完成，mingw32-make install 打开你的mingw-build文件夹，里面有个install目录就是你要的，可以复制一下这个文件夹，以后就不用重新编译了。我在C盘建立了OpenCV目录，并且把install文件夹下的文件复制进去了,C:\OpenCV\x64\mingw\bin加入系统环境变量Path中。 3. 写CMakeList 其实就是加入lib目录和include目录 cmake_minimum_required(VERSION 3.16) project(opencv_test) set(CMAKE_CXX_STANDARD 14) add_executable(opencv_test main.cpp) ## 添加的OpenCVConfig.cmake的路径 set(OpenCV_DIR "D:/Profile/opencv_builded") ## 搜索OpenCV目录 find_package(OpenCV REQUIRED) ## 添加OpenCV头文件目录 include_directories("D:/Profile/opencv_builded/include") ## 链接OpenCV库文件" />
-    <meta property="og:url" content="http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83" />
-    <meta property="og:image" content="http://localhost:4000/assets/images/software.jpg" />
+    <meta property="og:title" content="windows下搭建libtorch和paddle的C++环境搭建" />
+    <meta property="og:description" content="参考文章：NSTALLING C++ DISTRIBUTIONS OF PYTORCH，安装与编译 Windows 预测库，在C++中加载PYTORCH模型 一. 必要软件 vs2019：paddle和torch这里的编译都是由Visual Studio 2019完成的 libtorch：直接在官网上进行下载压缩包，这里说明下分为release和debug版本，直接下载release版本即可。 paddle：这里选择2.0-rc1的cpu版本的直接进行解压安装。 opencv：windows下直接安装exe到本地即可。 cmake：直接用scoop安装scoop install cmake 二. 安装libtorch环境 2.1 构建一个C++项目 目录层级如下： ├─example-app ├─build // 新建一个空目录 ├─CMakeLists.txt // 构建一个cmakelist └─example-app.cpp // 构建一个cpp文件用于测试 其中，CMakeList.txt具体设置如下： cmake_minimum_required(VERSION 3.12 FATAL_ERROR) project(example-app) # add CMAKE_PREFIX_PATH #增加opencv和libtorch的路径 list(APPEND CMAKE_PREFIX_PATH "D:/software/opencv/opencv/build/x64/vc15/lib") # 注意这里如果是vs2015的版本，需要改成 /build/x64/vc14/lib list(APPEND CMAKE_PREFIX_PATH" />
+    <meta property="og:url" content="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" />
+    <meta property="og:image" content="http://localhost:4000/assets/images/yolov5.jpeg" />
     <meta property="article:publisher" content="https://www.facebook.com/" />
     <meta property="article:author" content="https://www.facebook.com/" />
-    <meta property="article:published_time" content="2019-10-01T18:18:00+08:00" />
-    <meta property="article:modified_time" content="2019-10-01T18:18:00+08:00" />
-    <meta property="article:tag" content="Clion" />
+    <meta property="article:published_time" content="2020-11-27T04:21:00+08:00" />
+    <meta property="article:modified_time" content="2020-11-27T04:21:00+08:00" />
+    <meta property="article:tag" content="Libtorch" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Windows下安装C++ IDE（clion）和opencv环境" />
-    <meta name="twitter:description" content="1. 下载软件 clion：C++的IDE cmake : 这里需要添加到环境变量中 D:\Profile\mingw64\bin MinGW ：添加到环境变量 D:\Profile\mingw64\bin opencv3.4.10：开源的计算机视觉库 2. MinGW和OpenCV 主要是如何用你的编译器来编译OpenCV。我们需要有include文件夹，这个在写代码时就用的到，还有lib和dll，这俩货我也不是很懂，dll的话没有是可以编译成功的，但运行是要失败的，所以我们是肯定要把dll加入到系统环境变量Path里的。lib是编译时就需要的，所以我们得把lib放在CLion的CMakeLists里面。 下载完Windows的OpenCV，其实我们只有给Visual Studio用的dll和lib，可是我们想要g++来编译和运行，所以就得自己根据OpenCV的sources文件夹来自己编译OpenCV。 这里需要在cmake中加入OPENCV_ALLOCATOR_STATS_COUNTER_TYPE=int64_t，add Entry ==&gt; string，这里参考报错信息1 这里还需要再cmake中加入OPENCV_ENABLE_ALLOCATOR_STATS=OFF，参考报错信息2 需要2次Configure和1次Genrate即可编译完成。 cd opencv\mingw-build目录下输入mingw32-make 等待完成，mingw32-make install 打开你的mingw-build文件夹，里面有个install目录就是你要的，可以复制一下这个文件夹，以后就不用重新编译了。我在C盘建立了OpenCV目录，并且把install文件夹下的文件复制进去了,C:\OpenCV\x64\mingw\bin加入系统环境变量Path中。 3. 写CMakeList 其实就是加入lib目录和include目录 cmake_minimum_required(VERSION 3.16) project(opencv_test) set(CMAKE_CXX_STANDARD 14) add_executable(opencv_test main.cpp) ## 添加的OpenCVConfig.cmake的路径 set(OpenCV_DIR "D:/Profile/opencv_builded") ## 搜索OpenCV目录 find_package(OpenCV REQUIRED) ## 添加OpenCV头文件目录 include_directories("D:/Profile/opencv_builded/include") ## 链接OpenCV库文件" />
+    <meta name="twitter:title" content="windows下搭建libtorch和paddle的C++环境搭建" />
+    <meta name="twitter:description" content="参考文章：NSTALLING C++ DISTRIBUTIONS OF PYTORCH，安装与编译 Windows 预测库，在C++中加载PYTORCH模型 一. 必要软件 vs2019：paddle和torch这里的编译都是由Visual Studio 2019完成的 libtorch：直接在官网上进行下载压缩包，这里说明下分为release和debug版本，直接下载release版本即可。 paddle：这里选择2.0-rc1的cpu版本的直接进行解压安装。 opencv：windows下直接安装exe到本地即可。 cmake：直接用scoop安装scoop install cmake 二. 安装libtorch环境 2.1 构建一个C++项目 目录层级如下： ├─example-app ├─build // 新建一个空目录 ├─CMakeLists.txt // 构建一个cmakelist └─example-app.cpp // 构建一个cpp文件用于测试 其中，CMakeList.txt具体设置如下： cmake_minimum_required(VERSION 3.12 FATAL_ERROR) project(example-app) # add CMAKE_PREFIX_PATH #增加opencv和libtorch的路径 list(APPEND CMAKE_PREFIX_PATH "D:/software/opencv/opencv/build/x64/vc15/lib") # 注意这里如果是vs2015的版本，需要改成 /build/x64/vc14/lib list(APPEND CMAKE_PREFIX_PATH" />
     <meta name="twitter:url" content="http://localhost:4000/" />
-    <meta name="twitter:image" content="http://localhost:4000/assets/images/software.jpg" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/yolov5.jpeg" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="李小肥的YY" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Clion" />
+    <meta name="twitter:data2" content="Libtorch" />
     <meta name="twitter:site" content="@" />
     <meta name="twitter:creator" content="@" />
     <meta property="og:image:width" content="1400" />
@@ -74,18 +74,18 @@
         "name": "李小肥的YY",
         "logo": "http://localhost:4000/"
     },
-    "url": "http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83",
+    "url": "http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA",
     "image": {
         "@type": "ImageObject",
-        "url": "http://localhost:4000/assets/images/software.jpg",
+        "url": "http://localhost:4000/assets/images/yolov5.jpeg",
         "width": 2000,
         "height": 666
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83"
+        "@id": "http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"
     },
-    "description": "1. 下载软件 clion：C++的IDE cmake : 这里需要添加到环境变量中 D:\Profile\mingw64\bin MinGW ：添加到环境变量 D:\Profile\mingw64\bin opencv3.4.10：开源的计算机视觉库 2. MinGW和OpenCV 主要是如何用你的编译器来编译OpenCV。我们需要有include文件夹，这个在写代码时就用的到，还有lib和dll，这俩货我也不是很懂，dll的话没有是可以编译成功的，但运行是要失败的，所以我们是肯定要把dll加入到系统环境变量Path里的。lib是编译时就需要的，所以我们得把lib放在CLion的CMakeLists里面。 下载完Windows的OpenCV，其实我们只有给Visual Studio用的dll和lib，可是我们想要g++来编译和运行，所以就得自己根据OpenCV的sources文件夹来自己编译OpenCV。 这里需要在cmake中加入OPENCV_ALLOCATOR_STATS_COUNTER_TYPE=int64_t，add Entry ==&gt; string，这里参考报错信息1 这里还需要再cmake中加入OPENCV_ENABLE_ALLOCATOR_STATS=OFF，参考报错信息2 需要2次Configure和1次Genrate即可编译完成。 cd opencv\mingw-build目录下输入mingw32-make 等待完成，mingw32-make install 打开你的mingw-build文件夹，里面有个install目录就是你要的，可以复制一下这个文件夹，以后就不用重新编译了。我在C盘建立了OpenCV目录，并且把install文件夹下的文件复制进去了,C:\OpenCV\x64\mingw\bin加入系统环境变量Path中。 3. 写CMakeList 其实就是加入lib目录和include目录 cmake_minimum_required(VERSION 3.16) project(opencv_test) set(CMAKE_CXX_STANDARD 14) add_executable(opencv_test main.cpp) ## 添加的OpenCVConfig.cmake的路径 set(OpenCV_DIR "D:/Profile/opencv_builded") ## 搜索OpenCV目录 find_package(OpenCV REQUIRED) ## 添加OpenCV头文件目录 include_directories("D:/Profile/opencv_builded/include") ## 链接OpenCV库文件"
+    "description": "参考文章：NSTALLING C++ DISTRIBUTIONS OF PYTORCH，安装与编译 Windows 预测库，在C++中加载PYTORCH模型 一. 必要软件 vs2019：paddle和torch这里的编译都是由Visual Studio 2019完成的 libtorch：直接在官网上进行下载压缩包，这里说明下分为release和debug版本，直接下载release版本即可。 paddle：这里选择2.0-rc1的cpu版本的直接进行解压安装。 opencv：windows下直接安装exe到本地即可。 cmake：直接用scoop安装scoop install cmake 二. 安装libtorch环境 2.1 构建一个C++项目 目录层级如下： ├─example-app ├─build // 新建一个空目录 ├─CMakeLists.txt // 构建一个cmakelist └─example-app.cpp // 构建一个cpp文件用于测试 其中，CMakeList.txt具体设置如下： cmake_minimum_required(VERSION 3.12 FATAL_ERROR) project(example-app) # add CMAKE_PREFIX_PATH #增加opencv和libtorch的路径 list(APPEND CMAKE_PREFIX_PATH "D:/software/opencv/opencv/build/x64/vc15/lib") # 注意这里如果是vs2015的版本，需要改成 /build/x64/vc14/lib list(APPEND CMAKE_PREFIX_PATH"
 }
     </script>
 
@@ -98,7 +98,7 @@
     </script> -->
 
     <meta name="generator" content="Jekyll 3.6.2" />
-    <link rel="alternate" type="application/rss+xml" title="Windows下安装C++ IDE（clion）和opencv环境" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="windows下搭建libtorch和paddle的C++环境搭建" href="/feed.xml" />
 
 
 </head>
@@ -156,90 +156,180 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-clion tag-opencv post ">
+        <article class="post-full  tag-libtorch tag-paddle tag-c post ">
 
             <header class="post-full-header">
                 <section class="post-full-meta">
-                    <time class="post-full-meta-date" datetime=" 1 October 2019"> 1 October 2019</time>
+                    <time class="post-full-meta-date" datetime="27 November 2020">27 November 2020</time>
                     
                         <span class="date-divider">/</span>
                         
                             
-                               <a href='/tag/clion/'>CLION</a>,
+                               <a href='/tag/libtorch/'>LIBTORCH</a>,
                             
                         
                             
-                               <a href='/tag/opencv/'>OPENCV</a>
+                               <a href='/tag/paddle/'>PADDLE</a>,
+                            
+                        
+                            
+                               <a href='/tag/c/'>C++</a>
                             
                         
                     
                 </section>
-                <h1 class="post-full-title">Windows下安装C++ IDE（clion）和opencv环境</h1>
+                <h1 class="post-full-title">windows下搭建libtorch和paddle的C++环境搭建</h1>
             </header>
 
             
-            <figure class="post-full-image" style="background-image: url(/assets/images/software.jpg)">
+            <figure class="post-full-image" style="background-image: url(/assets/images/yolov5.jpeg)">
             </figure>
             
 
             <section class="post-full-content">
                 <div class="kg-card-markdown">
-                    <h4 id="1-下载软件">1. 下载软件</h4>
+                    <blockquote>
+  <p>参考文章：<a href="https://pytorch.org/cppdocs/installing.html">NSTALLING C++ DISTRIBUTIONS OF PYTORCH</a>，<a href="https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html">安装与编译 Windows 预测库</a>，<a href="https://pytorch.apachecn.org/docs/1.0/cpp_export.html">在C++中加载PYTORCH模型</a></p>
+</blockquote>
+
+<h3 id="一-必要软件">一. 必要软件</h3>
 
 <ul>
-  <li><a href="https://www.macw.com/mac/1893.html">clion</a>：C++的IDE</li>
-  <li><a href="https://cmake.org/download/">cmake</a> : 这里需要添加到环境变量中 <code class="highlighter-rouge">D:\Profile\mingw64\bin</code></li>
-  <li><a href="[https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download](https://sourceforge.net/projects/mingw-w64/files/Toolchains targetting Win64/Personal Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download)">MinGW</a> ：添加到环境变量 <code class="highlighter-rouge">D:\Profile\mingw64\bin</code></li>
-  <li><a href="https://opencv.org/releases/">opencv3.4.10</a>：开源的计算机视觉库</li>
+  <li><a href="https://visualstudio.microsoft.com/zh-hans/vs/">vs2019</a>：paddle和torch这里的编译都是由Visual Studio 2019完成的</li>
+  <li><a href="https://pytorch.org/get-started/locally/">libtorch</a>：直接在官网上进行下载压缩包，这里说明下分为release和debug版本，直接下载release版本即可。</li>
+  <li><a href="https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html">paddle</a>：这里选择2.0-rc1的cpu版本的直接进行解压安装。</li>
+  <li><a href="https://opencv.org/releases/">opencv</a>：windows下直接安装exe到本地即可。</li>
+  <li>cmake：直接用scoop安装<code class="highlighter-rouge">scoop install cmake</code></li>
 </ul>
 
-<h4 id="2-mingw和opencv">2. MinGW和OpenCV</h4>
+<h3 id="二-安装libtorch环境">二. 安装libtorch环境</h3>
 
-<p>主要是如何用你的编译器来编译OpenCV。我们需要有include文件夹，这个在写代码时就用的到，还有lib和dll，这俩货我也不是很懂，dll的话没有是可以编译成功的，但运行是要失败的，所以我们是肯定要把dll加入到系统环境变量Path里的。lib是编译时就需要的，所以我们得把lib放在CLion的CMakeLists里面。</p>
+<h4 id="21-构建一个c项目">2.1 构建一个C++项目</h4>
 
-<p>下载完Windows的OpenCV，其实我们只有给Visual Studio用的dll和lib，可是我们想要g++来编译和运行，所以就得自己根据OpenCV的sources文件夹来自己编译OpenCV。</p>
+<p>目录层级如下：</p>
 
-<ul>
-  <li>这里需要在cmake中加入<code class="highlighter-rouge">OPENCV_ALLOCATOR_STATS_COUNTER_TYPE=int64_t</code>，<code class="highlighter-rouge">add Entry</code> ==&gt; <code class="highlighter-rouge">string</code>，这里参考<a href="https://github.com/opencv/opencv/issues/17065">报错信息1</a></li>
-  <li>这里还需要再cmake中加入<code class="highlighter-rouge">OPENCV_ENABLE_ALLOCATOR_STATS=OFF</code>，参考<a href="https://answers.opencv.org/question/228737/gcc-error-long-no-such-file-or-directory/">报错信息2</a></li>
-</ul>
-
-<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gjehgzemrbj30fl0ep0ug.jpg" alt="" /></p>
-
-<ul>
-  <li>需要2次Configure和1次Genrate即可编译完成。</li>
-  <li><code class="highlighter-rouge">cd opencv\mingw-build</code>目录下输入<code class="highlighter-rouge">mingw32-make</code></li>
-  <li>等待完成，<code class="highlighter-rouge">mingw32-make install</code></li>
-  <li>打开你的mingw-build文件夹，里面有个install目录就是你要的，可以复制一下这个文件夹，以后就不用重新编译了。我在C盘建立了OpenCV目录，并且把install文件夹下的文件复制进去了,<code class="highlighter-rouge">C:\OpenCV\x64\mingw\bin</code>加入系统环境变量Path中。</li>
-</ul>
-
-<h4 id="3-写cmakelist">3. 写CMakeList</h4>
-
-<p>其实就是加入lib目录和include目录</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake_minimum_required(VERSION 3.16)
-project(opencv_test)
-
-set(CMAKE_CXX_STANDARD 14)
-
-add_executable(opencv_test main.cpp)
-
-## 添加的OpenCVConfig.cmake的路径
-set(OpenCV_DIR "D:/Profile/opencv_builded")
-
-## 搜索OpenCV目录
-find_package(OpenCV REQUIRED)
-
-## 添加OpenCV头文件目录
-include_directories("D:/Profile/opencv_builded/include")
-
-## 链接OpenCV库文件
-target_link_libraries(opencv_test ${OpenCV_LIBS})
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├─example-app
+	 ├─build // 新建一个空目录
+	 ├─CMakeLists.txt // 构建一个cmakelist
+	 └─example-app.cpp // 构建一个cpp文件用于测试
 </code></pre></div></div>
 
-<h4 id="4-编译成可执行文件">4. 编译成可执行文件</h4>
+<p>其中，<code class="highlighter-rouge">CMakeList.txt</code>具体设置如下：</p>
 
-<p><code class="highlighter-rouge">main.cpp</code>文件中写完后，<code class="highlighter-rouge">cd 项目目录</code>，<code class="highlighter-rouge">cmake .</code>，即可看到项目中新加了文件夹<code class="highlighter-rouge">cmake-build-debug</code>中里面存在<code class="highlighter-rouge">.exe</code>可执行文件。</p>
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.12 FATAL_ERROR<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>example-app<span class="p">)</span>
+
+<span class="c1"># add CMAKE_PREFIX_PATH</span>
+<span class="c1">#增加opencv和libtorch的路径</span>
+<span class="nb">list</span><span class="p">(</span>APPEND CMAKE_PREFIX_PATH <span class="s2">"D:/software/opencv/opencv/build/x64/vc15/lib"</span><span class="p">)</span> 
+<span class="c1"># 注意这里如果是vs2015的版本，需要改成 /build/x64/vc14/lib</span>
+<span class="nb">list</span><span class="p">(</span>APPEND CMAKE_PREFIX_PATH <span class="s2">"D:/software/libtorch"</span><span class="p">)</span>
+
+
+<span class="nb">find_package</span><span class="p">(</span>Torch REQUIRED<span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>OpenCV REQUIRED<span class="p">)</span>
+
+<span class="nb">if</span><span class="p">(</span>NOT Torch_FOUND<span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span>FATAL_ERROR <span class="s2">"Pytorch Not Found!"</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">(</span>NOT Torch_FOUND<span class="p">)</span>
+
+<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"Pytorch status:"</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"    libraries: </span><span class="si">${</span><span class="nv">TORCH_LIBRARIES</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"OpenCV library status:"</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"    version: </span><span class="si">${</span><span class="nv">OpenCV_VERSION</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"    libraries: </span><span class="si">${</span><span class="nv">OpenCV_LIBS</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"    include path: </span><span class="si">${</span><span class="nv">OpenCV_INCLUDE_DIRS</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="nb">add_executable</span><span class="p">(</span>example-app example-app.cpp<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>example-app <span class="si">${</span><span class="nv">TORCH_LIBRARIES</span><span class="si">}</span> <span class="si">${</span><span class="nv">OpenCV_LIBS</span><span class="si">}</span><span class="p">)</span>
+<span class="nb">set_property</span><span class="p">(</span>TARGET example-app PROPERTY CXX_STANDARD 11<span class="p">)</span>
+</code></pre></div></div>
+
+<p>C++测试代码（<code class="highlighter-rouge">example-app.cpp</code>）如下（测试opencv和libtorch）：</p>
+
+<pre><code class="language-C++">#include &lt;torch/torch.h&gt;
+#include &lt;iostream&gt;
+#include &lt;opencv2/core.hpp&gt;
+#include &lt;opencv2/highgui/highgui.hpp&gt;
+
+using namespace std;
+using namespace cv;
+
+int main() {
+  torch::Tensor tensor = torch::rand({2, 3});
+  std::cout &lt;&lt; tensor &lt;&lt; std::endl;
+  std::cout &lt;&lt; "ok!" &lt;&lt; std::endl;
+  Mat img = imread("1.jpg");
+  imshow("1",img);
+  waitKey(0);
+  return 0;
+}
+</code></pre>
+
+<h4 id="22-编译和生成项目">2.2 编译和生成项目</h4>
+
+<ul>
+  <li>进入到<code class="highlighter-rouge">build</code>目录：<code class="highlighter-rouge">cd build</code></li>
+  <li>利用cmake进行编译： <code class="highlighter-rouge">cmake ..</code></li>
+  <li>编译顺利的话，就可以看到<code class="highlighter-rouge">build</code>目录下生成了如下所示：</li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqn8ispmj30j706dq3s.jpg" alt="" /></p>
+
+<ul>
+  <li>利用vs2019打开项目<code class="highlighter-rouge">example-app.sln</code></li>
+  <li>点击<code class="highlighter-rouge">example-app</code> 右键选择<code class="highlighter-rouge">设为启动项</code>，并且将版本选择<code class="highlighter-rouge">release</code>版本，点击<code class="highlighter-rouge">本地Windows调试器</code></li>
+</ul>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnkotpsj30kk0blmxs.jpg" alt="" /></p>
+
+<h4 id="23-调试问题的解决">2.3 调试问题的解决</h4>
+
+<ul>
+  <li>报错信息：<code class="highlighter-rouge">由于找不到c10.dll</code>，<code class="highlighter-rouge">torch.dll</code>这种找不到dll文件的，直接将dll文件(这些dll文件都在<code class="highlighter-rouge">libtorch/lib</code>路径下)复制到<code class="highlighter-rouge">build/release</code>文件夹下</li>
+  <li><code class="highlighter-rouge">opencv_world3411.dll</code>和<code class="highlighter-rouge">opencv_ffmpeg3411_64.dll</code>等都在opencv的<code class="highlighter-rouge">opencv\opencv\build\x64\vc15\lib</code>路径下。</li>
+  <li>这里注意测试opencv的时候，需要将图片放置到和<code class="highlighter-rouge">example-app.vcxproj</code>同级目录下</li>
+</ul>
+
+<h4 id="24-exe生成文件的平台移植">2.4 exe生成文件的平台移植</h4>
+
+<ul>
+  <li>如果需要将生成的exe文件移植到其他PC上面，只需要将release文件夹下所有文件（包括dll文件和exe文件）复制到其他PC即可。</li>
+  <li>生成的exe文件在找图片的时候也是同级目录下找，因此需要将图片放置到<code class="highlighter-rouge">exe</code>文件的同级目录下。</li>
+</ul>
+
+<h4 id="25-pytorch模型在c平台的使用">2.5 pytorch模型在C++平台的使用</h4>
+
+<p>PyTorch模型从Python到C++的转换由<a href="https://pytorch.org/docs/master/jit.html">Torch Script</a>实现。Torch Script是PyTorch模型的一种表示，可由Torch Script编译器理解，编译和序列化。一般利用trace将PyTorch模型转换为Torch脚本,必须将模型的实例以及样本输入传递给<code class="highlighter-rouge">torch.jit.trace</code>函数。这将生成一个 <code class="highlighter-rouge">torch.jit.ScriptModule</code>对象，并在模块的<code class="highlighter-rouge">forward</code>方法中嵌入模型评估的跟踪。</p>
+
+<h3 id="三-安装paddle的c环境">三. 安装paddle的C++环境</h3>
+
+<h4 id="31-下载安装paddle">3.1 下载安装paddle</h4>
+
+<p>这里官网有2种方式在windows上安装paddle环境：一个是通过git下载paddle源码进行编译安装，另一种直接从官网下载zip编译好的文件（本文使用该种方式）。</p>
+
+<p><img src="https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnvgko9j30q707iaac.jpg" alt="" /></p>
+
+<h4 id="32-结合paddleocr测试并使用paddle预测库">3.2 结合paddleOCR测试并使用paddle预测库</h4>
+
+<ul>
+  <li>paddleOCR的git地址：https://github.com/PaddlePaddle/PaddleOCR</li>
+  <li>下载到本地之后，<code class="highlighter-rouge">cd PaddleOCR\deploy\cpp_infer</code>，修改<code class="highlighter-rouge">CMakeList.txt</code>文件</li>
+</ul>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">SET</span><span class="p">(</span>PADDLE_LIB <span class="s2">"D:/software/paddle_inference_install_dir"</span><span class="p">)</span> <span class="c1"># 这里是下载的paddle预测库的路径</span>
+<span class="nf">SET</span><span class="p">(</span>OPENCV_DIR <span class="s2">"D:/software/opencv/opencv"</span><span class="p">)</span> <span class="c1"># 这里是下载的opencv的路径</span>
+<span class="nb">find_package</span><span class="p">(</span>OpenCV REQUIRED<span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>新建一个build文件夹：<code class="highlighter-rouge">mkdir build</code></li>
+  <li>进入build：<code class="highlighter-rouge">cd build</code> ， 编译：<code class="highlighter-rouge">cmake ..</code></li>
+  <li>同样的利用vs2019打开项目<code class="highlighter-rouge">ocr_system.sln</code>，生成即可。</li>
+  <li>这里注意需要将<code class="highlighter-rouge">paddle_fluid.dll</code>放入到<code class="highlighter-rouge">Release</code>目录下。</li>
+</ul>
 
 
                 </div>
@@ -292,68 +382,6 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
 
             <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
             
-                
-
-    <article class="post-card post-template">
-        
-            <a class="post-card-image-link" href="/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B">
-                <div class="post-card-image" style="background-image: url(/assets/images/junggle.jpg)"></div>
-            </a>
-        
-        <div class="post-card-content">
-            <a class="post-card-content-link" href="/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B">
-                <header class="post-card-header">
-                    
-                        
-                            
-                               <span class="post-card-tags">Machinelearning</span>
-                            
-                        
-                            
-                               <span class="post-card-tags">无监督学习</span>
-                            
-                        
-                            
-                                <span class="post-card-tags">聚类</span>
-                            
-                        
-                    
-
-                    <h2 class="post-card-title">无监督异常检测模型</h2>
-                </header>
-                <section class="post-card-excerpt">
-                    
-                        <p></p>
-                    
-                </section>
-            </a>
-            <footer class="post-card-meta">
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                <span class="reading-time">
-                    
-                    
-                      1 min read
-                    
-                </span>
-            </footer>
-        </div>
-    </article>
-
-            
 
             <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
             
@@ -361,26 +389,26 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
 
     <article class="post-card post-template">
         
-            <a class="post-card-image-link" href="/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86">
-                <div class="post-card-image" style="background-image: url(/assets/images/linux.jpg)"></div>
+            <a class="post-card-image-link" href="/C++%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-VCPKG">
+                <div class="post-card-image" style="background-image: url(/assets/images/tags.jpg)"></div>
             </a>
         
         <div class="post-card-content">
-            <a class="post-card-content-link" href="/Linux%E4%B8%8Bpython%E5%AE%89%E8%A3%85%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86">
+            <a class="post-card-content-link" href="/C++%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-VCPKG">
                 <header class="post-card-header">
                     
                         
                             
-                               <span class="post-card-tags">Linux,</span>
+                               <span class="post-card-tags">Vcpkg</span>
                             
                         
                             
-                                <span class="post-card-tags">Python]</span>
+                                <span class="post-card-tags">C++</span>
                             
                         
                     
 
-                    <h2 class="post-card-title">Linux下python安装和包管理</h2>
+                    <h2 class="post-card-title">C++的包管理工具——VCPKG</h2>
                 </header>
                 <section class="post-card-excerpt">
                     
@@ -431,18 +459,18 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
         </a>
     </div>
     <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">Windows下安装C++ IDE（clion）和opencv环境</div>
+    <div class="floating-header-title">windows下搭建libtorch和paddle的C++环境搭建</div>
     <!-- <div class="floating-header-share">
         <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
 </svg>
 </div>
-        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Windows%E4%B8%8B%E5%AE%89%E8%A3%85C%2B%2B+IDE%EF%BC%88clion%EF%BC%89%E5%92%8Copencv%E7%8E%AF%E5%A2%83&amp;url=www.lixiaofei2yy.websiteWindows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83"
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=windows%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C%2B%2B%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA&amp;url=www.lixiaofei2yy.websitewindows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"
             onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
 
         </a>
-        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.lixiaofei2yy.websiteWindows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83"
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=www.lixiaofei2yy.websitewindows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"
             onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
 

@@ -97,12 +97,12 @@ int main() {
 * 利用cmake进行编译： `cmake ..`
 * 编译顺利的话，就可以看到`build`目录下生成了如下所示：
 
-![](dir_files.png)
+![](https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqn8ispmj30j706dq3s.jpg)
 
 * 利用vs2019打开项目`example-app.sln`
 * 点击`example-app` 右键选择`设为启动项`，并且将版本选择`release`版本，点击`本地Windows调试器`
 
-![](vs2019.png)
+![](https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnkotpsj30kk0blmxs.jpg)
 
 #### 2.3 调试问题的解决
 
@@ -125,7 +125,7 @@ PyTorch模型从Python到C++的转换由[Torch Script](https://pytorch.org/docs/
 
 这里官网有2种方式在windows上安装paddle环境：一个是通过git下载paddle源码进行编译安装，另一种直接从官网下载zip编译好的文件（本文使用该种方式）。
 
-![](paddle.png)
+![](https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnvgko9j30q707iaac.jpg)
 
 #### 3.2 结合paddleOCR测试并使用paddle预测库
 
