@@ -32,7 +32,15 @@
 * `y`：标签，如果任务是图分类，shape = [1, 图的标签数]；如果是节点分类，shape = [节点个数，节点的标签数]。（这里注意一哈：在torch中如果是多分类任务，不用转成onehot形式哦，因此标签数为1）
 * `is_directed()`：是否是有向图
 
-构建自己的数据集，只需要用list来封装这些Data即可。具体代码如下：
+(1) 下面是edge_index的具体从邻接矩阵生成COO模式的代码。
+
+```python
+from scipy.sparse import coo_matrix  # 转化成COO格式
+coo_A = coo_matrix(adj_arr)
+edge_index = [coo_A.row, coo_A.col]
+```
+
+(2) 构建自己的数据集，只需要用list来封装这些Data即可。具体代码如下：
 
 ```python
 dataset = []
