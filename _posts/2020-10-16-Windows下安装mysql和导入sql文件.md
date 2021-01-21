@@ -5,7 +5,7 @@ cover: assets/images/grapes.jpg
 navigation: True
 title: Windows下安装mysql和导入sql文件
 date: 2020-10-16 19:21:00
-tags: [Windows, mysql, Navicat Premium]
+tags: [mysql, 数据库]
 excerpt: 介绍在Windows环境下本地安装mysql和导入sql文件的使用
 class: post-template
 subclass: 'post'

@@ -5,7 +5,7 @@ cover: assets/images/blog.jpg
 navigation: True
 title: Mac下利用jekyll和github pages搭建个人博客
 date: 2020-10-17 19:21:00
-tags: [Mac, Jekyll, Github Pages]
+tags: [Jekyll, 博客]
 excerpt: 在Mac环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。
 class: post-template
 subclass: 'post'

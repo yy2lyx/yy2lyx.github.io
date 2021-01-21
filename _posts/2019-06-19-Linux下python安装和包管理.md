@@ -5,7 +5,7 @@ cover: assets/images/linux.jpg
 navigation: True
 title: Linux下python安装和包管理
 date: 2019-06-19 20:20:00
-tags: Linux, Python]
+tags: [python,环境搭建]
 excerpt: 讲述在Linux环境下python包编译及安装过程，以及包管理工具virtualenv
 class: post-template
 subclass: 'post'

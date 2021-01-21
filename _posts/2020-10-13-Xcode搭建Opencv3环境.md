@@ -5,7 +5,7 @@ cover: assets/images/book1.jpg
 navigation: True
 title: Xcode搭建Opencv3环境
 date: 2020-10-13 19:21:00
-tags: [Xcode, Mac, Opencv3, 环境搭建]
+tags: [OpenCV, 环境搭建]
 excerpt: 在Mac中利用Xcode神器搭建opencv3的C++环境
 class: post-template
 subclass: 'post'
