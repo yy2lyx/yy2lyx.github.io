@@ -27,6 +27,11 @@ mail: yeyansiwangtt@gmail.com
 twitter:  # replace by your username
 facebook:  # replace by your username
 
+# Reward
+reward: true
+reward-wechat: 'assets/images/wechat.JPG'
+reward-alipay: 'assets/images/alipay.JPG'
+
 
 # Disqus
 disqus: False
