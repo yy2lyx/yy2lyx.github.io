@@ -24,6 +24,7 @@ subscribers: False # you need to connect an external service for this to work,
 # by editing `_includes/subscribe-form.html`
 github: yy2lyx
 mail: yeyansiwangtt@gmail.com
+zhihu: xie-yan-44-84-33
 twitter:  # replace by your username
 facebook:  # replace by your username
 
