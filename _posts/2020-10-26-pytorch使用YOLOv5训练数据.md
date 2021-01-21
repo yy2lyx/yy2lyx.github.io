@@ -134,7 +134,7 @@ ForkingPickler(file, protocol).dump(obj) BrokenPipeError: [Errno 32] Broken pipe
 
 ![](https://tva1.sinaimg.cn/large/0081Kckwgy1gk47ziddqvj30jg01vt8i.jpg)
 
-* 可以查看本地tensorboard训练过程：`tensorboard --logdir=runs`
+* 可以查看本地tensorboard训练过程：`tensorboard --logdir=runs`，如果这里出现问题，可以换成一下命令：`python -m tensorboard.main --logdir logs`
 
 ![](https://tva1.sinaimg.cn/large/0081Kckwgy1gk4804vrrkj310d0gajt5.jpg)
 
