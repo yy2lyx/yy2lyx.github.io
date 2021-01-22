@@ -3,10 +3,10 @@ layout: post
 current: post
 cover: assets/images/blog.jpg
 navigation: True
-title: Mac下利用jekyll和github pages搭建个人博客
+title: jekyll和github pages搭建个人博客
 date: 2020-10-17 19:21:00
 tags: [Jekyll, 博客]
-excerpt: 在Mac环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。
+excerpt: 在Windows环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。
 class: post-template
 subclass: 'post'
 ---
@@ -21,7 +21,7 @@ subclass: 'post'
 
 ![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9dyt6cwj31lk0gigp9.jpg)
 
-* mac或者linux平台：原因是jekyll无法在Windows平台上安装。
+* mac或者linux或者Windows平台。
 
 #### 1.2 选择一个适合自己的博客主题
 
@@ -81,4 +81,22 @@ subclass: 'post'
 > TinyPNG：https://tinypng.com/
 >
 > Compressor：https://compressor.io/
+
+### 三. Windows下安装jekyll
+这里由于jekyll一般在mac和linux上安装较为方便，官方也有指导，但是windows下官方写的不详细，因此这里主要介绍下Windows下如何安装jekyll。
+
+#### 3.1 软件安装
+- [Ruby+Devkit 2.7.2(x64)](https://rubyinstaller.org/downloads/)：安装的时候注意添加到Path中，其需要安装`MSYS2 and MINGW development toolchain`
+- [RubyGems](https://rubygems.org/pages/download)：这里直接选择zip进行安装即可。
+
+#### 3.2 Jekyll及gem依赖的安装
+* cd到解压后的RubyGems的文件中：`ruby setup.rb`
+* 安装jekyll：`gem install jekyll`
+* 安装jekyll-paginate：`gem install jekyll-paginate`
+* 安装bundler（注意这里在后面安装gem依赖需要）：`gem install bundler`
+* 验证下jekyll和bundler：`jekyll -v`和`bundler -v`
+
+#### 3.3 在本地运行静态博客
+* cd到自己博客中，安装gem依赖：`bundle install`
+* 本地运行服务：`bundle exec jekyll s`
 

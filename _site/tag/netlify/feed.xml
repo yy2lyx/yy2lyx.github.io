@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/netlify/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-01-20T21:22:44+08:00</updated>
+  <updated>2021-01-22T17:38:31+08:00</updated>
   <id>http://localhost:4000/tag/netlify/feed.xml</id>
 
   
@@ -130,7 +130,28 @@
   &lt;li&gt;添加自己的域名，然后按照要求，去你买域名的网站设置CNAME进行关联即可。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gl41un8vhmj30ra0dsjs9.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content>
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gl41un8vhmj30ra0dsjs9.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;三-搜索引擎的个人站点入口&quot;&gt;三. 搜索引擎的个人站点入口&lt;/h3&gt;
+&lt;p&gt;除了能够不翻墙被人访问自己的博客，但是别人用搜索引擎搜不到你咋办呢？这就需要让各个搜索引擎收录自己的站点咯。&lt;/p&gt;
+
+&lt;h4 id=&quot;31-搜索引擎提交个人站点的入口&quot;&gt;3.1 搜索引擎提交个人站点的入口&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;百度 ： https://ziyuan.baidu.com/site/index&lt;/li&gt;
+  &lt;li&gt;谷歌 ： https://www.google.com/webmasters/tools/home?hl=en&lt;/li&gt;
+  &lt;li&gt;搜狗 ： http://zhanzhang.sogou.com/index.php/dashboard/index&lt;/li&gt;
+  &lt;li&gt;360　： http://info.so.360.cn/site_submit.html&lt;/li&gt;
+  &lt;li&gt;Bing ： https://www.bing.com/toolbox/webmaster/&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;32-验证站点的所有权&quot;&gt;3.2 验证站点的所有权&lt;/h4&gt;
+&lt;p&gt;这里几乎每个搜索引擎都会要你验证下自己是不是提交的站点的所有者，因此需要你验证下身份。
+我这里是通过添加主页的tag来进行验证的（可以添加好几个搜索引擎的哦）&lt;/p&gt;
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;meta&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;baidu-site-verification&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;自己的百度验证码&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;meta&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;sogou_site_verification&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;自己的搜狗验证码&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/head&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
 
       
       

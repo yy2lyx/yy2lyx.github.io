@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/machinelearning/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-01-20T21:22:44+08:00</updated>
+  <updated>2021-01-22T17:38:31+08:00</updated>
   <id>http://localhost:4000/tag/machinelearning/feed.xml</id>
 
   
@@ -44,10 +44,892 @@
 
   
     <entry>
+      <title type="html">面试总结</title>
+      <link href="http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93" rel="alternate" type="text/html" title="面试总结" />
+      <published>2020-06-12T23:21:00+08:00</published>
+      <updated>2020-06-12T23:21:00+08:00</updated>
+      <id>http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93</id>
+      <content type="html" xml:base="http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93">&lt;blockquote&gt;
+  &lt;p&gt;面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;一数据处理&quot;&gt;一.数据处理&lt;/h3&gt;
+&lt;p&gt;海量数据：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;（1）数据量太大，无法短时间内处理完成&lt;/li&gt;
+  &lt;li&gt;（2）无法一次性将数据放入内存中。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;11-缺失值处理&quot;&gt;1.1 缺失值处理&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;填充固定值：选取某个固定值/默认值填充缺失值。&lt;/li&gt;
+  &lt;li&gt;填充均值：对每一列的缺失值，填充当列的均值。&lt;/li&gt;
+  &lt;li&gt;填充中位数：对每一列的缺失值，填充当列的中位数。&lt;/li&gt;
+  &lt;li&gt;填充众数：对每一列的缺失值，填充当列的众数。由于存在某列缺失值过多，众数为nan的情况，因此这里取的是每列删除掉nan值后的众数。&lt;/li&gt;
+  &lt;li&gt;填充上下条的数据：对每一条数据的缺失值，填充其上下条数据的值。&lt;/li&gt;
+  &lt;li&gt;填充插值得到的数据：用插值法拟合出缺失的数据，然后进行填充。插值是离散函数逼近的重要方法，利用它可通过函数在有限个点处的取值状况，估算出函数在其他点处的近似值。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二机器学习&quot;&gt;二.机器学习&lt;/h3&gt;
+&lt;h4 id=&quot;21--svm和lr的区别与联系&quot;&gt;2.1  SVM和LR的区别与联系？&lt;/h4&gt;
+&lt;p&gt;SVM 和 LR 都是属于分类算法，不过 SVM 是通过划分超平面的方法来进行分类，而 LR 则是通过计算样本属于哪个类别的概率，从而达到分类效果&lt;/p&gt;
+
+&lt;h4 id=&quot;22--交叉熵函数系列问题与最大似然函数的关系和区别&quot;&gt;2.2  交叉熵函数系列问题？与最大似然函数的关系和区别？&lt;/h4&gt;
+&lt;p&gt;在二分类中，交叉熵函数和负最大似然函数的表达式是相同的，但是交叉熵函数是从信息论角度得到的，而最大似然函数则是从概率论角度得到的&lt;/p&gt;
+
+&lt;p&gt;交叉熵涉及到2点：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;信息量：假设X是一个离散型随机变量，其取值集合为X，概率分布函数为p(x)=Pr(X=x),x∈X，我们定义事件X=x0的信息量为：
+I(x0)=−log(p(x0))，可以理解为，一个事件发生的概率越大，则它所携带的信息量就越小，而当p(x0)=1时，熵将等于0，也就是说该事件的发生不会导致任何信息量的增加。举个例子，小明平时不爱学习，考试经常不及格，而小王是个勤奋学习的好学生，经常得满分，所以我们可以做如下假设：
+事件A：小明考试及格，对应的概率P(xA)=0.1，信息量为I(xA)=−log(0.1)=3.3219
+事件B：小王考试及格，对应的概率P(xB)=0.999，信息量为I(xB)=−log(0.999)=0.0014
+可以看出，结果非常符合直观：小明及格的可能性很低(十次考试只有一次及格)，因此如果某次考试及格了（大家都会说：XXX竟然及格了！），必然会引入较大的信息量，对应的I值也较高。&lt;/li&gt;
+  &lt;li&gt;熵：假设小明的考试结果是一个0-1分布XA只有两个取值{0：不及格，1：及格}，在某次考试结果公布前，小明的考试结果有多大的不确定度呢？你肯定会说：十有八九不及格！因为根据先验知识，小明及格的概率仅有0.1,90%的可能都是不及格的。怎么来度量这个不确定度？求期望！不错，我们对所有可能结果带来的额外信息量求取均值（期望），其结果不就能够衡量出小明考试成绩的不确定度了吗。&lt;strong&gt;熵其实是信息量的期望值，它是一个随机变量的确定性的度量。熵越大，变量的取值越不确定，反之就越确定。&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;相对熵：称为&lt;strong&gt;KL散度&lt;/strong&gt;，是两个随机分布间距离的度量。越小说明分布越一致。&lt;/li&gt;
+  &lt;li&gt;交叉熵：交叉熵与KL距离在行为上是等价的，都反映了分布p，q的相似程度。特别的，在logistic regression中，
+p:真实样本分布，服从参数为p的0-1分布，即X∼B(1,p)X∼B(1,p)
+q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交叉熵为&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;三-nlp&quot;&gt;三. NLP&lt;/h3&gt;
+&lt;h4 id=&quot;31--什么是tf-idf&quot;&gt;3.1  什么是TF-IDF?&lt;/h4&gt;
+&lt;p&gt;词频-逆文档频率TF-IDF(term frequency–inverse document frequency)是一种用于信息检索与数据挖掘的常用加权技术，常用于挖掘文章中的关键词，而且算法简单高效，常被工业用于最开始的文本数据清洗。&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\text { 词频(TF) }=\frac{\text { 某个词在文章中的出现次数 }}{\text { 文章的总词数 }}&lt;/script&gt;
+&lt;script type=&quot;math/tex&quot;&gt;\text { 逆文档频率(IDF) }=\log \left(\frac{\text { 语料库的文档总数 }}{\text { 包含该词的文档数 } x+1}\right)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;当有TF(词频)和IDF(逆文档频率)后，将这两个词相乘，就能得到一个词的TF-IDF的值。某个词在文章中的TF-IDF越大，那么一般而言这个词在这篇文章的重要性会越高，所以通过计算文章中各个词的TF-IDF，由大到小排序，排在最前面的几个词，就是该文章的关键词。&lt;/p&gt;
+
+&lt;h4 id=&quot;32--什么是word2vec&quot;&gt;3.2  什么是word2vec&lt;/h4&gt;
+
+&lt;p&gt;判断一个词的词性（动词，名词）这里可以用word2vec，&lt;/p&gt;
+
+&lt;p&gt;嵌入到一个数学空间里，这种嵌入方式，就叫词嵌入（word embedding)，而 Word2vec是词嵌入的一种。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Skip-gram 模型：用一个词语作为输入，来预测它周围的上下文&lt;/li&gt;
+  &lt;li&gt;CBOW 模型：拿一个词语的上下文作为输入，来预测这个词语本身&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;33--fasttext&quot;&gt;3.3  fastText&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;word2vec的CBOW模型架构和fastText模型非常相似&lt;/li&gt;
+  &lt;li&gt;fastText 和CBOW差别：CBOW的输入是目标单词的上下文，fastText的输入是多个单词及其n-gram特征，这些特征用来表示单个文档；CBOW的输入单词被onehot编码过，fastText的输入特征是被embedding过；CBOW的输出是目标词汇，fastText的输出是文档对应的类标。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;34--ner&quot;&gt;3.4  NER&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;named-entity-recognition（命名实体识别，又叫“专名识别”）。指识别文本中具有特定意义的实体，主要包括人名，地名，机构名，专有名词。&lt;strong&gt;NER系统就是从非结构化的输入文本中抽取出上述实体，并且可以按照业务需求识别出更多类别的实体&lt;/strong&gt;，比如产品名称、型号、价格等。学术上NER所涉及的命名实体一般包括3大类（实体类，时间类，数字类）和7小类（人名、地名、组织机构名、时间、日期、货币、百分比）。货币、百分比等数字类实体可通过正则搞定。&lt;/li&gt;
+  &lt;li&gt;NER是NLP中一项基础性关键任务。&lt;strong&gt;从自然语言处理的流程来看，NER可以看作词法分析中未登录词识别的一种，是未登录词中数量最多、识别难度最大、对分词效果影响最大问题。&lt;/strong&gt;同时NER也是关系抽取、事件抽取、知识图谱、机器翻译、问答系统等诸多NLP任务的基础。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;原句：姚明在NBA打篮球&lt;/p&gt;
+
+  &lt;p&gt;如下标签：姚/B-PER 明/I-PER 在/O NBA/B_ORG 打/O 篮/O 球/O&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;其中常见的方法是对字或者词打上标签。&lt;code class=&quot;highlighter-rouge&quot;&gt;B-type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;I-type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;O&lt;/code&gt;， 其中&lt;code class=&quot;highlighter-rouge&quot;&gt;B-type&lt;/code&gt;表示组成该类型实体的第一个字或词。&lt;code class=&quot;highlighter-rouge&quot;&gt;I-type&lt;/code&gt;表示组成该类型实体的中间或最后字或词，&lt;code class=&quot;highlighter-rouge&quot;&gt;O&lt;/code&gt;表示该字或词不组成命名实体，当然有的地方也采用&lt;code class=&quot;highlighter-rouge&quot;&gt;B-type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;I-type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;E-type&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;O&lt;/code&gt;形式。&lt;/p&gt;
+
+&lt;p&gt;整体结构如下：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;字（词嵌入）==&amp;gt; BiLSTM（拿到字的每一个标签的所有得分）==&amp;gt; CRF（输出预测标签值）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;这里问什么要用到CRF(直接用全连接分类即可)？==&amp;gt; &lt;strong&gt;CRF层能从训练数据中获得约束性的规则&lt;/strong&gt;：CRF层可以为最后预测的标签添加一些约束来保证预测的标签是合法的。在训练数据训练过程中，这些约束可以通过CRF层自动学习到。 这些约束可以是： I：句子中第一个词总是以标签“B-“ 或 “O”开始，而不是“I-” II：标签“B-label1 I-label2 I-label3 I-…”,label1, label2, label3应该属于同一类实体。例如，“B-Person I-Person” 是合法的序列, 但是“B-Person I-Organization” 是非法标签序列. III：标签序列“O I-label” is 非法的.实体标签的首个标签应该是 “B-“ ，而非 “I-“, 换句话说,有效的标签序列应该是“O B-label”。 有了这些约束，标签序列预测中非法序列出现的概率将会大大降低。&lt;/li&gt;
+  &lt;li&gt;CRF（条件随机场）：属于判别式模型，条件随机场对多个变量在给定观测值后的条件概率进行建模。概率图模型是以某些可观测的变量为条件分布进行推断。假设某个字的前后（&lt;script type=&quot;math/tex&quot;&gt;x_{1}&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;x_{2}&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;x_{3}&lt;/script&gt;）,推断问题的目标就是计算2在1的条件下发生的概率，然后所有条件概率相加。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;35--文本增强技术&quot;&gt;3.5  文本增强技术&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;词汇和短语进行替换&lt;/strong&gt;：选择同义词进行替换；空间中找到相邻的词汇进行替换；利用TF-IDF对哪些非核心词汇（分值很低的）进行替换&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;随机噪音&lt;/strong&gt;：随机插入一些词汇，占位符；交换词汇或者shuffle句子；随机删除词汇或者句子&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;混合增强&lt;/strong&gt;：起源于图像的mixup（猫和狗的混合）。提出了wordMixup和sentMixup将词向量和句向量进行Mixup。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;回译&lt;/strong&gt;：中文翻译成英文表达，然后再由英文翻译回中文。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;GAN对抗生成网络&lt;/strong&gt;：GAN 主要分为两部分：生成模型和判别模型。生成模型的作用是模拟真实数据的分布，判别模型的作用是判断一个样本是真实的样本还是生成的样本。GAN 的目标是训练一个生成模型完美的拟合真实数据分布使得判别模型无法区分。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;四-图像算法&quot;&gt;四. 图像算法&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;参考文章：
+&lt;a href=&quot;https://zhuanlan.zhihu.com/p/80852438&quot;&gt;图像总常用的变换&lt;/a&gt;
+&lt;a href=&quot;https://zhuanlan.zhihu.com/p/59640437&quot;&gt;边缘检测&lt;/a&gt;
+&lt;a href=&quot;https://blog.csdn.net/samkieth/article/details/49533435&quot;&gt;图像增强技术&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;41--图像特征提取的方法有哪些&quot;&gt;4.1  图像特征提取的方法有哪些？&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;SIFT（尺度不变特征变换）—— 图像拼接：&lt;/li&gt;
+  &lt;li&gt;HOG（方向梯度直方图（Histogram of Oriented Gradient, HOG））—— 行人检测：特征是一种在计算机视觉和图像处理中用来进行物体检测的特征描述子。它通过计算和统计图像局部区域的梯度方向直方图来构成特征。）&lt;strong&gt;本质：梯度的统计信息，而梯度主要存在于边缘的地方&lt;/strong&gt;。&lt;/li&gt;
+  &lt;li&gt;LBP(Local Binary Pattern局部二值模式)：种描述图像局部纹理的特征算子，具有旋转不变性与灰度不变性等显著优点。LBP特征将窗口中心点与邻域点的关系进行比较，重新编码形成新特征以消除对外界场景对图像的影响，因此一定程度上解决了复杂场景下（光照变换）特征描述问题（&lt;strong&gt;局部纹理特征提取&lt;/strong&gt;）。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;42--为什么要图像的灰度化&quot;&gt;4.2  为什么要图像的灰度化?&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;图像识别中要识别物体：找到edge ==&amp;gt; 计算梯度 ==&amp;gt; 需要用到灰度图&lt;/li&gt;
+  &lt;li&gt;有利于图像特征提取：RGB采用的是三通道，而灰度图用的是单通道，能加快特征抽取。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;43--为什么预处理中要归一化和标准化&quot;&gt;4.3  为什么预处理中要归一化和标准化&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;取值范围从0～255已经转化为0～1之间了，这个对于后续的神经网络或者卷积神经网络处理有很大的好处，加快梯度下降求解的速度&lt;/li&gt;
+  &lt;li&gt;减小了几何变换和仿射变化的影响。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;44--为什么要中值滤波和均值滤波&quot;&gt;4.4  为什么要中值滤波和均值滤波?&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;目的：消除图像中的噪声成分叫作图像的平滑化或滤波操作。图像的能量大部分集中在幅度谱的低频和中频段是很常见的，而在较高频段，感兴趣的信息经常被噪声淹没。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;中值滤波：一连串数字｛1，4，6，8，9｝中，数字6就是这串数字的中值.椒盐噪声很好的被平滑了，而且也没均值那样模糊化太过于严重。&lt;/li&gt;
+  &lt;li&gt;均值滤波：图片中一个方块区域（一般为3*3）内，中心点的像素为全部点像素值的平均值。一般均值滤波过于模糊化了。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;45--边缘检测算子&quot;&gt;4.5  边缘检测算子&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Roberts算子：基于x轴和y轴的&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+s_{x}=\left[\begin{array}{cc}
+1 &amp; 0 \\
+0 &amp; -1
+\end{array}\right] %]]&gt;&lt;/script&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+s_{y}=\left[\begin{array}{cc}
+0 &amp; -1 \\
+1 &amp; 0
+\end{array}\right] %]]&gt;&lt;/script&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Prewitt算子：&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+s_{x}=\left[\begin{array}{ccc}
+-1 &amp; 0 &amp; 1 \\
+-1 &amp; 0 &amp; 1 \\
+-1 &amp; 0 &amp; 1
+\end{array}\right] %]]&gt;&lt;/script&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+s_{y}=\left[\begin{array}{ccc}
+1 &amp; 1 &amp; 1 \\
+0 &amp; 0 &amp; 0 \\
+-1 &amp; -1 &amp; -1
+\end{array}\right] %]]&gt;&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;Sobel算子：&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+s_{x}=\left[\begin{array}{ccc}
+-1 &amp; 0 &amp; 1 \\
+-2 &amp; 0 &amp; 2 \\
+-1 &amp; 0 &amp; 1
+\end{array}\right] %]]&gt;&lt;/script&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+s_{y}=\left[\begin{array}{ccc}
+1 &amp; 2 &amp; 1 \\
+0 &amp; 0 &amp; 0 \\
+-1 &amp; -2 &amp; -1
+\end{array}\right] %]]&gt;&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;基本的边缘算子&lt;/strong&gt;如Sobel求得的边缘图存在很多问题，如&lt;strong&gt;噪声污染没有被排除、边缘线太过于粗宽&lt;/strong&gt;等&lt;/li&gt;
+  &lt;li&gt;Canny算子：目标是找到一个最优的边缘。具有以下优势
+    &lt;ul&gt;
+      &lt;li&gt;低错误率：标识尽可能多的实际边缘，剑豪噪声产生的误报。&lt;/li&gt;
+      &lt;li&gt;高定位性：标识出的边缘要与图像的实际边缘尽可能的接近。&lt;/li&gt;
+      &lt;li&gt;最小响应：图像中的边缘只能标识一次。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;canny检测的步骤：
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;ol&gt;
+          &lt;li&gt;使用高斯滤波器降噪。&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;ol&gt;
+          &lt;li&gt;利用Sobel算子进行卷积（x和y反向）&lt;/li&gt;
+          &lt;li&gt;将像素点上x和y卷积之后的平方求根，并计算x，y方向上的角度，&lt;script type=&quot;math/tex&quot;&gt;G=\sqrt{G_{x}^{2}+G_{y}^{2}}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;\theta=\arctan \left(\frac{G_{y}}{G_{x}}\right)&lt;/script&gt;&lt;/li&gt;
+          &lt;li&gt;非极大值抑制，进一步排除非边缘的像素，仅保留一些细线条。&lt;/li&gt;
+          &lt;li&gt;滞后阈值：高于某阈值，保留为边缘像素，反之排除。&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;46--常用的插值方法&quot;&gt;4.6  常用的插值方法&lt;/h4&gt;
+
+&lt;p&gt;在图像几何变换时，无法给有些像素点直接赋值，例如，&lt;strong&gt;将图像放大两倍，必然会多出一些无法被直接映射的像素点，对于这些像素点，通过插值决定它们的值&lt;/strong&gt;。于是，产生了图像插值算法。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;线性插值：&lt;strong&gt;最近邻插值，双线性插值以及双三次插值等&lt;/strong&gt;，&lt;script type=&quot;math/tex&quot;&gt;f(x)=a_{1} x+a_{0}&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;47-深度学习和传统目标检测方法的优缺点&quot;&gt;4.7 深度学习和传统目标检测方法的优缺点&lt;/h4&gt;
+
+&lt;p&gt;传统的目标检测算法对光照，明暗，数据传输，物体遮挡等上模型的鲁棒性不强。&lt;/p&gt;
+
+&lt;h4 id=&quot;48--图像增强技术&quot;&gt;4.8  图像增强技术&lt;/h4&gt;
+
+&lt;p&gt;增强技术也可以有多种分类，如，可以分为平滑（抑制高频成分）与锐化（增强高频成分），空间域与频域。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;空间域增强就是指增强构成图像的像素，是直接对这些像素进行操作的过程。&lt;/li&gt;
+  &lt;li&gt;频域则是修改图像的傅立叶变换。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;49-ssd和yolo&quot;&gt;4.9 SSD和Yolo&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;SSD：将物体检测这个问题的解空间，抽象为一组预先设定好（尺度，长宽比）的bounding box。在每个bounding box，预测分类label，以及box offset来更好的框出物体。对一张图片，结合多个大小不同的feature map的预测结果，以期能够处理大小不同的物体。
+    &lt;ul&gt;
+      &lt;li&gt;（优点）相比Fast RNN系列，删除了bounding box proposal这一步，及后续的重采样步骤，因而速度较快，达到59FPS。&lt;/li&gt;
+      &lt;li&gt;（优点）&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;YOLO：&lt;strong&gt;将物体检测这个问题定义为bounding box和分类置信度的回归问题。&lt;/strong&gt;将整张图像作为输入，划分成SxS grid，每个cell预测B个bounding box（x, y, w, h）及对应的分类置信度（class-specific confidence score）。分类置信度是bounding box是物体的概率及其与真实值IOU相乘的结果。
+    &lt;ul&gt;
+      &lt;li&gt;（优点）速度快，45FPS&lt;/li&gt;
+      &lt;li&gt;（优点）YOLO使用图像的全局信息做预测，因而对背景的误识别率低。&lt;/li&gt;
+      &lt;li&gt;（缺点） 每个cell只能拥有一个label和两个bounding box，这个空间局限性，使得对小物体检测效果不好&lt;/li&gt;
+      &lt;li&gt;（缺点）对于物体长宽比的泛化能力较弱，当一类物体新的长宽比出现时，检测准确率减低。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;二者之间的差别：YOLO在卷积层后接全连接层，即检测时只利用了最高层Feature maps（包括Faster RCNN也是如此）而SSD采用金字塔结构，即利用了conv4-3/fc7/conv6-2/conv7-2/conv8_2/conv9_2这些大小不同的feature maps，在多个feature maps上同时进行softmax分类和位置回归。SSD还加入了Prior box&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;410--零样本学习zero-shot-learning和单样本学习one-shot-learning&quot;&gt;4.10  零样本学习（Zero-shot Learning）和单样本学习（One-shot Learning）&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;零样本学习：基于可见标注数据集&amp;amp;可见标签集合（seen），学习并预测不可见（unseen，无标注）数据集结果。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;411--前景背景分割&quot;&gt;4.11  前景背景分割&lt;/h4&gt;
+
+&lt;h4 id=&quot;412--工业相机ccd和cmos&quot;&gt;4.12  工业相机CCD和CMOS&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;CCD（电荷耦合元件）：输出节点统一输出数据，信号一致性好；CCD采用逐个光敏输出，速度较慢&lt;/li&gt;
+  &lt;li&gt;CMOS（金属氧化物半导体元件）：CMOS芯片中每个像素都有自己的信号放大器，各自进行电荷到电压的转换，输出信号的一致性较差，比CCD的信号噪声更多。CMOS每个电荷元件都有独立的装换控制器，读出速度很快，FPS在500以上的高速相机大部分使用的都是CMOS。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;五-深度学习&quot;&gt;五. 深度学习&lt;/h3&gt;
+&lt;h4 id=&quot;51--梯度消失的原因和解决办法有哪些&quot;&gt;5.1  梯度消失的原因和解决办法有哪些？&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;梯度消失：每一层非线性层都可以视为是一个非线性函数 f(x)f(x)(非线性来自于非线性激活函数），因此整个深度网络可以视为是一个复合的非线性多元函数。那么根据“链式求导”法则，比如rnn来说，其激活函数为tanh，那么tanh的导数的最大值是1，那么如果连乘0.8的100次方，无线接近于0，导致梯度消失。&lt;/li&gt;
+  &lt;li&gt;梯度爆炸：tanh导数 * W权重，这里如果W的值太大了，随着序列长度的增加，连乘无限大，导致梯度爆炸。&lt;/li&gt;
+  &lt;li&gt;解决方案：一个是激活函数比如relu系列，一个初始化权重 ，一个是梯度裁剪&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;52--rnn-和lstm的差别在哪&quot;&gt;5.2  RNN 和LSTM的差别在哪？&lt;/h4&gt;
+
+&lt;p&gt;RNN的前向推导公式：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1giw0543q2gj30ep07bq34.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;LSTM的三种门控制如下：
+&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1giw15g44kej311m0migvc.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如上图所示，它们的名字、表示的计算过程及输出分别是：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1giw16ne833j30is04ygm9.jpg&quot; alt=&quot;&quot; /&gt;
+可以看到，除了参数不同，它们计算公式是一样的。啰嗦一句，上图中 [公式] 表示sigmoid函数， [公式] 表示tanh函数：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;RNN来说，它能够处理一定的短期依赖，但无法处理长期依赖问题。原因：当序列较长时，序列后部的梯度很难反向传播到前面的序列，比如10个元素以前，这就产生了梯度消失问题&lt;/li&gt;
+  &lt;li&gt;当然，RNN也存在梯度爆炸问题，但这个问题一般可以通过梯度裁剪（gradient clipping）来解决&lt;/li&gt;
+  &lt;li&gt;RNN没有细胞状态；LSTM通过细胞状态记忆信息。&lt;/li&gt;
+  &lt;li&gt;RNN激活函数只有tanh；LSTM通过输入门、遗忘门、输出门引入sigmoid函数并结合tanh函数，添加求和操作，减少梯度消失和梯度爆炸的可能性。&lt;/li&gt;
+  &lt;li&gt;RNN只能够处理短期依赖问题；LSTM既能够处理短期依赖问题，又能够处理长期依赖问题。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;53--注意力机制是为了解决什么问题为什么选用了双向循环神经网络&quot;&gt;5.3  注意力机制是为了解决什么问题？为什么选用了双向循环神经网络？&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;人脑在工作时具有一定注意力，当欣赏艺术品时，既可以看到全貌，也可以关注 细节，眼睛聚焦在局部，忽略其他位置信息。说明人脑在处理信息的时候有一定权重划分。而注意力机制的提出正是模仿了人脑的这种核心特性。&lt;/li&gt;
+  &lt;li&gt;实际使用中，随着输入序列长度的增加，模型性能显著下降。因为&lt;strong&gt;编码时输入序列的全部信息被压缩到一个向量表示中去&lt;/strong&gt;。&lt;strong&gt;序列越长，句子越前面的词的信息丢失就越严重&lt;/strong&gt;。以100词的句子为例，编码时将整个句子的信息压缩到一个向量中去，而在解码时(比如翻译)，目标语言第一个单词大概率与源语言第一个单词对应，这就意味着第一步的解码需要考虑到100步之前的信息。一个小技巧是可以将&lt;strong&gt;源语言句子逆向输入&lt;/strong&gt;，或者重复输入两遍，得到一定的提升，也可以使用&lt;strong&gt;LSTM&lt;/strong&gt;缓解这个问题。但对于&lt;strong&gt;过长序列仍难以有很好表现&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;54--batch-normalization和dropout差别&quot;&gt;5.4  Batch Normalization和Dropout差别&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;BN训练和测试时的参数是一样的嘛？&lt;/strong&gt;BN是对每一批训练数据进行归一化，使用每一批数据的均值和方差；测试的时候，每一批数据中仅有一个样本，没有batch概念了，这里的均值和方差就是全量数据均值和方差。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;BN训练时为什么不用全量训练集的均值和方差呢？&lt;/strong&gt;对于BN，是对每一批数据进行归一化到一个相同的分布，而每一批数据的均值和方差会有一定的差别，而不是用固定的值，这个差别实际上也能够增加模型的鲁棒性，也会在一定程度上减少过拟合。&lt;strong&gt;BN操作把分布压缩在[-1,1],服从均值为0,方差为1的正太分布&lt;/strong&gt;，相当于把大部分Activation的值落入非线性函数的线性区内，其对应的导数远离导数饱和区，这样来加速训练收敛过程。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Dropout的作用是什么？&lt;/strong&gt; 在训练的过程中以一定概率使得神经元失活，即输出为0，以提高模型的泛化能力，减少过拟合。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Dropout 在训练和测试时都需要嘛？&lt;/strong&gt;dropout仅在训练的时候采用，为了减少神经元对部分上层神经元的依赖，类似于将多个不同的网络结构的模型集成起来，减少过拟合和增强其鲁棒性。测试的时候用到的是整个训练完成的模型，不需要dropout。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Dropout 如何平衡训练和测试时的差异呢？&lt;/strong&gt;假设失活概率为 p ，就是这一层中的每个神经元都有p的概率失活，如下图的三层网络结构中，如果失活概率为0.5，则平均每一次训练有3个神经元失活，所以输出层每个神经元只有3个输入，而实际测试时是不会有dropout的，输出层每个神经元都有6个输入，这样在训练和测试时，输出层每个神经元的输入和的期望会有量级上的差异。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;BN和Dropout共同使用时会出现的问题&lt;/strong&gt;BN和Dropout单独使用都能减少过拟合并加速训练速度，但如果一起使用的话并不会产生1+1&amp;gt;2的效果，相反可能会得到比单独使用更差的效果。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;55--batch-normalization和layer-normalization的差别&quot;&gt;5.5  Batch Normalization和Layer Normalization的差别&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;LN和BN都是一种归一化方式，差别是：BN是取的是不同样本的同一个特征进行归一化；LN取得是同一个样本的不同特征。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;应用场景不同：LN适用于RNN或者batchsize较小；BN适用于CNN。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于RNN来说，每个样本的长度都是不同的，那么当BN需要统计靠后的时间片段的时候，可能都没有这方面的信息，那么只基于某些长时间片段的样本的统计信息无法反应出全局分布，所以就不合适了。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;56--bert的具体网络结构以及训练过程及其优势在哪&quot;&gt;5.6  bert的具体网络结构，以及训练过程，及其优势在哪&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;bert处理句子是整体处理的，不是逐字处理的，解决了不受长期依赖问题困扰的主要原因（不存在过去信息丢失的风险），同时提高了训练效率。&lt;/li&gt;
+  &lt;li&gt;多头注意力和位置嵌入：提供了有关不同单词之间的关系信息。&lt;/li&gt;
+  &lt;li&gt;总结：完全避免了递归操作，通过整体处理句子以及学习单词之间的关系来感谢多头注意机制和位置嵌入。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;57--albert和bert的差别在哪&quot;&gt;5.7  albert和bert的差别在哪&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;albert的核心：&lt;strong&gt;训练出更小但效果更好的模型!&lt;/strong&gt; 想让模型更轻，训练更快，效果更好！（期望的是&lt;strong&gt;用更少量的数据，得到更好的结果&lt;/strong&gt;）。ALBERT提出了三种优化策略，做到了比BERT模型小很多的模型，但效果反而超越了BERT， XLNet。
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Factorized Embedding Parameterization&lt;/strong&gt;. 他们做的第一个改进是针对于Vocabulary Embedding。在BERT、XLNet中，词表的embedding size(E)和transformer层的hidden size(H)是等同的，所以E=H。但实际上词库的大小一般都很大，这就导致模型参数个数就会变得很大。为了解决这些问题他们提出了一个基于factorization的方法。他们没有直接把one-hot映射到hidden layer, 而是先把one-hot映射到低维空间之后，再映射到hidden layer。这其实类似于做了矩阵的分解。&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Cross-layer parameter sharing&lt;/strong&gt;. 每一层的layer可以共享参数，这样一来参数的个数不会以层数的增加而增加。所以最后得出来的模型相比BERT-large小18倍以上。&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Inter-sentence coherence loss&lt;/strong&gt;. 在BERT的训练中提出了next sentence prediction loss, 也就是给定两个sentence segments, 然后让BERT去预测它俩之间的先后顺序，但在ALBERT文章里提出这种是有问题的，其实也说明这种训练方式用处不是很大。 所以他们做出了改进，他们使用的是setence-order prediction loss (SOP)，其实是基于主题的关联去预测是否两个句子调换了顺序。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;58--cnn和rnn的差别&quot;&gt;5.8  CNN和RNN的差别&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;训练速度上：CNN快很多。RNN慢的原因是每个timestep的计算，都要依赖前一个时刻的输出。而cnn的卷积的时候，和空间上其他的点没有任何联系，适合并行计算。&lt;/li&gt;
+  &lt;li&gt;数据约束：CNN对于数据的约束就很强了，图像识别，input的纬度是48*48的，必须定死了，而RNN其实对于数据的长度（句子的长度）没有要求（TF里面有动态rnn来在输入rnn之前去掉pad为0的地方）&lt;/li&gt;
+  &lt;li&gt;卷积层不同空间位置的神经元共享权值，用于发现图像中不同空间位置的模式。共享参数是深度学习一个重要的思想，其在减少网络参数的同时仍然能保持很高的网络容量(capacity)。卷积层在空间方向共享参数，而循环神经网络(recurrent neural networks)在时间方向共享参数。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;59--深度学习平台&quot;&gt;5.9  深度学习平台&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;阿里NASA计划的机器学习平台PAI（17年）
+    &lt;ul&gt;
+      &lt;li&gt;全面兼容TF，Caffe，MXNet深度学习框架&lt;/li&gt;
+      &lt;li&gt;提供云端的计算资源&lt;/li&gt;
+      &lt;li&gt;集成很多机器学习算法（分类，回归，聚类）&lt;/li&gt;
+      &lt;li&gt;支持大规模的分布式数据训练&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;百度paddlepaddle飞桨(18年)
+    &lt;ul&gt;
+      &lt;li&gt;支持大规模的分布式数据训练&lt;/li&gt;
+      &lt;li&gt;多平台部署&lt;/li&gt;
+      &lt;li&gt;产业级的开源模型库（语义理解，图像分类，目标检测，图像分割等多种场景）&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;微软Microsoft Custom Vision Services（17年）
+    &lt;ul&gt;
+      &lt;li&gt;针对的是图像分类器&lt;/li&gt;
+      &lt;li&gt;提供迁移学习的模型&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;谷歌的Cloud AutoML
+    &lt;ul&gt;
+      &lt;li&gt;针对的是图像分类器&lt;/li&gt;
+      &lt;li&gt;提供迁移学习的模型&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="deeplearning" />
+      
+        <category term="machinelearning" />
+      
+
+      
+        <summary type="html">面试中机器学习中常问的问题总结</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Neo4j数据库与图数据挖掘算法结合</title>
+      <link href="http://localhost:4000/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88" rel="alternate" type="text/html" title="Neo4j数据库与图数据挖掘算法结合" />
+      <published>2020-02-27T23:21:00+08:00</published>
+      <updated>2020-02-27T23:21:00+08:00</updated>
+      <id>http://localhost:4000/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88</id>
+      <content type="html" xml:base="http://localhost:4000/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88">&lt;h3 id=&quot;一-环境准备&quot;&gt;一. 环境准备&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;neo4j python包：&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install neo4j&lt;/code&gt;  和&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install py2neo&lt;/code&gt;（这里的py2neo 是python对Neo4j的驱动库,同时这里必须是py2neo版本必须是最新版4，不然会报连接数据库的错误，老版本不兼容的问题）&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Java8：这里由于neo4j 数据库是依赖于java8的。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;[ftp://neo4j.55555.io/neo4j-chs/3.5.14/](ftp://neo4j.55555.io/neo4j-chs/3.5.14/)&quot;&gt;Neo4j_3.5.14&lt;/a&gt;：这里由于neo4j 在中国地区下载慢，并且neo4j3.X版本才支持java8，到4.0版本就是需要java11了。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;[ftp://neo4j.55555.io/neo4j-desktop/1.2.4/](ftp://neo4j.55555.io/neo4j-desktop/1.2.4/)&quot;&gt;Neo4j_Desktop&lt;/a&gt;：neo4j的桌面端（可以远程数据库和连接本地数据库，同时包含很多额外的扩展）&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-连接本地图数据库&quot;&gt;二. 连接本地图数据库&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;py2neo V4 官方文档：https://py2neo.org/v4/index.html&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Neo4j 一共有3种连接方式：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bolt：bolt://localhost:11005&lt;/li&gt;
+  &lt;li&gt;HTTP：http://localhost:11006&lt;/li&gt;
+  &lt;li&gt;HTTPS：https://localhost:11007&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里可以通过Neo4j Desktop来查看新建的图数据库（同时设置密码）&lt;/p&gt;
+
+&lt;h4 id=&quot;21-neo4j数据库语法cypher&quot;&gt;2.1 Neo4j数据库语法Cypher&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;创建
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;create (:Movie {title:&quot;ABC&quot;,released:2016})  return p;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;查询&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;match (p: Person) return p; 查询Person类型的所有数据
+
+match (p: Person {name:&quot;sun&quot;}) return p; 查询名字等于sun的人
+
+match( p1: Person {name:&quot;sun&quot;} )-[rel:friend]-&amp;gt;(p2) return p2.name , p2.age 查询sun的朋友的名字和年龄
+
+match (old) ... create (new) create (old)-[rel:dr]-&amp;gt;(new) return new 对已经存在的节点和新建的节点建立关系
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;更新
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MERGE (m:Movie { title:&quot;Cloud Atlas&quot; })
+ON CREATE SET m.released = 2012
+RETURN m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;筛选过滤
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;match (p1: Person)-[r:friend]-&amp;gt;(p2: Person) 
+where p1.name=~&quot;K.+&quot; or p2.age=24 or &quot;neo&quot; in r.rels 
+return p1,r,p2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;聚合函数（支持count,sum,avg,min,max）
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (actor:Person)-[:ACTED_IN]-&amp;gt;(movie:Movie)&amp;lt;-[:DIRECTED]-(director:Person)
+RETURN actor,director,count(*) AS collaborations
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;排序和分页&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (a:Person)-[:ACTED_IN]-&amp;gt;(m:Movie)
+RETURN a,count(*) AS appearances
+ORDER BY appearances DESC SKIP 3 LIMIT 10;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;22-图数据库的基本操作py&quot;&gt;2.2 图数据库的基本操作py&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;这里是通过导入py2neo这个neo4j的第三方库来连接&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;py2neo&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;http://localhost:11006&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;neo4j&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;yy&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;清空数据库
+    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete_all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;定义节点关系&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Person'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Alice'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Person'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Bob'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'KNOWNS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Node查询&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 用CQL进行查询，返回的结果是list&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'MATCH(p:PersonTest) return p'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data1 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 用find_one()方法进行node查找，返回的是查找node的第一个node&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;李四&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data2 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 用find()方法进行node查找,需要遍历输出，类似于mongodb&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data3 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;关系查询&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;match_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rel_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'KNOWNS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;更新push&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;张三&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'age'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data4 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;span class=&quot;c&quot;&gt;#基于上面的操作，再次定义node1[‘age’] = 99,并执行graph.push(node1)，发现已经更新&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'age'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;99&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data5 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;删除Node和Relationship&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;李四&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;match_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rel_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'KNOWNS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data6&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data6 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;多条件查询&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'张三'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'广州'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'李四'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'上海'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'王五'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'北京'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;r1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'KNOWS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'KNOWS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data7 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;单条件查询&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 单条件查询，返回的是多个结果&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NodeSelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data8 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;多条件查询&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NodeSelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'广州'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data9 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;复杂查询orderby&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# orderby进行更复杂的查询&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NodeSelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;order_by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'_.age'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data10 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;三-中心性算法实验社区算法&quot;&gt;三. 中心性算法实验（社区算法）&lt;/h3&gt;
+&lt;h4 id=&quot;31-中心性算法&quot;&gt;3.1 中心性算法&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;度中心性：度中心性是最简单度量，即为某个节点在网络中的联结数。
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (c:Character)-[:INTERACTS]-()
+RETURN c.name AS character, count(*) AS degree ORDER BY degree DESC
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;加权度中心性：指的是每个节点的权重后的中心性
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (c:Character)-[r:INTERACTS]-()
+RETURN c.name AS character, sum(r.weight) AS weightedDegree ORDER BY weightedDegree DESC
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;介数中心性:在网络中，一个节点的介数中心性是指其它两个节点的所有最短路径都经过这个节点，则这些所有最短路径数即为此节点的介数中心性。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (c:Character)
+WITH collect(c) AS characters
+CALL apoc.algo.betweenness(['INTERACTS'], characters, 'BOTH') YIELD node, score
+SET node.betweenness = score
+RETURN node.name AS name, score ORDER BY score DESC
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;紧密度中心性：指到网络中所有其他角色的平均距离的倒数。
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (c:Character)
+WITH collect(c) AS characters
+CALL apoc.algo.closeness(['INTERACTS'], characters, 'BOTH') YIELD node, score
+RETURN node.name AS name, score ORDER BY score DESC
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;32-pagerank-算法&quot;&gt;3.2 PageRank 算法&lt;/h4&gt;
+&lt;p&gt;PageRank算法源自Google的网页排名。它是一种特征向量中心性(eigenvector centrality)算法。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;UNWIND {nodes} AS n
+MATCH (c:Character) WHERE c.name = n.name
+SET c.pagerank = n.pg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;可以在Neo4j的图中查询最高PageRank值的节点：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (n:Character)
+RETURN n.name AS name, n.pagerank AS pagerank ORDER BY pagerank DESC LIMIT 10
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="图算法" />
+      
+        <category term="machinelearning" />
+      
+
+      
+        <summary type="html">讲述Neo4j图数据库的使用，图挖掘算法（社区算法）的实现</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">无监督异常检测模型</title>
+      <link href="http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B" rel="alternate" type="text/html" title="无监督异常检测模型" />
+      <published>2019-12-05T03:20:00+08:00</published>
+      <updated>2019-12-05T03:20:00+08:00</updated>
+      <id>http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B</id>
+      <content type="html" xml:base="http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B">&lt;blockquote&gt;
+  &lt;p&gt;异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;一-统计和概率模型&quot;&gt;一. 统计和概率模型&lt;/h3&gt;
+
+&lt;p&gt;主要是假设和检验。假设数据的分布，检验异常。比如对一维的数据假设高斯分布，然后将3sigma以外的数据划分为异常，上升到高维，假设特征之间是独立的，可以计算每个特征维度的异常值并相加，如果特征之间是相关的，也就变成了多元高斯分布，可以用马氏距离衡量数据的异常度。这
+类方法要求对问题和数据分布有较强的先验知识。&lt;/p&gt;
+
+&lt;h4 id=&quot;11-3σ原则&quot;&gt;1.1 3σ原则&lt;/h4&gt;
+&lt;p&gt;如果特征服从正态分布，那么，在&lt;script type=&quot;math/tex&quot;&gt;\pm 3 \sigma&lt;/script&gt;的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldfpndzdj30mu0arjth.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;12-3σ原则的适用条件&quot;&gt;1.2 3σ原则的适用条件&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;数据分布满足正态分布（在业务逻辑上母样本满足）。&lt;/li&gt;
+  &lt;li&gt;特征之间相互独立。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-线性模型&quot;&gt;二. 线性模型&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-pca&quot;&gt;2.1 PCA&lt;/h4&gt;
+&lt;p&gt;PCA是最常见的线性降维方法，它们按照某种准则为数据集 &lt;script type=&quot;math/tex&quot;&gt;\left\{x_{i}\right\}_{i=1}^{n}&lt;/script&gt; 找到一个最优投影方向 W 和截距和截距 b ，然后做变换 &lt;script type=&quot;math/tex&quot;&gt;z_{i}=W x_{i}+b&lt;/script&gt; 得到降维后的数据集 &lt;script type=&quot;math/tex&quot;&gt;\left\{z_{i}\right\}_{i=1}^{n}&lt;/script&gt; 。因为 &lt;script type=&quot;math/tex&quot;&gt;z_{i}=W x_{i}+b&lt;/script&gt;是一个线性变换（严格来说叫仿射变换，因为有截距项），因此PCA属于线性模型（处理线性问题）。&lt;/p&gt;
+
+&lt;p&gt;假设数据在低维空间上有嵌入，那么无法、或者在低维空间投射后表现不好的数据可以认为是异常点。PCA有两种检测异常的方法，一种是将数据映射到低维空间，然后在特征空间不同维度上查看每个数据点和其他数据点的偏差，另一种是看重构误差，先映射到低维再映射回高维，异常点的重构误差较大。这两种方法的本质一样，都是关注较小特征值对应的特征向量方向上的信息。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldg4s8jzj30m808b0t4.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以利用PCA将二维的特征数据映射到一维上（尽量保持原始信息），然后再映射到二维空间，对比重构的二维数据和初始的二维数据的误差值（MSE），设定阈值，大于阈值的为异常，小于等于阈值的为正常。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;模型构建过程：
+    &lt;ul&gt;
+      &lt;li&gt;原始数据：&lt;script type=&quot;math/tex&quot;&gt;x_{i} \in R^{d}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;编码后的数据：&lt;script type=&quot;math/tex&quot;&gt;z_{i}=W^{T}\left(x_{i}+b\right) \in R^{c}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;解码后的数据：&lt;script type=&quot;math/tex&quot;&gt;\hat{x}_{i}=W z_{i}-b \in R^{d}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;重构的误差：&lt;script type=&quot;math/tex&quot;&gt;\sum_{i=1}^{n}\left\|x_{i}-\hat{x}_{i}\right\|_{p}^{p}&lt;/script&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;22-oneclass-svm&quot;&gt;2.2 OneClass-SVM&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;（1）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。
+&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldhk5rkmj30m80gojt8.jpg&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;（2）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。&lt;/li&gt;
+  &lt;li&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldgv5levj30q80b4n0s.jpg&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;三-非线性模型&quot;&gt;三. 非线性模型&lt;/h3&gt;
+&lt;h4 id=&quot;31-autoencoder&quot;&gt;3.1 AutoEncoder&lt;/h4&gt;
+&lt;p&gt;非线性降维的代表方法是AutoEncoders，AutoEncoders的非线性和神经网络的非线性是一回事，都是利用堆叠非线性激活函数来近似任意函数。事实上，AutoEncoders就是一种神经网络，只不过它的输入和输出相同，真正有意义的地方不在于网络的输出，而是在于网络的权重。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;模型构建过程：
+    &lt;ul&gt;
+      &lt;li&gt;原始数据：&lt;script type=&quot;math/tex&quot;&gt;x_{i} \in R^{d}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;编码后的数据：&lt;script type=&quot;math/tex&quot;&gt;z_{i}=\sigma\left(W^{T} x_{i}+b\right) \in R^{c}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;解码后的数据：&lt;script type=&quot;math/tex&quot;&gt;\hat{x}_{i}=\hat{\sigma}\left(\hat{W} z_{i}+\hat{b}\right) \in R^{d}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;重构的误差：&lt;script type=&quot;math/tex&quot;&gt;\sum_{i=1}^{n}\left\|x_{i}-\hat{x}_{i}\right\|_{p}^{p}&lt;/script&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里&lt;script type=&quot;math/tex&quot;&gt;\sigma(\cdot)&lt;/script&gt;是非线性激活函数。AutoEncoder一般都会堆叠多层（多层神经层同样也能增加模型的非线性），方便起见我们只写了一层。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldhwi8zoj30di041mx6.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Autoencoder可以参与构建2种不同的异常检测模型。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;（1）非线性降维：利用训练好的模型参数，通过输入到Encoder中，直接输出中间的CODE，而这个CODE就是数据经过非线性降维后的数据，然后利用降维后的数据放入到常用的聚类算法中（比如KMeans），搭建无监督异常检测模型。&lt;/li&gt;
+  &lt;li&gt;（2）本身作为异常值的判别器：在训练好的模型之后，数据通过Encoder映射到低维空间后，利用Decoder重构回高维空间，而当输入数据是异常数据的时候，重构的高维数据会和原始数据的loss（MSE）很高，在这里设定一个阈值，大于阈值的为异常，小于等于阈值的为正常。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;32-vaevariational-autoencoder&quot;&gt;3.2 VAE（Variational AutoEncoder）&lt;/h4&gt;
+&lt;p&gt;Variational AutoEncoder（VAE）是由 Kingma 和 Welling 在“Auto-Encoding Variational Bayes, 2014”中提出的一种生成模型。&lt;/p&gt;
+
+&lt;p&gt;VAE其实可以看作AutoEncoder的一个变种，它在AutoEncoder区别在于在Encoder映射到低维空间中映射成了2个Vector，一个属于原始的CODE，而另一个作为噪声增加到新的CODE中。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldi5u655j30q70ion07.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图中，&lt;script type=&quot;math/tex&quot;&gt;m_{1}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;m_{2}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;m_{3}&lt;/script&gt;作为Original Code，&lt;script type=&quot;math/tex&quot;&gt;\sigma_{1}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;\sigma_{2}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;\sigma_{3}&lt;/script&gt;这种变分的噪点则是通过模型自动训练学习得到的，&lt;script type=&quot;math/tex&quot;&gt;e_{1}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;e_{2}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;e_{3}&lt;/script&gt;定义为服从一个标准的正太分布的向量，那么在AutoEncoder中的低维空间code在VAE中就是上图中的&lt;script type=&quot;math/tex&quot;&gt;c_{i}&lt;/script&gt;了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldijxexzj30l00720sz.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldiy1x76j30qo0zk0vi.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;code的定义公式如下：&lt;/p&gt;
+
+&lt;p&gt;​                                                                  &lt;script type=&quot;math/tex&quot;&gt;c_{i}=\exp \left(\sigma_{i}\right) \times e_{i}+m_{i}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;当然，对于VAE来说，定义loss的function也和AutoEncoder不一样：&lt;/p&gt;
+
+&lt;p&gt;​                                                            &lt;script type=&quot;math/tex&quot;&gt;loss=\sum_{i=1}^{3}\left(\exp \left(\sigma_{i}\right)-\left(1+\sigma_{i}\right)+\left(m_{i}\right)^{2}\right)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;VAE相较于AutoEncoder的优势在于：映射到低维空间的code增加了噪声，导致重构的高维空间中的值可以和原始数据不太一样，比如AutoEncoder模型原始输入是满月和斜月，那么输出一定是满月和斜月，而VAE则是可以生成满月和斜月的结合体。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldj99g86j30nj0g2jtj.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;四-基于划分超平面的模型isolation-forest&quot;&gt;四. 基于划分超平面的模型——Isolation Forest&lt;/h3&gt;
+&lt;h4 id=&quot;41-孤立森林的思想是&quot;&gt;4.1 孤立森林的思想是&lt;/h4&gt;
+
+&lt;p&gt;假设我们用一个随机超平面来切割（split）数据空间（data space）, 切一次可以生成两个子空间（想象拿刀切蛋糕一分为二）。之后我们再继续用一个随机超平面来切割每个子空间，循环下去，直到每子空间里面只有一个数据点为止。直观上来讲，我们可以发现那些密度很高的簇是可以被切很多次才会停止切割，但是那些密度很低的点很容易很早的就停到一个子空间了。&lt;/p&gt;
+
+&lt;h4 id=&quot;42-孤立森林的优势&quot;&gt;4.2 孤立森林的优势&lt;/h4&gt;
+
+&lt;p&gt;孤立森林算法具有线性时间复杂度。因为是ensemble的方法，所以可以用在含有海量数据的数据集上面。通常树的数量越多，算法越稳定。由于每棵树都是互相独立生成的，因此可以部署在大规模分布式系统上来加速运算。&lt;/p&gt;
+
+&lt;h4 id=&quot;43-孤立森林的劣势&quot;&gt;4.3 孤立森林的劣势&lt;/h4&gt;
+
+&lt;p&gt;孤立森林不适用于特别高维的数据。由于每次切数据空间都是随机选取一个维度，建完树后仍然有大量的维度信息没有被使用，导致算法可靠性降低。高维空间还可能存在大量噪音维度或无关维度（irrelevant attributes），影响树的构建。&lt;/p&gt;
+
+&lt;h3 id=&quot;五-基于聚类的异常检测模型&quot;&gt;五. 基于聚类的异常检测模型&lt;/h3&gt;
+&lt;h4 id=&quot;51-常用的聚类算法&quot;&gt;5.1 常用的聚类算法&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;（1）KMeans：利用找到的簇的中心点和每一个样本的距离值，找到最偏离簇中心的点作为异常点。&lt;/li&gt;
+  &lt;li&gt;（2）DBSCAN–基于密度的聚类：由于需要涉及到算法本身两个参数（min_samples和eps），这里模型会直接输出超过半径eps和确定好最小数的min_samples的样本点作为异常值（label = -1）。&lt;/li&gt;
+  &lt;li&gt;（3）Birch–基于层次的聚类：BIRCH算法利用了一个树结构来帮助我们快速的聚类，这个数结构类似于平衡B+树，一般将它称之为聚类特征树(Clustering Feature Tree，简称CF Tree)。建立好CF Tree后把那些包含数据点少的MinCluster当作outlier。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;52-聚类算法的适应性&quot;&gt;5.2 聚类算法的适应性&lt;/h4&gt;
+&lt;p&gt;每一种算法对于不同的数据分布可能存在不同优势。&lt;/p&gt;
+
+&lt;p&gt;K-Means算法对于凸性数据具有良好的效果，能够根据距离来讲数据分为球状类的簇，但对于非凸形状的数据点，就无能为力了，比如环形数据等等，此时基于密度的算法DBSCAN就更令人满意了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldjkemq7j30ch06gq3k.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldjwx7jjj30c706egme.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;52-评价聚类效果指标&quot;&gt;5.2 评价聚类效果指标&lt;/h4&gt;
+&lt;p&gt;聚类算法的目标是：簇内相似度高，簇间相似度低。&lt;/p&gt;
+
+&lt;p&gt;因此通过&lt;strong&gt;轮廓系数&lt;/strong&gt;（Silhouette Coefficient）来评价聚类效果的好坏，适用于上述三种算法。
+1、将样本x与簇内的其他点之间的平均距离作为簇内的内聚度a
+2、将样本x与最近簇中所有点之间的平均距离看作是与最近簇的分离度b
+3、将簇的分离度与簇内聚度之差除以二者中比较大的数得到轮廓系数，计算公式如下
+&lt;script type=&quot;math/tex&quot;&gt;s^{(i)}=\frac{b^{(i)}-a^{(i)}}{\max \left\{b^{(i)}, a^{(i)}\right\}}&lt;/script&gt;
+轮廓系数的取值在-1到1之间。当簇内聚度与分度离相等时，轮廓系数为0。当b»a时，轮廓系数近似取到1，此时模型的性能最佳。&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="machinelearning" />
+      
+        <category term="无监督" />
+      
+
+      
+        <summary type="html">主要讲述无监督的异常检测模型</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
       <title type="html">机器学习常用函数</title>
       <link href="http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0" rel="alternate" type="text/html" title="机器学习常用函数" />
-      <published>2020-10-20T18:18:00+08:00</published>
-      <updated>2020-10-20T18:18:00+08:00</updated>
+      <published>2018-11-21T18:18:00+08:00</published>
+      <updated>2018-11-21T18:18:00+08:00</updated>
       <id>http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0</id>
       <content type="html" xml:base="http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0">&lt;h3 id=&quot;一数据处理工具pandas和numpy&quot;&gt;一.数据处理工具pandas和numpy&lt;/h3&gt;
 &lt;h4 id=&quot;11-pandas读取数据&quot;&gt;1.1 pandas读取数据&lt;/h4&gt;
@@ -501,899 +1383,9 @@
       
         <category term="machinelearning" />
       
-        <category term="Pandas" />
-      
-        <category term="Sklearn" />
-      
 
       
         <summary type="html">介绍python的数据分析常用工具pandas、numpy和机器学习工具sklearn的总结</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">面试总结</title>
-      <link href="http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93" rel="alternate" type="text/html" title="面试总结" />
-      <published>2020-06-12T23:21:00+08:00</published>
-      <updated>2020-06-12T23:21:00+08:00</updated>
-      <id>http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93</id>
-      <content type="html" xml:base="http://localhost:4000/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93">&lt;blockquote&gt;
-  &lt;p&gt;面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;一数据处理&quot;&gt;一.数据处理&lt;/h3&gt;
-&lt;p&gt;海量数据：&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;（1）数据量太大，无法短时间内处理完成&lt;/li&gt;
-  &lt;li&gt;（2）无法一次性将数据放入内存中。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;11-缺失值处理&quot;&gt;1.1 缺失值处理&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;填充固定值：选取某个固定值/默认值填充缺失值。&lt;/li&gt;
-  &lt;li&gt;填充均值：对每一列的缺失值，填充当列的均值。&lt;/li&gt;
-  &lt;li&gt;填充中位数：对每一列的缺失值，填充当列的中位数。&lt;/li&gt;
-  &lt;li&gt;填充众数：对每一列的缺失值，填充当列的众数。由于存在某列缺失值过多，众数为nan的情况，因此这里取的是每列删除掉nan值后的众数。&lt;/li&gt;
-  &lt;li&gt;填充上下条的数据：对每一条数据的缺失值，填充其上下条数据的值。&lt;/li&gt;
-  &lt;li&gt;填充插值得到的数据：用插值法拟合出缺失的数据，然后进行填充。插值是离散函数逼近的重要方法，利用它可通过函数在有限个点处的取值状况，估算出函数在其他点处的近似值。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;二机器学习&quot;&gt;二.机器学习&lt;/h3&gt;
-&lt;h4 id=&quot;21--svm和lr的区别与联系&quot;&gt;2.1  SVM和LR的区别与联系？&lt;/h4&gt;
-&lt;p&gt;SVM 和 LR 都是属于分类算法，不过 SVM 是通过划分超平面的方法来进行分类，而 LR 则是通过计算样本属于哪个类别的概率，从而达到分类效果&lt;/p&gt;
-
-&lt;h4 id=&quot;22--交叉熵函数系列问题与最大似然函数的关系和区别&quot;&gt;2.2  交叉熵函数系列问题？与最大似然函数的关系和区别？&lt;/h4&gt;
-&lt;p&gt;在二分类中，交叉熵函数和负最大似然函数的表达式是相同的，但是交叉熵函数是从信息论角度得到的，而最大似然函数则是从概率论角度得到的&lt;/p&gt;
-
-&lt;p&gt;交叉熵涉及到2点：&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;信息量：假设X是一个离散型随机变量，其取值集合为X，概率分布函数为p(x)=Pr(X=x),x∈X，我们定义事件X=x0的信息量为：
-I(x0)=−log(p(x0))，可以理解为，一个事件发生的概率越大，则它所携带的信息量就越小，而当p(x0)=1时，熵将等于0，也就是说该事件的发生不会导致任何信息量的增加。举个例子，小明平时不爱学习，考试经常不及格，而小王是个勤奋学习的好学生，经常得满分，所以我们可以做如下假设：
-事件A：小明考试及格，对应的概率P(xA)=0.1，信息量为I(xA)=−log(0.1)=3.3219
-事件B：小王考试及格，对应的概率P(xB)=0.999，信息量为I(xB)=−log(0.999)=0.0014
-可以看出，结果非常符合直观：小明及格的可能性很低(十次考试只有一次及格)，因此如果某次考试及格了（大家都会说：XXX竟然及格了！），必然会引入较大的信息量，对应的I值也较高。&lt;/li&gt;
-  &lt;li&gt;熵：假设小明的考试结果是一个0-1分布XA只有两个取值{0：不及格，1：及格}，在某次考试结果公布前，小明的考试结果有多大的不确定度呢？你肯定会说：十有八九不及格！因为根据先验知识，小明及格的概率仅有0.1,90%的可能都是不及格的。怎么来度量这个不确定度？求期望！不错，我们对所有可能结果带来的额外信息量求取均值（期望），其结果不就能够衡量出小明考试成绩的不确定度了吗。&lt;strong&gt;熵其实是信息量的期望值，它是一个随机变量的确定性的度量。熵越大，变量的取值越不确定，反之就越确定。&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;相对熵：称为&lt;strong&gt;KL散度&lt;/strong&gt;，是两个随机分布间距离的度量。越小说明分布越一致。&lt;/li&gt;
-  &lt;li&gt;交叉熵：交叉熵与KL距离在行为上是等价的，都反映了分布p，q的相似程度。特别的，在logistic regression中，
-p:真实样本分布，服从参数为p的0-1分布，即X∼B(1,p)X∼B(1,p)
-q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交叉熵为&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;三-nlp&quot;&gt;三. NLP&lt;/h3&gt;
-&lt;h4 id=&quot;31--什么是tf-idf&quot;&gt;3.1  什么是TF-IDF?&lt;/h4&gt;
-&lt;p&gt;词频-逆文档频率TF-IDF(term frequency–inverse document frequency)是一种用于信息检索与数据挖掘的常用加权技术，常用于挖掘文章中的关键词，而且算法简单高效，常被工业用于最开始的文本数据清洗。&lt;/p&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\text { 词频(TF) }=\frac{\text { 某个词在文章中的出现次数 }}{\text { 文章的总词数 }}&lt;/script&gt;
-&lt;script type=&quot;math/tex&quot;&gt;\text { 逆文档频率(IDF) }=\log \left(\frac{\text { 语料库的文档总数 }}{\text { 包含该词的文档数 } x+1}\right)&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;当有TF(词频)和IDF(逆文档频率)后，将这两个词相乘，就能得到一个词的TF-IDF的值。某个词在文章中的TF-IDF越大，那么一般而言这个词在这篇文章的重要性会越高，所以通过计算文章中各个词的TF-IDF，由大到小排序，排在最前面的几个词，就是该文章的关键词。&lt;/p&gt;
-
-&lt;h4 id=&quot;32--什么是word2vec&quot;&gt;3.2  什么是word2vec&lt;/h4&gt;
-
-&lt;p&gt;判断一个词的词性（动词，名词）这里可以用word2vec，&lt;/p&gt;
-
-&lt;p&gt;嵌入到一个数学空间里，这种嵌入方式，就叫词嵌入（word embedding)，而 Word2vec是词嵌入的一种。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Skip-gram 模型：用一个词语作为输入，来预测它周围的上下文&lt;/li&gt;
-  &lt;li&gt;CBOW 模型：拿一个词语的上下文作为输入，来预测这个词语本身&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;33--fasttext&quot;&gt;3.3  fastText&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;word2vec的CBOW模型架构和fastText模型非常相似&lt;/li&gt;
-  &lt;li&gt;fastText 和CBOW差别：CBOW的输入是目标单词的上下文，fastText的输入是多个单词及其n-gram特征，这些特征用来表示单个文档；CBOW的输入单词被onehot编码过，fastText的输入特征是被embedding过；CBOW的输出是目标词汇，fastText的输出是文档对应的类标。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;34--ner&quot;&gt;3.4  NER&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;named-entity-recognition（命名实体识别，又叫“专名识别”）。指识别文本中具有特定意义的实体，主要包括人名，地名，机构名，专有名词。&lt;strong&gt;NER系统就是从非结构化的输入文本中抽取出上述实体，并且可以按照业务需求识别出更多类别的实体&lt;/strong&gt;，比如产品名称、型号、价格等。学术上NER所涉及的命名实体一般包括3大类（实体类，时间类，数字类）和7小类（人名、地名、组织机构名、时间、日期、货币、百分比）。货币、百分比等数字类实体可通过正则搞定。&lt;/li&gt;
-  &lt;li&gt;NER是NLP中一项基础性关键任务。&lt;strong&gt;从自然语言处理的流程来看，NER可以看作词法分析中未登录词识别的一种，是未登录词中数量最多、识别难度最大、对分词效果影响最大问题。&lt;/strong&gt;同时NER也是关系抽取、事件抽取、知识图谱、机器翻译、问答系统等诸多NLP任务的基础。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;原句：姚明在NBA打篮球&lt;/p&gt;
-
-  &lt;p&gt;如下标签：姚/B-PER 明/I-PER 在/O NBA/B_ORG 打/O 篮/O 球/O&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;其中常见的方法是对字或者词打上标签。&lt;code class=&quot;highlighter-rouge&quot;&gt;B-type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;I-type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;O&lt;/code&gt;， 其中&lt;code class=&quot;highlighter-rouge&quot;&gt;B-type&lt;/code&gt;表示组成该类型实体的第一个字或词。&lt;code class=&quot;highlighter-rouge&quot;&gt;I-type&lt;/code&gt;表示组成该类型实体的中间或最后字或词，&lt;code class=&quot;highlighter-rouge&quot;&gt;O&lt;/code&gt;表示该字或词不组成命名实体，当然有的地方也采用&lt;code class=&quot;highlighter-rouge&quot;&gt;B-type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;I-type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;E-type&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;O&lt;/code&gt;形式。&lt;/p&gt;
-
-&lt;p&gt;整体结构如下：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;字（词嵌入）==&amp;gt; BiLSTM（拿到字的每一个标签的所有得分）==&amp;gt; CRF（输出预测标签值）&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;这里问什么要用到CRF(直接用全连接分类即可)？==&amp;gt; &lt;strong&gt;CRF层能从训练数据中获得约束性的规则&lt;/strong&gt;：CRF层可以为最后预测的标签添加一些约束来保证预测的标签是合法的。在训练数据训练过程中，这些约束可以通过CRF层自动学习到。 这些约束可以是： I：句子中第一个词总是以标签“B-“ 或 “O”开始，而不是“I-” II：标签“B-label1 I-label2 I-label3 I-…”,label1, label2, label3应该属于同一类实体。例如，“B-Person I-Person” 是合法的序列, 但是“B-Person I-Organization” 是非法标签序列. III：标签序列“O I-label” is 非法的.实体标签的首个标签应该是 “B-“ ，而非 “I-“, 换句话说,有效的标签序列应该是“O B-label”。 有了这些约束，标签序列预测中非法序列出现的概率将会大大降低。&lt;/li&gt;
-  &lt;li&gt;CRF（条件随机场）：属于判别式模型，条件随机场对多个变量在给定观测值后的条件概率进行建模。概率图模型是以某些可观测的变量为条件分布进行推断。假设某个字的前后（&lt;script type=&quot;math/tex&quot;&gt;x_{1}&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;x_{2}&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;x_{3}&lt;/script&gt;）,推断问题的目标就是计算2在1的条件下发生的概率，然后所有条件概率相加。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;35--文本增强技术&quot;&gt;3.5  文本增强技术&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;词汇和短语进行替换&lt;/strong&gt;：选择同义词进行替换；空间中找到相邻的词汇进行替换；利用TF-IDF对哪些非核心词汇（分值很低的）进行替换&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;随机噪音&lt;/strong&gt;：随机插入一些词汇，占位符；交换词汇或者shuffle句子；随机删除词汇或者句子&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;混合增强&lt;/strong&gt;：起源于图像的mixup（猫和狗的混合）。提出了wordMixup和sentMixup将词向量和句向量进行Mixup。&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;回译&lt;/strong&gt;：中文翻译成英文表达，然后再由英文翻译回中文。&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;GAN对抗生成网络&lt;/strong&gt;：GAN 主要分为两部分：生成模型和判别模型。生成模型的作用是模拟真实数据的分布，判别模型的作用是判断一个样本是真实的样本还是生成的样本。GAN 的目标是训练一个生成模型完美的拟合真实数据分布使得判别模型无法区分。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;四-图像算法&quot;&gt;四. 图像算法&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;参考文章：
-&lt;a href=&quot;https://zhuanlan.zhihu.com/p/80852438&quot;&gt;图像总常用的变换&lt;/a&gt;
-&lt;a href=&quot;https://zhuanlan.zhihu.com/p/59640437&quot;&gt;边缘检测&lt;/a&gt;
-&lt;a href=&quot;https://blog.csdn.net/samkieth/article/details/49533435&quot;&gt;图像增强技术&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;41--图像特征提取的方法有哪些&quot;&gt;4.1  图像特征提取的方法有哪些？&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;SIFT（尺度不变特征变换）—— 图像拼接：&lt;/li&gt;
-  &lt;li&gt;HOG（方向梯度直方图（Histogram of Oriented Gradient, HOG））—— 行人检测：特征是一种在计算机视觉和图像处理中用来进行物体检测的特征描述子。它通过计算和统计图像局部区域的梯度方向直方图来构成特征。）&lt;strong&gt;本质：梯度的统计信息，而梯度主要存在于边缘的地方&lt;/strong&gt;。&lt;/li&gt;
-  &lt;li&gt;LBP(Local Binary Pattern局部二值模式)：种描述图像局部纹理的特征算子，具有旋转不变性与灰度不变性等显著优点。LBP特征将窗口中心点与邻域点的关系进行比较，重新编码形成新特征以消除对外界场景对图像的影响，因此一定程度上解决了复杂场景下（光照变换）特征描述问题（&lt;strong&gt;局部纹理特征提取&lt;/strong&gt;）。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;42--为什么要图像的灰度化&quot;&gt;4.2  为什么要图像的灰度化?&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;图像识别中要识别物体：找到edge ==&amp;gt; 计算梯度 ==&amp;gt; 需要用到灰度图&lt;/li&gt;
-  &lt;li&gt;有利于图像特征提取：RGB采用的是三通道，而灰度图用的是单通道，能加快特征抽取。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;43--为什么预处理中要归一化和标准化&quot;&gt;4.3  为什么预处理中要归一化和标准化&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;取值范围从0～255已经转化为0～1之间了，这个对于后续的神经网络或者卷积神经网络处理有很大的好处，加快梯度下降求解的速度&lt;/li&gt;
-  &lt;li&gt;减小了几何变换和仿射变化的影响。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;44--为什么要中值滤波和均值滤波&quot;&gt;4.4  为什么要中值滤波和均值滤波?&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;目的：消除图像中的噪声成分叫作图像的平滑化或滤波操作。图像的能量大部分集中在幅度谱的低频和中频段是很常见的，而在较高频段，感兴趣的信息经常被噪声淹没。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;中值滤波：一连串数字｛1，4，6，8，9｝中，数字6就是这串数字的中值.椒盐噪声很好的被平滑了，而且也没均值那样模糊化太过于严重。&lt;/li&gt;
-  &lt;li&gt;均值滤波：图片中一个方块区域（一般为3*3）内，中心点的像素为全部点像素值的平均值。一般均值滤波过于模糊化了。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;45--边缘检测算子&quot;&gt;4.5  边缘检测算子&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Roberts算子：基于x轴和y轴的&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-s_{x}=\left[\begin{array}{cc}
-1 &amp; 0 \\
-0 &amp; -1
-\end{array}\right] %]]&gt;&lt;/script&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-s_{y}=\left[\begin{array}{cc}
-0 &amp; -1 \\
-1 &amp; 0
-\end{array}\right] %]]&gt;&lt;/script&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Prewitt算子：&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-s_{x}=\left[\begin{array}{ccc}
--1 &amp; 0 &amp; 1 \\
--1 &amp; 0 &amp; 1 \\
--1 &amp; 0 &amp; 1
-\end{array}\right] %]]&gt;&lt;/script&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-s_{y}=\left[\begin{array}{ccc}
-1 &amp; 1 &amp; 1 \\
-0 &amp; 0 &amp; 0 \\
--1 &amp; -1 &amp; -1
-\end{array}\right] %]]&gt;&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;Sobel算子：&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-s_{x}=\left[\begin{array}{ccc}
--1 &amp; 0 &amp; 1 \\
--2 &amp; 0 &amp; 2 \\
--1 &amp; 0 &amp; 1
-\end{array}\right] %]]&gt;&lt;/script&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-s_{y}=\left[\begin{array}{ccc}
-1 &amp; 2 &amp; 1 \\
-0 &amp; 0 &amp; 0 \\
--1 &amp; -2 &amp; -1
-\end{array}\right] %]]&gt;&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;基本的边缘算子&lt;/strong&gt;如Sobel求得的边缘图存在很多问题，如&lt;strong&gt;噪声污染没有被排除、边缘线太过于粗宽&lt;/strong&gt;等&lt;/li&gt;
-  &lt;li&gt;Canny算子：目标是找到一个最优的边缘。具有以下优势
-    &lt;ul&gt;
-      &lt;li&gt;低错误率：标识尽可能多的实际边缘，剑豪噪声产生的误报。&lt;/li&gt;
-      &lt;li&gt;高定位性：标识出的边缘要与图像的实际边缘尽可能的接近。&lt;/li&gt;
-      &lt;li&gt;最小响应：图像中的边缘只能标识一次。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;canny检测的步骤：
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;ol&gt;
-          &lt;li&gt;使用高斯滤波器降噪。&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;ol&gt;
-          &lt;li&gt;利用Sobel算子进行卷积（x和y反向）&lt;/li&gt;
-          &lt;li&gt;将像素点上x和y卷积之后的平方求根，并计算x，y方向上的角度，&lt;script type=&quot;math/tex&quot;&gt;G=\sqrt{G_{x}^{2}+G_{y}^{2}}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;\theta=\arctan \left(\frac{G_{y}}{G_{x}}\right)&lt;/script&gt;&lt;/li&gt;
-          &lt;li&gt;非极大值抑制，进一步排除非边缘的像素，仅保留一些细线条。&lt;/li&gt;
-          &lt;li&gt;滞后阈值：高于某阈值，保留为边缘像素，反之排除。&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;46--常用的插值方法&quot;&gt;4.6  常用的插值方法&lt;/h4&gt;
-
-&lt;p&gt;在图像几何变换时，无法给有些像素点直接赋值，例如，&lt;strong&gt;将图像放大两倍，必然会多出一些无法被直接映射的像素点，对于这些像素点，通过插值决定它们的值&lt;/strong&gt;。于是，产生了图像插值算法。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;线性插值：&lt;strong&gt;最近邻插值，双线性插值以及双三次插值等&lt;/strong&gt;，&lt;script type=&quot;math/tex&quot;&gt;f(x)=a_{1} x+a_{0}&lt;/script&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;47-深度学习和传统目标检测方法的优缺点&quot;&gt;4.7 深度学习和传统目标检测方法的优缺点&lt;/h4&gt;
-
-&lt;p&gt;传统的目标检测算法对光照，明暗，数据传输，物体遮挡等上模型的鲁棒性不强。&lt;/p&gt;
-
-&lt;h4 id=&quot;48--图像增强技术&quot;&gt;4.8  图像增强技术&lt;/h4&gt;
-
-&lt;p&gt;增强技术也可以有多种分类，如，可以分为平滑（抑制高频成分）与锐化（增强高频成分），空间域与频域。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;空间域增强就是指增强构成图像的像素，是直接对这些像素进行操作的过程。&lt;/li&gt;
-  &lt;li&gt;频域则是修改图像的傅立叶变换。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;49-ssd和yolo&quot;&gt;4.9 SSD和Yolo&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;SSD：将物体检测这个问题的解空间，抽象为一组预先设定好（尺度，长宽比）的bounding box。在每个bounding box，预测分类label，以及box offset来更好的框出物体。对一张图片，结合多个大小不同的feature map的预测结果，以期能够处理大小不同的物体。
-    &lt;ul&gt;
-      &lt;li&gt;（优点）相比Fast RNN系列，删除了bounding box proposal这一步，及后续的重采样步骤，因而速度较快，达到59FPS。&lt;/li&gt;
-      &lt;li&gt;（优点）&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;YOLO：&lt;strong&gt;将物体检测这个问题定义为bounding box和分类置信度的回归问题。&lt;/strong&gt;将整张图像作为输入，划分成SxS grid，每个cell预测B个bounding box（x, y, w, h）及对应的分类置信度（class-specific confidence score）。分类置信度是bounding box是物体的概率及其与真实值IOU相乘的结果。
-    &lt;ul&gt;
-      &lt;li&gt;（优点）速度快，45FPS&lt;/li&gt;
-      &lt;li&gt;（优点）YOLO使用图像的全局信息做预测，因而对背景的误识别率低。&lt;/li&gt;
-      &lt;li&gt;（缺点） 每个cell只能拥有一个label和两个bounding box，这个空间局限性，使得对小物体检测效果不好&lt;/li&gt;
-      &lt;li&gt;（缺点）对于物体长宽比的泛化能力较弱，当一类物体新的长宽比出现时，检测准确率减低。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;二者之间的差别：YOLO在卷积层后接全连接层，即检测时只利用了最高层Feature maps（包括Faster RCNN也是如此）而SSD采用金字塔结构，即利用了conv4-3/fc7/conv6-2/conv7-2/conv8_2/conv9_2这些大小不同的feature maps，在多个feature maps上同时进行softmax分类和位置回归。SSD还加入了Prior box&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;410--零样本学习zero-shot-learning和单样本学习one-shot-learning&quot;&gt;4.10  零样本学习（Zero-shot Learning）和单样本学习（One-shot Learning）&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;零样本学习：基于可见标注数据集&amp;amp;可见标签集合（seen），学习并预测不可见（unseen，无标注）数据集结果。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;411--前景背景分割&quot;&gt;4.11  前景背景分割&lt;/h4&gt;
-
-&lt;h4 id=&quot;412--工业相机ccd和cmos&quot;&gt;4.12  工业相机CCD和CMOS&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;CCD（电荷耦合元件）：输出节点统一输出数据，信号一致性好；CCD采用逐个光敏输出，速度较慢&lt;/li&gt;
-  &lt;li&gt;CMOS（金属氧化物半导体元件）：CMOS芯片中每个像素都有自己的信号放大器，各自进行电荷到电压的转换，输出信号的一致性较差，比CCD的信号噪声更多。CMOS每个电荷元件都有独立的装换控制器，读出速度很快，FPS在500以上的高速相机大部分使用的都是CMOS。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;五-深度学习&quot;&gt;五. 深度学习&lt;/h3&gt;
-&lt;h4 id=&quot;51--梯度消失的原因和解决办法有哪些&quot;&gt;5.1  梯度消失的原因和解决办法有哪些？&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;梯度消失：每一层非线性层都可以视为是一个非线性函数 f(x)f(x)(非线性来自于非线性激活函数），因此整个深度网络可以视为是一个复合的非线性多元函数。那么根据“链式求导”法则，比如rnn来说，其激活函数为tanh，那么tanh的导数的最大值是1，那么如果连乘0.8的100次方，无线接近于0，导致梯度消失。&lt;/li&gt;
-  &lt;li&gt;梯度爆炸：tanh导数 * W权重，这里如果W的值太大了，随着序列长度的增加，连乘无限大，导致梯度爆炸。&lt;/li&gt;
-  &lt;li&gt;解决方案：一个是激活函数比如relu系列，一个初始化权重 ，一个是梯度裁剪&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;52--rnn-和lstm的差别在哪&quot;&gt;5.2  RNN 和LSTM的差别在哪？&lt;/h4&gt;
-
-&lt;p&gt;RNN的前向推导公式：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1giw0543q2gj30ep07bq34.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;LSTM的三种门控制如下：
-&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1giw15g44kej311m0migvc.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;如上图所示，它们的名字、表示的计算过程及输出分别是：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1giw16ne833j30is04ygm9.jpg&quot; alt=&quot;&quot; /&gt;
-可以看到，除了参数不同，它们计算公式是一样的。啰嗦一句，上图中 [公式] 表示sigmoid函数， [公式] 表示tanh函数：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;RNN来说，它能够处理一定的短期依赖，但无法处理长期依赖问题。原因：当序列较长时，序列后部的梯度很难反向传播到前面的序列，比如10个元素以前，这就产生了梯度消失问题&lt;/li&gt;
-  &lt;li&gt;当然，RNN也存在梯度爆炸问题，但这个问题一般可以通过梯度裁剪（gradient clipping）来解决&lt;/li&gt;
-  &lt;li&gt;RNN没有细胞状态；LSTM通过细胞状态记忆信息。&lt;/li&gt;
-  &lt;li&gt;RNN激活函数只有tanh；LSTM通过输入门、遗忘门、输出门引入sigmoid函数并结合tanh函数，添加求和操作，减少梯度消失和梯度爆炸的可能性。&lt;/li&gt;
-  &lt;li&gt;RNN只能够处理短期依赖问题；LSTM既能够处理短期依赖问题，又能够处理长期依赖问题。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;53--注意力机制是为了解决什么问题为什么选用了双向循环神经网络&quot;&gt;5.3  注意力机制是为了解决什么问题？为什么选用了双向循环神经网络？&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;人脑在工作时具有一定注意力，当欣赏艺术品时，既可以看到全貌，也可以关注 细节，眼睛聚焦在局部，忽略其他位置信息。说明人脑在处理信息的时候有一定权重划分。而注意力机制的提出正是模仿了人脑的这种核心特性。&lt;/li&gt;
-  &lt;li&gt;实际使用中，随着输入序列长度的增加，模型性能显著下降。因为&lt;strong&gt;编码时输入序列的全部信息被压缩到一个向量表示中去&lt;/strong&gt;。&lt;strong&gt;序列越长，句子越前面的词的信息丢失就越严重&lt;/strong&gt;。以100词的句子为例，编码时将整个句子的信息压缩到一个向量中去，而在解码时(比如翻译)，目标语言第一个单词大概率与源语言第一个单词对应，这就意味着第一步的解码需要考虑到100步之前的信息。一个小技巧是可以将&lt;strong&gt;源语言句子逆向输入&lt;/strong&gt;，或者重复输入两遍，得到一定的提升，也可以使用&lt;strong&gt;LSTM&lt;/strong&gt;缓解这个问题。但对于&lt;strong&gt;过长序列仍难以有很好表现&lt;/strong&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;54--batch-normalization和dropout差别&quot;&gt;5.4  Batch Normalization和Dropout差别&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;BN训练和测试时的参数是一样的嘛？&lt;/strong&gt;BN是对每一批训练数据进行归一化，使用每一批数据的均值和方差；测试的时候，每一批数据中仅有一个样本，没有batch概念了，这里的均值和方差就是全量数据均值和方差。&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;BN训练时为什么不用全量训练集的均值和方差呢？&lt;/strong&gt;对于BN，是对每一批数据进行归一化到一个相同的分布，而每一批数据的均值和方差会有一定的差别，而不是用固定的值，这个差别实际上也能够增加模型的鲁棒性，也会在一定程度上减少过拟合。&lt;strong&gt;BN操作把分布压缩在[-1,1],服从均值为0,方差为1的正太分布&lt;/strong&gt;，相当于把大部分Activation的值落入非线性函数的线性区内，其对应的导数远离导数饱和区，这样来加速训练收敛过程。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Dropout的作用是什么？&lt;/strong&gt; 在训练的过程中以一定概率使得神经元失活，即输出为0，以提高模型的泛化能力，减少过拟合。&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Dropout 在训练和测试时都需要嘛？&lt;/strong&gt;dropout仅在训练的时候采用，为了减少神经元对部分上层神经元的依赖，类似于将多个不同的网络结构的模型集成起来，减少过拟合和增强其鲁棒性。测试的时候用到的是整个训练完成的模型，不需要dropout。&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Dropout 如何平衡训练和测试时的差异呢？&lt;/strong&gt;假设失活概率为 p ，就是这一层中的每个神经元都有p的概率失活，如下图的三层网络结构中，如果失活概率为0.5，则平均每一次训练有3个神经元失活，所以输出层每个神经元只有3个输入，而实际测试时是不会有dropout的，输出层每个神经元都有6个输入，这样在训练和测试时，输出层每个神经元的输入和的期望会有量级上的差异。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;BN和Dropout共同使用时会出现的问题&lt;/strong&gt;BN和Dropout单独使用都能减少过拟合并加速训练速度，但如果一起使用的话并不会产生1+1&amp;gt;2的效果，相反可能会得到比单独使用更差的效果。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;55--batch-normalization和layer-normalization的差别&quot;&gt;5.5  Batch Normalization和Layer Normalization的差别&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;LN和BN都是一种归一化方式，差别是：BN是取的是不同样本的同一个特征进行归一化；LN取得是同一个样本的不同特征。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;应用场景不同：LN适用于RNN或者batchsize较小；BN适用于CNN。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;对于RNN来说，每个样本的长度都是不同的，那么当BN需要统计靠后的时间片段的时候，可能都没有这方面的信息，那么只基于某些长时间片段的样本的统计信息无法反应出全局分布，所以就不合适了。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;56--bert的具体网络结构以及训练过程及其优势在哪&quot;&gt;5.6  bert的具体网络结构，以及训练过程，及其优势在哪&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;bert处理句子是整体处理的，不是逐字处理的，解决了不受长期依赖问题困扰的主要原因（不存在过去信息丢失的风险），同时提高了训练效率。&lt;/li&gt;
-  &lt;li&gt;多头注意力和位置嵌入：提供了有关不同单词之间的关系信息。&lt;/li&gt;
-  &lt;li&gt;总结：完全避免了递归操作，通过整体处理句子以及学习单词之间的关系来感谢多头注意机制和位置嵌入。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;57--albert和bert的差别在哪&quot;&gt;5.7  albert和bert的差别在哪&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;albert的核心：&lt;strong&gt;训练出更小但效果更好的模型!&lt;/strong&gt; 想让模型更轻，训练更快，效果更好！（期望的是&lt;strong&gt;用更少量的数据，得到更好的结果&lt;/strong&gt;）。ALBERT提出了三种优化策略，做到了比BERT模型小很多的模型，但效果反而超越了BERT， XLNet。
-    &lt;ul&gt;
-      &lt;li&gt;&lt;strong&gt;Factorized Embedding Parameterization&lt;/strong&gt;. 他们做的第一个改进是针对于Vocabulary Embedding。在BERT、XLNet中，词表的embedding size(E)和transformer层的hidden size(H)是等同的，所以E=H。但实际上词库的大小一般都很大，这就导致模型参数个数就会变得很大。为了解决这些问题他们提出了一个基于factorization的方法。他们没有直接把one-hot映射到hidden layer, 而是先把one-hot映射到低维空间之后，再映射到hidden layer。这其实类似于做了矩阵的分解。&lt;/li&gt;
-      &lt;li&gt;&lt;strong&gt;Cross-layer parameter sharing&lt;/strong&gt;. 每一层的layer可以共享参数，这样一来参数的个数不会以层数的增加而增加。所以最后得出来的模型相比BERT-large小18倍以上。&lt;/li&gt;
-      &lt;li&gt;&lt;strong&gt;Inter-sentence coherence loss&lt;/strong&gt;. 在BERT的训练中提出了next sentence prediction loss, 也就是给定两个sentence segments, 然后让BERT去预测它俩之间的先后顺序，但在ALBERT文章里提出这种是有问题的，其实也说明这种训练方式用处不是很大。 所以他们做出了改进，他们使用的是setence-order prediction loss (SOP)，其实是基于主题的关联去预测是否两个句子调换了顺序。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;58--cnn和rnn的差别&quot;&gt;5.8  CNN和RNN的差别&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;训练速度上：CNN快很多。RNN慢的原因是每个timestep的计算，都要依赖前一个时刻的输出。而cnn的卷积的时候，和空间上其他的点没有任何联系，适合并行计算。&lt;/li&gt;
-  &lt;li&gt;数据约束：CNN对于数据的约束就很强了，图像识别，input的纬度是48*48的，必须定死了，而RNN其实对于数据的长度（句子的长度）没有要求（TF里面有动态rnn来在输入rnn之前去掉pad为0的地方）&lt;/li&gt;
-  &lt;li&gt;卷积层不同空间位置的神经元共享权值，用于发现图像中不同空间位置的模式。共享参数是深度学习一个重要的思想，其在减少网络参数的同时仍然能保持很高的网络容量(capacity)。卷积层在空间方向共享参数，而循环神经网络(recurrent neural networks)在时间方向共享参数。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;59--深度学习平台&quot;&gt;5.9  深度学习平台&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;阿里NASA计划的机器学习平台PAI（17年）
-    &lt;ul&gt;
-      &lt;li&gt;全面兼容TF，Caffe，MXNet深度学习框架&lt;/li&gt;
-      &lt;li&gt;提供云端的计算资源&lt;/li&gt;
-      &lt;li&gt;集成很多机器学习算法（分类，回归，聚类）&lt;/li&gt;
-      &lt;li&gt;支持大规模的分布式数据训练&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;百度paddlepaddle飞桨(18年)
-    &lt;ul&gt;
-      &lt;li&gt;支持大规模的分布式数据训练&lt;/li&gt;
-      &lt;li&gt;多平台部署&lt;/li&gt;
-      &lt;li&gt;产业级的开源模型库（语义理解，图像分类，目标检测，图像分割等多种场景）&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;微软Microsoft Custom Vision Services（17年）
-    &lt;ul&gt;
-      &lt;li&gt;针对的是图像分类器&lt;/li&gt;
-      &lt;li&gt;提供迁移学习的模型&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;谷歌的Cloud AutoML
-    &lt;ul&gt;
-      &lt;li&gt;针对的是图像分类器&lt;/li&gt;
-      &lt;li&gt;提供迁移学习的模型&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-
-      
-        <category term="面试" />
-      
-        <category term="machinelearning" />
-      
-
-      
-        <summary type="html">面试中机器学习中常问的问题总结</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Neo4j数据库与图数据挖掘算法结合</title>
-      <link href="http://localhost:4000/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88" rel="alternate" type="text/html" title="Neo4j数据库与图数据挖掘算法结合" />
-      <published>2020-02-27T23:21:00+08:00</published>
-      <updated>2020-02-27T23:21:00+08:00</updated>
-      <id>http://localhost:4000/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88</id>
-      <content type="html" xml:base="http://localhost:4000/Neo4j%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%9B%BE%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95%E7%BB%93%E5%90%88">&lt;h3 id=&quot;一-环境准备&quot;&gt;一. 环境准备&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;neo4j python包：&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install neo4j&lt;/code&gt;  和&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install py2neo&lt;/code&gt;（这里的py2neo 是python对Neo4j的驱动库,同时这里必须是py2neo版本必须是最新版4，不然会报连接数据库的错误，老版本不兼容的问题）&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Java8：这里由于neo4j 数据库是依赖于java8的。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;[ftp://neo4j.55555.io/neo4j-chs/3.5.14/](ftp://neo4j.55555.io/neo4j-chs/3.5.14/)&quot;&gt;Neo4j_3.5.14&lt;/a&gt;：这里由于neo4j 在中国地区下载慢，并且neo4j3.X版本才支持java8，到4.0版本就是需要java11了。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;[ftp://neo4j.55555.io/neo4j-desktop/1.2.4/](ftp://neo4j.55555.io/neo4j-desktop/1.2.4/)&quot;&gt;Neo4j_Desktop&lt;/a&gt;：neo4j的桌面端（可以远程数据库和连接本地数据库，同时包含很多额外的扩展）&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;二-连接本地图数据库&quot;&gt;二. 连接本地图数据库&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;py2neo V4 官方文档：https://py2neo.org/v4/index.html&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Neo4j 一共有3种连接方式：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Bolt：bolt://localhost:11005&lt;/li&gt;
-  &lt;li&gt;HTTP：http://localhost:11006&lt;/li&gt;
-  &lt;li&gt;HTTPS：https://localhost:11007&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;这里可以通过Neo4j Desktop来查看新建的图数据库（同时设置密码）&lt;/p&gt;
-
-&lt;h4 id=&quot;21-neo4j数据库语法cypher&quot;&gt;2.1 Neo4j数据库语法Cypher&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;创建
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;create (:Movie {title:&quot;ABC&quot;,released:2016})  return p;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;查询&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;match (p: Person) return p; 查询Person类型的所有数据
-
-match (p: Person {name:&quot;sun&quot;}) return p; 查询名字等于sun的人
-
-match( p1: Person {name:&quot;sun&quot;} )-[rel:friend]-&amp;gt;(p2) return p2.name , p2.age 查询sun的朋友的名字和年龄
-
-match (old) ... create (new) create (old)-[rel:dr]-&amp;gt;(new) return new 对已经存在的节点和新建的节点建立关系
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;更新
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MERGE (m:Movie { title:&quot;Cloud Atlas&quot; })
-ON CREATE SET m.released = 2012
-RETURN m
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;筛选过滤
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;match (p1: Person)-[r:friend]-&amp;gt;(p2: Person) 
-where p1.name=~&quot;K.+&quot; or p2.age=24 or &quot;neo&quot; in r.rels 
-return p1,r,p2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;聚合函数（支持count,sum,avg,min,max）
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (actor:Person)-[:ACTED_IN]-&amp;gt;(movie:Movie)&amp;lt;-[:DIRECTED]-(director:Person)
-RETURN actor,director,count(*) AS collaborations
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;排序和分页&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (a:Person)-[:ACTED_IN]-&amp;gt;(m:Movie)
-RETURN a,count(*) AS appearances
-ORDER BY appearances DESC SKIP 3 LIMIT 10;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;22-图数据库的基本操作py&quot;&gt;2.2 图数据库的基本操作py&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;这里是通过导入py2neo这个neo4j的第三方库来连接&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;py2neo&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;http://localhost:11006&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;neo4j&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;yy&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;清空数据库
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete_all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;定义节点关系&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Person'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Alice'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Person'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Bob'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'KNOWNS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Node查询&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 用CQL进行查询，返回的结果是list&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'MATCH(p:PersonTest) return p'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data1 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# 用find_one()方法进行node查找，返回的是查找node的第一个node&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;李四&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data2 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# 用find()方法进行node查找,需要遍历输出，类似于mongodb&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data3 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;关系查询&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;match_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rel_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'KNOWNS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;更新push&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;张三&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'age'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data4 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-&lt;span class=&quot;c&quot;&gt;#基于上面的操作，再次定义node1[‘age’] = 99,并执行graph.push(node1)，发现已经更新&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'age'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;99&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data5 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;删除Node和Relationship&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;property_value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;李四&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;match_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rel_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'KNOWNS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data6&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data6 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;多条件查询&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'张三'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'广州'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'李四'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'上海'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'王五'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'北京'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;r1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'KNOWS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Relationship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'KNOWS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r2&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data7 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;单条件查询&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 单条件查询，返回的是多个结果&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NodeSelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data8 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;多条件查询&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NodeSelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'广州'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data9 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;复杂查询orderby&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# orderby进行更复杂的查询&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NodeSelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'PersonTest'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;order_by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'_.age'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data10 = &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;三-中心性算法实验社区算法&quot;&gt;三. 中心性算法实验（社区算法）&lt;/h3&gt;
-&lt;h4 id=&quot;31-中心性算法&quot;&gt;3.1 中心性算法&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;度中心性：度中心性是最简单度量，即为某个节点在网络中的联结数。
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (c:Character)-[:INTERACTS]-()
-RETURN c.name AS character, count(*) AS degree ORDER BY degree DESC
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;加权度中心性：指的是每个节点的权重后的中心性
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (c:Character)-[r:INTERACTS]-()
-RETURN c.name AS character, sum(r.weight) AS weightedDegree ORDER BY weightedDegree DESC
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;介数中心性:在网络中，一个节点的介数中心性是指其它两个节点的所有最短路径都经过这个节点，则这些所有最短路径数即为此节点的介数中心性。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (c:Character)
-WITH collect(c) AS characters
-CALL apoc.algo.betweenness(['INTERACTS'], characters, 'BOTH') YIELD node, score
-SET node.betweenness = score
-RETURN node.name AS name, score ORDER BY score DESC
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;紧密度中心性：指到网络中所有其他角色的平均距离的倒数。
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (c:Character)
-WITH collect(c) AS characters
-CALL apoc.algo.closeness(['INTERACTS'], characters, 'BOTH') YIELD node, score
-RETURN node.name AS name, score ORDER BY score DESC
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;32-pagerank-算法&quot;&gt;3.2 PageRank 算法&lt;/h4&gt;
-&lt;p&gt;PageRank算法源自Google的网页排名。它是一种特征向量中心性(eigenvector centrality)算法。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;UNWIND {nodes} AS n
-MATCH (c:Character) WHERE c.name = n.name
-SET c.pagerank = n.pg
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;可以在Neo4j的图中查询最高PageRank值的节点：&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MATCH (n:Character)
-RETURN n.name AS name, n.pagerank AS pagerank ORDER BY pagerank DESC LIMIT 10
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-
-      
-        <category term="Neo4j" />
-      
-        <category term="图挖掘算法" />
-      
-        <category term="machinelearning" />
-      
-
-      
-        <summary type="html">讲述Neo4j图数据库的使用，图挖掘算法（社区算法）的实现</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">无监督异常检测模型</title>
-      <link href="http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B" rel="alternate" type="text/html" title="无监督异常检测模型" />
-      <published>2019-12-05T03:20:00+08:00</published>
-      <updated>2019-12-05T03:20:00+08:00</updated>
-      <id>http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B</id>
-      <content type="html" xml:base="http://localhost:4000/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B">&lt;blockquote&gt;
-  &lt;p&gt;异常检测模型一般分为五大类：统计和概率模型、线性模型、非线性模型、基于相似度衡量的模型、基于聚类的异常检测模型。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;一-统计和概率模型&quot;&gt;一. 统计和概率模型&lt;/h3&gt;
-
-&lt;p&gt;主要是假设和检验。假设数据的分布，检验异常。比如对一维的数据假设高斯分布，然后将3sigma以外的数据划分为异常，上升到高维，假设特征之间是独立的，可以计算每个特征维度的异常值并相加，如果特征之间是相关的，也就变成了多元高斯分布，可以用马氏距离衡量数据的异常度。这
-类方法要求对问题和数据分布有较强的先验知识。&lt;/p&gt;
-
-&lt;h4 id=&quot;11-3σ原则&quot;&gt;1.1 3σ原则&lt;/h4&gt;
-&lt;p&gt;如果特征服从正态分布，那么，在&lt;script type=&quot;math/tex&quot;&gt;\pm 3 \sigma&lt;/script&gt;的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldfpndzdj30mu0arjth.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;12-3σ原则的适用条件&quot;&gt;1.2 3σ原则的适用条件&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;数据分布满足正态分布（在业务逻辑上母样本满足）。&lt;/li&gt;
-  &lt;li&gt;特征之间相互独立。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;二-线性模型&quot;&gt;二. 线性模型&lt;/h3&gt;
-
-&lt;h4 id=&quot;21-pca&quot;&gt;2.1 PCA&lt;/h4&gt;
-&lt;p&gt;PCA是最常见的线性降维方法，它们按照某种准则为数据集 &lt;script type=&quot;math/tex&quot;&gt;\left\{x_{i}\right\}_{i=1}^{n}&lt;/script&gt; 找到一个最优投影方向 W 和截距和截距 b ，然后做变换 &lt;script type=&quot;math/tex&quot;&gt;z_{i}=W x_{i}+b&lt;/script&gt; 得到降维后的数据集 &lt;script type=&quot;math/tex&quot;&gt;\left\{z_{i}\right\}_{i=1}^{n}&lt;/script&gt; 。因为 &lt;script type=&quot;math/tex&quot;&gt;z_{i}=W x_{i}+b&lt;/script&gt;是一个线性变换（严格来说叫仿射变换，因为有截距项），因此PCA属于线性模型（处理线性问题）。&lt;/p&gt;
-
-&lt;p&gt;假设数据在低维空间上有嵌入，那么无法、或者在低维空间投射后表现不好的数据可以认为是异常点。PCA有两种检测异常的方法，一种是将数据映射到低维空间，然后在特征空间不同维度上查看每个数据点和其他数据点的偏差，另一种是看重构误差，先映射到低维再映射回高维，异常点的重构误差较大。这两种方法的本质一样，都是关注较小特征值对应的特征向量方向上的信息。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldg4s8jzj30m808b0t4.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;可以利用PCA将二维的特征数据映射到一维上（尽量保持原始信息），然后再映射到二维空间，对比重构的二维数据和初始的二维数据的误差值（MSE），设定阈值，大于阈值的为异常，小于等于阈值的为正常。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;模型构建过程：
-    &lt;ul&gt;
-      &lt;li&gt;原始数据：&lt;script type=&quot;math/tex&quot;&gt;x_{i} \in R^{d}&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;编码后的数据：&lt;script type=&quot;math/tex&quot;&gt;z_{i}=W^{T}\left(x_{i}+b\right) \in R^{c}&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;解码后的数据：&lt;script type=&quot;math/tex&quot;&gt;\hat{x}_{i}=W z_{i}-b \in R^{d}&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;重构的误差：&lt;script type=&quot;math/tex&quot;&gt;\sum_{i=1}^{n}\left\|x_{i}-\hat{x}_{i}\right\|_{p}^{p}&lt;/script&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;22-oneclass-svm&quot;&gt;2.2 OneClass-SVM&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;（1）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。
-&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldhk5rkmj30m80gojt8.jpg&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-  &lt;li&gt;（2）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。&lt;/li&gt;
-  &lt;li&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldgv5levj30q80b4n0s.jpg&quot; alt=&quot;&quot; /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;三-非线性模型&quot;&gt;三. 非线性模型&lt;/h3&gt;
-&lt;h4 id=&quot;31-autoencoder&quot;&gt;3.1 AutoEncoder&lt;/h4&gt;
-&lt;p&gt;非线性降维的代表方法是AutoEncoders，AutoEncoders的非线性和神经网络的非线性是一回事，都是利用堆叠非线性激活函数来近似任意函数。事实上，AutoEncoders就是一种神经网络，只不过它的输入和输出相同，真正有意义的地方不在于网络的输出，而是在于网络的权重。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;模型构建过程：
-    &lt;ul&gt;
-      &lt;li&gt;原始数据：&lt;script type=&quot;math/tex&quot;&gt;x_{i} \in R^{d}&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;编码后的数据：&lt;script type=&quot;math/tex&quot;&gt;z_{i}=\sigma\left(W^{T} x_{i}+b\right) \in R^{c}&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;解码后的数据：&lt;script type=&quot;math/tex&quot;&gt;\hat{x}_{i}=\hat{\sigma}\left(\hat{W} z_{i}+\hat{b}\right) \in R^{d}&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;重构的误差：&lt;script type=&quot;math/tex&quot;&gt;\sum_{i=1}^{n}\left\|x_{i}-\hat{x}_{i}\right\|_{p}^{p}&lt;/script&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;这里&lt;script type=&quot;math/tex&quot;&gt;\sigma(\cdot)&lt;/script&gt;是非线性激活函数。AutoEncoder一般都会堆叠多层（多层神经层同样也能增加模型的非线性），方便起见我们只写了一层。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldhwi8zoj30di041mx6.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Autoencoder可以参与构建2种不同的异常检测模型。&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;（1）非线性降维：利用训练好的模型参数，通过输入到Encoder中，直接输出中间的CODE，而这个CODE就是数据经过非线性降维后的数据，然后利用降维后的数据放入到常用的聚类算法中（比如KMeans），搭建无监督异常检测模型。&lt;/li&gt;
-  &lt;li&gt;（2）本身作为异常值的判别器：在训练好的模型之后，数据通过Encoder映射到低维空间后，利用Decoder重构回高维空间，而当输入数据是异常数据的时候，重构的高维数据会和原始数据的loss（MSE）很高，在这里设定一个阈值，大于阈值的为异常，小于等于阈值的为正常。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;32-vaevariational-autoencoder&quot;&gt;3.2 VAE（Variational AutoEncoder）&lt;/h4&gt;
-&lt;p&gt;Variational AutoEncoder（VAE）是由 Kingma 和 Welling 在“Auto-Encoding Variational Bayes, 2014”中提出的一种生成模型。&lt;/p&gt;
-
-&lt;p&gt;VAE其实可以看作AutoEncoder的一个变种，它在AutoEncoder区别在于在Encoder映射到低维空间中映射成了2个Vector，一个属于原始的CODE，而另一个作为噪声增加到新的CODE中。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldi5u655j30q70ion07.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;上图中，&lt;script type=&quot;math/tex&quot;&gt;m_{1}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;m_{2}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;m_{3}&lt;/script&gt;作为Original Code，&lt;script type=&quot;math/tex&quot;&gt;\sigma_{1}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;\sigma_{2}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;\sigma_{3}&lt;/script&gt;这种变分的噪点则是通过模型自动训练学习得到的，&lt;script type=&quot;math/tex&quot;&gt;e_{1}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;e_{2}&lt;/script&gt;，&lt;script type=&quot;math/tex&quot;&gt;e_{3}&lt;/script&gt;定义为服从一个标准的正太分布的向量，那么在AutoEncoder中的低维空间code在VAE中就是上图中的&lt;script type=&quot;math/tex&quot;&gt;c_{i}&lt;/script&gt;了。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldijxexzj30l00720sz.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldiy1x76j30qo0zk0vi.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;code的定义公式如下：&lt;/p&gt;
-
-&lt;p&gt;​                                                                  &lt;script type=&quot;math/tex&quot;&gt;c_{i}=\exp \left(\sigma_{i}\right) \times e_{i}+m_{i}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;当然，对于VAE来说，定义loss的function也和AutoEncoder不一样：&lt;/p&gt;
-
-&lt;p&gt;​                                                            &lt;script type=&quot;math/tex&quot;&gt;loss=\sum_{i=1}^{3}\left(\exp \left(\sigma_{i}\right)-\left(1+\sigma_{i}\right)+\left(m_{i}\right)^{2}\right)&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;VAE相较于AutoEncoder的优势在于：映射到低维空间的code增加了噪声，导致重构的高维空间中的值可以和原始数据不太一样，比如AutoEncoder模型原始输入是满月和斜月，那么输出一定是满月和斜月，而VAE则是可以生成满月和斜月的结合体。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldj99g86j30nj0g2jtj.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;四-基于划分超平面的模型isolation-forest&quot;&gt;四. 基于划分超平面的模型——Isolation Forest&lt;/h3&gt;
-&lt;h4 id=&quot;41-孤立森林的思想是&quot;&gt;4.1 孤立森林的思想是&lt;/h4&gt;
-
-&lt;p&gt;假设我们用一个随机超平面来切割（split）数据空间（data space）, 切一次可以生成两个子空间（想象拿刀切蛋糕一分为二）。之后我们再继续用一个随机超平面来切割每个子空间，循环下去，直到每子空间里面只有一个数据点为止。直观上来讲，我们可以发现那些密度很高的簇是可以被切很多次才会停止切割，但是那些密度很低的点很容易很早的就停到一个子空间了。&lt;/p&gt;
-
-&lt;h4 id=&quot;42-孤立森林的优势&quot;&gt;4.2 孤立森林的优势&lt;/h4&gt;
-
-&lt;p&gt;孤立森林算法具有线性时间复杂度。因为是ensemble的方法，所以可以用在含有海量数据的数据集上面。通常树的数量越多，算法越稳定。由于每棵树都是互相独立生成的，因此可以部署在大规模分布式系统上来加速运算。&lt;/p&gt;
-
-&lt;h4 id=&quot;43-孤立森林的劣势&quot;&gt;4.3 孤立森林的劣势&lt;/h4&gt;
-
-&lt;p&gt;孤立森林不适用于特别高维的数据。由于每次切数据空间都是随机选取一个维度，建完树后仍然有大量的维度信息没有被使用，导致算法可靠性降低。高维空间还可能存在大量噪音维度或无关维度（irrelevant attributes），影响树的构建。&lt;/p&gt;
-
-&lt;h3 id=&quot;五-基于聚类的异常检测模型&quot;&gt;五. 基于聚类的异常检测模型&lt;/h3&gt;
-&lt;h4 id=&quot;51-常用的聚类算法&quot;&gt;5.1 常用的聚类算法&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;（1）KMeans：利用找到的簇的中心点和每一个样本的距离值，找到最偏离簇中心的点作为异常点。&lt;/li&gt;
-  &lt;li&gt;（2）DBSCAN–基于密度的聚类：由于需要涉及到算法本身两个参数（min_samples和eps），这里模型会直接输出超过半径eps和确定好最小数的min_samples的样本点作为异常值（label = -1）。&lt;/li&gt;
-  &lt;li&gt;（3）Birch–基于层次的聚类：BIRCH算法利用了一个树结构来帮助我们快速的聚类，这个数结构类似于平衡B+树，一般将它称之为聚类特征树(Clustering Feature Tree，简称CF Tree)。建立好CF Tree后把那些包含数据点少的MinCluster当作outlier。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;52-聚类算法的适应性&quot;&gt;5.2 聚类算法的适应性&lt;/h4&gt;
-&lt;p&gt;每一种算法对于不同的数据分布可能存在不同优势。&lt;/p&gt;
-
-&lt;p&gt;K-Means算法对于凸性数据具有良好的效果，能够根据距离来讲数据分为球状类的簇，但对于非凸形状的数据点，就无能为力了，比如环形数据等等，此时基于密度的算法DBSCAN就更令人满意了。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldjkemq7j30ch06gq3k.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjldjwx7jjj30c706egme.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;52-评价聚类效果指标&quot;&gt;5.2 评价聚类效果指标&lt;/h4&gt;
-&lt;p&gt;聚类算法的目标是：簇内相似度高，簇间相似度低。&lt;/p&gt;
-
-&lt;p&gt;因此通过&lt;strong&gt;轮廓系数&lt;/strong&gt;（Silhouette Coefficient）来评价聚类效果的好坏，适用于上述三种算法。
-1、将样本x与簇内的其他点之间的平均距离作为簇内的内聚度a
-2、将样本x与最近簇中所有点之间的平均距离看作是与最近簇的分离度b
-3、将簇的分离度与簇内聚度之差除以二者中比较大的数得到轮廓系数，计算公式如下
-&lt;script type=&quot;math/tex&quot;&gt;s^{(i)}=\frac{b^{(i)}-a^{(i)}}{\max \left\{b^{(i)}, a^{(i)}\right\}}&lt;/script&gt;
-轮廓系数的取值在-1到1之间。当簇内聚度与分度离相等时，轮廓系数为0。当b»a时，轮廓系数近似取到1，此时模型的性能最佳。&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-
-      
-        <category term="machinelearning" />
-      
-        <category term="无监督学习" />
-      
-        <category term="聚类" />
-      
-
-      
-        <summary type="html">主要讲述无监督的异常检测模型</summary>
       
 
       

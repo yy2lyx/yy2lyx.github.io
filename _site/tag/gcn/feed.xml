@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/gcn/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-01-20T21:22:44+08:00</updated>
+  <updated>2021-01-22T17:38:31+08:00</updated>
   <id>http://localhost:4000/tag/gcn/feed.xml</id>
 
   
@@ -227,11 +227,13 @@ pip install torch-geometric
       
 
       
-        <category term="pyG" />
+        <category term="pytorch" />
       
         <category term="GCN" />
       
-        <category term="多标签" />
+        <category term="图算法" />
+      
+        <category term="deeplearning" />
       
 
       

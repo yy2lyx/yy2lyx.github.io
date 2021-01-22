@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
     <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
     <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- reward.js -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/reward.css" /> 
     <!-- highlight.js -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     <style>.hljs { background: none; }</style>
@@ -52,7 +54,7 @@
     <meta property="article:author" content="https://www.facebook.com/" />
     <meta property="article:published_time" content="2020-11-02T03:21:00+08:00" />
     <meta property="article:modified_time" content="2020-11-02T03:21:00+08:00" />
-    <meta property="article:tag" content="Windows" />
+    <meta property="article:tag" content="环境搭建" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Window下搭建Tensorflow的C++环境" />
     <meta name="twitter:description" content="参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn 一. 下载需要的软件 bazel：Google 的一款可再生的代码构建工具，类似于Cmake。使用scoop进行安装：scoop install bazel python3.7：这里最好用pip 安装下必要的第三方包，比如tensorflow,kears,numpy等。 下载官方源码：git clone https://github.com/tensorflow/tensorflow.git 二. 进行bazel源码编译 2.1 配置build cd到源码目录：cd tensorflow-master 通过在 TensorFlow 源代码树的根目录下运行以下命令来配置系统构建：python3 ./configure.py 这里选择的是cpu版本的，每个配置的选择如下： You have bazel 3.7.0 installed. Please specify the location of python. [Default is C:\soft\python3.7.9\python3.exe]: Found possible Python library paths: C:\soft\python3.7.9\lib\site-packages Please input the desired Python library path" />
@@ -61,7 +63,7 @@
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="李小肥的YY" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Windows" />
+    <meta name="twitter:data2" content="环境搭建" />
     <meta name="twitter:site" content="@" />
     <meta name="twitter:creator" content="@" />
     <meta property="og:image:width" content="1400" />
@@ -126,6 +128,7 @@ into the {body} of the default.hbs template -->
             <ul class="nav" role="menu">
     <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
     <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/deeplearning/">深度学习</a></li>
     <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
 </ul>
 
@@ -144,6 +147,9 @@ into the {body} of the default.hbs template -->
 <!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.865-6.842c.003.041.004.083.004.125v12z"/></svg> -->
 </a>
             
+            
+                <a class="social-link social-link-zhihu" href="https://www.zhihu.com/people/xie-yan-44-84-33" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 35 35"><image xlink:href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAACp0lEQVRIDb3BPWqUbRiG4fOcNOltrIMYLLS4scpsQFyAK3ATCnaCbsIFuAKx96eQu7IJCWJpY226XB888MKEeSbfCDHHIbdIbpHs8PDhw+/fv3OjZCbDarXiRsmWJMDLly/fvHnDjZKrDg8PLy4uAJWbJlclYVD5P+v1+tOnT+xBBeSqJOxBBaqqu9mDCshVSdiDClRVd7MHFZANSRhUhiQMKluqqrsBlZkkDCogG5IA5+fn9+/fZ0jCoLKlqrobUJlJwqACsjg9PT0+PgZUFkkYVLZUVXcDKjNJGFRAFkkAlQ1JGFS2VFV3AyozSRhUQK6VhEFlS1V1N6Ayk4RBBeRaSRhUtlRVdwMqM0kYVECulQT48uXLer1mS1V1N6Ayk4RBBeRaSYB37949f/6cLVXV3YDKTBIGFZDFvXv3zs/P2c/p6emDBw+qqrsBlZkkDCogiyT8DbWquhtQmUnCoAKySMLfUKuquwGVmSQMKiDXSgKozFRVdwMqM0kYVEB2e/z48bdv3wCVmarqbkBlJgmDCshuFxcXh4eHgMpMVXU3oDKThEEFZLckLH7+/Hl0dMRVVdXdgMpMEgYVkN2SsOHVq1evX79mQ1V1N6Ayk4RBBWSH379/37lzB1CTMBwcHFxeXrKoqu4GVGaSMKiA7JCEQQWSMKgsqqq7AZWZJAwqIDNJGFQWSRhUhqrqbiDJarVikeTy8hJYrVYMKiAzSRhUFs+ePXv//j1wdnZ2fHwMVFV3Mzx58uTjx49AEraogGxJwvD06dMPHz6w4cePH0dHR4AKVFV3swcVkKuSsFDZkuTFixdv375lQxIWJycnX79+ZUY2JGGhsre7d+/++vULUNlNFklYqPyl9Xr9+fNnriXDo0ePVqvV2dnZnz9/+GfkFskt+g8PKj40CkCOhAAAAABJRU5ErkJggg=="/></svg></a>
+            
         </div>
         
     </div>
@@ -158,7 +164,7 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-windows tag-tensorflow tag-c post ">
+        <article class="post-full  tag- tag-tensorflow tag-c post ">
 
             <header class="post-full-header">
                 <section class="post-full-meta">
@@ -167,7 +173,7 @@ into the {body} of the default.hbs template -->
                         <span class="date-divider">/</span>
                         
                             
-                               <a href='/tag/windows/'>WINDOWS</a>,
+                               <a href='/tag//'>环境搭建</a>,
                             
                         
                             
@@ -512,7 +518,7 @@ int main()
                         <header class="read-next-card-header">
                             <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
                             
-                                <h3 class="read-next-card-header-title"><a href="/tag/windows/">Windows</a></h3>
+                                <h3 class="read-next-card-header-title"><a href="/tag//">环境搭建</a></h3>
                             
                         </header>
                         <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
@@ -530,6 +536,13 @@ int main()
                                   
                                 
                                   
+                                    
+                                        
+                                        
+                                            <li><a href="/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL">Keras训练模型部署到C++环境并生成DLL</a></li>
+                                        
+                                    
+                                  
                                 
                                   
                                     
@@ -541,15 +554,6 @@ int main()
                                 
                                   
                                 
-                                  
-                                
-                                  
-                                    
-                                        
-                                        
-                                            <li><a href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85mysql%E5%92%8C%E5%AF%BC%E5%85%A5sql%E6%96%87%E4%BB%B6">Windows下安装mysql和导入sql文件</a></li>
-                                        
-                                    
                                   
                                 
                                   
@@ -562,7 +566,12 @@ int main()
                                   
                                 
                                   
-                                
+                                    
+                                        
+                                        
+                                            <li><a href="/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83">Xcode搭建Opencv3环境</a></li>
+                                        
+                                    
                                   
                                 
                                   
@@ -571,6 +580,20 @@ int main()
                                 
                                   
                                 
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                    
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                    
                                   
                                 
                                   
@@ -580,9 +603,9 @@ int main()
                             </ul>
                         </div>
                         <footer class="read-next-card-footer">
-                            <a href="/tag/windows/">
+                            <a href="/tag//">
                                 
-                                    查看相关的 2 篇文章  →
+                                    查看相关的 5 篇文章  →
                                 
                             </a>
                         </footer>
@@ -610,7 +633,11 @@ int main()
                             
                         
                             
-                                <span class="post-card-tags">C++</span>
+                               <span class="post-card-tags">C++</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">环境搭建</span>
                             
                         
                     
@@ -675,7 +702,7 @@ int main()
                             
                         
                             
-                                <span class="post-card-tags">训练</span>
+                                <span class="post-card-tags">Deeplearning</span>
                             
                         
                     

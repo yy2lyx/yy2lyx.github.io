@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-01-20T21:22:44+08:00</updated>
+  <updated>2021-01-22T17:38:31+08:00</updated>
   <id>http://localhost:4000/tag/feed.xml</id>
 
   
@@ -44,173 +44,114 @@
 
   
     <entry>
-      <title type="html">GCN在多标签分类中的应用</title>
-      <link href="http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8" rel="alternate" type="text/html" title="GCN在多标签分类中的应用" />
+      <title type="html">利用Jasper2主题和Netlify完善个人博客</title>
+      <link href="http://localhost:4000/Jasper2%E5%8D%9A%E5%AE%A2%E8%B7%9F%E6%96%B0" rel="alternate" type="text/html" title="利用Jasper2主题和Netlify完善个人博客" />
       <published>2020-11-27T04:21:00+08:00</published>
       <updated>2020-11-27T04:21:00+08:00</updated>
-      <id>http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8</id>
-      <content type="html" xml:base="http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8">&lt;h3 id=&quot;一--torch的图神经网络库pyg&quot;&gt;一.  Torch的图神经网络库pyG&lt;/h3&gt;
+      <id>http://localhost:4000/Jasper2%E5%8D%9A%E5%AE%A2%E8%B7%9F%E6%96%B0</id>
+      <content type="html" xml:base="http://localhost:4000/Jasper2%E5%8D%9A%E5%AE%A2%E8%B7%9F%E6%96%B0">&lt;h3 id=&quot;一-更换jekyll主题&quot;&gt;一. 更换Jekyll主题&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;之前用的是jekyll主题：&lt;a href=&quot;https://github.com/artemsheludko/flexible-jekyll&quot;&gt;Flexible-Jekyll&lt;/a&gt;，如下图所示：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9xls4u4j31b40om7du.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;觉得有点过于单调和简单了，于是找到了命中注定：&lt;a href=&quot;https://github.com/jekyller/jasper2&quot;&gt;Jasper2&lt;/a&gt;,如下图所示：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gl41tu21x2j30mm0iy14p.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;torch_geometric 官方文档：https://pytorch-geometric.readthedocs.io/en/latest/index.html&lt;/p&gt;
+  &lt;p&gt;如果也想使用这个Jasper2主题的话，最好多读读其作者的readme哦！&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h4 id=&quot;11-安装及使用&quot;&gt;1.1 安装及使用&lt;/h4&gt;
+&lt;h4 id=&quot;11-在git仓库中推送生成好的html文件&quot;&gt;1.1 在git仓库中推送生成好的html文件&lt;/h4&gt;
 
-&lt;p&gt;这里参考官网的安装过程。&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;确定自己安装的pytorch版本：&lt;code class=&quot;highlighter-rouge&quot;&gt;pip list&lt;/code&gt;进行查看，例如本人的torch版本为&lt;code class=&quot;highlighter-rouge&quot;&gt;1.6.0+cu101&lt;/code&gt;（这里的&lt;code class=&quot;highlighter-rouge&quot;&gt;cu101&lt;/code&gt;是指cuda10.1）&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;安装相关的第三方包，这里注意要匹配上面的torch版本，因此：&lt;code class=&quot;highlighter-rouge&quot;&gt;${TORCH} = 1.6.0&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;${CUDA} = cu101&lt;/code&gt;&lt;/p&gt;
-
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install &lt;span class=&quot;nt&quot;&gt;--no-index&lt;/span&gt; torch-scatter &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; https://pytorch-geometric.com/whl/torch-&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;+&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CUDA&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.html
-pip install &lt;span class=&quot;nt&quot;&gt;--no-index&lt;/span&gt; torch-sparse &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; https://pytorch-geometric.com/whl/torch-&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;+&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CUDA&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.html
-pip install &lt;span class=&quot;nt&quot;&gt;--no-index&lt;/span&gt; torch-cluster &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; https://pytorch-geometric.com/whl/torch-&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;+&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CUDA&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.html
-pip install &lt;span class=&quot;nt&quot;&gt;--no-index&lt;/span&gt; torch-spline-conv &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; https://pytorch-geometric.com/whl/torch-&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;+&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CUDA&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.html
-pip install torch-geometric
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;安装完成之后，测试下&lt;code class=&quot;highlighter-rouge&quot;&gt;import torch_geometric&lt;/code&gt;导包没有报错说明安装完成了。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;12-图数据导入&quot;&gt;1.2 图数据导入&lt;/h4&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;torch_geometric.data&lt;/em&gt;&lt;/strong&gt;这个模块包含了一个叫Data的类，而这个类可以很方便的构建属于自己的数据集。&lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt;实例有以下属性：&lt;/p&gt;
+&lt;p&gt;​    克隆Jasper2项目（master分支）到自己本地，然后利用jekyll开启本地预览模式：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll server&lt;/code&gt;，这里你会发现在本地的上级目录下生成一个&lt;code class=&quot;highlighter-rouge&quot;&gt;jasper2-pages&lt;/code&gt;文件夹。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt;：节点的特征矩阵，shape = [节点个数，节点的特征数]。&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;edge_index&lt;/code&gt;：这里可以理解为图的邻接矩阵，但是要注意这里要将邻接矩阵转换成COO格式，shape = [2, 边的数量]，type = torch.long。&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;edge_attr&lt;/code&gt;：边的特征矩阵，shape = [边的个数，边的特征数]&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt;：标签，如果任务是图分类，shape = [1, 图的标签数]；如果是节点分类，shape = [节点个数，节点的标签数]。（这里注意一哈：在torch中如果是多分类任务，不用转成onehot形式哦，因此标签数为1）&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;is_directed()&lt;/code&gt;：是否是有向图&lt;/li&gt;
+  &lt;li&gt;如果是和我一样是利用&lt;code class=&quot;highlighter-rouge&quot;&gt;username.github.io&lt;/code&gt;建立的仓库，那么就直接在项目中新建一个&lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt;文件夹，并将&lt;code class=&quot;highlighter-rouge&quot;&gt;jasper2-pages&lt;/code&gt;内容复制到该目录下即可。&lt;/li&gt;
+  &lt;li&gt;如果是利用&lt;code class=&quot;highlighter-rouge&quot;&gt;github pages&lt;/code&gt;来展示自己的项目的话，那就建立一个&lt;code class=&quot;highlighter-rouge&quot;&gt;gh-pages &lt;/code&gt;分支，同时将&lt;code class=&quot;highlighter-rouge&quot;&gt;jasper2-pages&lt;/code&gt;内容复制到该目录下即可。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;(1) 下面是edge_index的具体从邻接矩阵生成COO模式的代码。&lt;/p&gt;
+&lt;p&gt;注意：每次跟新仓库代码后，都需要重新生成一次，并替换掉&lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt;文件夹内容！&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;scipy.sparse&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;coo_matrix&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# 转化成COO格式&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;coo_A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;coo_matrix&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adj_arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coo_A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;coo_A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;12-内容替换&quot;&gt;1.2 内容替换&lt;/h4&gt;
 
-&lt;p&gt;(2) 构建自己的数据集，只需要用list来封装这些Data即可。具体代码如下：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;：用来修改主页上的一些个人信息&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;about/index.md&lt;/code&gt;：修改关于的个人说明&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;_post&lt;/code&gt;：将其中的文章替换掉自己文章&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;13-图数据的转换及展示&quot;&gt;1.3 图数据的转换及展示&lt;/h4&gt;
-
-&lt;p&gt;我们可以利用&lt;a href=&quot;https://pypi.org/project/networkx/&quot;&gt;networkx&lt;/a&gt;来对Data这个图进行展示和转换成networkx的图结构。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch_geometric.utils.convert&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to_networkx&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;networkx&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nx&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to_networkx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;nx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;nx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write_gexf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;test.gexf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savefig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;path.png&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;同时，还可以将gexf格式的图数据文件经过&lt;a href=&quot;https://gephi.org/users/download/&quot;&gt;Gephi&lt;/a&gt;这个开源的图数据展示软件来进行节点的渲染。&lt;/p&gt;
-
-&lt;h3 id=&quot;二-图卷积网络gcn在多标签分类中的应用&quot;&gt;二. 图卷积网络GCN在多标签分类中的应用&lt;/h3&gt;
+&lt;h4 id=&quot;13-前端页面的修改&quot;&gt;1.3 前端页面的修改&lt;/h4&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;论文参考：&lt;a href=&quot;https://arxiv.org/abs/1609.02907&quot;&gt;Semi-Supervised Classification with Graph Convolutional Networks&lt;/a&gt;&lt;/p&gt;
+  &lt;p&gt;ps:本人也是个前端新手，也是根据李小肥的指导才知道怎么修改前端的，给你们撒狗粮，哈哈哈！&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h4 id=&quot;21-gcn在模型应用上的优缺点&quot;&gt;2.1 GCN在模型应用上的优缺点。&lt;/h4&gt;
-
-&lt;p&gt;本次探究的是图卷积网络在图分类（多标签）上的应用，因此不涉及到节点的分类任务。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;GCN的优点&lt;/strong&gt;：可以捕捉图的全局信息，很好的表征节点的特征，边的特征。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;GCN的缺点&lt;/strong&gt;：若是新增节点，整个图发生变化， 那么GCN的结构就会发生变化。因此对于节点不固定的图结构来说，不适用。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;GCN的主要作用&lt;/strong&gt;：抽取图中节点的拓扑信息（节点的邻接信息）。这里学到的是每个节点的一个唯一确定的embedding。如下图所示，多层的GCN抽取的是每个节点的唯一确定的embedding。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/008eGmZEgy1gmugxnmbmhj30aw055aag.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;GCN的特性&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;这里就不讲修改细节部分了，主要讲述如何快速找到想要修改的代码，毕竟授人以鱼不如授人以渔嘛！&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;局部参数共享，算子是适用于每个节点（圆圈代表算子），处处共享。&lt;/li&gt;
-  &lt;li&gt;感受域正比于层数，最开始的时候，每个节点包含了直接邻居的信息，再计算第二层时就能把邻居的邻居的信息包含进来，这样参与运算的信息就更多更充分。层数越多，感受域就更广，参与运算的信息就更多。&lt;/li&gt;
+  &lt;li&gt;进入到jasper2的&lt;a href=&quot;https://jekyller.github.io/jasper2/&quot;&gt;展示主页&lt;/a&gt;，右键页面中的facebook图标点击&lt;code class=&quot;highlighter-rouge&quot;&gt;检查&lt;/code&gt;,就可以看到以下界面：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;22-gcn在图分类的模型搭建&quot;&gt;2.2 GCN在图分类的模型搭建&lt;/h4&gt;
-
-&lt;p&gt;图分类任务下的模型搭建过程如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/008eGmZEgy1gmugybl0ydj30k00b7gm2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;因此，利用pytorch_geometric来搭建图分类任务（多标签）的模型。这里代码中引入了两次图卷积和池化。在输入的数据中，除了包含节点的特征，还包含了边的特征。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch.nn.functional&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch_geometric.nn&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GraphConv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TopKPooling&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch_geometric.nn&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;global_mean_pool&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch_geometric.nn&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;global_max_pool&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gmp&lt;/span&gt;
-
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Net&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multi_label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Net&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conv1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GraphConv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;# self.conv1.weight.data.normal_()&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pool1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TopKPooling&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ratio&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conv2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GraphConv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pool2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TopKPooling&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ratio&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lin1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lin2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;128&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lin3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;128&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;multi_label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;forward&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edge_attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edge_attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;
-
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conv1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edge_attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pool1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gmp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;conv2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edge_attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pool2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;edge_attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gmp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x2&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lin1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dropout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;training&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;training&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;relu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lin2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dropout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;training&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;training&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sigmoid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lin3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;23-多标签multi-label分类任务&quot;&gt;2.3 多标签（Multi-Label）分类任务&lt;/h4&gt;
-
-&lt;p&gt;在多标签分类任务中：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gl41ubwgu8j315c0ibtoc.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;输入的y：shape = [batch_size, multi-label的个数]，其中multi-label的形式都是[0,1,0,0,1….]，即每个类别之间都互不影响，且结果只有0和1。这里在&lt;code class=&quot;highlighter-rouge&quot;&gt;torch_geometric.data.y&lt;/code&gt;的shape = [1,multi-label的个数]。&lt;/li&gt;
-  &lt;li&gt;分类模型的最后一层激活函数：&lt;code class=&quot;highlighter-rouge&quot;&gt;torch.sigmoid()&lt;/code&gt;函数（即二分类常用的激活函数）,这里对于多标签分类任务同样适用。&lt;/li&gt;
-  &lt;li&gt;损失函数的定义：&lt;code class=&quot;highlighter-rouge&quot;&gt; torch.nn.BCELoss()&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;准确率的定义：在训练的时候，一般除了看训练集和验证集的loss以外，acc其实也可以当作模型好坏的指标。但是对于多标签分类而言，这里和一般的多分类，二分类任务定义的准确率不太一样。个人的理解（可能不对蛤）：对于一个样本（多标签）而言，有且仅有每个标签都预测对了，这个样本才能算预测正确了，因此，定义了以下acc。&lt;/li&gt;
+  &lt;li&gt;在这个check界面上可以看到有个&lt;code class=&quot;highlighter-rouge&quot;&gt;social-link social-link-fb&lt;/code&gt;类，那么如果我们想要修改这些内容，可以直接在项目代码中全文搜索，就可以在&lt;code class=&quot;highlighter-rouge&quot;&gt;author.html&lt;/code&gt;中找到咯，但是这和我们想修改图标或者是内容不符啊，那么就往这个类的上面继续找&lt;code class=&quot;highlighter-rouge&quot;&gt;site-nav-right&lt;/code&gt;,这里就指向了我们想要修改的图标。&lt;/li&gt;
+  &lt;li&gt;如果还想修改css文件呢，可以看到上图中&lt;code class=&quot;highlighter-rouge&quot;&gt;Styles&lt;/code&gt;下面中就是，还可以直接在这里修改，就可以同时在网页中预览哦！如何找这个css文件呢，旁边的&lt;code class=&quot;highlighter-rouge&quot;&gt;screen.css:279&lt;/code&gt;就是，而且连行号都给你了！&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;acc_thread&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ones_like&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros_like&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;equal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;epoch_accuracy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acc&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+&lt;h3 id=&quot;二-netlify加速访问&quot;&gt;二. Netlify加速访问&lt;/h3&gt;
+
+&lt;p&gt;目前有一些提供域名解析、CDN加速的免费网站，其还可以在GitHub中挂载触发器，一旦发现GitHub Pages仓库变化了，立即同步编译发布，减少人工操作。而&lt;a href=&quot;https://vercel.com/&quot;&gt;Netlify&lt;/a&gt;就是一个，当然还有&lt;a href=&quot;https://vercel.com/&quot;&gt;Vecel&lt;/a&gt;这个。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;经过本人的亲自实验，Jasper2这个无法在Vecel应用上（但是之前的flexible主题可以哦），毕竟Jasper2的作者都推荐你用Netlify，你还不用么！&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;21-拥有一个专属于自己的域名&quot;&gt;2.1 拥有一个专属于自己的域名&lt;/h4&gt;
+
+&lt;p&gt;如果你已经有自己的域名了，或者你不想要啥域名，直接用netlify提供的或者gitpages就挺好的，那就跳过这段吧！&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;去阿某云买一个新鲜热乎的域名，有好多后缀可以选的，反正我是选了个便宜的，当然还有比我这个&lt;code class=&quot;highlighter-rouge&quot;&gt;.website&lt;/code&gt;还low的&lt;code class=&quot;highlighter-rouge&quot;&gt;.xyz&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;.top&lt;/code&gt;，反正看个人喜好和收入吧，毕竟是要花钱的。&lt;/li&gt;
+  &lt;li&gt;注意这里一定要实名注册，买完域名才能使用！&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;22--利用netlify进行加速&quot;&gt;2.2  利用netlify进行加速&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;注册：这里无论是vercel还是netlify都是可以直接关联github账户的，因此直接用你的github账户进行注册即可。&lt;/li&gt;
+  &lt;li&gt;添加github仓库：这里添加你的&lt;code class=&quot;highlighter-rouge&quot;&gt;username.github.io&lt;/code&gt;，然后等待他发布即可。&lt;/li&gt;
+  &lt;li&gt;添加自己的域名，然后按照要求，去你买域名的网站设置CNAME进行关联即可。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gl41un8vhmj30ra0dsjs9.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;三-搜索引擎的个人站点入口&quot;&gt;三. 搜索引擎的个人站点入口&lt;/h3&gt;
+&lt;p&gt;除了能够不翻墙被人访问自己的博客，但是别人用搜索引擎搜不到你咋办呢？这就需要让各个搜索引擎收录自己的站点咯。&lt;/p&gt;
+
+&lt;h4 id=&quot;31-搜索引擎提交个人站点的入口&quot;&gt;3.1 搜索引擎提交个人站点的入口&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;百度 ： https://ziyuan.baidu.com/site/index&lt;/li&gt;
+  &lt;li&gt;谷歌 ： https://www.google.com/webmasters/tools/home?hl=en&lt;/li&gt;
+  &lt;li&gt;搜狗 ： http://zhanzhang.sogou.com/index.php/dashboard/index&lt;/li&gt;
+  &lt;li&gt;360　： http://info.so.360.cn/site_submit.html&lt;/li&gt;
+  &lt;li&gt;Bing ： https://www.bing.com/toolbox/webmaster/&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;32-验证站点的所有权&quot;&gt;3.2 验证站点的所有权&lt;/h4&gt;
+&lt;p&gt;这里几乎每个搜索引擎都会要你验证下自己是不是提交的站点的所有者，因此需要你验证下身份。
+我这里是通过添加主页的tag来进行验证的（可以添加好几个搜索引擎的哦）&lt;/p&gt;
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;meta&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;baidu-site-verification&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;自己的百度验证码&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;meta&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;sogou_site_verification&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;自己的搜狗验证码&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/head&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
 
       
       
@@ -227,15 +168,159 @@ pip install torch-geometric
       
 
       
-        <category term="pyG" />
+        <category term="Netlify" />
       
-        <category term="GCN" />
-      
-        <category term="多标签" />
+        <category term="博客" />
       
 
       
-        <summary type="html">介绍在图卷积网络在多标签分类任务中的应用</summary>
+        <summary type="html">介绍如何利用Jasper2主题（jekyll）完成个人博客设置和利用netlify加速访问速度</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">jekyll和github pages搭建个人博客</title>
+      <link href="http://localhost:4000/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub-pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2" rel="alternate" type="text/html" title="jekyll和github pages搭建个人博客" />
+      <published>2020-10-18T03:21:00+08:00</published>
+      <updated>2020-10-18T03:21:00+08:00</updated>
+      <id>http://localhost:4000/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub%20pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2</id>
+      <content type="html" xml:base="http://localhost:4000/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub-pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2">&lt;h3 id=&quot;一-搭建环境&quot;&gt;一. 搭建环境&lt;/h3&gt;
+
+&lt;h4 id=&quot;11-下载软件&quot;&gt;1.1 下载软件&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.jekyll.com.cn/&quot;&gt;jekyll&lt;/a&gt;：这个是将纯文本转化为静态网站和博客，使用gem安装下载：&lt;code class=&quot;highlighter-rouge&quot;&gt;gem install bundler jekyll&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;&quot;&gt;github pages&lt;/a&gt;：免费开源，并且可以自动生成域名，自己去构建一个属于自己的github账号和新建一个仓库（名字为：&lt;code class=&quot;highlighter-rouge&quot;&gt;XX.github.io&lt;/code&gt;，这里&lt;code class=&quot;highlighter-rouge&quot;&gt;XX&lt;/code&gt;就是你自己的账号名称）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9dyt6cwj31lk0gigp9.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;mac或者linux或者Windows平台。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;12-选择一个适合自己的博客主题&quot;&gt;1.2 选择一个适合自己的博客主题&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;jekyll主题：http://jekyllthemes.org/&lt;/p&gt;
+
+  &lt;p&gt;jekyll插件：http://www.jekyll-plugins.com/&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;本人选择的jekyll主题：&lt;a href=&quot;https://github.com/artemsheludko/flexible-jekyll&quot;&gt;Flexible-Jekyll&lt;/a&gt;，如下图所示：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9xls4u4j31b40om7du.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;选择一个地方存放下载的主题（直接git下载）：&lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/artemsheludko/flexible-jekyll &lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;这里直接在本地利用jekyll生成一个网页进行测试和调试：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll server&lt;/code&gt;或者是&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll s&lt;/code&gt;，这里会生成一个本地的博客地址：&lt;code class=&quot;highlighter-rouge&quot;&gt;http://127.0.0.1:4000/&lt;/code&gt;，可以直接查看&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjsa7qt24yj31d40fuk2x.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;13-将主题放入自己的仓库中&quot;&gt;1.3 将主题放入自己的仓库中&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;git下载创建好的xx.github.io该仓库到自己本地：&lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/xx/xx.github.io.git&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;将之前下载的主题放到自己创建的github.io这个仓库中&lt;/li&gt;
+  &lt;li&gt;git上传修改的地方：
+    &lt;ul&gt;
+      &lt;li&gt;git添加修改的地方：&lt;code class=&quot;highlighter-rouge&quot;&gt;git add .&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;git提交：&lt;code class=&quot;highlighter-rouge&quot;&gt;git commit -m &quot;修改&quot;&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;git推送：&lt;code class=&quot;highlighter-rouge&quot;&gt;git push&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;这里可以直接在网页上打开&lt;code class=&quot;highlighter-rouge&quot;&gt;https://xx.github.io/&lt;/code&gt;查看自己的博客，当然这里还是别人的内容，还需要自己修改成属于自己专属的博客。&lt;/li&gt;
+  &lt;li&gt;这里注意：如果无法访问github pages，这里需要修改dns服务器就可以了，修改为114.114.114.114，具体如下所示：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9wjy9fwj30db0gcjrz.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;二-创建一个专属于自己的个人博客&quot;&gt;二. 创建一个专属于自己的个人博客&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-了解下载主题的文件和文件夹的作用和内容&quot;&gt;2.1 了解下载主题的文件和文件夹的作用和内容&lt;/h4&gt;
+
+&lt;p&gt;整个下载jekyll主题的代码结构如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjsa15n5gsj30bq0l0ta3.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;_drafts文件夹：主要是存放一些自己还没有写好的markdown文档，这里是不会在网页上展示的，但是没有写完的却可以通过git来保存&lt;/li&gt;
+  &lt;li&gt;_posts文件夹：保存已经写好的markdown文章&lt;/li&gt;
+  &lt;li&gt;assets文件夹：保存一些图片和css的一些文件&lt;/li&gt;
+  &lt;li&gt;_config.yml：用来修改主页上的一些个人信息&lt;/li&gt;
+  &lt;li&gt;Gemfile：这里是该主题下需要的一些gem依赖，这里直接在当前目录下&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;即可下载安装依赖，注意这里如果gem下载很慢，可以设定source源，直接在Gemfile文件开头写&lt;code class=&quot;highlighter-rouge&quot;&gt;source 'https://gems.ruby-china.com/'&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;22-如何在博客中展示公式&quot;&gt;2.2 如何在博客中展示公式&lt;/h4&gt;
+
+&lt;p&gt;如果自己的博客中需要展示数学公式的，那么需要在&lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts/default.html&lt;/code&gt;文件中进行添加：&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;23-打开自己博客网页响应很慢&quot;&gt;2.3 打开自己博客网页响应很慢&lt;/h4&gt;
+
+&lt;p&gt;这里一般是自己博客中展示的图片资源过大导致的，这里需要将图片进行无损压缩，重新上传即可。这里推荐几个图片无损压缩的网站。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;TinyPNG：https://tinypng.com/&lt;/p&gt;
+
+  &lt;p&gt;Compressor：https://compressor.io/&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;三-windows下安装jekyll&quot;&gt;三. Windows下安装jekyll&lt;/h3&gt;
+&lt;p&gt;这里由于jekyll一般在mac和linux上安装较为方便，官方也有指导，但是windows下官方写的不详细，因此这里主要介绍下Windows下如何安装jekyll。&lt;/p&gt;
+
+&lt;h4 id=&quot;31-软件安装&quot;&gt;3.1 软件安装&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://rubyinstaller.org/downloads/&quot;&gt;Ruby+Devkit 2.7.2(x64)&lt;/a&gt;：安装的时候注意添加到Path中，其需要安装&lt;code class=&quot;highlighter-rouge&quot;&gt;MSYS2 and MINGW development toolchain&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://rubygems.org/pages/download&quot;&gt;RubyGems&lt;/a&gt;：这里直接选择zip进行安装即可。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;32-jekyll及gem依赖的安装&quot;&gt;3.2 Jekyll及gem依赖的安装&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;cd到解压后的RubyGems的文件中：&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby setup.rb&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;安装jekyll：&lt;code class=&quot;highlighter-rouge&quot;&gt;gem install jekyll&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;安装jekyll-paginate：&lt;code class=&quot;highlighter-rouge&quot;&gt;gem install jekyll-paginate&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;安装bundler（注意这里在后面安装gem依赖需要）：&lt;code class=&quot;highlighter-rouge&quot;&gt;gem install bundler&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;验证下jekyll和bundler：&lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll -v&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;bundler -v&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;33-在本地运行静态博客&quot;&gt;3.3 在本地运行静态博客&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;cd到自己博客中，安装gem依赖：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;本地运行服务：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll s&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="Jekyll" />
+      
+        <category term="博客" />
+      
+
+      
+        <summary type="html">在Windows环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。</summary>
       
 
       

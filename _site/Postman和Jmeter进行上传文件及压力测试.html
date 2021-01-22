@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
     <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
     <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- reward.js -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/reward.css" /> 
     <!-- highlight.js -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     <style>.hljs { background: none; }</style>
@@ -52,7 +54,7 @@
     <meta property="article:author" content="https://www.facebook.com/" />
     <meta property="article:published_time" content="2020-03-23T23:21:00+08:00" />
     <meta property="article:modified_time" content="2020-03-23T23:21:00+08:00" />
-    <meta property="article:tag" content="Postman" />
+    <meta property="article:tag" content="压力测试" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Postman和Jmeter进行上传文件及压力测试" />
     <meta name="twitter:description" content="一. 准备工作 postman下载链接：https://www.postman.com/downloads/ Jmeter下载链接：http://jmeter.apache.org/download_jmeter.cgi flask代码地址：https://github.com/yy2lyx/FlaskTutorial/tree/master/Flask-7-upload windows下scoop下载jdk(这里是由于Jmeter需要)：scoop install ojdkbuild 二. 构建接口的flask服务 其中包含前端表单index.html文件如下和flask的后端 &lt;!DOCTYPE html&gt; &lt;html lang="en"&gt; &lt;head&gt; &lt;meta charset="UTF-8"&gt; &lt;title&gt;upload&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;form action = "/success" method = "post" enctype="multipart/form-data"&gt; &lt;input type="file" name="file"&gt; &lt;input type = "submit" value="Upload"&gt; &lt;/form&gt; &lt;/body&gt; &lt;/html&gt; 三. Postman的http接口测试 postman分别在header和body中填入下图： headers中需要填入value:multipart/form-data body 中需要填入key：file(这里参考index.html文件中name=”file”)，value:eml文件地址 然后将写好的保存在collections当中，并构建tests选项（如果不填入，后面的串行压力测试无法开始，报错） 通过collections中选中保存好的请求，run即可 四. Jmeter的http接口测试" />
@@ -61,7 +63,7 @@
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="李小肥的YY" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Postman" />
+    <meta name="twitter:data2" content="压力测试" />
     <meta name="twitter:site" content="@" />
     <meta name="twitter:creator" content="@" />
     <meta property="og:image:width" content="1400" />
@@ -126,6 +128,7 @@ into the {body} of the default.hbs template -->
             <ul class="nav" role="menu">
     <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
     <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/deeplearning/">深度学习</a></li>
     <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
 </ul>
 
@@ -144,6 +147,9 @@ into the {body} of the default.hbs template -->
 <!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.865-6.842c.003.041.004.083.004.125v12z"/></svg> -->
 </a>
             
+            
+                <a class="social-link social-link-zhihu" href="https://www.zhihu.com/people/xie-yan-44-84-33" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 35 35"><image xlink:href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAACp0lEQVRIDb3BPWqUbRiG4fOcNOltrIMYLLS4scpsQFyAK3ATCnaCbsIFuAKx96eQu7IJCWJpY226XB888MKEeSbfCDHHIbdIbpHs8PDhw+/fv3OjZCbDarXiRsmWJMDLly/fvHnDjZKrDg8PLy4uAJWbJlclYVD5P+v1+tOnT+xBBeSqJOxBBaqqu9mDCshVSdiDClRVd7MHFZANSRhUhiQMKluqqrsBlZkkDCogG5IA5+fn9+/fZ0jCoLKlqrobUJlJwqACsjg9PT0+PgZUFkkYVLZUVXcDKjNJGFRAFkkAlQ1JGFS2VFV3AyozSRhUQK6VhEFlS1V1N6Ayk4RBBeRaSRhUtlRVdwMqM0kYVECulQT48uXLer1mS1V1N6Ayk4RBBeRaSYB37949f/6cLVXV3YDKTBIGFZDFvXv3zs/P2c/p6emDBw+qqrsBlZkkDCogiyT8DbWquhtQmUnCoAKySMLfUKuquwGVmSQMKiDXSgKozFRVdwMqM0kYVEB2e/z48bdv3wCVmarqbkBlJgmDCshuFxcXh4eHgMpMVXU3oDKThEEFZLckLH7+/Hl0dMRVVdXdgMpMEgYVkN2SsOHVq1evX79mQ1V1N6Ayk4RBBWSH379/37lzB1CTMBwcHFxeXrKoqu4GVGaSMKiA7JCEQQWSMKgsqqq7AZWZJAwqIDNJGFQWSRhUhqrqbiDJarVikeTy8hJYrVYMKiAzSRhUFs+ePXv//j1wdnZ2fHwMVFV3Mzx58uTjx49AEraogGxJwvD06dMPHz6w4cePH0dHR4AKVFV3swcVkKuSsFDZkuTFixdv375lQxIWJycnX79+ZUY2JGGhsre7d+/++vULUNlNFklYqPyl9Xr9+fNnriXDo0ePVqvV2dnZnz9/+GfkFskt+g8PKj40CkCOhAAAAABJRU5ErkJggg=="/></svg></a>
+            
         </div>
         
     </div>
@@ -158,21 +164,13 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-postman tag-jmeter tag- post ">
+        <article class="post-full  tag- post ">
 
             <header class="post-full-header">
                 <section class="post-full-meta">
                     <time class="post-full-meta-date" datetime="23 March 2020">23 March 2020</time>
                     
                         <span class="date-divider">/</span>
-                        
-                            
-                               <a href='/tag/postman/'>POSTMAN</a>,
-                            
-                        
-                            
-                               <a href='/tag/jmeter/'>JMETER</a>,
-                            
                         
                             
                                <a href='/tag//'>压力测试</a>
@@ -354,7 +352,7 @@ into the {body} of the default.hbs template -->
                     
                         
                             
-                               <span class="post-card-tags">面试</span>
+                               <span class="post-card-tags">Deeplearning</span>
                             
                         
                             
@@ -415,11 +413,7 @@ into the {body} of the default.hbs template -->
                     
                         
                             
-                               <span class="post-card-tags">Neo4j</span>
-                            
-                        
-                            
-                               <span class="post-card-tags">图挖掘算法</span>
+                               <span class="post-card-tags">图算法</span>
                             
                         
                             

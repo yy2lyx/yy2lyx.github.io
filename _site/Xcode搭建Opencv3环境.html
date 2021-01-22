@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
     <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
     <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- reward.js -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/reward.css" /> 
     <!-- highlight.js -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     <style>.hljs { background: none; }</style>
@@ -52,7 +54,7 @@
     <meta property="article:author" content="https://www.facebook.com/" />
     <meta property="article:published_time" content="2020-10-14T03:21:00+08:00" />
     <meta property="article:modified_time" content="2020-10-14T03:21:00+08:00" />
-    <meta property="article:tag" content="Xcode" />
+    <meta property="article:tag" content="Opencv" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Xcode搭建Opencv3环境" />
     <meta name="twitter:description" content="1. 下载opencv 使用简单粗暴的方式——brew进行安装：brew install opencv@3，注意这里通过brew下载的opencv3的地址为：/usr/local/Cellar/opencv@3/3.4.9_1（后面配置include和lib有用）。 这里存在很大的问题：brew除了下载opencv以外还需要下载opencv的依赖包（很多），这里强力推荐换brew的镜像源（本人用的清华的，当然也可以用中科大的）。具体配置方式如下： 第一步：替换brew.git： cd "$(brew --repo)" git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git 第二步：替换 homebrew-core.git： powershell cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core" git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git 2. 在Xcode上搭建opencv的环境 新建项目：macOS - Command Line Tool - 这里选择语言为C++ 点击项目，选择Build Settings- 在搜索框中搜索search。 在头文件路径Header Search Paths中debug中添加一下 /usr/local/Cellar/opencv@3/3.4.9_1/include /usr/local/Cellar/opencv@3/3.4.9_1/include/opencv /usr/local/Cellar/opencv@3/3.4.9_1/include/opencv2 在Library Search Paths中添加 /usr/local/Cellar/opencv@3/3.4.9_1/lib 在项目中添加动态链接库文件：选择项目- 右键New" />
@@ -61,7 +63,7 @@
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="李小肥的YY" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Xcode" />
+    <meta name="twitter:data2" content="Opencv" />
     <meta name="twitter:site" content="@" />
     <meta name="twitter:creator" content="@" />
     <meta property="og:image:width" content="1400" />
@@ -126,6 +128,7 @@ into the {body} of the default.hbs template -->
             <ul class="nav" role="menu">
     <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
     <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/deeplearning/">深度学习</a></li>
     <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
 </ul>
 
@@ -144,6 +147,9 @@ into the {body} of the default.hbs template -->
 <!-- <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zM8 8h16c.286 0 .563.061.817.177L16 18.463 7.183 8.176c.254-.116.531-.177.817-.177zM6 22V10c0-.042.002-.084.004-.125l5.864 6.842-5.8 5.8A1.983 1.983 0 0 1 5.999 22zm18 2H8c-.177 0-.35-.024-.517-.069l5.691-5.691L16 21.537l2.826-3.297 5.691 5.691c-.167.045-.34.069-.517.069zm2-2c0 .177-.024.35-.069.517l-5.8-5.8 5.865-6.842c.003.041.004.083.004.125v12z"/></svg> -->
 </a>
             
+            
+                <a class="social-link social-link-zhihu" href="https://www.zhihu.com/people/xie-yan-44-84-33" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 35 35"><image xlink:href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAIAAABuYg/PAAACp0lEQVRIDb3BPWqUbRiG4fOcNOltrIMYLLS4scpsQFyAK3ATCnaCbsIFuAKx96eQu7IJCWJpY226XB888MKEeSbfCDHHIbdIbpHs8PDhw+/fv3OjZCbDarXiRsmWJMDLly/fvHnDjZKrDg8PLy4uAJWbJlclYVD5P+v1+tOnT+xBBeSqJOxBBaqqu9mDCshVSdiDClRVd7MHFZANSRhUhiQMKluqqrsBlZkkDCogG5IA5+fn9+/fZ0jCoLKlqrobUJlJwqACsjg9PT0+PgZUFkkYVLZUVXcDKjNJGFRAFkkAlQ1JGFS2VFV3AyozSRhUQK6VhEFlS1V1N6Ayk4RBBeRaSRhUtlRVdwMqM0kYVECulQT48uXLer1mS1V1N6Ayk4RBBeRaSYB37949f/6cLVXV3YDKTBIGFZDFvXv3zs/P2c/p6emDBw+qqrsBlZkkDCogiyT8DbWquhtQmUnCoAKySMLfUKuquwGVmSQMKiDXSgKozFRVdwMqM0kYVEB2e/z48bdv3wCVmarqbkBlJgmDCshuFxcXh4eHgMpMVXU3oDKThEEFZLckLH7+/Hl0dMRVVdXdgMpMEgYVkN2SsOHVq1evX79mQ1V1N6Ayk4RBBWSH379/37lzB1CTMBwcHFxeXrKoqu4GVGaSMKiA7JCEQQWSMKgsqqq7AZWZJAwqIDNJGFQWSRhUhqrqbiDJarVikeTy8hJYrVYMKiAzSRhUFs+ePXv//j1wdnZ2fHwMVFV3Mzx58uTjx49AEraogGxJwvD06dMPHz6w4cePH0dHR4AKVFV3swcVkKuSsFDZkuTFixdv375lQxIWJycnX79+ZUY2JGGhsre7d+/++vULUNlNFklYqPyl9Xr9+fNnriXDo0ePVqvV2dnZnz9/+GfkFskt+g8PKj40CkCOhAAAAABJRU5ErkJggg=="/></svg></a>
+            
         </div>
         
     </div>
@@ -158,7 +164,7 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-xcode tag-mac tag-opencv3 tag- post ">
+        <article class="post-full  tag-opencv tag- post ">
 
             <header class="post-full-header">
                 <section class="post-full-meta">
@@ -167,15 +173,7 @@ into the {body} of the default.hbs template -->
                         <span class="date-divider">/</span>
                         
                             
-                               <a href='/tag/xcode/'>XCODE</a>,
-                            
-                        
-                            
-                               <a href='/tag/mac/'>MAC</a>,
-                            
-                        
-                            
-                               <a href='/tag/opencv3/'>OPENCV3</a>,
+                               <a href='/tag/opencv/'>OPENCV</a>,
                             
                         
                             
@@ -328,6 +326,90 @@ int main(int argc, const char * argv[]) {
                 
                 
                 
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/blog-cover.jpg)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/opencv/">Opencv</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83">Visual Studio 2019 下搭建opencv3.4.11的C++环境</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83">Windows下安装C++ IDE（clion）和opencv环境</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/opencv/">
+                                
+                                    查看相关的 2 篇文章  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
             
 
             <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
@@ -346,19 +428,11 @@ int main(int argc, const char * argv[]) {
                     
                         
                             
-                               <span class="post-card-tags">Visual studio</span>
+                               <span class="post-card-tags">环境搭建</span>
                             
                         
                             
-                               <span class="post-card-tags">Windows</span>
-                            
-                        
-                            
-                               <span class="post-card-tags">Opencv3</span>
-                            
-                        
-                            
-                                <span class="post-card-tags">C++</span>
+                                <span class="post-card-tags">Opencv</span>
                             
                         
                     
@@ -415,7 +489,7 @@ int main(int argc, const char * argv[]) {
                     
                         
                             
-                               <span class="post-card-tags">面试</span>
+                               <span class="post-card-tags">Deeplearning</span>
                             
                         
                             

@@ -112,22 +112,9 @@
     
       
       <item>
-        <title>机器学习常用函数</title>
+        <title>jekyll和github pages搭建个人博客</title>
         
-          <description>介绍python的数据分析常用工具pandas、numpy和机器学习工具sklearn的总结</description>
-        
-        <pubDate>Tue, 20 Oct 2020 18:18:00 +0800</pubDate>
-        <link>
-        http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0</link>
-        <guid isPermaLink="true">http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0</guid>
-      </item>
-      
-    
-      
-      <item>
-        <title>Mac下利用jekyll和github pages搭建个人博客</title>
-        
-          <description>在Mac环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。</description>
+          <description>在Windows环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。</description>
         
         <pubDate>Sun, 18 Oct 2020 03:21:00 +0800</pubDate>
         <link>
@@ -263,6 +250,19 @@
         <link>
         http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93</link>
         <guid isPermaLink="true">http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>机器学习常用函数</title>
+        
+          <description>介绍python的数据分析常用工具pandas、numpy和机器学习工具sklearn的总结</description>
+        
+        <pubDate>Wed, 21 Nov 2018 18:18:00 +0800</pubDate>
+        <link>
+        http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0</link>
+        <guid isPermaLink="true">http://localhost:4000/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0</guid>
       </item>
       
     
