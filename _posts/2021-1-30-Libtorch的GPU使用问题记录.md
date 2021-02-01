@@ -141,8 +141,8 @@ int main()
 在“链接器 --> 输入 --> 附加依赖项”中进行添加：
 
 ```
-D:\yeyan\software\libtorch_gpu\lib\torch_cuda.lib
-D:\yeyan\software\libtorch_gpu\lib\torch_cpu.lib
+D:\software\libtorch_gpu\lib\torch_cuda.lib
+D:\software\libtorch_gpu\lib\torch_cpu.lib
 -INCLUDE:?warp_size@cuda@at@@YAHXZ
 ```
 
