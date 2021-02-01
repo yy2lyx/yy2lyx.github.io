@@ -8,6 +8,19 @@
     
       
       <item>
+        <title>Libtorch的GPU使用问题记录</title>
+        
+          <description>介绍pytorch的C++版本的gpu使用的解决问题的过程记录</description>
+        
+        <pubDate>Fri, 27 Nov 2020 04:21:00 +0800</pubDate>
+        <link>
+        http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95</link>
+        <guid isPermaLink="true">http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>GCN在多标签分类中的应用</title>
         
           <description>介绍在图卷积网络在多标签分类任务中的应用</description>
