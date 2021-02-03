@@ -28,10 +28,6 @@ zhihu: xie-yan-44-84-33
 twitter:  # replace by your username
 facebook:  # replace by your username
 
-# Reward
-reward: true
-reward-wechat: 'assets/images/wechat.JPG'
-reward-alipay: 'assets/images/alipay.JPG'
 
 
 # Disqus
