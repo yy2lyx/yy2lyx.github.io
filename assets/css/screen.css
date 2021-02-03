@@ -1381,6 +1381,8 @@ Usage (In Ghost editor):
 }
 
 
+
+
 /* 7.5. Floating Header
 /* ---------------------------------------------------------- */
 
@@ -1499,6 +1501,8 @@ Usage (In Ghost editor):
     text-align: center;
     transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
 }
+
+
 
 .floating-header-share-tw {
     background: #33b1ff;

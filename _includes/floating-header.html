@@ -12,14 +12,32 @@
     <div class="floating-header-share">
         
         <div class="floating-header-share-label">打赏 {% include point.html %}</div>
-        <a class="floating-header-share-tw" href="https://github.com/yy2lyx/yy2lyx.github.io/blob/master/assets/images/alipay.JPG"
-            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+
+        <a class="floating-header-share-tw" href="#" onmouseout="hiddenPic();" onmousemove="showPic(event,'assets/images/alipay.JPG');">
             {% include alipay.html %}
         </a>
-        <a class="floating-header-share-fb" href="https://github.com/yy2lyx/yy2lyx.github.io/blob/master/assets/images/wechat.JPG"
-            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+        <div id="Layer1" style="display: none; position: absolute; z-index: 10;box-shadow: 10px 10px 10px #888888;"></div>
+        
+        <a class="floating-header-share-fb" href="#" onmouseout="hiddenPic();" onmousemove="showPic(event,'assets/images/wechat.JPG');">
             {% include wechat.html %}
         </a>
+        <script language="javascript">
+           function showPic(e,sUrl){
+              var x,y;
+              x = e.clientX;
+              y = e.clientY;
+              //此处图片出现位置可自行调整
+              document.getElementById("Layer1").style.left = x + 7 +'px';
+              document.getElementById("Layer1").style.top = y + 7 +'px';
+              document.getElementById("Layer1").innerHTML = "<img border='0' width='100px' height='100px' src=\"" + sUrl + "\">";
+              document.getElementById("Layer1").style.display = "";
+           }
+           function hiddenPic(){
+              document.getElementById("Layer1").innerHTML = "";
+              document.getElementById("Layer1").style.display = "none";
+           }
+        </script>
+        
     </div>
     <progress class="progress" value="0">
         <div class="progress-container">
