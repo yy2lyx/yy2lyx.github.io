@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/pytorch/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-02-01T10:56:50+08:00</updated>
+  <updated>2021-02-03T11:52:42+08:00</updated>
   <id>http://localhost:4000/tag/pytorch/feed.xml</id>
 
   
@@ -575,8 +575,8 @@ int main()
 
 &lt;p&gt;在“链接器 –&amp;gt; 输入 –&amp;gt; 附加依赖项”中进行添加：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;D:\yeyan\software\libtorch_gpu\lib\torch_cuda.lib
-D:\yeyan\software\libtorch_gpu\lib\torch_cpu.lib
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;D:\software\libtorch_gpu\lib\torch_cuda.lib
+D:\software\libtorch_gpu\lib\torch_cpu.lib
 -INCLUDE:?warp_size@cuda@at@@YAHXZ
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
