@@ -13,7 +13,7 @@
 
 
 
-    <title>Libtorch的GPU使用问题记录</title>
+    <title>Scoop软件推荐</title>
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Styles'n'Scripts -->
@@ -38,30 +38,30 @@
     <!-- This tag outputs SEO meta+structured data and other important settings -->
     <meta name="description" content="欢迎各位看官光临本小站，希望共同学习进步哈！" />
     <link rel="shortcut icon" href="http://localhost:4000/assets/images/yy.jpg" type="image/png" />
-    <link rel="canonical" href="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95" />
+    <link rel="canonical" href="http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
 
      <!--title below is coming from _includes/dynamic_title-->
     <meta property="og:site_name" content="李小肥的YY" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Libtorch的GPU使用问题记录" />
-    <meta property="og:description" content="这里得吹逼下自己领导，10min解决了困扰我2天的问题（好吧，也许是我太蠢）。 一. 问题描述 由于项目需要使用libtorch（pytorch的C++版本）的GPU版本，但是发现无法使用GPU，因此将问题和解决过程记录下来，方便日后观看和反思。 二. 解决问题的过程 2.1 使用的torch版本 这里需要说下pytorch和libtorch的版本一定要一致，且和cuda的版本一致。这里都是通过pytorch官网上进行安装即可。 pytorch1.6.0（GPU）：使用pip安装 # CUDA 10.1 pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html pytorch1.6.0（CPU）：使用pip安装 # CPU only pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html libtorch1.6.0（GPU）：选择使用release版本即可（据说debug有问题） https://download.pytorch.org/libtorch/cu101/libtorch-win-shared-with-deps-1.6.0%2Bcu101.zip libtorch1.6.0（CPU）：选择使用release版本即可（据说debug有问题） https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.6.0%2Bcpu.zip 2.2 使用cmakelist的搭建工程 cmake_minimum_required(VERSION 3.12 FATAL_ERROR) project(torch_gpu_test) # add CMAKE_PREFIX_PATH list(APPEND CMAKE_PREFIX_PATH "D:/software/opencv/opencv/build/x64/vc15/lib") list(APPEND CMAKE_PREFIX_PATH "D:/software/libtorch_gpu") list(APPEND CUDA_TOOLKIT_ROOT_DIR" />
-    <meta property="og:url" content="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95" />
-    <meta property="og:image" content="http://localhost:4000/assets/images/torch_err.jpeg" />
+    <meta property="og:title" content="Scoop软件推荐" />
+    <meta property="og:description" content="一. scoop包管理器 scoop官网：https://scoop.sh/ 一直以来觉得linux的apt-get和macos的brew来安装软件特别方便，而windows下总是要去一个个找软件，然后一个个安装，一个个设置环境变量，很麻烦。这里就推荐一款类似的windows的包管理器——scoop。 1.1 安装scoop 确保是powershell 5（及其以上）进行安装：Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh') iwr -useb get.scoop.sh | iex 如果这里报错，需要需要改变执行规则：Set-ExecutionPolicy RemoteSigned -scope CurrentUser 1.2 scoop必备软件 aria2：多线程下载软件（scoop下载软件的时候也用这个来加速，scoop会默认设置） sudo：感觉和linux的sodu一样，windows不是有个“以管理员身份运行”么。 git：下载git的时候，需要你下载7zip。 1.3 scoop常用命令 寻找软件：scoop search 软件名 安装软件：scoop install 软件名 删除软件：scoop uninstall 软件名 查看已安装的软件：scoop list 清理缓存：scoop cache rm 软件名 或者scoop cache rm * 查看可添加仓库：scoop bucket known 添加额外仓库：scoop bucket" />
+    <meta property="og:url" content="http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90" />
+    <meta property="og:image" content="http://localhost:4000/assets/images/scoop.jpeg" />
     <meta property="article:publisher" content="https://www.facebook.com/" />
     <meta property="article:author" content="https://www.facebook.com/" />
     <meta property="article:published_time" content="2020-11-27T04:21:00+08:00" />
     <meta property="article:modified_time" content="2020-11-27T04:21:00+08:00" />
-    <meta property="article:tag" content="Pytorch" />
+    <meta property="article:tag" content="Scoop" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Libtorch的GPU使用问题记录" />
-    <meta name="twitter:description" content="这里得吹逼下自己领导，10min解决了困扰我2天的问题（好吧，也许是我太蠢）。 一. 问题描述 由于项目需要使用libtorch（pytorch的C++版本）的GPU版本，但是发现无法使用GPU，因此将问题和解决过程记录下来，方便日后观看和反思。 二. 解决问题的过程 2.1 使用的torch版本 这里需要说下pytorch和libtorch的版本一定要一致，且和cuda的版本一致。这里都是通过pytorch官网上进行安装即可。 pytorch1.6.0（GPU）：使用pip安装 # CUDA 10.1 pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html pytorch1.6.0（CPU）：使用pip安装 # CPU only pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html libtorch1.6.0（GPU）：选择使用release版本即可（据说debug有问题） https://download.pytorch.org/libtorch/cu101/libtorch-win-shared-with-deps-1.6.0%2Bcu101.zip libtorch1.6.0（CPU）：选择使用release版本即可（据说debug有问题） https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.6.0%2Bcpu.zip 2.2 使用cmakelist的搭建工程 cmake_minimum_required(VERSION 3.12 FATAL_ERROR) project(torch_gpu_test) # add CMAKE_PREFIX_PATH list(APPEND CMAKE_PREFIX_PATH "D:/software/opencv/opencv/build/x64/vc15/lib") list(APPEND CMAKE_PREFIX_PATH "D:/software/libtorch_gpu") list(APPEND CUDA_TOOLKIT_ROOT_DIR" />
+    <meta name="twitter:title" content="Scoop软件推荐" />
+    <meta name="twitter:description" content="一. scoop包管理器 scoop官网：https://scoop.sh/ 一直以来觉得linux的apt-get和macos的brew来安装软件特别方便，而windows下总是要去一个个找软件，然后一个个安装，一个个设置环境变量，很麻烦。这里就推荐一款类似的windows的包管理器——scoop。 1.1 安装scoop 确保是powershell 5（及其以上）进行安装：Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh') iwr -useb get.scoop.sh | iex 如果这里报错，需要需要改变执行规则：Set-ExecutionPolicy RemoteSigned -scope CurrentUser 1.2 scoop必备软件 aria2：多线程下载软件（scoop下载软件的时候也用这个来加速，scoop会默认设置） sudo：感觉和linux的sodu一样，windows不是有个“以管理员身份运行”么。 git：下载git的时候，需要你下载7zip。 1.3 scoop常用命令 寻找软件：scoop search 软件名 安装软件：scoop install 软件名 删除软件：scoop uninstall 软件名 查看已安装的软件：scoop list 清理缓存：scoop cache rm 软件名 或者scoop cache rm * 查看可添加仓库：scoop bucket known 添加额外仓库：scoop bucket" />
     <meta name="twitter:url" content="http://localhost:4000/" />
-    <meta name="twitter:image" content="http://localhost:4000/assets/images/torch_err.jpeg" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/scoop.jpeg" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="李小肥的YY" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Pytorch" />
+    <meta name="twitter:data2" content="Scoop" />
     <meta name="twitter:site" content="@" />
     <meta name="twitter:creator" content="@" />
     <meta property="og:image:width" content="1400" />
@@ -76,18 +76,18 @@
         "name": "李小肥的YY",
         "logo": "http://localhost:4000/"
     },
-    "url": "http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95",
+    "url": "http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90",
     "image": {
         "@type": "ImageObject",
-        "url": "http://localhost:4000/assets/images/torch_err.jpeg",
+        "url": "http://localhost:4000/assets/images/scoop.jpeg",
         "width": 2000,
         "height": 666
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95"
+        "@id": "http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90"
     },
-    "description": "这里得吹逼下自己领导，10min解决了困扰我2天的问题（好吧，也许是我太蠢）。 一. 问题描述 由于项目需要使用libtorch（pytorch的C++版本）的GPU版本，但是发现无法使用GPU，因此将问题和解决过程记录下来，方便日后观看和反思。 二. 解决问题的过程 2.1 使用的torch版本 这里需要说下pytorch和libtorch的版本一定要一致，且和cuda的版本一致。这里都是通过pytorch官网上进行安装即可。 pytorch1.6.0（GPU）：使用pip安装 # CUDA 10.1 pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html pytorch1.6.0（CPU）：使用pip安装 # CPU only pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html libtorch1.6.0（GPU）：选择使用release版本即可（据说debug有问题） https://download.pytorch.org/libtorch/cu101/libtorch-win-shared-with-deps-1.6.0%2Bcu101.zip libtorch1.6.0（CPU）：选择使用release版本即可（据说debug有问题） https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.6.0%2Bcpu.zip 2.2 使用cmakelist的搭建工程 cmake_minimum_required(VERSION 3.12 FATAL_ERROR) project(torch_gpu_test) # add CMAKE_PREFIX_PATH list(APPEND CMAKE_PREFIX_PATH "D:/software/opencv/opencv/build/x64/vc15/lib") list(APPEND CMAKE_PREFIX_PATH "D:/software/libtorch_gpu") list(APPEND CUDA_TOOLKIT_ROOT_DIR"
+    "description": "一. scoop包管理器 scoop官网：https://scoop.sh/ 一直以来觉得linux的apt-get和macos的brew来安装软件特别方便，而windows下总是要去一个个找软件，然后一个个安装，一个个设置环境变量，很麻烦。这里就推荐一款类似的windows的包管理器——scoop。 1.1 安装scoop 确保是powershell 5（及其以上）进行安装：Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh') iwr -useb get.scoop.sh | iex 如果这里报错，需要需要改变执行规则：Set-ExecutionPolicy RemoteSigned -scope CurrentUser 1.2 scoop必备软件 aria2：多线程下载软件（scoop下载软件的时候也用这个来加速，scoop会默认设置） sudo：感觉和linux的sodu一样，windows不是有个“以管理员身份运行”么。 git：下载git的时候，需要你下载7zip。 1.3 scoop常用命令 寻找软件：scoop search 软件名 安装软件：scoop install 软件名 删除软件：scoop uninstall 软件名 查看已安装的软件：scoop list 清理缓存：scoop cache rm 软件名 或者scoop cache rm * 查看可添加仓库：scoop bucket known 添加额外仓库：scoop bucket"
 }
     </script>
 
@@ -100,7 +100,7 @@
     </script> -->
 
     <meta name="generator" content="Jekyll 3.6.2" />
-    <link rel="alternate" type="application/rss+xml" title="Libtorch的GPU使用问题记录" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Scoop软件推荐" href="/feed.xml" />
 
 
 </head>
@@ -162,7 +162,7 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-pytorch post ">
+        <article class="post-full  tag-scoop post ">
 
             <header class="post-full-header">
                 <section class="post-full-meta">
@@ -171,175 +171,91 @@ into the {body} of the default.hbs template -->
                         <span class="date-divider">/</span>
                         
                             
-                               <a href='/tag/pytorch/'>PYTORCH</a>
+                               <a href='/tag/scoop/'>SCOOP</a>
                             
                         
                     
                 </section>
-                <h1 class="post-full-title">Libtorch的GPU使用问题记录</h1>
+                <h1 class="post-full-title">Scoop软件推荐</h1>
             </header>
 
             
-            <figure class="post-full-image" style="background-image: url(/assets/images/torch_err.jpeg)">
+            <figure class="post-full-image" style="background-image: url(/assets/images/scoop.jpeg)">
             </figure>
             
 
             <section class="post-full-content">
                 <div class="kg-card-markdown">
-                    <blockquote>
-  <p>这里得吹逼下自己领导，10min解决了困扰我2天的问题（好吧，也许是我太蠢）。</p>
-</blockquote>
-
-<h3 id="一-问题描述">一. 问题描述</h3>
-
-<p>由于项目需要使用libtorch（pytorch的C++版本）的GPU版本，但是发现无法使用GPU，因此将问题和解决过程记录下来，方便日后观看和反思。</p>
-
-<h3 id="二-解决问题的过程">二. 解决问题的过程</h3>
-
-<h4 id="21-使用的torch版本">2.1 使用的torch版本</h4>
-
-<p>这里需要说下pytorch和libtorch的版本一定要一致，且和cuda的版本一致。这里都是通过pytorch官网上进行安装即可。</p>
-
-<ul>
-  <li>
-    <p>pytorch1.6.0（GPU）：使用pip安装</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># CUDA 10.1
-pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>pytorch1.6.0（CPU）：使用pip安装</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># CPU only
-pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>libtorch1.6.0（GPU）：选择使用release版本即可（据说debug有问题）</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://download.pytorch.org/libtorch/cu101/libtorch-win-shared-with-deps-1.6.0%2Bcu101.zip
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>libtorch1.6.0（CPU）：选择使用release版本即可（据说debug有问题）</p>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.6.0%2Bcpu.zip
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<h4 id="22-使用cmakelist的搭建工程">2.2 使用cmakelist的搭建工程</h4>
-
-<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.12 FATAL_ERROR<span class="p">)</span>
-<span class="nb">project</span><span class="p">(</span>torch_gpu_test<span class="p">)</span>
-
-<span class="c1"># add CMAKE_PREFIX_PATH</span>
-<span class="nb">list</span><span class="p">(</span>APPEND CMAKE_PREFIX_PATH <span class="s2">"D:/software/opencv/opencv/build/x64/vc15/lib"</span><span class="p">)</span>
-<span class="nb">list</span><span class="p">(</span>APPEND CMAKE_PREFIX_PATH <span class="s2">"D:/software/libtorch_gpu"</span><span class="p">)</span>
-<span class="nb">list</span><span class="p">(</span>APPEND CUDA_TOOLKIT_ROOT_DIR <span class="s2">"D:/software/cuda/development"</span><span class="p">)</span>
-
-
-<span class="nb">find_package</span><span class="p">(</span>Torch REQUIRED<span class="p">)</span>
-<span class="nb">find_package</span><span class="p">(</span>OpenCV REQUIRED<span class="p">)</span>
-
-<span class="nb">if</span><span class="p">(</span>NOT Torch_FOUND<span class="p">)</span>
-    <span class="nb">message</span><span class="p">(</span>FATAL_ERROR <span class="s2">"Pytorch Not Found!"</span><span class="p">)</span>
-<span class="nb">endif</span><span class="p">(</span>NOT Torch_FOUND<span class="p">)</span>
-
-<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"Pytorch status:"</span><span class="p">)</span>
-<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"    libraries: </span><span class="si">${</span><span class="nv">TORCH_LIBRARIES</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"Find Torch VERSION: </span><span class="si">${</span><span class="nv">Torch_VERSION</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"OpenCV library status:"</span><span class="p">)</span>
-<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"    version: </span><span class="si">${</span><span class="nv">OpenCV_VERSION</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"    libraries: </span><span class="si">${</span><span class="nv">OpenCV_LIBS</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"    include path: </span><span class="si">${</span><span class="nv">OpenCV_INCLUDE_DIRS</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-
-<span class="nb">add_executable</span><span class="p">(</span>torch_gpu_test torch_gpu_test.cpp<span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span>torch_gpu_test <span class="si">${</span><span class="nv">TORCH_LIBRARIES</span><span class="si">}</span> <span class="si">${</span><span class="nv">OpenCV_LIBS</span><span class="si">}</span><span class="p">)</span>
-<span class="nb">set_property</span><span class="p">(</span>TARGET torch_gpu_test PROPERTY CXX_STANDARD 11<span class="p">)</span>
-</code></pre></div></div>
-
-<ul>
-  <li>这里利用vs2019生成项目之后，编写以下代码进行测试：</li>
-</ul>
-
-<pre><code class="language-C++">#include &lt;torch/torch.h&gt;
-#include &lt;torch/script.h&gt;
-
-using namespace torch;
-
-int main()
-{
-    torch::DeviceType device_type = at::kCPU;
-    if (torch::cuda::is_available()) {
-        cout &lt;&lt; "cuda!" &lt;&lt; endl;
-        torch::DeviceType device_type = at::kCUDA;
-    }
-    else
-    {
-        cout &lt;&lt; "cpu" &lt;&lt; endl;
-    }
-    
-}
-</code></pre>
-
-<ul>
-  <li>到了这里我开始了我的问题之旅：由于是Release版本，不能debug，只能主观的认为这里应该是cuda的环境没配好导致torch无法使用gpu的，因此一直在找cmake的cuda环境配置问题。</li>
-</ul>
-
-<h4 id="23-release-with-debug改变了我的想法">2.3 Release with Debug改变了我的想法</h4>
+                    <h3 id="一-scoop包管理器">一. scoop包管理器</h3>
 
 <blockquote>
-  <p>这里得说下本人第一次知道release版本也可以debug！（本人也算一C++小白哈，别计较）</p>
+  <p>scoop官网：https://scoop.sh/</p>
 </blockquote>
 
-<p>这里顺带记录下如何使用vs2019的Release with debug的过程：</p>
+<p>一直以来觉得linux的apt-get和macos的brew来安装软件特别方便，而windows下总是要去一个个找软件，然后一个个安装，一个个设置环境变量，很麻烦。这里就推荐一款类似的windows的包管理器——scoop。</p>
+
+<h4 id="11-安装scoop">1.1 安装scoop</h4>
 
 <ul>
-  <li>直接在项目中将<code class="highlighter-rouge">Release</code>版本选择为<code class="highlighter-rouge">RelWithDebInfo</code></li>
+  <li>确保是powershell 5（及其以上）进行安装：<code class="highlighter-rouge">Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')</code></li>
+  <li><code class="highlighter-rouge">iwr -useb get.scoop.sh | iex</code></li>
+  <li>如果这里报错，需要需要改变执行规则：<code class="highlighter-rouge">Set-ExecutionPolicy RemoteSigned -scope CurrentUser</code></li>
 </ul>
 
-<p><img src="https://i.loli.net/2021/02/01/FcP7UNy4fqTxkR1.png" alt="" /></p>
+<h4 id="12-scoop必备软件">1.2 scoop必备软件</h4>
 
 <ul>
-  <li>禁用代码优化功能：这里是防止出现“变量已被优化掉 因而不可用”这种问题</li>
+  <li>aria2：多线程下载软件（scoop下载软件的时候也用这个来加速，scoop会默认设置）</li>
+  <li>sudo：感觉和linux的sodu一样，windows不是有个“以管理员身份运行”么。</li>
+  <li>git：下载git的时候，需要你下载7zip。</li>
 </ul>
 
-<p><img src="https://i.loli.net/2021/02/01/KSBZQE8f7IkenWD.png" alt="" /></p>
-
-<p>在这里debug的时候发现，<code class="highlighter-rouge">device</code>这个我定义的变量是可以加载cuda的！因此可以推翻我之前想的（cuda环境的问题）。</p>
-
-<h4 id="24-libtorch16gpu版本问题">2.4 libtorch1.6GPU版本问题</h4>
-
-<p>这里就可以肯定是libtorch的GPU问题了。为啥<code class="highlighter-rouge">torch::cuda::is_available()</code>会是<code class="highlighter-rouge">false</code>呢？</p>
+<h4 id="13-scoop常用命令">1.3 scoop常用命令</h4>
 
 <ul>
-  <li>网上的思路是：</li>
+  <li>寻找软件：<code class="highlighter-rouge">scoop search 软件名</code></li>
+  <li>安装软件：<code class="highlighter-rouge">scoop install 软件名</code></li>
+  <li>删除软件：<code class="highlighter-rouge">scoop uninstall 软件名</code></li>
+  <li>查看已安装的软件：<code class="highlighter-rouge">scoop list</code></li>
+  <li>清理缓存：<code class="highlighter-rouge">scoop cache rm 软件名</code> 或者<code class="highlighter-rouge">scoop cache rm *</code></li>
+  <li>查看可添加仓库：<code class="highlighter-rouge">scoop bucket known</code></li>
+  <li>添加额外仓库：<code class="highlighter-rouge">scoop bucket add 软件名 </code></li>
 </ul>
 
-<p>在“属性 –&gt; 链接器 –&gt; 命令行 –&gt; 其他选项”中添加：</p>
+<h3 id="二-美化命令行">二. 美化命令行</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /INCLUDE:?warp_size@cuda@at@@YAHXZ
-</code></pre></div></div>
+<p>是不是总是觉着无论是windows的<code class="highlighter-rouge">cmd.exe</code>还是<code class="highlighter-rouge">powershell</code>都特别丑？那就来美化他吧！</p>
+
+<h4 id="21-美化终端">2.1 美化终端</h4>
+
+<p>这里推荐的是微软自带的<code class="highlighter-rouge">windows-terminal</code>，反正个人感觉挺好用也挺好看的。</p>
 
 <ul>
-  <li>本人实验了下，按照网上的添加会报错，因此以下是本人实验可行的结果：</li>
+  <li>直接用scoop进行安装即可：<code class="highlighter-rouge">scoop install windows-terminal</code>，但是注意一点：这个终端需要你的windows系统最少为<code class="highlighter-rouge">Windows 10 18362</code></li>
 </ul>
 
-<p>在“链接器 –&gt; 输入 –&gt; 附加依赖项”中进行添加：</p>
+<h4 id="22-美化命令行主题">2.2 美化命令行（主题）</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>D:\software\libtorch_gpu\lib\torch_cuda.lib
-D:\software\libtorch_gpu\lib\torch_cpu.lib
--INCLUDE:?warp_size@cuda@at@@YAHXZ
-</code></pre></div></div>
+<p>不知道有多少人是喜欢linux的<code class="highlighter-rouge">oh my zsh</code>这个主题的，我反正是大爱，因此一直在windows上找它的替代品，没想到还真被我找到了——<code class="highlighter-rouge">oh-my-posh</code>主题框架。</p>
 
-<blockquote>
-  <p>这里很奇怪，cmakelist明明已经配置好了libtorch的gpu，但是这里却没有<code class="highlighter-rouge">torch_cuda.lib</code></p>
-</blockquote>
+<ul>
+  <li>scoop进行安装：<code class="highlighter-rouge">scoop install oh-my-posh</code></li>
+  <li>安装<code class="highlighter-rouge">oh-my-posh</code>模块：<code class="highlighter-rouge">Install-Module oh-my-posh </code></li>
+  <li>设置<code class="highlighter-rouge">robbyrussell</code>主题：<code class="highlighter-rouge">Set-Theme robbyrussell</code>，这里由于本人比较喜欢linux的<code class="highlighter-rouge">oh my zsh</code>这个主题，因此选择这个和他接近的主题，大家也可以根据自己喜欢来选择自己的主题。</li>
+</ul>
 
-<p>至此，问题解决了！</p>
+<h3 id="三-必备的一些软件推荐">三. 必备的一些软件推荐</h3>
+
+<p>这里推荐的软件主要是利用scoop可以直接完成下载的。</p>
+
+<ul>
+  <li>语言：java、python、ruby等等你没听错，是的，可以直接用scoop来安装，环境变量都给你配好咯。</li>
+  <li>编辑器：vscode、pycharm、eclipse等等你能想到的免费的它都有！</li>
+  <li>大数据：spark、hadoop、rabbitmq、kafka、flume等等</li>
+  <li>数据库：redis、mongodb、mysql</li>
+  <li>压测：jmeter、postman</li>
+  <li>其他需要的软件：cmake、tar、typora、vim、touch、youtube-dl、chrome、OpenSSL</li>
+</ul>
 
 
                 </div>
@@ -388,163 +304,9 @@ D:\software\libtorch_gpu\lib\torch_cpu.lib
                 
                 
                 
-                    <article class="read-next-card"
-                        
-                            style="background-image: url(/assets/images/blog-cover.jpg)"
-                        
-                    >
-                        <header class="read-next-card-header">
-                            <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
-                            
-                                <h3 class="read-next-card-header-title"><a href="/tag/pytorch/">Pytorch</a></h3>
-                            
-                        </header>
-                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
-</div>
-                        <div class="read-next-card-content">
-                            <ul>
-                                
-                                
-                                  
-                                
-                                  
-                                    
-                                  
-                                
-                                  
-                                    
-                                        
-                                        
-                                            <li><a href="/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8">GCN在多标签分类中的应用</a></li>
-                                        
-                                    
-                                  
-                                
-                                  
-                                    
-                                        
-                                        
-                                            <li><a href="/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">windows下搭建libtorch和paddle的C++环境搭建</a></li>
-                                        
-                                    
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                    
-                                        
-                                        
-                                            <li><a href="/pytorch%E4%BD%BF%E7%94%A8YOLOv5%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE">pytorch使用YOLOv5训练数据</a></li>
-                                        
-                                    
-                                  
-                                
-                                  
-                                    
-                                        
-                                        
-                                    
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                                  
-                                
-                            </ul>
-                        </div>
-                        <footer class="read-next-card-footer">
-                            <a href="/tag/pytorch/">
-                                
-                                    查看相关的 4 篇文章  →
-                                
-                            </a>
-                        </footer>
-                    </article>
-                
             
 
             <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
-            
-                
-
-    <article class="post-card post-template">
-        
-            <a class="post-card-image-link" href="/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90">
-                <div class="post-card-image" style="background-image: url(/assets/images/scoop.jpeg)"></div>
-            </a>
-        
-        <div class="post-card-content">
-            <a class="post-card-content-link" href="/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90">
-                <header class="post-card-header">
-                    
-                        
-                            
-                                <span class="post-card-tags">Scoop</span>
-                            
-                        
-                    
-
-                    <h2 class="post-card-title">Scoop软件推荐</h2>
-                </header>
-                <section class="post-card-excerpt">
-                    
-                        <p></p>
-                    
-                </section>
-            </a>
-            <footer class="post-card-meta">
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                <span class="reading-time">
-                    
-                    
-                      1 min read
-                    
-                </span>
-            </footer>
-        </div>
-    </article>
-
             
 
             <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
@@ -553,34 +315,22 @@ D:\software\libtorch_gpu\lib\torch_cpu.lib
 
     <article class="post-card post-template">
         
-            <a class="post-card-image-link" href="/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8">
-                <div class="post-card-image" style="background-image: url(/assets/images/m_phone.jpeg)"></div>
+            <a class="post-card-image-link" href="/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95">
+                <div class="post-card-image" style="background-image: url(/assets/images/torch_err.jpeg)"></div>
             </a>
         
         <div class="post-card-content">
-            <a class="post-card-content-link" href="/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8">
+            <a class="post-card-content-link" href="/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95">
                 <header class="post-card-header">
                     
                         
                             
-                               <span class="post-card-tags">Pytorch</span>
-                            
-                        
-                            
-                               <span class="post-card-tags">Gcn</span>
-                            
-                        
-                            
-                               <span class="post-card-tags">图算法</span>
-                            
-                        
-                            
-                                <span class="post-card-tags">Deeplearning</span>
+                                <span class="post-card-tags">Pytorch</span>
                             
                         
                     
 
-                    <h2 class="post-card-title">GCN在多标签分类中的应用</h2>
+                    <h2 class="post-card-title">Libtorch的GPU使用问题记录</h2>
                 </header>
                 <section class="post-card-excerpt">
                     
@@ -631,7 +381,7 @@ D:\software\libtorch_gpu\lib\torch_cpu.lib
         </a>
     </div>
     <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">Libtorch的GPU使用问题记录</div>
+    <div class="floating-header-title">Scoop软件推荐</div>
     <div class="floating-header-share">
         
         <div class="floating-header-share-label">打赏 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

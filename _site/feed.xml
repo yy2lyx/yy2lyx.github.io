@@ -1,4 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-02-03T17:54:08+08:00</updated><id>http://localhost:4000/</id><title type="html">李小肥的YY</title><subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle><entry><title type="html">Libtorch的GPU使用问题记录</title><link href="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95" rel="alternate" type="text/html" title="Libtorch的GPU使用问题记录" /><published>2020-11-27T04:21:00+08:00</published><updated>2020-11-27T04:21:00+08:00</updated><id>http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95</id><content type="html" xml:base="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-02-04T17:07:38+08:00</updated><id>http://localhost:4000/</id><title type="html">李小肥的YY</title><subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle><entry><title type="html">Scoop软件推荐</title><link href="http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90" rel="alternate" type="text/html" title="Scoop软件推荐" /><published>2020-11-27T04:21:00+08:00</published><updated>2020-11-27T04:21:00+08:00</updated><id>http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90</id><content type="html" xml:base="http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90">&lt;h3 id=&quot;一-scoop包管理器&quot;&gt;一. scoop包管理器&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;scoop官网：https://scoop.sh/&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;一直以来觉得linux的apt-get和macos的brew来安装软件特别方便，而windows下总是要去一个个找软件，然后一个个安装，一个个设置环境变量，很麻烦。这里就推荐一款类似的windows的包管理器——scoop。&lt;/p&gt;
+
+&lt;h4 id=&quot;11-安装scoop&quot;&gt;1.1 安装scoop&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;确保是powershell 5（及其以上）进行安装：&lt;code class=&quot;highlighter-rouge&quot;&gt;Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;iwr -useb get.scoop.sh | iex&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;如果这里报错，需要需要改变执行规则：&lt;code class=&quot;highlighter-rouge&quot;&gt;Set-ExecutionPolicy RemoteSigned -scope CurrentUser&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;12-scoop必备软件&quot;&gt;1.2 scoop必备软件&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;aria2：多线程下载软件（scoop下载软件的时候也用这个来加速，scoop会默认设置）&lt;/li&gt;
+  &lt;li&gt;sudo：感觉和linux的sodu一样，windows不是有个“以管理员身份运行”么。&lt;/li&gt;
+  &lt;li&gt;git：下载git的时候，需要你下载7zip。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;13-scoop常用命令&quot;&gt;1.3 scoop常用命令&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;寻找软件：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop search 软件名&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;安装软件：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install 软件名&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;删除软件：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop uninstall 软件名&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;查看已安装的软件：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop list&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;清理缓存：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop cache rm 软件名&lt;/code&gt; 或者&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop cache rm *&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;查看可添加仓库：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop bucket known&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;添加额外仓库：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop bucket add 软件名 &lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-美化命令行&quot;&gt;二. 美化命令行&lt;/h3&gt;
+
+&lt;p&gt;是不是总是觉着无论是windows的&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd.exe&lt;/code&gt;还是&lt;code class=&quot;highlighter-rouge&quot;&gt;powershell&lt;/code&gt;都特别丑？那就来美化他吧！&lt;/p&gt;
+
+&lt;h4 id=&quot;21-美化终端&quot;&gt;2.1 美化终端&lt;/h4&gt;
+
+&lt;p&gt;这里推荐的是微软自带的&lt;code class=&quot;highlighter-rouge&quot;&gt;windows-terminal&lt;/code&gt;，反正个人感觉挺好用也挺好看的。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;直接用scoop进行安装即可：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install windows-terminal&lt;/code&gt;，但是注意一点：这个终端需要你的windows系统最少为&lt;code class=&quot;highlighter-rouge&quot;&gt;Windows 10 18362&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;22-美化命令行主题&quot;&gt;2.2 美化命令行（主题）&lt;/h4&gt;
+
+&lt;p&gt;不知道有多少人是喜欢linux的&lt;code class=&quot;highlighter-rouge&quot;&gt;oh my zsh&lt;/code&gt;这个主题的，我反正是大爱，因此一直在windows上找它的替代品，没想到还真被我找到了——&lt;code class=&quot;highlighter-rouge&quot;&gt;oh-my-posh&lt;/code&gt;主题框架。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;scoop进行安装：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install oh-my-posh&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;安装&lt;code class=&quot;highlighter-rouge&quot;&gt;oh-my-posh&lt;/code&gt;模块：&lt;code class=&quot;highlighter-rouge&quot;&gt;Install-Module oh-my-posh &lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;设置&lt;code class=&quot;highlighter-rouge&quot;&gt;robbyrussell&lt;/code&gt;主题：&lt;code class=&quot;highlighter-rouge&quot;&gt;Set-Theme robbyrussell&lt;/code&gt;，这里由于本人比较喜欢linux的&lt;code class=&quot;highlighter-rouge&quot;&gt;oh my zsh&lt;/code&gt;这个主题，因此选择这个和他接近的主题，大家也可以根据自己喜欢来选择自己的主题。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;三-必备的一些软件推荐&quot;&gt;三. 必备的一些软件推荐&lt;/h3&gt;
+
+&lt;p&gt;这里推荐的软件主要是利用scoop可以直接完成下载的。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;语言：java、python、ruby等等你没听错，是的，可以直接用scoop来安装，环境变量都给你配好咯。&lt;/li&gt;
+  &lt;li&gt;编辑器：vscode、pycharm、eclipse等等你能想到的免费的它都有！&lt;/li&gt;
+  &lt;li&gt;大数据：spark、hadoop、rabbitmq、kafka、flume等等&lt;/li&gt;
+  &lt;li&gt;数据库：redis、mongodb、mysql&lt;/li&gt;
+  &lt;li&gt;压测：jmeter、postman&lt;/li&gt;
+  &lt;li&gt;其他需要的软件：cmake、tar、typora、vim、touch、youtube-dl、chrome、OpenSSL&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="scoop" /><summary type="html">介绍Windows平台软件管理工具</summary></entry><entry><title type="html">Libtorch的GPU使用问题记录</title><link href="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95" rel="alternate" type="text/html" title="Libtorch的GPU使用问题记录" /><published>2020-11-27T04:21:00+08:00</published><updated>2020-11-27T04:21:00+08:00</updated><id>http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95</id><content type="html" xml:base="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95">&lt;blockquote&gt;
   &lt;p&gt;这里得吹逼下自己领导，10min解决了困扰我2天的问题（好吧，也许是我太蠢）。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -1322,114 +1391,4 @@ trusted-host=mirrors.aliyun.com
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cuda&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_available&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="CUDA10" /><category term="pytorch" /><summary type="html">介绍如何在Windows10环境中搭建GPU使用环境和pytorch</summary></entry><entry><title type="html">jekyll和github pages搭建个人博客</title><link href="http://localhost:4000/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub-pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2" rel="alternate" type="text/html" title="jekyll和github pages搭建个人博客" /><published>2020-10-18T03:21:00+08:00</published><updated>2020-10-18T03:21:00+08:00</updated><id>http://localhost:4000/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub%20pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2</id><content type="html" xml:base="http://localhost:4000/Mac%E4%B8%8B%E5%88%A9%E7%94%A8jekyll%E5%92%8Cgithub-pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2">&lt;h3 id=&quot;一-搭建环境&quot;&gt;一. 搭建环境&lt;/h3&gt;
-
-&lt;h4 id=&quot;11-下载软件&quot;&gt;1.1 下载软件&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.jekyll.com.cn/&quot;&gt;jekyll&lt;/a&gt;：这个是将纯文本转化为静态网站和博客，使用gem安装下载：&lt;code class=&quot;highlighter-rouge&quot;&gt;gem install bundler jekyll&lt;/code&gt;。&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;&quot;&gt;github pages&lt;/a&gt;：免费开源，并且可以自动生成域名，自己去构建一个属于自己的github账号和新建一个仓库（名字为：&lt;code class=&quot;highlighter-rouge&quot;&gt;XX.github.io&lt;/code&gt;，这里&lt;code class=&quot;highlighter-rouge&quot;&gt;XX&lt;/code&gt;就是你自己的账号名称）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9dyt6cwj31lk0gigp9.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;mac或者linux或者Windows平台。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;12-选择一个适合自己的博客主题&quot;&gt;1.2 选择一个适合自己的博客主题&lt;/h4&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;jekyll主题：http://jekyllthemes.org/&lt;/p&gt;
-
-  &lt;p&gt;jekyll插件：http://www.jekyll-plugins.com/&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;本人选择的jekyll主题：&lt;a href=&quot;https://github.com/artemsheludko/flexible-jekyll&quot;&gt;Flexible-Jekyll&lt;/a&gt;，如下图所示：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9xls4u4j31b40om7du.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;选择一个地方存放下载的主题（直接git下载）：&lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/artemsheludko/flexible-jekyll &lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;这里直接在本地利用jekyll生成一个网页进行测试和调试：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll server&lt;/code&gt;或者是&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll s&lt;/code&gt;，这里会生成一个本地的博客地址：&lt;code class=&quot;highlighter-rouge&quot;&gt;http://127.0.0.1:4000/&lt;/code&gt;，可以直接查看&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjsa7qt24yj31d40fuk2x.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;13-将主题放入自己的仓库中&quot;&gt;1.3 将主题放入自己的仓库中&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;git下载创建好的xx.github.io该仓库到自己本地：&lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/xx/xx.github.io.git&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;将之前下载的主题放到自己创建的github.io这个仓库中&lt;/li&gt;
-  &lt;li&gt;git上传修改的地方：
-    &lt;ul&gt;
-      &lt;li&gt;git添加修改的地方：&lt;code class=&quot;highlighter-rouge&quot;&gt;git add .&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;git提交：&lt;code class=&quot;highlighter-rouge&quot;&gt;git commit -m &quot;修改&quot;&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;git推送：&lt;code class=&quot;highlighter-rouge&quot;&gt;git push&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;这里可以直接在网页上打开&lt;code class=&quot;highlighter-rouge&quot;&gt;https://xx.github.io/&lt;/code&gt;查看自己的博客，当然这里还是别人的内容，还需要自己修改成属于自己专属的博客。&lt;/li&gt;
-  &lt;li&gt;这里注意：如果无法访问github pages，这里需要修改dns服务器就可以了，修改为114.114.114.114，具体如下所示：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9wjy9fwj30db0gcjrz.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;二-创建一个专属于自己的个人博客&quot;&gt;二. 创建一个专属于自己的个人博客&lt;/h3&gt;
-
-&lt;h4 id=&quot;21-了解下载主题的文件和文件夹的作用和内容&quot;&gt;2.1 了解下载主题的文件和文件夹的作用和内容&lt;/h4&gt;
-
-&lt;p&gt;整个下载jekyll主题的代码结构如下图所示：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjsa15n5gsj30bq0l0ta3.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;_drafts文件夹：主要是存放一些自己还没有写好的markdown文档，这里是不会在网页上展示的，但是没有写完的却可以通过git来保存&lt;/li&gt;
-  &lt;li&gt;_posts文件夹：保存已经写好的markdown文章&lt;/li&gt;
-  &lt;li&gt;assets文件夹：保存一些图片和css的一些文件&lt;/li&gt;
-  &lt;li&gt;_config.yml：用来修改主页上的一些个人信息&lt;/li&gt;
-  &lt;li&gt;Gemfile：这里是该主题下需要的一些gem依赖，这里直接在当前目录下&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;即可下载安装依赖，注意这里如果gem下载很慢，可以设定source源，直接在Gemfile文件开头写&lt;code class=&quot;highlighter-rouge&quot;&gt;source 'https://gems.ruby-china.com/'&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;22-如何在博客中展示公式&quot;&gt;2.2 如何在博客中展示公式&lt;/h4&gt;
-
-&lt;p&gt;如果自己的博客中需要展示数学公式的，那么需要在&lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts/default.html&lt;/code&gt;文件中进行添加：&lt;/p&gt;
-
-&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
-&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;23-打开自己博客网页响应很慢&quot;&gt;2.3 打开自己博客网页响应很慢&lt;/h4&gt;
-
-&lt;p&gt;这里一般是自己博客中展示的图片资源过大导致的，这里需要将图片进行无损压缩，重新上传即可。这里推荐几个图片无损压缩的网站。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;TinyPNG：https://tinypng.com/&lt;/p&gt;
-
-  &lt;p&gt;Compressor：https://compressor.io/&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;三-windows下安装jekyll&quot;&gt;三. Windows下安装jekyll&lt;/h3&gt;
-&lt;p&gt;这里由于jekyll一般在mac和linux上安装较为方便，官方也有指导，但是windows下官方写的不详细，因此这里主要介绍下Windows下如何安装jekyll。&lt;/p&gt;
-
-&lt;h4 id=&quot;31-软件安装&quot;&gt;3.1 软件安装&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://rubyinstaller.org/downloads/&quot;&gt;Ruby+Devkit 2.7.2(x64)&lt;/a&gt;：安装的时候注意添加到Path中，其需要安装&lt;code class=&quot;highlighter-rouge&quot;&gt;MSYS2 and MINGW development toolchain&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://rubygems.org/pages/download&quot;&gt;RubyGems&lt;/a&gt;：这里直接选择zip进行安装即可。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;32-jekyll及gem依赖的安装&quot;&gt;3.2 Jekyll及gem依赖的安装&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;cd到解压后的RubyGems的文件中：&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby setup.rb&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;安装jekyll：&lt;code class=&quot;highlighter-rouge&quot;&gt;gem install jekyll&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;安装jekyll-paginate：&lt;code class=&quot;highlighter-rouge&quot;&gt;gem install jekyll-paginate&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;安装bundler（注意这里在后面安装gem依赖需要）：&lt;code class=&quot;highlighter-rouge&quot;&gt;gem install bundler&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;验证下jekyll和bundler：&lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll -v&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;bundler -v&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;33-在本地运行静态博客&quot;&gt;3.3 在本地运行静态博客&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;cd到自己博客中，安装gem依赖：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;本地运行服务：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll s&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="Jekyll" /><category term="博客" /><summary type="html">在Windows环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="CUDA10" /><category term="pytorch" /><summary type="html">介绍如何在Windows10环境中搭建GPU使用环境和pytorch</summary></entry></feed>
