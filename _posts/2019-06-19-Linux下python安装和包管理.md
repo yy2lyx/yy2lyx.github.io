@@ -32,3 +32,34 @@ subclass: 'post'
 ln -sf /usr/local/bin/python3.8 /usr/bin/python
 ln -sf /usr/local/bin/python3.8-config /usr/bin/python-config
 ```
+
+#### 4. 设置pip镜像源，下载提速
+之前利用pip进行安装的时候，要不是直接在pip下载的中途断掉，要不就是网速特别慢。这里推荐设置下国内的源进行pip下载。
+
+> 临时使用的方式：`pip install tensorflow -i 国内源`
+
+**国内源**：
+* 清华：https://pypi.tuna.tsinghua.edu.cn/simple
+* 阿里云：http://mirrors.aliyun.com/pypi/simple/
+* 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/
+* 华中理工大学：http://pypi.hustunique.com/
+* 山东理工大学：http://pypi.sdutlinux.org/ 
+* 豆瓣：http://pypi.douban.com/simple/
+
+这里最好不要一味的相信某一个源（比如清华源），吐槽下：下其他的包速度都很快，某些包的时候不仅慢，它还中途断掉！
+
+所以推荐最好每个都试试！
+
+> 永久配置某个源：这里就不需要再加`-i 国内源`
+
+linux：修改 `~/.pip/pip.conf`
+windows：直接在user目录中创建一个pip目录，如：`C:\Users\xx\pip`，新建文件`pip.ini`
+
+linux和windows的具体内容都一致，如下：
+
+```bash
+[global]
+index-url = 国内源
+[install]
+trusted-host=mirrors.aliyun.com
+```
