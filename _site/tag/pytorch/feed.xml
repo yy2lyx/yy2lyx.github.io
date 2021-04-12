@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/pytorch/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-02-04T17:07:38+08:00</updated>
+  <updated>2021-04-12T15:45:16+08:00</updated>
   <id>http://localhost:4000/tag/pytorch/feed.xml</id>
 
   
@@ -44,10 +44,199 @@
 
   
     <entry>
+      <title type="html">Libtorch的GPU使用问题记录</title>
+      <link href="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95" rel="alternate" type="text/html" title="Libtorch的GPU使用问题记录" />
+      <published>2021-01-31T04:21:00+08:00</published>
+      <updated>2021-01-31T04:21:00+08:00</updated>
+      <id>http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95</id>
+      <content type="html" xml:base="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95">&lt;blockquote&gt;
+  &lt;p&gt;这里得吹逼下自己领导，10min解决了困扰我2天的问题（好吧，也许是我太蠢）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;一-问题描述&quot;&gt;一. 问题描述&lt;/h3&gt;
+
+&lt;p&gt;由于项目需要使用libtorch（pytorch的C++版本）的GPU版本，但是发现无法使用GPU，因此将问题和解决过程记录下来，方便日后观看和反思。&lt;/p&gt;
+
+&lt;h3 id=&quot;二-解决问题的过程&quot;&gt;二. 解决问题的过程&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-使用的torch版本&quot;&gt;2.1 使用的torch版本&lt;/h4&gt;
+
+&lt;p&gt;这里需要说下pytorch和libtorch的版本一定要一致，且和cuda的版本一致。这里都是通过pytorch官网上进行安装即可。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;pytorch1.6.0（GPU）：使用pip安装&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# CUDA 10.1
+pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;pytorch1.6.0（CPU）：使用pip安装&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# CPU only
+pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;libtorch1.6.0（GPU）：选择使用release版本即可（据说debug有问题）&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://download.pytorch.org/libtorch/cu101/libtorch-win-shared-with-deps-1.6.0%2Bcu101.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;libtorch1.6.0（CPU）：选择使用release版本即可（据说debug有问题）&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.6.0%2Bcpu.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;22-使用cmakelist的搭建工程&quot;&gt;2.2 使用cmakelist的搭建工程&lt;/h4&gt;
+
+&lt;div class=&quot;language-cmake highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cmake_minimum_required&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;VERSION 3.12 FATAL_ERROR&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# add CMAKE_PREFIX_PATH&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv/build/x64/vc15/lib&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/libtorch_gpu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CUDA_TOOLKIT_ROOT_DIR &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/cuda/development&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;Torch REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OpenCV REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;NOT Torch_FOUND&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;FATAL_ERROR &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch Not Found!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;endif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;NOT Torch_FOUND&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;Find Torch VERSION: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Torch_VERSION&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;OpenCV library status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    version: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_VERSION&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    include path: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_INCLUDE_DIRS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;nb&quot;&gt;add_executable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test torch_gpu_test.cpp&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;target_link_libraries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set_property&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;TARGET torch_gpu_test PROPERTY CXX_STANDARD 11&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;这里利用vs2019生成项目之后，编写以下代码进行测试：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;torch/torch.h&amp;gt;
+#include &amp;lt;torch/script.h&amp;gt;
+
+using namespace torch;
+
+int main()
+{
+    torch::DeviceType device_type = at::kCPU;
+    if (torch::cuda::is_available()) {
+        cout &amp;lt;&amp;lt; &quot;cuda!&quot; &amp;lt;&amp;lt; endl;
+        torch::DeviceType device_type = at::kCUDA;
+    }
+    else
+    {
+        cout &amp;lt;&amp;lt; &quot;cpu&quot; &amp;lt;&amp;lt; endl;
+    }
+    
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;到了这里我开始了我的问题之旅：由于是Release版本，不能debug，只能主观的认为这里应该是cuda的环境没配好导致torch无法使用gpu的，因此一直在找cmake的cuda环境配置问题。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;23-release-with-debug改变了我的想法&quot;&gt;2.3 Release with Debug改变了我的想法&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这里得说下本人第一次知道release版本也可以debug！（本人也算一C++小白哈，别计较）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这里顺带记录下如何使用vs2019的Release with debug的过程：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;直接在项目中将&lt;code class=&quot;highlighter-rouge&quot;&gt;Release&lt;/code&gt;版本选择为&lt;code class=&quot;highlighter-rouge&quot;&gt;RelWithDebInfo&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/02/01/FcP7UNy4fqTxkR1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;禁用代码优化功能：这里是防止出现“变量已被优化掉 因而不可用”这种问题&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/02/01/KSBZQE8f7IkenWD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在这里debug的时候发现，&lt;code class=&quot;highlighter-rouge&quot;&gt;device&lt;/code&gt;这个我定义的变量是可以加载cuda的！因此可以推翻我之前想的（cuda环境的问题）。&lt;/p&gt;
+
+&lt;h4 id=&quot;24-libtorch16gpu版本问题&quot;&gt;2.4 libtorch1.6GPU版本问题&lt;/h4&gt;
+
+&lt;p&gt;这里就可以肯定是libtorch的GPU问题了。为啥&lt;code class=&quot;highlighter-rouge&quot;&gt;torch::cuda::is_available()&lt;/code&gt;会是&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;呢？&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;网上的思路是：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在“属性 –&amp;gt; 链接器 –&amp;gt; 命令行 –&amp;gt; 其他选项”中添加：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  /INCLUDE:?warp_size@cuda@at@@YAHXZ
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;本人实验了下，按照网上的添加会报错，因此以下是本人实验可行的结果：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在“链接器 –&amp;gt; 输入 –&amp;gt; 附加依赖项”中进行添加：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;D:\software\libtorch_gpu\lib\torch_cuda.lib
+D:\software\libtorch_gpu\lib\torch_cpu.lib
+-INCLUDE:?warp_size@cuda@at@@YAHXZ
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这里很奇怪，cmakelist明明已经配置好了libtorch的gpu，但是这里却没有&lt;code class=&quot;highlighter-rouge&quot;&gt;torch_cuda.lib&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;至此，问题解决了！&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="pytorch" />
+      
+        <category term="DeepLearning" />
+      
+
+      
+        <summary type="html">介绍pytorch的C++版本的gpu使用的解决问题的过程记录</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
       <title type="html">GCN在多标签分类中的应用</title>
       <link href="http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8" rel="alternate" type="text/html" title="GCN在多标签分类中的应用" />
-      <published>2020-11-27T04:21:00+08:00</published>
-      <updated>2020-11-27T04:21:00+08:00</updated>
+      <published>2021-01-11T04:21:00+08:00</published>
+      <updated>2021-01-11T04:21:00+08:00</updated>
       <id>http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8</id>
       <content type="html" xml:base="http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8">&lt;h3 id=&quot;一--torch的图神经网络库pyg&quot;&gt;一.  Torch的图神经网络库pyG&lt;/h3&gt;
 
@@ -233,7 +422,7 @@ pip install torch-geometric
       
         <category term="图算法" />
       
-        <category term="deeplearning" />
+        <category term="DeepLearning" />
       
 
       
@@ -247,8 +436,8 @@ pip install torch-geometric
     <entry>
       <title type="html">windows下搭建libtorch和paddle的C++环境搭建</title>
       <link href="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" rel="alternate" type="text/html" title="windows下搭建libtorch和paddle的C++环境搭建" />
-      <published>2020-11-27T04:21:00+08:00</published>
-      <updated>2020-11-27T04:21:00+08:00</updated>
+      <published>2020-12-26T04:21:00+08:00</published>
+      <updated>2020-12-26T04:21:00+08:00</updated>
       <id>http://localhost:4000/windows%20%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA</id>
       <content type="html" xml:base="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">&lt;blockquote&gt;
   &lt;p&gt;参考文章：&lt;a href=&quot;https://pytorch.org/cppdocs/installing.html&quot;&gt;NSTALLING C++ DISTRIBUTIONS OF PYTORCH&lt;/a&gt;，&lt;a href=&quot;https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html&quot;&gt;安装与编译 Windows 预测库&lt;/a&gt;，&lt;a href=&quot;https://pytorch.apachecn.org/docs/1.0/cpp_export.html&quot;&gt;在C++中加载PYTORCH模型&lt;/a&gt;&lt;/p&gt;
@@ -412,200 +601,13 @@ int main() {
       
         <category term="paddle" />
       
-        <category term="C++" />
+        <category term="Cplusplus" />
       
-        <category term="deeplearning" />
+        <category term="DeepLearning" />
       
 
       
         <summary type="html">介绍在C++平台下搭建torch和paddle的环境</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">Libtorch的GPU使用问题记录</title>
-      <link href="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95" rel="alternate" type="text/html" title="Libtorch的GPU使用问题记录" />
-      <published>2020-11-27T04:21:00+08:00</published>
-      <updated>2020-11-27T04:21:00+08:00</updated>
-      <id>http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95</id>
-      <content type="html" xml:base="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95">&lt;blockquote&gt;
-  &lt;p&gt;这里得吹逼下自己领导，10min解决了困扰我2天的问题（好吧，也许是我太蠢）。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;一-问题描述&quot;&gt;一. 问题描述&lt;/h3&gt;
-
-&lt;p&gt;由于项目需要使用libtorch（pytorch的C++版本）的GPU版本，但是发现无法使用GPU，因此将问题和解决过程记录下来，方便日后观看和反思。&lt;/p&gt;
-
-&lt;h3 id=&quot;二-解决问题的过程&quot;&gt;二. 解决问题的过程&lt;/h3&gt;
-
-&lt;h4 id=&quot;21-使用的torch版本&quot;&gt;2.1 使用的torch版本&lt;/h4&gt;
-
-&lt;p&gt;这里需要说下pytorch和libtorch的版本一定要一致，且和cuda的版本一致。这里都是通过pytorch官网上进行安装即可。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;pytorch1.6.0（GPU）：使用pip安装&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# CUDA 10.1
-pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;pytorch1.6.0（CPU）：使用pip安装&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# CPU only
-pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;libtorch1.6.0（GPU）：选择使用release版本即可（据说debug有问题）&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://download.pytorch.org/libtorch/cu101/libtorch-win-shared-with-deps-1.6.0%2Bcu101.zip
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;libtorch1.6.0（CPU）：选择使用release版本即可（据说debug有问题）&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.6.0%2Bcpu.zip
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;22-使用cmakelist的搭建工程&quot;&gt;2.2 使用cmakelist的搭建工程&lt;/h4&gt;
-
-&lt;div class=&quot;language-cmake highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cmake_minimum_required&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;VERSION 3.12 FATAL_ERROR&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# add CMAKE_PREFIX_PATH&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv/build/x64/vc15/lib&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/libtorch_gpu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CUDA_TOOLKIT_ROOT_DIR &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/cuda/development&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;Torch REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OpenCV REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;NOT Torch_FOUND&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;FATAL_ERROR &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch Not Found!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;endif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;NOT Torch_FOUND&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;Find Torch VERSION: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Torch_VERSION&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;OpenCV library status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    version: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_VERSION&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    include path: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_INCLUDE_DIRS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&quot;nb&quot;&gt;add_executable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test torch_gpu_test.cpp&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;target_link_libraries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;set_property&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;TARGET torch_gpu_test PROPERTY CXX_STANDARD 11&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;这里利用vs2019生成项目之后，编写以下代码进行测试：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;torch/torch.h&amp;gt;
-#include &amp;lt;torch/script.h&amp;gt;
-
-using namespace torch;
-
-int main()
-{
-    torch::DeviceType device_type = at::kCPU;
-    if (torch::cuda::is_available()) {
-        cout &amp;lt;&amp;lt; &quot;cuda!&quot; &amp;lt;&amp;lt; endl;
-        torch::DeviceType device_type = at::kCUDA;
-    }
-    else
-    {
-        cout &amp;lt;&amp;lt; &quot;cpu&quot; &amp;lt;&amp;lt; endl;
-    }
-    
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;到了这里我开始了我的问题之旅：由于是Release版本，不能debug，只能主观的认为这里应该是cuda的环境没配好导致torch无法使用gpu的，因此一直在找cmake的cuda环境配置问题。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;23-release-with-debug改变了我的想法&quot;&gt;2.3 Release with Debug改变了我的想法&lt;/h4&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;这里得说下本人第一次知道release版本也可以debug！（本人也算一C++小白哈，别计较）&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;这里顺带记录下如何使用vs2019的Release with debug的过程：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;直接在项目中将&lt;code class=&quot;highlighter-rouge&quot;&gt;Release&lt;/code&gt;版本选择为&lt;code class=&quot;highlighter-rouge&quot;&gt;RelWithDebInfo&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/02/01/FcP7UNy4fqTxkR1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;禁用代码优化功能：这里是防止出现“变量已被优化掉 因而不可用”这种问题&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/02/01/KSBZQE8f7IkenWD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;在这里debug的时候发现，&lt;code class=&quot;highlighter-rouge&quot;&gt;device&lt;/code&gt;这个我定义的变量是可以加载cuda的！因此可以推翻我之前想的（cuda环境的问题）。&lt;/p&gt;
-
-&lt;h4 id=&quot;24-libtorch16gpu版本问题&quot;&gt;2.4 libtorch1.6GPU版本问题&lt;/h4&gt;
-
-&lt;p&gt;这里就可以肯定是libtorch的GPU问题了。为啥&lt;code class=&quot;highlighter-rouge&quot;&gt;torch::cuda::is_available()&lt;/code&gt;会是&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;呢？&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;网上的思路是：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;在“属性 –&amp;gt; 链接器 –&amp;gt; 命令行 –&amp;gt; 其他选项”中添加：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  /INCLUDE:?warp_size@cuda@at@@YAHXZ
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;本人实验了下，按照网上的添加会报错，因此以下是本人实验可行的结果：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;在“链接器 –&amp;gt; 输入 –&amp;gt; 附加依赖项”中进行添加：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;D:\software\libtorch_gpu\lib\torch_cuda.lib
-D:\software\libtorch_gpu\lib\torch_cpu.lib
--INCLUDE:?warp_size@cuda@at@@YAHXZ
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;这里很奇怪，cmakelist明明已经配置好了libtorch的gpu，但是这里却没有&lt;code class=&quot;highlighter-rouge&quot;&gt;torch_cuda.lib&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;至此，问题解决了！&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-
-      
-        <category term="pytorch" />
-      
-
-      
-        <summary type="html">介绍pytorch的C++版本的gpu使用的解决问题的过程记录</summary>
       
 
       
@@ -787,9 +789,9 @@ ForkingPickler&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;file, protocol&lt;sp
       
         <category term="pytorch" />
       
-        <category term="YOLOv5" />
+        <category term="ComputerVision" />
       
-        <category term="deeplearning" />
+        <category term="DeepLearning" />
       
 
       
@@ -897,7 +899,7 @@ trusted-host=mirrors.aliyun.com
       
 
       
-        <category term="CUDA10" />
+        <category term="DeepLearning" />
       
         <category term="pytorch" />
       

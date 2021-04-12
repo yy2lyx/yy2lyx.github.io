@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/deeplearning/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-02-04T17:07:38+08:00</updated>
+  <updated>2021-04-12T15:45:16+08:00</updated>
   <id>http://localhost:4000/tag/deeplearning/feed.xml</id>
 
   
@@ -44,47 +44,387 @@
 
   
     <entry>
-      <title type="html">windows下搭建libtorch和paddle的C++环境搭建</title>
-      <link href="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" rel="alternate" type="text/html" title="windows下搭建libtorch和paddle的C++环境搭建" />
-      <published>2020-11-27T04:21:00+08:00</published>
-      <updated>2020-11-27T04:21:00+08:00</updated>
-      <id>http://localhost:4000/windows%20%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA</id>
-      <content type="html" xml:base="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">&lt;blockquote&gt;
-  &lt;p&gt;参考文章：&lt;a href=&quot;https://pytorch.org/cppdocs/installing.html&quot;&gt;NSTALLING C++ DISTRIBUTIONS OF PYTORCH&lt;/a&gt;，&lt;a href=&quot;https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html&quot;&gt;安装与编译 Windows 预测库&lt;/a&gt;，&lt;a href=&quot;https://pytorch.apachecn.org/docs/1.0/cpp_export.html&quot;&gt;在C++中加载PYTORCH模型&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+      <title type="html">目标检测(one stage)-SSD</title>
+      <link href="http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_2" rel="alternate" type="text/html" title="目标检测(one stage)-SSD" />
+      <published>2021-04-04T04:21:00+08:00</published>
+      <updated>2021-04-04T04:21:00+08:00</updated>
+      <id>http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_2</id>
+      <content type="html" xml:base="http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_2">&lt;h3 id=&quot;一-yolo和ssd的对比&quot;&gt;一. YOLO和SSD的对比&lt;/h3&gt;
 
-&lt;h3 id=&quot;一-必要软件&quot;&gt;一. 必要软件&lt;/h3&gt;
+&lt;p&gt;yolo和ssd两个模型结构如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/uC7PiazmWIbq2kJ.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;两个模型之间最主要的差别：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://visualstudio.microsoft.com/zh-hans/vs/&quot;&gt;vs2019&lt;/a&gt;：paddle和torch这里的编译都是由Visual Studio 2019完成的&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://pytorch.org/get-started/locally/&quot;&gt;libtorch&lt;/a&gt;：直接在官网上进行下载压缩包，这里说明下分为release和debug版本，直接下载release版本即可。&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html&quot;&gt;paddle&lt;/a&gt;：这里选择2.0-rc1的cpu版本的直接进行解压安装。&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://opencv.org/releases/&quot;&gt;opencv&lt;/a&gt;：windows下直接安装exe到本地即可。&lt;/li&gt;
-  &lt;li&gt;cmake：直接用scoop安装&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install cmake&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;在特征抽取层其实相差不大：YOLO用的是器自己的conv架构；SSD用的是VGG-16&lt;/li&gt;
+  &lt;li&gt;主要差别在结果预测上：YOLO用的是全连接层后得到7*7的grid，利用每个grid的boundingbox来做目标检测；SSD利用不同大小的feature map来做目标检测。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;二-安装libtorch环境&quot;&gt;二. 安装libtorch环境&lt;/h3&gt;
+&lt;h3 id=&quot;二-模型结构&quot;&gt;二. 模型结构&lt;/h3&gt;
 
-&lt;h4 id=&quot;21-构建一个c项目&quot;&gt;2.1 构建一个C++项目&lt;/h4&gt;
+&lt;h4 id=&quot;21-特征抽取层&quot;&gt;2.1 特征抽取层&lt;/h4&gt;
 
-&lt;p&gt;目录层级如下：&lt;/p&gt;
+&lt;p&gt;那么如何从VGG-16的结构变成SSD的结构呢?下图是一个VGG-16的示意图。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;├─example-app
-	 ├─build // 新建一个空目录
-	 ├─CMakeLists.txt // 构建一个cmakelist
-	 └─example-app.cpp // 构建一个cpp文件用于测试
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/fKEV8UWLTvPGmQ3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;其中，&lt;code class=&quot;highlighter-rouge&quot;&gt;CMakeList.txt&lt;/code&gt;具体设置如下：&lt;/p&gt;
+&lt;p&gt;将VGG-16的最后一层pooling层变成3*3 的卷积层，再接一个atrous conv（空洞卷积）拿到不同大小的feature map。如下所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/qdFiaXwTlJUmS9p.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;22-空洞卷积&quot;&gt;2.2 空洞卷积&lt;/h4&gt;
+
+&lt;p&gt;这里运用atrous conv layer而不是普通的conv layer的目的：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在相同的感受野的同时，能获得更快的运算速度&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如下图所示，是5 * 5 的卷积的kernel和3 * 3的atrous conv的kernel的感受野。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/HPzOvInK6fhstr2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到，如果是3 * 3的conv层接5 * 5的conv层，那么feature map中单一点的感受野其实是7个像素点；而如果是3 * 3的conv层接3 * 3的atrous conv层，能达到相同的感受野，且计算速度更快。&lt;/p&gt;
+
+&lt;h4 id=&quot;22-推理层&quot;&gt;2.2 推理层&lt;/h4&gt;
+
+&lt;p&gt;下图是SSD的推理层的示意图。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/83wrMCQ5YJajBGz.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到，图片经过vgg16之后，首先会得到较浅的feature map,随后经过几层卷积之后，得到较为深层的feature map（所以在上图中仅有较深层的能检测到车这种大物体），同时每层的feature map都会经过一个检测器和分类器得到检测结果，最后经过NMS得到最终的检测结果。&lt;/p&gt;
+
+&lt;p&gt;那么整个SSD的anchor box的数量是：
+&lt;script type=&quot;math/tex&quot;&gt;38*38*3+19*19*6+10*10*6+5*5*6+3*3*6+1*1*6 = 7308&lt;/script&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;三-模型训练&quot;&gt;三. 模型训练&lt;/h3&gt;
+
+&lt;h4 id=&quot;31训练loss&quot;&gt;3.1训练loss&lt;/h4&gt;
+
+&lt;p&gt;SSD和YOLO的loss中的检测类别值有所不同：假定检测目标一共A个类别，那么YOLO的预测类别数位A个，而SSD的预测类别则是A+1个（包含了背景类）。如下图所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/nqH2h5B6CtupZSs.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;32-难负例挖掘&quot;&gt;3.2 难负例挖掘&lt;/h4&gt;
+
+&lt;p&gt;对于正负样本不均衡的情况，SSD采用了hard negative mining(难负例挖掘)技巧来解决。hard negative是指在图片中容易将负样本（背景）看成是正样本（前景）的样本。而mining的操作就是将这类样本放入模型进行学习，从而减少模型的false positive。&lt;/p&gt;
+
+&lt;p&gt;那么SSD是如何引用hard negative mining技巧呢？如下图，其中蓝色的box的我们希望它的confidence较低，而绿色的confidence较高。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;对于一张图而言，选出其中anchor box中negative置信度较高的box。&lt;/li&gt;
+  &lt;li&gt;正负比例的anchor box = 1：3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/Z8uVQvXyMs2SKhR.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;32-数据增强&quot;&gt;3.2 数据增强&lt;/h4&gt;
+
+&lt;p&gt;SSD模型在论文中也使用了很多不同的data augmentation(数据增强)的操作。&lt;/p&gt;
+
+&lt;p&gt;方式一：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;针对原始输入图片和ground truth进行IOU的操作&lt;/li&gt;
+  &lt;li&gt;对其中iou = 0.1，0.3，0.5，0.7和0.9来进行采样。&lt;/li&gt;
+  &lt;li&gt;对采样后的图片进行resize成相同大小的图片，然后进行水平翻转的操作。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/h4K3V1XzYRLFQwg.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;方式二（Random Expansion-得到的小目标训练样本）：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;对原始图像做不同比例的缩小。&lt;/li&gt;
+  &lt;li&gt;然后放在相同大小图片中不同的地方。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/E48HkqysBPFw9JV.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;四-结果比较&quot;&gt;四. 结果比较&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/uKA6pBnV71YRFah.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到，SSD相较于YOLO在准确性上有很大的提升，同时预测速度上也能达到很高的fps。&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="ComputerVision" />
+      
+        <category term="DeepLearning" />
+      
+        <category term="SSD" />
+      
+
+      
+        <summary type="html">目标检测（one stage）——SSD</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">目标检测(one stage)-YOLOv1</title>
+      <link href="http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1" rel="alternate" type="text/html" title="目标检测(one stage)-YOLOv1" />
+      <published>2021-03-11T04:21:00+08:00</published>
+      <updated>2021-03-11T04:21:00+08:00</updated>
+      <id>http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1</id>
+      <content type="html" xml:base="http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1">&lt;h3 id=&quot;一-目标检测算法的分类及历史&quot;&gt;一. 目标检测算法的分类及历史&lt;/h3&gt;
+
+&lt;h4 id=&quot;11-目标检测算法的分类&quot;&gt;1.1 目标检测算法的分类&lt;/h4&gt;
+
+&lt;p&gt;目标检测算法主要分为2大类：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;one-stage(one-shot object detectors) ：直接预测目标的bounding box及其类别。特点是一步到位，速度很快。比如：YOLO，SSD等系列模型。&lt;/li&gt;
+  &lt;li&gt;two-stage：需要先使用启发式方法(selective search)或者CNN网络(RPN)产生Region Proposal，然后再在Region Proposal上做分类与回归。特点是：慢，但是准确率高。比如：RCNN系列模型。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;由于在工业应用中，往往对模型预测速度有要求，而two-stage目标检测模型由于先天的不足，因此本文仅考虑one-stage目标检测模型。&lt;/p&gt;
+
+&lt;h4 id=&quot;12-目标检测发展流程&quot;&gt;1.2 目标检测发展流程&lt;/h4&gt;
+
+&lt;p&gt;目标检测（one-stage）的总体发展流程：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2015.06 — YOLOv1：第一个one-stage目标检测器。&lt;/li&gt;
+  &lt;li&gt;2015.12 — SSD：结合anchor box和多尺度特征的one-stage目标检测器。&lt;/li&gt;
+  &lt;li&gt;2016.12 — YOLOv2：YOLO的第二版。&lt;/li&gt;
+  &lt;li&gt;2016.12 — FPN：特征金字塔（结合不同尺寸的特征图像）&lt;/li&gt;
+  &lt;li&gt;2017.01 — DSSD：SSD结合FPN。&lt;/li&gt;
+  &lt;li&gt;2017.08 — RetinaNet：Focal Loss解决正负样本不均衡&lt;/li&gt;
+  &lt;li&gt;2018.04 — YOLOv3：YOLO的第三版。&lt;/li&gt;
+  &lt;li&gt;2018.07 — CBAM：Attention机制的目标检测。&lt;/li&gt;
+  &lt;li&gt;2019.11 — EfficientDet：Google提出的目标检测器。&lt;/li&gt;
+  &lt;li&gt;2020.04 — YOLOv4：YOLO的第四版。&lt;/li&gt;
+  &lt;li&gt;2020.06 — YOLOv5：YOLO第五版。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-yolo&quot;&gt;二. YOLO&lt;/h3&gt;
+
+&lt;p&gt;当我最初学习图像分类的时候，就一直疑惑：如果我利用卷积层抽取目标特征后直接把分类任务做成回归任务（包含目标的位置和类别信息）可以作为目标检测器么？答案来了——YOLO（You Look Only Once）。&lt;/p&gt;
+
+&lt;h4 id=&quot;21-模型结构&quot;&gt;2.1 模型结构&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/bAs2nLNVF5uWijZ.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;YOLO模型的结构如上所示：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;输入为一个448*448的一个图片输入。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;一共是经过24层的卷积层抽取特征，使用relu作为每一层的激活函数。&lt;/li&gt;
+  &lt;li&gt;最后通过全连接层，且output形式为[7,7,30]的输出。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;模型输出的理解：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;将448 * 448的图像分为7 * 7的grid（网格），每个grid都会进行判断：是否为前景，且会构建2个boundingbox来框出物体。因此，一共是有7 * 7 * 2个框。而每个grid都会输出x,y,w,h,c；这里的confidence的计算就是前景目标的概率 * iou的值。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/p5KV6fZGaQCqUMT.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;除了boundingbox的计算外，当然还需要输出目标是哪个类别，即输出检测到的目标是某个类别的概率。这样就可以计算每个grid属于某个类别下的iou情况了。&lt;/li&gt;
+  &lt;li&gt;最后利用NMS（非极大值抑制：顾名思义就是不是最大的置信度就不要了）找到每个目标的最合适的框。具体NMS的算法步骤如下：
+    &lt;ul&gt;
+      &lt;li&gt;（1）首先拿到的是YOLO模型输出的结果，即7 * 7 * 2个框，每个框都是由5个元素（x,y,w,h,c）。这里需要知道一张图片中有多少个目标且目标confidence最高的结果。&lt;/li&gt;
+      &lt;li&gt;（2）通过计算两两框之间的IOU（交并比），用来划分一张图片中有多少个目标（如果IOU&amp;gt;0说明属于同一目标下的框）。&lt;/li&gt;
+      &lt;li&gt;（3）对同一目标下的所有框的confidence进行排序，找到最大的的confidence对应的框。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;22-模型训练&quot;&gt;2.2 模型训练&lt;/h4&gt;
+
+&lt;p&gt;这里主要讲述模型训练过程中loss的定义过程。&lt;/p&gt;
+
+&lt;h5 id=&quot;221-location-loss&quot;&gt;2.2.1 Location Loss&lt;/h5&gt;
+
+&lt;p&gt;定义如下所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/ZLlQj29WeVTdzRI.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/oeTrzxY4auHEG8c.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如上所示，假定是将图片划分为3 * 3个grid，每个grid有且仅有一个预测框，由于只计算和前景目标匹配的框，因此只会计算grid5和grid7的location loss。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;grid5的loss：&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/G7TUCNdS5lWDKrw.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;grid7的loss：&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/nBHViDx8kpRjGZ9.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;但是这里看大大猫和小猫的loss竟然是一样的，大猫的loss应该明显要小一些，而小猫的loss明显要大一些。因此这种loss的计算还需要提升。这里就将w,h的分别先进行&lt;strong&gt;开根号&lt;/strong&gt;处理。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;grid5的loss：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/ZA2t1zlJKIu9XMD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;grid7的loss：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/hlRF8OMHrt6wXnk.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;222-object-loss&quot;&gt;2.2.2 Object Loss&lt;/h5&gt;
+
+&lt;p&gt;定义如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/N9KPlvfTF1OCuWE.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;那么上图的每个grid的confidence的值如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/jlszbUxcCQTLqIK.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;object loss的值为：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/HvNnV8h6eZdoWE7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;但是这个是只划分了3 * 3个grid的，那么如果是原论文中的7 * 7的情况下呢，此时的object loss的值为：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/WqYcKHxbveoRhQL.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我们可以看到，0.96这个检测的背景的loss就过大了，那么在反向传播的过程中，梯度的变化很大程度就着重在背景的部分，以至于学习前景的能力较差。&lt;/p&gt;
+
+&lt;p&gt;因此，重新定义object loss（其实就是在背景loss引入一个系数，比如0.5）：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/ctsYBoIguWzlab7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;223-classification-loss&quot;&gt;2.2.3 classification loss&lt;/h5&gt;
+
+&lt;p&gt;定义如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/fI6jQpviDU5Kswo.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;24-yolo存在问题&quot;&gt;2.4 YOLO存在问题&lt;/h4&gt;
+
+&lt;h5 id=&quot;241-同一个grid却是多个目标的中心点&quot;&gt;2.4.1 同一个grid却是多个目标的中心点&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/iLWdGr6kxPAUplD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如上图所示，人和车的中心点基本都落在中心的grid中，对于yolo而言，就无法分辨到底是人还是车？一个grid下只能预测1个目标。&lt;/p&gt;
+
+&lt;h5 id=&quot;242-同一个grid中存在多个小目标&quot;&gt;2.4.2 同一个grid中存在多个小目标&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/UmrSYCLP7MdTXab.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如上图所示，同一个grid下有多个鸟（小目标），而对于yolo而言，一个grid下只能预测1个目标。&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="yolo" />
+      
+        <category term="ComputerVision" />
+      
+        <category term="DeepLearning" />
+      
+
+      
+        <summary type="html">目标检测（one stage）的开始——YOLOv1</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Libtorch的GPU使用问题记录</title>
+      <link href="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95" rel="alternate" type="text/html" title="Libtorch的GPU使用问题记录" />
+      <published>2021-01-31T04:21:00+08:00</published>
+      <updated>2021-01-31T04:21:00+08:00</updated>
+      <id>http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95</id>
+      <content type="html" xml:base="http://localhost:4000/Libtorch%E7%9A%84GPU%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95">&lt;blockquote&gt;
+  &lt;p&gt;这里得吹逼下自己领导，10min解决了困扰我2天的问题（好吧，也许是我太蠢）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;一-问题描述&quot;&gt;一. 问题描述&lt;/h3&gt;
+
+&lt;p&gt;由于项目需要使用libtorch（pytorch的C++版本）的GPU版本，但是发现无法使用GPU，因此将问题和解决过程记录下来，方便日后观看和反思。&lt;/p&gt;
+
+&lt;h3 id=&quot;二-解决问题的过程&quot;&gt;二. 解决问题的过程&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-使用的torch版本&quot;&gt;2.1 使用的torch版本&lt;/h4&gt;
+
+&lt;p&gt;这里需要说下pytorch和libtorch的版本一定要一致，且和cuda的版本一致。这里都是通过pytorch官网上进行安装即可。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;pytorch1.6.0（GPU）：使用pip安装&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# CUDA 10.1
+pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;pytorch1.6.0（CPU）：使用pip安装&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# CPU only
+pip install torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;libtorch1.6.0（GPU）：选择使用release版本即可（据说debug有问题）&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://download.pytorch.org/libtorch/cu101/libtorch-win-shared-with-deps-1.6.0%2Bcu101.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;libtorch1.6.0（CPU）：选择使用release版本即可（据说debug有问题）&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.6.0%2Bcpu.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;22-使用cmakelist的搭建工程&quot;&gt;2.2 使用cmakelist的搭建工程&lt;/h4&gt;
 
 &lt;div class=&quot;language-cmake highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cmake_minimum_required&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;VERSION 3.12 FATAL_ERROR&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;c1&quot;&gt;# add CMAKE_PREFIX_PATH&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#增加opencv和libtorch的路径&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv/build/x64/vc15/lib&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
-&lt;span class=&quot;c1&quot;&gt;# 注意这里如果是vs2015的版本，需要改成 /build/x64/vc14/lib&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/libtorch&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv/build/x64/vc15/lib&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/libtorch_gpu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CUDA_TOOLKIT_ROOT_DIR &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/cuda/development&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 
 &lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;Torch REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -96,6 +436,7 @@
 
 &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;Find Torch VERSION: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Torch_VERSION&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;OpenCV library status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    version: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_VERSION&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -103,94 +444,90 @@
 &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    include path: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_INCLUDE_DIRS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 
-&lt;span class=&quot;nb&quot;&gt;add_executable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app example-app.cpp&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;target_link_libraries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;set_property&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;TARGET example-app PROPERTY CXX_STANDARD 11&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;add_executable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test torch_gpu_test.cpp&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;target_link_libraries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;torch_gpu_test &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set_property&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;TARGET torch_gpu_test PROPERTY CXX_STANDARD 11&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;C++测试代码（&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.cpp&lt;/code&gt;）如下（测试opencv和libtorch）：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;这里利用vs2019生成项目之后，编写以下代码进行测试：&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;torch/torch.h&amp;gt;
-#include &amp;lt;iostream&amp;gt;
-#include &amp;lt;opencv2/core.hpp&amp;gt;
-#include &amp;lt;opencv2/highgui/highgui.hpp&amp;gt;
+#include &amp;lt;torch/script.h&amp;gt;
 
-using namespace std;
-using namespace cv;
+using namespace torch;
 
-int main() {
-  torch::Tensor tensor = torch::rand({2, 3});
-  std::cout &amp;lt;&amp;lt; tensor &amp;lt;&amp;lt; std::endl;
-  std::cout &amp;lt;&amp;lt; &quot;ok!&quot; &amp;lt;&amp;lt; std::endl;
-  Mat img = imread(&quot;1.jpg&quot;);
-  imshow(&quot;1&quot;,img);
-  waitKey(0);
-  return 0;
+int main()
+{
+    torch::DeviceType device_type = at::kCPU;
+    if (torch::cuda::is_available()) {
+        cout &amp;lt;&amp;lt; &quot;cuda!&quot; &amp;lt;&amp;lt; endl;
+        torch::DeviceType device_type = at::kCUDA;
+    }
+    else
+    {
+        cout &amp;lt;&amp;lt; &quot;cpu&quot; &amp;lt;&amp;lt; endl;
+    }
+    
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&quot;22-编译和生成项目&quot;&gt;2.2 编译和生成项目&lt;/h4&gt;
-
 &lt;ul&gt;
-  &lt;li&gt;进入到&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;目录：&lt;code class=&quot;highlighter-rouge&quot;&gt;cd build&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;利用cmake进行编译： &lt;code class=&quot;highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;编译顺利的话，就可以看到&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;目录下生成了如下所示：&lt;/li&gt;
+  &lt;li&gt;到了这里我开始了我的问题之旅：由于是Release版本，不能debug，只能主观的认为这里应该是cuda的环境没配好导致torch无法使用gpu的，因此一直在找cmake的cuda环境配置问题。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqn8ispmj30j706dq3s.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;h4 id=&quot;23-release-with-debug改变了我的想法&quot;&gt;2.3 Release with Debug改变了我的想法&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这里得说下本人第一次知道release版本也可以debug！（本人也算一C++小白哈，别计较）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这里顺带记录下如何使用vs2019的Release with debug的过程：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;利用vs2019打开项目&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.sln&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;点击&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app&lt;/code&gt; 右键选择&lt;code class=&quot;highlighter-rouge&quot;&gt;设为启动项&lt;/code&gt;，并且将版本选择&lt;code class=&quot;highlighter-rouge&quot;&gt;release&lt;/code&gt;版本，点击&lt;code class=&quot;highlighter-rouge&quot;&gt;本地Windows调试器&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;直接在项目中将&lt;code class=&quot;highlighter-rouge&quot;&gt;Release&lt;/code&gt;版本选择为&lt;code class=&quot;highlighter-rouge&quot;&gt;RelWithDebInfo&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnkotpsj30kk0blmxs.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;23-调试问题的解决&quot;&gt;2.3 调试问题的解决&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/02/01/FcP7UNy4fqTxkR1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;报错信息：&lt;code class=&quot;highlighter-rouge&quot;&gt;由于找不到c10.dll&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;torch.dll&lt;/code&gt;这种找不到dll文件的，直接将dll文件(这些dll文件都在&lt;code class=&quot;highlighter-rouge&quot;&gt;libtorch/lib&lt;/code&gt;路径下)复制到&lt;code class=&quot;highlighter-rouge&quot;&gt;build/release&lt;/code&gt;文件夹下&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv_world3411.dll&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv_ffmpeg3411_64.dll&lt;/code&gt;等都在opencv的&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv\opencv\build\x64\vc15\lib&lt;/code&gt;路径下。&lt;/li&gt;
-  &lt;li&gt;这里注意测试opencv的时候，需要将图片放置到和&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.vcxproj&lt;/code&gt;同级目录下&lt;/li&gt;
+  &lt;li&gt;禁用代码优化功能：这里是防止出现“变量已被优化掉 因而不可用”这种问题&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;24-exe生成文件的平台移植&quot;&gt;2.4 exe生成文件的平台移植&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/02/01/KSBZQE8f7IkenWD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在这里debug的时候发现，&lt;code class=&quot;highlighter-rouge&quot;&gt;device&lt;/code&gt;这个我定义的变量是可以加载cuda的！因此可以推翻我之前想的（cuda环境的问题）。&lt;/p&gt;
+
+&lt;h4 id=&quot;24-libtorch16gpu版本问题&quot;&gt;2.4 libtorch1.6GPU版本问题&lt;/h4&gt;
+
+&lt;p&gt;这里就可以肯定是libtorch的GPU问题了。为啥&lt;code class=&quot;highlighter-rouge&quot;&gt;torch::cuda::is_available()&lt;/code&gt;会是&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;呢？&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;如果需要将生成的exe文件移植到其他PC上面，只需要将release文件夹下所有文件（包括dll文件和exe文件）复制到其他PC即可。&lt;/li&gt;
-  &lt;li&gt;生成的exe文件在找图片的时候也是同级目录下找，因此需要将图片放置到&lt;code class=&quot;highlighter-rouge&quot;&gt;exe&lt;/code&gt;文件的同级目录下。&lt;/li&gt;
+  &lt;li&gt;网上的思路是：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;25-pytorch模型在c平台的使用&quot;&gt;2.5 pytorch模型在C++平台的使用&lt;/h4&gt;
+&lt;p&gt;在“属性 –&amp;gt; 链接器 –&amp;gt; 命令行 –&amp;gt; 其他选项”中添加：&lt;/p&gt;
 
-&lt;p&gt;PyTorch模型从Python到C++的转换由&lt;a href=&quot;https://pytorch.org/docs/master/jit.html&quot;&gt;Torch Script&lt;/a&gt;实现。Torch Script是PyTorch模型的一种表示，可由Torch Script编译器理解，编译和序列化。一般利用trace将PyTorch模型转换为Torch脚本,必须将模型的实例以及样本输入传递给&lt;code class=&quot;highlighter-rouge&quot;&gt;torch.jit.trace&lt;/code&gt;函数。这将生成一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;torch.jit.ScriptModule&lt;/code&gt;对象，并在模块的&lt;code class=&quot;highlighter-rouge&quot;&gt;forward&lt;/code&gt;方法中嵌入模型评估的跟踪。&lt;/p&gt;
-
-&lt;h3 id=&quot;三-安装paddle的c环境&quot;&gt;三. 安装paddle的C++环境&lt;/h3&gt;
-
-&lt;h4 id=&quot;31-下载安装paddle&quot;&gt;3.1 下载安装paddle&lt;/h4&gt;
-
-&lt;p&gt;这里官网有2种方式在windows上安装paddle环境：一个是通过git下载paddle源码进行编译安装，另一种直接从官网下载zip编译好的文件（本文使用该种方式）。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnvgko9j30q707iaac.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;32-结合paddleocr测试并使用paddle预测库&quot;&gt;3.2 结合paddleOCR测试并使用paddle预测库&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;paddleOCR的git地址：https://github.com/PaddlePaddle/PaddleOCR&lt;/li&gt;
-  &lt;li&gt;下载到本地之后，&lt;code class=&quot;highlighter-rouge&quot;&gt;cd PaddleOCR\deploy\cpp_infer&lt;/code&gt;，修改&lt;code class=&quot;highlighter-rouge&quot;&gt;CMakeList.txt&lt;/code&gt;文件&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-cmake highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;SET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;PADDLE_LIB &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/paddle_inference_install_dir&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 这里是下载的paddle预测库的路径&lt;/span&gt;
-&lt;span class=&quot;nf&quot;&gt;SET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OPENCV_DIR &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 这里是下载的opencv的路径&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OpenCV REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  /INCLUDE:?warp_size@cuda@at@@YAHXZ
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;新建一个build文件夹：&lt;code class=&quot;highlighter-rouge&quot;&gt;mkdir build&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;进入build：&lt;code class=&quot;highlighter-rouge&quot;&gt;cd build&lt;/code&gt; ， 编译：&lt;code class=&quot;highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;同样的利用vs2019打开项目&lt;code class=&quot;highlighter-rouge&quot;&gt;ocr_system.sln&lt;/code&gt;，生成即可。&lt;/li&gt;
-  &lt;li&gt;这里注意需要将&lt;code class=&quot;highlighter-rouge&quot;&gt;paddle_fluid.dll&lt;/code&gt;放入到&lt;code class=&quot;highlighter-rouge&quot;&gt;Release&lt;/code&gt;目录下。&lt;/li&gt;
-&lt;/ul&gt;</content>
+  &lt;li&gt;本人实验了下，按照网上的添加会报错，因此以下是本人实验可行的结果：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在“链接器 –&amp;gt; 输入 –&amp;gt; 附加依赖项”中进行添加：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;D:\software\libtorch_gpu\lib\torch_cuda.lib
+D:\software\libtorch_gpu\lib\torch_cpu.lib
+-INCLUDE:?warp_size@cuda@at@@YAHXZ
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这里很奇怪，cmakelist明明已经配置好了libtorch的gpu，但是这里却没有&lt;code class=&quot;highlighter-rouge&quot;&gt;torch_cuda.lib&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;至此，问题解决了！&lt;/p&gt;</content>
 
       
       
@@ -209,15 +546,11 @@ int main() {
       
         <category term="pytorch" />
       
-        <category term="paddle" />
-      
-        <category term="C++" />
-      
-        <category term="deeplearning" />
+        <category term="DeepLearning" />
       
 
       
-        <summary type="html">介绍在C++平台下搭建torch和paddle的环境</summary>
+        <summary type="html">介绍pytorch的C++版本的gpu使用的解决问题的过程记录</summary>
       
 
       
@@ -227,8 +560,8 @@ int main() {
     <entry>
       <title type="html">GCN在多标签分类中的应用</title>
       <link href="http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8" rel="alternate" type="text/html" title="GCN在多标签分类中的应用" />
-      <published>2020-11-27T04:21:00+08:00</published>
-      <updated>2020-11-27T04:21:00+08:00</updated>
+      <published>2021-01-11T04:21:00+08:00</published>
+      <updated>2021-01-11T04:21:00+08:00</updated>
       <id>http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8</id>
       <content type="html" xml:base="http://localhost:4000/GCN%E5%9C%A8%E5%A4%9A%E6%A0%87%E7%AD%BE%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8">&lt;h3 id=&quot;一--torch的图神经网络库pyg&quot;&gt;一.  Torch的图神经网络库pyG&lt;/h3&gt;
 
@@ -414,11 +747,755 @@ pip install torch-geometric
       
         <category term="图算法" />
       
-        <category term="deeplearning" />
+        <category term="DeepLearning" />
       
 
       
         <summary type="html">介绍在图卷积网络在多标签分类任务中的应用</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">windows下搭建libtorch和paddle的C++环境搭建</title>
+      <link href="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA" rel="alternate" type="text/html" title="windows下搭建libtorch和paddle的C++环境搭建" />
+      <published>2020-12-26T04:21:00+08:00</published>
+      <updated>2020-12-26T04:21:00+08:00</updated>
+      <id>http://localhost:4000/windows%20%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA</id>
+      <content type="html" xml:base="http://localhost:4000/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">&lt;blockquote&gt;
+  &lt;p&gt;参考文章：&lt;a href=&quot;https://pytorch.org/cppdocs/installing.html&quot;&gt;NSTALLING C++ DISTRIBUTIONS OF PYTORCH&lt;/a&gt;，&lt;a href=&quot;https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html&quot;&gt;安装与编译 Windows 预测库&lt;/a&gt;，&lt;a href=&quot;https://pytorch.apachecn.org/docs/1.0/cpp_export.html&quot;&gt;在C++中加载PYTORCH模型&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;一-必要软件&quot;&gt;一. 必要软件&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://visualstudio.microsoft.com/zh-hans/vs/&quot;&gt;vs2019&lt;/a&gt;：paddle和torch这里的编译都是由Visual Studio 2019完成的&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pytorch.org/get-started/locally/&quot;&gt;libtorch&lt;/a&gt;：直接在官网上进行下载压缩包，这里说明下分为release和debug版本，直接下载release版本即可。&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.paddlepaddle.org.cn/documentation/docs/zh/2.0-rc1/guides/05_inference_deployment/inference/windows_cpp_inference.html&quot;&gt;paddle&lt;/a&gt;：这里选择2.0-rc1的cpu版本的直接进行解压安装。&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://opencv.org/releases/&quot;&gt;opencv&lt;/a&gt;：windows下直接安装exe到本地即可。&lt;/li&gt;
+  &lt;li&gt;cmake：直接用scoop安装&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install cmake&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-安装libtorch环境&quot;&gt;二. 安装libtorch环境&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-构建一个c项目&quot;&gt;2.1 构建一个C++项目&lt;/h4&gt;
+
+&lt;p&gt;目录层级如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;├─example-app
+	 ├─build // 新建一个空目录
+	 ├─CMakeLists.txt // 构建一个cmakelist
+	 └─example-app.cpp // 构建一个cpp文件用于测试
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;其中，&lt;code class=&quot;highlighter-rouge&quot;&gt;CMakeList.txt&lt;/code&gt;具体设置如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-cmake highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cmake_minimum_required&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;VERSION 3.12 FATAL_ERROR&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# add CMAKE_PREFIX_PATH&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#增加opencv和libtorch的路径&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv/build/x64/vc15/lib&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+&lt;span class=&quot;c1&quot;&gt;# 注意这里如果是vs2015的版本，需要改成 /build/x64/vc14/lib&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;APPEND CMAKE_PREFIX_PATH &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/libtorch&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;Torch REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OpenCV REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;NOT Torch_FOUND&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;FATAL_ERROR &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch Not Found!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;endif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;NOT Torch_FOUND&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;Pytorch status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;OpenCV library status:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    version: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_VERSION&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    libraries: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;STATUS &lt;span class=&quot;s2&quot;&gt;&quot;    include path: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_INCLUDE_DIRS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;nb&quot;&gt;add_executable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app example-app.cpp&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;target_link_libraries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;example-app &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TORCH_LIBRARIES&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OpenCV_LIBS&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;set_property&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;TARGET example-app PROPERTY CXX_STANDARD 11&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;C++测试代码（&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.cpp&lt;/code&gt;）如下（测试opencv和libtorch）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;torch/torch.h&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;opencv2/core.hpp&amp;gt;
+#include &amp;lt;opencv2/highgui/highgui.hpp&amp;gt;
+
+using namespace std;
+using namespace cv;
+
+int main() {
+  torch::Tensor tensor = torch::rand({2, 3});
+  std::cout &amp;lt;&amp;lt; tensor &amp;lt;&amp;lt; std::endl;
+  std::cout &amp;lt;&amp;lt; &quot;ok!&quot; &amp;lt;&amp;lt; std::endl;
+  Mat img = imread(&quot;1.jpg&quot;);
+  imshow(&quot;1&quot;,img);
+  waitKey(0);
+  return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;22-编译和生成项目&quot;&gt;2.2 编译和生成项目&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;进入到&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;目录：&lt;code class=&quot;highlighter-rouge&quot;&gt;cd build&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;利用cmake进行编译： &lt;code class=&quot;highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;编译顺利的话，就可以看到&lt;code class=&quot;highlighter-rouge&quot;&gt;build&lt;/code&gt;目录下生成了如下所示：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqn8ispmj30j706dq3s.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;利用vs2019打开项目&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.sln&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;点击&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app&lt;/code&gt; 右键选择&lt;code class=&quot;highlighter-rouge&quot;&gt;设为启动项&lt;/code&gt;，并且将版本选择&lt;code class=&quot;highlighter-rouge&quot;&gt;release&lt;/code&gt;版本，点击&lt;code class=&quot;highlighter-rouge&quot;&gt;本地Windows调试器&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnkotpsj30kk0blmxs.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;23-调试问题的解决&quot;&gt;2.3 调试问题的解决&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;报错信息：&lt;code class=&quot;highlighter-rouge&quot;&gt;由于找不到c10.dll&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;torch.dll&lt;/code&gt;这种找不到dll文件的，直接将dll文件(这些dll文件都在&lt;code class=&quot;highlighter-rouge&quot;&gt;libtorch/lib&lt;/code&gt;路径下)复制到&lt;code class=&quot;highlighter-rouge&quot;&gt;build/release&lt;/code&gt;文件夹下&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv_world3411.dll&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv_ffmpeg3411_64.dll&lt;/code&gt;等都在opencv的&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv\opencv\build\x64\vc15\lib&lt;/code&gt;路径下。&lt;/li&gt;
+  &lt;li&gt;这里注意测试opencv的时候，需要将图片放置到和&lt;code class=&quot;highlighter-rouge&quot;&gt;example-app.vcxproj&lt;/code&gt;同级目录下&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;24-exe生成文件的平台移植&quot;&gt;2.4 exe生成文件的平台移植&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果需要将生成的exe文件移植到其他PC上面，只需要将release文件夹下所有文件（包括dll文件和exe文件）复制到其他PC即可。&lt;/li&gt;
+  &lt;li&gt;生成的exe文件在找图片的时候也是同级目录下找，因此需要将图片放置到&lt;code class=&quot;highlighter-rouge&quot;&gt;exe&lt;/code&gt;文件的同级目录下。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;25-pytorch模型在c平台的使用&quot;&gt;2.5 pytorch模型在C++平台的使用&lt;/h4&gt;
+
+&lt;p&gt;PyTorch模型从Python到C++的转换由&lt;a href=&quot;https://pytorch.org/docs/master/jit.html&quot;&gt;Torch Script&lt;/a&gt;实现。Torch Script是PyTorch模型的一种表示，可由Torch Script编译器理解，编译和序列化。一般利用trace将PyTorch模型转换为Torch脚本,必须将模型的实例以及样本输入传递给&lt;code class=&quot;highlighter-rouge&quot;&gt;torch.jit.trace&lt;/code&gt;函数。这将生成一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;torch.jit.ScriptModule&lt;/code&gt;对象，并在模块的&lt;code class=&quot;highlighter-rouge&quot;&gt;forward&lt;/code&gt;方法中嵌入模型评估的跟踪。&lt;/p&gt;
+
+&lt;h3 id=&quot;三-安装paddle的c环境&quot;&gt;三. 安装paddle的C++环境&lt;/h3&gt;
+
+&lt;h4 id=&quot;31-下载安装paddle&quot;&gt;3.1 下载安装paddle&lt;/h4&gt;
+
+&lt;p&gt;这里官网有2种方式在windows上安装paddle环境：一个是通过git下载paddle源码进行编译安装，另一种直接从官网下载zip编译好的文件（本文使用该种方式）。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gmaqnvgko9j30q707iaac.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;32-结合paddleocr测试并使用paddle预测库&quot;&gt;3.2 结合paddleOCR测试并使用paddle预测库&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;paddleOCR的git地址：https://github.com/PaddlePaddle/PaddleOCR&lt;/li&gt;
+  &lt;li&gt;下载到本地之后，&lt;code class=&quot;highlighter-rouge&quot;&gt;cd PaddleOCR\deploy\cpp_infer&lt;/code&gt;，修改&lt;code class=&quot;highlighter-rouge&quot;&gt;CMakeList.txt&lt;/code&gt;文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-cmake highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;SET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;PADDLE_LIB &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/paddle_inference_install_dir&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 这里是下载的paddle预测库的路径&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;SET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OPENCV_DIR &lt;span class=&quot;s2&quot;&gt;&quot;D:/software/opencv/opencv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 这里是下载的opencv的路径&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;find_package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;OpenCV REQUIRED&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新建一个build文件夹：&lt;code class=&quot;highlighter-rouge&quot;&gt;mkdir build&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;进入build：&lt;code class=&quot;highlighter-rouge&quot;&gt;cd build&lt;/code&gt; ， 编译：&lt;code class=&quot;highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;同样的利用vs2019打开项目&lt;code class=&quot;highlighter-rouge&quot;&gt;ocr_system.sln&lt;/code&gt;，生成即可。&lt;/li&gt;
+  &lt;li&gt;这里注意需要将&lt;code class=&quot;highlighter-rouge&quot;&gt;paddle_fluid.dll&lt;/code&gt;放入到&lt;code class=&quot;highlighter-rouge&quot;&gt;Release&lt;/code&gt;目录下。&lt;/li&gt;
+&lt;/ul&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="pytorch" />
+      
+        <category term="paddle" />
+      
+        <category term="Cplusplus" />
+      
+        <category term="DeepLearning" />
+      
+
+      
+        <summary type="html">介绍在C++平台下搭建torch和paddle的环境</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Keras训练模型部署到C++环境并生成DLL</title>
+      <link href="http://localhost:4000/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL" rel="alternate" type="text/html" title="Keras训练模型部署到C++环境并生成DLL" />
+      <published>2020-11-03T22:21:00+08:00</published>
+      <updated>2020-11-03T22:21:00+08:00</updated>
+      <id>http://localhost:4000/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL</id>
+      <content type="html" xml:base="http://localhost:4000/Keras%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%88%B0C++%E7%8E%AF%E5%A2%83%E7%94%9F%E6%88%90DLL">&lt;h3 id=&quot;一-准备工作&quot;&gt;一. 准备工作&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;在Windows上搭建完成Tensorflow的C++环境，这里参考本人的上一篇博客&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在windows上部署opencv3的C++环境&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python3的keras和tf2.X的环境：&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install keras==2.4.3&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install tensorflow==2.3.1&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python3的opencv环境：&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install opencv-python&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-python模型训练&quot;&gt;二. python模型训练&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;python模型构建：&lt;a href=&quot;https://www.kaggle.com/tongpython/cat-and-dog&quot;&gt;Kaggle猫狗分类&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;python完整代码放在本人的&lt;a href=&quot;&quot;&gt;git仓库&lt;/a&gt;上面&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;21-模型训练保存h5格式的模型文件&quot;&gt;2.1 模型训练，保存.h5格式的模型文件&lt;/h4&gt;
+
+&lt;p&gt;在keras的&lt;code class=&quot;highlighter-rouge&quot;&gt;model.save()&lt;/code&gt;模型保存的函数中，只支持2种保存方式：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;.h5格式的文件进行保存模型整个结构及其权重。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;以文件夹（包含assets  saved_model.pb  variables）来保存，模型架构和训练配置（包括优化器、损失和指标）存储在 &lt;code class=&quot;highlighter-rouge&quot;&gt;saved_model.pb&lt;/code&gt; 中。权重保存在 &lt;code class=&quot;highlighter-rouge&quot;&gt;variables/&lt;/code&gt; 目录下。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;因此使用.h5格式来存储模型结构及权重。&lt;/p&gt;
+
+&lt;h4 id=&quot;22-h5文件转pt文件&quot;&gt;2.2 h5文件转pt文件&lt;/h4&gt;
+
+&lt;p&gt;将训练好的模型以.h5格式进行存储，再通过转成.pt格式的模型文件，提供C++的tensorflow调用模型。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;keras.models&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load_model&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.python.keras.backend&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.python.framework&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph_io&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 针对tf2.x来说不支持freezegraph的，这里需要使用tf1的方式&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;disable_eager_execution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;freeze_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keep_var_names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clear_devices&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.python.framework.graph_util&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;convert_variables_to_constants&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as_default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;freeze_var_names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global_variables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;difference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keep_var_names&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]))&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global_variables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;input_graph_def&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as_graph_def&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clear_devices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input_graph_def&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;frozen_graph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;convert_variables_to_constants&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input_graph_def&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                                      &lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeze_var_names&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frozen_graph&lt;/span&gt;
+
+
+&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;----------------------------------配置路径-----------------------------------&quot;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;h5_model_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'model/model.h5'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pb_model_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'model.pt'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;output_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'.'&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;----------------------------------导入keras模型------------------------------&quot;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_learning_phase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;net_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;load_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h5_model_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'input is :'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;net_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'output is:'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;net_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;----------------------------------保存为.pb格式------------------------------&quot;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;frozen_graph&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeze_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output_names&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;net_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outputs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;graph_io&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write_graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frozen_graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pb_model_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;as_text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;23-测试pt模型文件&quot;&gt;2.3 测试pt模型文件&lt;/h4&gt;
+
+&lt;p&gt;对同一个图片分别利用.h5模型文件和.pt模型文件进行预测。.pt格式的模型预测代码如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pred_with_pt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;img&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pb_file_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as_default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;output_graph_def&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GraphDef&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# 打开.pb模型&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pb_file_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;rb&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;output_graph_def&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ParseFromString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;tensors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;import_graph_def&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output_graph_def&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tensors:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tensors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# 在一个session中去run一个前向&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;init&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global_variables_initializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;op&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_operations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;input_x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_tensor_by_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;conv2d_input:0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# 具体名称看上一段代码的input.name&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;input_X:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;out_softmax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_tensor_by_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dense/Softmax:0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# 具体名称看上一段代码的output.name&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Output:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;out_softmax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;img_out_softmax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sess&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out_softmax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                       &lt;span class=&quot;n&quot;&gt;feed_dict&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img_out_softmax&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;三-c-模型预测&quot;&gt;三. C++ 模型预测&lt;/h3&gt;
+
+&lt;h4 id=&quot;31-将模型预测类进行封装并生成动态链接库dll&quot;&gt;3.1 将模型预测类进行封装并生成动态链接库DLL&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;VS2019部署（参考本人的上一篇博客）：新建一个动态链接库(DLL)，新建一个头文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.h&lt;/code&gt;和源文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.cpp&lt;/code&gt;，这里是生成DLL包（点击&lt;code class=&quot;highlighter-rouge&quot;&gt;生成&lt;/code&gt; ==&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;重新生成DLLTF&lt;/code&gt;）&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里要把&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow_cc.dll&lt;/code&gt;放到生成的&lt;code class=&quot;highlighter-rouge&quot;&gt;x64/release&lt;/code&gt;里面&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里还需要在Release属性页里配置&lt;code class=&quot;highlighter-rouge&quot;&gt;C/C++&lt;/code&gt;的预处理器(防止后面编译时出现这种错误&lt;code class=&quot;highlighter-rouge&quot;&gt;tstring.h(350,40): error C2589: “(”:“::”&lt;/code&gt;)：&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;_XKEYCHECK_H
+NOMINMAX
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;头文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.h&lt;/code&gt;中声明类的导出&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class __declspec(dllexport) TFClf;
+class TFClf {
+private:
+vector&amp;lt;float&amp;gt; mean = { 103.939,116.779,123.68 };
+int resize_col = 224;
+int resize_row = 224;
+string input_tensor_name = &quot;conv2d_input&quot;;
+string output_tensor_name = &quot;dense/Softmax&quot;;
+Point draw_point = Point(50, 50);
+
+public:
+string image_path, model_path;
+TFClf(string img, string model) :image_path(img), model_path(model) {}
+void mat_to_tensor(Mat img, Tensor* output_tensor);
+Mat preprocess_img(Mat img);
+void model_pred();
+void show_result_pic(Mat img, int output_class_id, double output_prob);
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;源文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.cpp&lt;/code&gt;完成类的具体实现，注意这里要&lt;code class=&quot;highlighter-rouge&quot;&gt;#include &quot;pch.h&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;32-新建一个项目测试dll&quot;&gt;3.2 新建一个项目测试DLL&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;新建一个控制台的空项目，并将打包好的&lt;code class=&quot;highlighter-rouge&quot;&gt;DllTF.dll&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;DllTF.lib&lt;/code&gt;复制到工程中&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;配置属性管理器：这里需要在&lt;code class=&quot;highlighter-rouge&quot;&gt;Release | x64&lt;/code&gt;添加之前配置好的&lt;code class=&quot;highlighter-rouge&quot;&gt;opencv_release.props&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_release.props&lt;/code&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这里要把&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow_cc.dll&lt;/code&gt;放到生成的&lt;code class=&quot;highlighter-rouge&quot;&gt;x64/release&lt;/code&gt;里面&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;新建一个头文件&lt;code class=&quot;highlighter-rouge&quot;&gt;tf_clf.h&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#pragma once
+#ifndef TF_CLF_H
+
+#endif // !TF_CLF_H
+
+#pragma comment(lib,&quot;DllTF.lib&quot;)
+class __declspec(dllexport) TFClf;
+
+
+class TFClf {
+private:
+    vector&amp;lt;float&amp;gt; mean = { 103.939,116.779,123.68 };
+    int resize_col = 224;
+    int resize_row = 224;
+    string input_tensor_name = &quot;conv2d_input&quot;;
+    string output_tensor_name = &quot;dense/Softmax&quot;;
+    Point draw_point = Point(50, 50);
+
+public:
+    string image_path, model_path;
+    TFClf(string img, string model) :image_path(img), model_path(model) {}
+    void mat_to_tensor(Mat img, Tensor* output_tensor);
+    Mat preprocess_img(Mat img);
+    void model_pred();
+    void show_result_pic(Mat img, int output_class_id, double output_prob);
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新建一个源文件&lt;code class=&quot;highlighter-rouge&quot;&gt;main.cpp&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# include &quot;tf_clf.h&quot;
+
+int main() {
+string model_path = &quot;D:/yeyan/pycharm_project/dogcat/model/model.pt&quot;;
+string img_path = &quot;D:/yeyan/pycharm_project/dogcat/data/test_set/test_set/cats/cat.4001.jpg&quot;;
+TFClf clf = TFClf(img_path, model_path);
+clf.model_pred();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="keras" />
+      
+        <category term="DeepLearning" />
+      
+        <category term="环境搭建" />
+      
+
+      
+        <summary type="html">主要讲述将Keras训练好的.h5模型转换成.pt格式，并将其转换后的模型部署到C++环境中，并生成DLL</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Window下搭建Tensorflow的C++环境</title>
+      <link href="http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83" rel="alternate" type="text/html" title="Window下搭建Tensorflow的C++环境" />
+      <published>2020-11-02T03:21:00+08:00</published>
+      <updated>2020-11-02T03:21:00+08:00</updated>
+      <id>http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83</id>
+      <content type="html" xml:base="http://localhost:4000/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83">&lt;blockquote&gt;
+  &lt;p&gt;参考Tensorflow官网安装文章：https://www.tensorflow.org/install/source_windows?hl=zh-cn&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;一-下载需要的软件&quot;&gt;一. 下载需要的软件&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;bazel：Google 的一款可再生的代码构建工具，类似于Cmake。使用scoop进行安装：&lt;code class=&quot;highlighter-rouge&quot;&gt;scoop install bazel&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;python3.7：这里最好用pip 安装下必要的第三方包，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow,kears,numpy&lt;/code&gt;等。&lt;/li&gt;
+  &lt;li&gt;下载官方源码：&lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/tensorflow/tensorflow.git&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-进行bazel源码编译&quot;&gt;二. 进行bazel源码编译&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-配置build&quot;&gt;2.1 配置build&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;cd到源码目录：&lt;code class=&quot;highlighter-rouge&quot;&gt;cd tensorflow-master&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;通过在 TensorFlow 源代码树的根目录下运行以下命令来配置系统构建：&lt;code class=&quot;highlighter-rouge&quot;&gt;python3 ./configure.py&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;这里选择的是cpu版本的，每个配置的选择如下：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;You have bazel 3.7.0 installed.
+Please specify the location of python. &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Default is C:&lt;span class=&quot;se&quot;&gt;\s&lt;/span&gt;oft&lt;span class=&quot;se&quot;&gt;\p&lt;/span&gt;ython3.7.9&lt;span class=&quot;se&quot;&gt;\p&lt;/span&gt;ython3.exe]:
+
+
+Found possible Python library paths:
+  C:&lt;span class=&quot;se&quot;&gt;\s&lt;/span&gt;oft&lt;span class=&quot;se&quot;&gt;\p&lt;/span&gt;ython3.7.9&lt;span class=&quot;se&quot;&gt;\l&lt;/span&gt;ib&lt;span class=&quot;se&quot;&gt;\s&lt;/span&gt;ite-packages
+Please input the desired Python library path to use.  Default is &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;C:&lt;span class=&quot;se&quot;&gt;\s&lt;/span&gt;oft&lt;span class=&quot;se&quot;&gt;\p&lt;/span&gt;ython3.7.9&lt;span class=&quot;se&quot;&gt;\l&lt;/span&gt;ib&lt;span class=&quot;se&quot;&gt;\s&lt;/span&gt;ite-packages]
+
+Do you wish to build TensorFlow with ROCm support? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/N]: n
+
+Do you wish to build TensorFlow with CUDA support? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/N]: n
+No CUDA support will be enabled &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;TensorFlow.
+
+Please specify optimization flags to use during compilation when bazel option &lt;span class=&quot;s2&quot;&gt;&quot;--config=opt&quot;&lt;/span&gt; is specified &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Default is /arch:AVX]:
+
+
+Would you like to override eigen strong inline &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;some C++ compilation to reduce the compilation &lt;span class=&quot;nb&quot;&gt;time&lt;/span&gt;? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Y/n]: y
+Eigen strong inline overridden.
+
+Would you like to interactively configure ./WORKSPACE &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;Android builds? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/N]: n
+Not configuring the WORKSPACE &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;Android builds.
+
+Preconfigured Bazel build configs. You can use any of the below by adding &lt;span class=&quot;s2&quot;&gt;&quot;--config=&amp;lt;&amp;gt;&quot;&lt;/span&gt; to your build command. See .bazelrc &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;more details.
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;mkl            &lt;span class=&quot;c&quot;&gt;# Build with MKL support.&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;mkl_aarch64    &lt;span class=&quot;c&quot;&gt;# Build with oneDNN support for Aarch64.&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;monolithic     &lt;span class=&quot;c&quot;&gt;# Config for mostly static monolithic build.&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;numa           &lt;span class=&quot;c&quot;&gt;# Build with NUMA support.&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;dynamic_kernels        &lt;span class=&quot;c&quot;&gt;# (Experimental) Build kernels into separate shared objects.&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;v2             &lt;span class=&quot;c&quot;&gt;# Build TensorFlow 2.x instead of 1.x.&lt;/span&gt;
+Preconfigured Bazel build configs to DISABLE default on features:
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;noaws          &lt;span class=&quot;c&quot;&gt;# Disable AWS S3 filesystem support.&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;nogcp          &lt;span class=&quot;c&quot;&gt;# Disable GCP support.&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;nohdfs         &lt;span class=&quot;c&quot;&gt;# Disable HDFS support.&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;nonccl         &lt;span class=&quot;c&quot;&gt;# Disable NVIDIA NCCL support.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;22-bazel编译&quot;&gt;2.2 bazel编译&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;修改bazel中间文件存储的路径（&lt;strong&gt;磁盘可用空间 Release 版本 &amp;gt;= 16G , Debug版本 &amp;gt;= 40G&lt;/strong&gt; 编译的中间文件默认会放到 &lt;strong&gt;C:\用户\你的账号名\ _bazel_你的账号名&lt;/strong&gt; 下. C 盘可能没有那么大的空间, 所以要改一下输出文件的路径），打开tensorflow文件夹，&lt;code class=&quot;highlighter-rouge&quot;&gt;vim .bazelrc&lt;/code&gt;，在最后一行加上&lt;code class=&quot;highlighter-rouge&quot;&gt;startup --output_user_root=D:/tf&lt;/code&gt;，如果不修改路径，可能会编译到一半就卡死。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;bazel编译动态链接库命令（这里加上使用的最大内存）：
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; bazel build &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;opt //tensorflow:tensorflow_cc.dll &lt;span class=&quot;nt&quot;&gt;--local_ram_resources&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1024
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;编译的过程可能会很长，千万不要以为有问题就&lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl C&lt;/code&gt;了（分2个过程：下中间资源+编译），编译完成后会出现&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; Build completed successfully
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;编译好的库文件在&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow-master\bazel-bin\tensorflow&lt;/code&gt;目录下，分别是&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow_cc.dll&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow_cc.dll.if.lib&lt;/code&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;bazel编译头文件命令：&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; bazel build &lt;span class=&quot;nt&quot;&gt;--config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;opt //tensorflow:install_headers &lt;span class=&quot;nt&quot;&gt;--local_ram_resources&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1024
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;编译好的头文件在&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow-master\bazel-bin\tensorflow\include&lt;/code&gt;目录下。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;三-新建项目测试&quot;&gt;三. 新建项目测试&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注意：&lt;/p&gt;
+
+  &lt;p&gt;​	1. 这里编译的是tensorflow的release版本，因此构建项目的时候把环境从debug变成release&lt;/p&gt;
+
+  &lt;p&gt;​	2. 在新建项目属性表（这里无论是opencv还是tensorflow）中，要选择release版本的x64（64位）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新建一个项目&lt;/li&gt;
+  &lt;li&gt;在项目中新建一个文件夹存放之前编译好的头文件，库文件，具体结构如下所示&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tf_test&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// 整个项目&lt;/span&gt;
+	&lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x64&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 这里是生成解决方案得到的&lt;/span&gt;
+	&lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tf&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 这里存放所有编译好的文件&lt;/span&gt;
+    	&lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bin&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 存放dll动态库文件&lt;/span&gt;
+        	&lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tensorflow_cc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dll&lt;/span&gt;
+        &lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lib&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 存放静态库文件&lt;/span&gt;
+        	&lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tensorflow_cc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lib&lt;/span&gt;
+        &lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 直接是tensorflow编译好的include目录&lt;/span&gt;
+    &lt;span class=&quot;err&quot;&gt;├──&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cpp&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;属性管理器 —— Release X64 —— 添加新项目属性表（如果代码中还需要添加opencv库的可以参考本人&lt;a href=&quot;https://yy2lyx.github.io/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83/&quot;&gt;另一篇博客&lt;/a&gt;）&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;VC++目录中的包含目录中添加：&lt;code class=&quot;highlighter-rouge&quot;&gt;D:tf_test\tf\include&lt;/code&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;VC++目录中的库目录中添加：&lt;code class=&quot;highlighter-rouge&quot;&gt;D:tf_test\tf\lib&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;链接器——输入——附加依赖项中添加：&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow_cc.lib&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;选择项目为release和x64平台。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用以下代码进行测试&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;opencv2/highgui/highgui.hpp&amp;gt;
+#include&amp;lt;opencv2/opencv.hpp&amp;gt;
+#include&quot;tensorflow/core/public/session.h&quot;
+#include&quot;tensorflow/core/platform/env.h&quot;
+
+using namespace std;
+using namespace tensorflow;
+using namespace cv;
+
+int main()
+{
+    const string model_path = &quot;D:\\code\\yinbao_face\\live.pb&quot;;
+    const string image_path = &quot;0.jpg&quot;;
+
+
+    Mat img = imread(image_path);
+    cvtColor(img, img, COLOR_BGR2RGB);
+    resize(img, img, Size(112, 112), 0, 0, INTER_NEAREST);
+    int height = img.rows;
+    int width = img.cols;
+    int depth = img.channels();
+
+    // 图像预处理
+    img = (img - 0) / 255.0;
+   // img.convertTo(img, CV_32FC3, 1.0 / 255, 0);
+
+    // 取图像数据，赋给tensorflow支持的Tensor变量中
+    const float* source_data = (float*)img.data;
+    Tensor input_tensor(DT_FLOAT, TensorShape({ 1, height, width, 3 }));
+    auto input_tensor_mapped = input_tensor.tensor&amp;lt;float, 4&amp;gt;();
+
+    for (int i = 0; i &amp;lt; height; i++) {
+        const float* source_row = source_data + (i * width * depth);
+        for (int j = 0; j &amp;lt; width; j++) {
+            const float* source_pixel = source_row + (j * depth);
+            for (int c = 0; c &amp;lt; depth; c++) {
+                const float* source_value = source_pixel + c;
+                input_tensor_mapped(0, i, j, c) = *source_value;
+                //printf(&quot;%d&quot;);
+            }
+        }
+    }
+
+    Session* session;
+
+    Status status = NewSession(SessionOptions(), &amp;amp;session);
+    if (!status.ok()) {
+        cerr &amp;lt;&amp;lt; status.ToString() &amp;lt;&amp;lt; endl;
+        return -1;
+    }
+    else {
+        cout &amp;lt;&amp;lt; &quot;Session created successfully&quot; &amp;lt;&amp;lt; endl;
+    }
+    GraphDef graph_def;
+    Status status_load = ReadBinaryProto(Env::Default(), model_path, &amp;amp;graph_def);
+    if (!status_load.ok()) {
+        cerr &amp;lt;&amp;lt; status_load.ToString() &amp;lt;&amp;lt; endl;
+        return -1;
+    }
+    else {
+        cout &amp;lt;&amp;lt; &quot;Load graph protobuf successfully&quot; &amp;lt;&amp;lt; endl;
+    }
+
+    // 将graph加载到session
+    Status status_create = session-&amp;gt;Create(graph_def);
+    if (!status_create.ok()) {
+        cerr &amp;lt;&amp;lt; status_create.ToString() &amp;lt;&amp;lt; endl;
+        return -1;
+    }
+    else {
+        cout &amp;lt;&amp;lt; &quot;Add graph to session successfully&quot; &amp;lt;&amp;lt; endl;
+    }
+
+    cout &amp;lt;&amp;lt; input_tensor.DebugString() &amp;lt;&amp;lt; endl; //打印输入
+    vector&amp;lt;pair&amp;lt;string, Tensor&amp;gt;&amp;gt; inputs = {
+        { &quot;input_1:0&quot;, input_tensor },  //input_1:0为输入节点名
+    };
+
+    // 输出outputs
+    vector&amp;lt;Tensor&amp;gt; outputs;
+    vector&amp;lt;string&amp;gt; output_nodes;
+    output_nodes.push_back(&quot;output_1:0&quot;);  //输出有多个节点的话就继续push_back
+
+    double start = clock();
+    // 运行会话，最终结果保存在outputs中
+    Status status_run = session-&amp;gt;Run({ inputs }, { output_nodes }, {}, &amp;amp;outputs);
+    Tensor boxes = move(outputs.at(0));
+    cout &amp;lt;&amp;lt; boxes.DebugString() &amp;lt;&amp;lt; endl; //打印输出
+
+    double end = clock();
+    cout &amp;lt;&amp;lt; &quot;time = &quot; &amp;lt;&amp;lt; (end - start) &amp;lt;&amp;lt; &quot;\n&quot;;
+    if (!status_run.ok()) {
+        cerr &amp;lt;&amp;lt; status_run.ToString() &amp;lt;&amp;lt; endl;
+        return -1;
+    }
+    else {
+        //cout &amp;lt;&amp;lt; &quot;Run session successfully&quot; &amp;lt;&amp;lt; endl;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;四-测试中出现的问题&quot;&gt;四. 测试中出现的问题&lt;/h3&gt;
+
+&lt;h4 id=&quot;41-生成解决方案的时候报错无法打开包括文件&quot;&gt;4.1 生成解决方案的时候报错无法打开包括文件：&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gkelmo3blhj30gz01ia9t.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;解决方式：在本地的通过python pip安装后的tensorflow文件夹中（&lt;code class=&quot;highlighter-rouge&quot;&gt;C:\soft\python3.7.9\Lib\site-packages\tensorflow\include&lt;/code&gt;）将&lt;code class=&quot;highlighter-rouge&quot;&gt;google&lt;/code&gt;文件夹复制到&lt;code class=&quot;highlighter-rouge&quot;&gt;D:tf_test\tf\include&lt;/code&gt;下面，即可解决&lt;/p&gt;
+
+&lt;h4 id=&quot;42-生成解决方案的时候报错link1120&quot;&gt;4.2 生成解决方案的时候报错Link1120:&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/0081Kckwgy1gkeln9lgpwj30zt01owec.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;解决方式：将vs2019上报错信息复制，cd到&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow-master\tensorflow\tools\def_file_filter&lt;/code&gt;(这里的tensorflow-master是自己下载tensorflow源码的地方），编辑&lt;code class=&quot;highlighter-rouge&quot;&gt;def_file_filter.py.tpl&lt;/code&gt;文件：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Header for the def file. (找到这一行代码)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;args.target:
+    def_fp.write&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;LIBRARY &quot;&lt;/span&gt; + args.target + &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    def_fp.write&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;EXPORTS&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    def_fp.write&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; ??1OpDef@tensorflow@@UEAA@XZ&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# 下面两个就是复制的错误信息&lt;/span&gt;
+    def_fp.write&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; ?NewSession@tensorflow@@YA?AVStatus@1@AEBUSessionOptions@1@PEAPEAVSession@1@@Z&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    def_fp.write&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; ??0SessionOptions@tensorflow@@QEAA@XZ&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;重新编译DLL，头文件（虽然很麻烦，但是还是得做啊）&lt;/p&gt;
+
+&lt;h4 id=&quot;43-有太多的错误导致intellisense引擎无法正常工作其中有些错误无法在编辑器&quot;&gt;4.3 有太多的错误导致IntelliSense引擎无法正常工作,其中有些错误无法在编辑器&lt;/h4&gt;
+
+&lt;p&gt;解决方式：在项目-&amp;gt;属性-&amp;gt;配置属性-&amp;gt;C/C++-&amp;gt;预处理器-&amp;gt;预处理器定义中加入&lt;code class=&quot;highlighter-rouge&quot;&gt;_XKEYCHECK_H&lt;/code&gt;就消失了&lt;/p&gt;
+
+&lt;h4 id=&quot;44-找不到tensorflow_ccdll文件&quot;&gt;4.4 找不到tensorflow_cc.dll文件&lt;/h4&gt;
+
+&lt;p&gt;解决方式：将&lt;code class=&quot;highlighter-rouge&quot;&gt;tensorflow_cc.dll&lt;/code&gt;文件复制到&lt;code class=&quot;highlighter-rouge&quot;&gt;x64/release&lt;/code&gt;文件夹下。&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="环境搭建" />
+      
+        <category term="Tensorflow" />
+      
+        <category term="DeepLearning" />
+      
+
+      
+        <summary type="html">介绍如何在windows下搭建tensorflow的C++环境</summary>
       
 
       
@@ -600,13 +1677,123 @@ ForkingPickler&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;file, protocol&lt;sp
       
         <category term="pytorch" />
       
-        <category term="YOLOv5" />
+        <category term="ComputerVision" />
       
-        <category term="deeplearning" />
+        <category term="DeepLearning" />
       
 
       
         <summary type="html">介绍如何利用官方开源的Yolov5训练一个属于自己的模型</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Windows10环境下搭建CUDA10.1和pytorch1.6</title>
+      <link href="http://localhost:4000/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6" rel="alternate" type="text/html" title="Windows10环境下搭建CUDA10.1和pytorch1.6" />
+      <published>2020-10-20T18:18:00+08:00</published>
+      <updated>2020-10-20T18:18:00+08:00</updated>
+      <id>http://localhost:4000/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6</id>
+      <content type="html" xml:base="http://localhost:4000/Windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BACUDA10.1%E5%92%8Cpytorch1.6">&lt;h3 id=&quot;一-安装cuda101&quot;&gt;一. 安装CUDA10.1&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这里需要安装鲁大师，查看自己电脑的显卡型号，这里是gtx 1060 ，6g&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;11-安装nvidia驱动&quot;&gt;1.1 安装Nvidia驱动&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;首先在Nvidia官网上安装显卡驱动，连接地址：https://www.nvidia.com/Download/index.aspx&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7vzmyjnj30io0ak3zx.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;这里需要去nVidia官网 https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html 查看cuda和显卡驱动对应表上cuda10.1对应驱动的版本号。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7wolh48j30n80ctmxv.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;查看自己安装驱动的版本号：NVIDIA控制面板-帮助-系统信息中查看，这里可以看到我的驱动的版本号为456，这里是大于官网安装cuda10.1需要的418的驱动的。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7wcmibaj30qh0jh3z7.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;12-安装cuda101&quot;&gt;1.2 安装CUDA10.1&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;安装CUDA：适合哪个版本的CUDA，就可以去官网下载对应的CUDA了，但是官网首页的CUDA一般是最新版，我们可能需要下载旧版本比如CUDA10.1，可以cuu点击下面连接进行下载：https://developer.nvidia.com/cuda-toolkit-archiv，这里直接选择&lt;a href=&quot;https://developer.nvidia.com/cuda-10.1-download-archive-base&quot;&gt;CUDA Toolkit 10.1 &lt;/a&gt;(Feb 2019)即可。这里一般选择自定义安装，可以通过命令行查看是否安装成功：&lt;code class=&quot;highlighter-rouge&quot;&gt;nvcc -V&lt;/code&gt;，这里如果提升没有整个命令，说明还没有将cuda的路径添加到环境变量中，需要设置环境变量，添加CUDA安装目录下的&lt;code class=&quot;highlighter-rouge&quot;&gt;bin&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;libnvvp&lt;/code&gt;目录，如下所示：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7xf2l38j30jx09e74w.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;安装cuDNN：选择对应的版本号和系统，这里注意官网最前面的几个连接中都是windows10 的x86（32位）的，这里需要选择老一点的cuDNN的版本，如下所示&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://tva1.sinaimg.cn/large/007S8ZIlgy1gjx7ww4z84j30rl0g9t9n.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;下载后，将压缩包解压得到cuda文件夹，文件夹下有三个文件夹，复制这三个文件夹到CUDA安装的目录’D:\soft\cuda’下，会自动将cudnn的三个文件夹的文件合并到其三个同名文件夹&lt;code class=&quot;highlighter-rouge&quot;&gt;bin&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;include&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;lib&lt;/code&gt;中。&lt;/li&gt;
+  &lt;li&gt;查看自己电脑中Nvidia的GPU信息：&lt;code class=&quot;highlighter-rouge&quot;&gt;nvidia-smi&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-安装pytorch&quot;&gt;二. 安装pytorch&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;pytorch官网安装地址：https://pytorch.org/get-started/locally/&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;21-修改pip源提升下载包速度&quot;&gt;2.1 修改pip源，提升下载包速度&lt;/h4&gt;
+
+&lt;p&gt;如果本地pip下载很慢，修改pip源：Linux下，修改 ~/.pip/pip.conf (没有就创建一个文件夹及文件。文件夹要加“.”，表示是隐藏文件夹)&lt;/p&gt;
+
+&lt;p&gt;内容如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+[install]
+trusted-host=mirrors.aliyun.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;windows下，直接在user目录中创建一个pip目录，如：C:\Users\xx\pip，新建文件pip.ini。内容同上。&lt;/p&gt;
+
+&lt;h4 id=&quot;22-通过pip安装pytorch&quot;&gt;2.2 通过pip安装pytorch&lt;/h4&gt;
+&lt;p&gt;这里可以直接访问&lt;a href=&quot;&quot;&gt;pytorch官网&lt;/a&gt;来选择适合自己的版本：&lt;/p&gt;
+
+&lt;p&gt;pip安装：&lt;code class=&quot;highlighter-rouge&quot;&gt;pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;23-查看是否安装成功并查看能否驱动cuda&quot;&gt;2.3 查看是否安装成功，并查看能否驱动cuda&lt;/h4&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cuda&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_available&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="DeepLearning" />
+      
+        <category term="pytorch" />
+      
+
+      
+        <summary type="html">介绍如何在Windows10环境中搭建GPU使用环境和pytorch</summary>
       
 
       
@@ -660,6 +1847,12 @@ I(x0)=−log(p(x0))，可以理解为，一个事件发生的概率越大，则�
 p:真实样本分布，服从参数为p的0-1分布，即X∼B(1,p)X∼B(1,p)
 q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交叉熵为&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h4 id=&quot;23-svm的核函数&quot;&gt;2.3 SVM的核函数&lt;/h4&gt;
+&lt;p&gt;使用非线性核的支持向量机可以处理线性不可分的问题。通过核函数，支持向量机可以将特征向量映射到更高维的空间中，使得原本线性不可分的数据在映射之后的空间中变得线性可分，如下图所示，原本二维空间的线性不可分（异或问题）转成三维空间，就可以线性可分了。
+&lt;img src=&quot;https://i.loli.net/2021/02/26/Z1zYvUKGMfy86mb.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;常用的核函数：线性核、多项式核、高斯核（RBF）、拉普拉斯核等等。核函数的选择其实才是SVM模型的最大变数。&lt;/p&gt;
 
 &lt;h3 id=&quot;三-nlp&quot;&gt;三. NLP&lt;/h3&gt;
 &lt;h4 id=&quot;31--什么是tf-idf&quot;&gt;3.1  什么是TF-IDF?&lt;/h4&gt;
@@ -880,6 +2073,13 @@ s_{y}=\left[\begin{array}{ccc}
   &lt;li&gt;CMOS（金属氧化物半导体元件）：CMOS芯片中每个像素都有自己的信号放大器，各自进行电荷到电压的转换，输出信号的一致性较差，比CCD的信号噪声更多。CMOS每个电荷元件都有独立的装换控制器，读出速度很快，FPS在500以上的高速相机大部分使用的都是CMOS。&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h4 id=&quot;413-小目标检测&quot;&gt;4.13 小目标检测&lt;/h4&gt;
+&lt;p&gt;在深度学习目标检测中，特别是人脸检测中，小目标、小人脸的检测由于&lt;strong&gt;分辨率低，图片模糊，信息少，噪音多&lt;/strong&gt;，所以一直是一个实际且常见的困难问题。
+FPN特征金字塔网络：参考文章：https://zhuanlan.zhihu.com/p/92005927&lt;/p&gt;
+
+&lt;h4 id=&quot;414-目标检测中的map&quot;&gt;4.14 目标检测中的mAP&lt;/h4&gt;
+&lt;p&gt;具体参考文章：https://www.cnblogs.com/itmorn/p/14193729.html&lt;/p&gt;
+
 &lt;h3 id=&quot;五-深度学习&quot;&gt;五. 深度学习&lt;/h3&gt;
 &lt;h4 id=&quot;51--梯度消失的原因和解决办法有哪些&quot;&gt;5.1  梯度消失的原因和解决办法有哪些？&lt;/h4&gt;
 &lt;ul&gt;
@@ -1014,150 +2214,13 @@ s_{y}=\left[\begin{array}{ccc}
       
 
       
-        <category term="deeplearning" />
+        <category term="DeepLearning" />
       
-        <category term="machinelearning" />
+        <category term="MachineLearning" />
       
 
       
         <summary type="html">面试中机器学习中常问的问题总结</summary>
-      
-
-      
-      
-    </entry>
-  
-    <entry>
-      <title type="html">深度学习调参经验总结</title>
-      <link href="http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93" rel="alternate" type="text/html" title="深度学习调参经验总结" />
-      <published>2019-03-09T18:20:00+08:00</published>
-      <updated>2019-03-09T18:20:00+08:00</updated>
-      <id>http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93</id>
-      <content type="html" xml:base="http://localhost:4000/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%B0%83%E5%8F%82%E6%80%BB%E7%BB%93">&lt;h3 id=&quot;一-网络中loss表现过于震荡&quot;&gt;一. 网络中loss表现过于震荡&lt;/h3&gt;
-&lt;h4 id=&quot;11--模型拟合能力不够导致模型震荡&quot;&gt;1.1  模型拟合能力不够导致模型震荡&lt;/h4&gt;
-&lt;p&gt;model（层数：input(30,300,3) ==&amp;gt; ful_collected_layer(30,300,64) ==&amp;gt; lstm ==&amp;gt; ful_collected_layer ==&amp;gt; output）此时模型的loss由1到192震动太大，acc也是在一个epoch中时好时坏，由此考虑到是模型的分类能力的问题（可能处理不了非线性或者是异或的问题）&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;增加了一层全连接层，之后效果显著，模型虽然也存在loss和acc会有极小幅度的震荡，但是趋向于收敛&quot;&quot;&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ful_collected_layer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lstm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ful_collected_layer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ful_collected_layer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;12-batch-size-设置过小导致模型震荡&quot;&gt;1.2 batch size 设置过小导致模型震荡&lt;/h4&gt;
-&lt;p&gt;之前模型用的是batch_size = 30，经过增大batch_size之后，模型的震荡程度也减小。这里如果GPU显存小的情况下，只能将batch设置小。&lt;/p&gt;
-
-&lt;h4 id=&quot;13-输入模型的数据没有shuffle导致模型震荡&quot;&gt;1.3 输入模型的数据没有shuffle导致模型震荡&lt;/h4&gt;
-&lt;p&gt;之前数据没有进行shuffle，导致在某一个batch_size中学习到的全是正样本，某一个batch_size里面又全是负样本，shuffle之后，振荡减小。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;110&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# 设定种子数，不然下面shuffle之后的y无法与X对应上&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shuffle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;110&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shuffle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;二-网络经过多轮迭代依然无法上升了acc始终在79&quot;&gt;二. 网络经过多轮迭代依然无法上升了，acc始终在79%&lt;/h3&gt;
-&lt;h4 id=&quot;21-增大学习率&quot;&gt;2.1 增大学习率&lt;/h4&gt;
-&lt;p&gt;开始学习率设置的是learning_rate = 0.001,之后增大10倍，设置为learning_rate = 0.01之后，acc在70多轮的时候就能提升到90% ，300轮之后能到97%。&lt;/p&gt;
-
-&lt;p&gt;理由：当我们把学习率设置较小的时候，那么梯度下降的时候迈的步子就小，可能在遇到大的坑的时候就出去，然后就一致在坑里徘徊，最终只能达到局部最优，无法达到全局最优，调参的过程中应该首先实验大的学习率，然后再依次减小实验。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;learning_rate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.1&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;==&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;learning_rate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.01&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;==&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;learning_rate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.001&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;22-优化器的选择&quot;&gt;2.2 优化器的选择&lt;/h4&gt;
-&lt;p&gt;实验下其他的梯度下降的优化器（optimizer），比如Adam，SGD，Adadelta，RMSProp，Momentum等，一般来说Adam较快，SGD最慢，但是却是最准确和稳定的，因此可以先用Adam进行实验，最后用SGD进行调参。&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tf.train.AdadeltaOptimizer&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;learning_rate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.001, &lt;span class=&quot;nv&quot;&gt;rho&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.95, &lt;span class=&quot;nv&quot;&gt;epsilon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1e-08, &lt;span class=&quot;nv&quot;&gt;use_locking&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;False, &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;’Adadelta’&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-tf.train.MomentumOptimizer&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;learning_rate, momentum, &lt;span class=&quot;nv&quot;&gt;use_locking&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;False, &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;’Momentum’, &lt;span class=&quot;nv&quot;&gt;use_nesterov&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;False&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-tf.train.AdamOptimizer&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;learning_rate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.001, &lt;span class=&quot;nv&quot;&gt;beta1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.9, &lt;span class=&quot;nv&quot;&gt;beta2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.999, &lt;span class=&quot;nv&quot;&gt;epsilon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1e-08, &lt;span class=&quot;nv&quot;&gt;use_locking&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;False, &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;’Adam’&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-
-tf.train.GradientDescentOptimizer&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;learning_rate, &lt;span class=&quot;nv&quot;&gt;use_locking&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;False,name&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;’GradientDescent’&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;三-遇到loss和weights在训练中全是nan值的情况&quot;&gt;三. 遇到loss和weights在训练中全是nan值的情况&lt;/h3&gt;
-&lt;h4 id=&quot;31-查看输入数据中是否存在nan值&quot;&gt;3.1 查看输入数据中是否存在nan值&lt;/h4&gt;
-&lt;p&gt;检查自己做完预处理的数据，看下是否存在nan值（比如需要计算0/0和log0的情况）&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;检验下input_data中是否存在nan值&quot;&quot;&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;input_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reshape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n_input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# 这里的input_data 是三维数组必须转成2d&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;input_data_pd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isnull&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;input data has nan value!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;list_nan&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;tuple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argwhere&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isnan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_data_pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;list_nan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;32-梯度爆炸或者是梯度消失&quot;&gt;3.2 梯度爆炸或者是梯度消失&lt;/h4&gt;
-&lt;p&gt;可能是&lt;strong&gt;梯度爆炸&lt;/strong&gt;，有以下解决方式&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;（1）预训练+微调&lt;/li&gt;
-  &lt;li&gt;（2）梯度剪切 + 权重正则&lt;/li&gt;
-  &lt;li&gt;（3）使用不同的激活函数，比如之前用relu，可以换成tanh或者是elu&lt;/li&gt;
-  &lt;li&gt;（4）使用batchnorm&lt;/li&gt;
-  &lt;li&gt;（5）使用LSTM网络（如果之前用的是RNN结构）&lt;/li&gt;
-  &lt;li&gt;（6）使用残差结构&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;以下是几种在不改变模型层数和结构的情况下解决梯度爆炸和梯度消失的方案。&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&quot;权重L2正则化&quot;&quot;&quot;&lt;/span&gt;
-cross_entropy &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-tf&lt;/span&gt;.reduce_sum&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ys &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; 	tf.log&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;tf.clip_by_value&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;tf.nn.softmax&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;prediction&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 1e-10, 1.0&lt;span class=&quot;o&quot;&gt;)))&lt;/span&gt;
-weights_lossL2 &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; tf.add&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;tf.nn.l2_loss&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;weights_in&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;,tf.nn.l2_loss&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;weights_out&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; 0.01
-regularzation_loss &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; cross_entropy + weights_lossL2
-cost &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; tf.reduce_mean&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;regularzation_loss&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&quot;梯度剪裁&quot;&quot;&quot;&lt;/span&gt;
-opt &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; tf.train.MomentumOptimizer&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;learning_rate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.001, &lt;span class=&quot;nv&quot;&gt;momentum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.5&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Compute the gradients for a list of variables.&lt;/span&gt;
-grads_and_vars &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; opt.compute_gradients&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;cross_entropy, 	 tf.trainable_variables&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# grads_and_vars is a list of tuples (gradient, variable).  Do whatever you&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# need to the 'gradient' part, for example cap them, etc.&lt;/span&gt;
-capped_grads_and_vars &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[(&lt;/span&gt;tf.clip_by_value&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;gv[0], 0.1, 5.&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, gv[1]&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;gv &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;grads_and_vars]
-&lt;span class=&quot;c&quot;&gt;# Ask the optimizer to apply the capped gradients.&lt;/span&gt;
-optimizer &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; opt.apply_gradients&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;capped_grads_and_vars&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;33-使用了梯度参见和l2正则之后出现loss增大的情况&quot;&gt;3.3 使用了&lt;strong&gt;梯度参见和L2正则&lt;/strong&gt;之后出现&lt;strong&gt;Loss增大&lt;/strong&gt;的情况&lt;/h4&gt;
-&lt;p&gt;在使用了梯度裁剪之后，其实只是人为的控制梯度的变化（将weights控制在小范围内(0.1,5)之间），此时权重依旧可以通过BP算法向负梯度的方向前进，但是由于人为的控制，导致weight的梯度极有可能朝着正梯度方向进行，这就会导致可以更新权重，但是loss反而增大的原因。&lt;/p&gt;
-
-&lt;h4 id=&quot;34-这里必须要修改模型结构&quot;&gt;3.4 这里必须要&lt;strong&gt;修改模型结构&lt;/strong&gt;&lt;/h4&gt;
-
-&lt;p&gt;举一个例子：利用4层全连接层作为一个分类器，来训练。经历过以上所有的方式（包括调整激活函数等），依旧无法使得模型的loss减少，当我将层数降低为3层的时候，模型loss开始收敛，那么这就说明当无法使得模型收敛的时候，其实极有可能是模型的结构问题，需要重新设计模型的结构层数。&lt;/p&gt;
-
-&lt;h3 id=&quot;四训练中模型loss不收敛的几种情况&quot;&gt;四.训练中模型loss不收敛的几种情况&lt;/h3&gt;
-&lt;p&gt;总结：&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;train loss 不断下降，val loss不断下降 ==&amp;gt; 说明网络仍在学习&lt;/li&gt;
-  &lt;li&gt;train loss 不断下降，val loss趋于不变 ==&amp;gt; 说明网络过拟合&lt;/li&gt;
-  &lt;li&gt;train loss 趋于不变，val loss不断下降 ==&amp;gt; 说明数据集100%有问题&lt;/li&gt;
-  &lt;li&gt;train loss 趋于不变，val loss趋于不变 ==&amp;gt; 说明学习遇到瓶颈，需要减小学习率或批量数目&lt;/li&gt;
-  &lt;li&gt;train loss 不断上升，val loss不断上升 ==&amp;gt; 说明网络结构设计不当，训练超参数设置不当，数据集经过清洗等问题&lt;/li&gt;
-  &lt;li&gt;train loss 到稳定的时候反而比val loss还要高 ==&amp;gt; 测试集数据量太小了，误差计算算法有问题&lt;/li&gt;
-  &lt;li&gt;train loss 和 val loss趋于不变，但是val loss趋于0，而train loss却还很高 ==&amp;gt; 说明使用dropout层后模型拟合能力变差，去掉dropout层。&lt;/li&gt;
-  &lt;li&gt;train loss 和 val loss同时极缓的形式增大，这里可以考虑降低学习率或者是从这里进行截断，以loss最低点作为模型最优点。&lt;/li&gt;
-&lt;/ul&gt;</content>
-
-      
-      
-      
-      
-      
-
-      <author>
-          <name></name>
-        
-        
-      </author>
-
-      
-
-      
-        <category term="deeplearning" />
-      
-
-      
-        <summary type="html">讲述在深度学习建模过程中遇到的问题及其解决思路</summary>
       
 
       

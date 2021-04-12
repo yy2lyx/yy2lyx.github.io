@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/tag/yolo/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2021-04-12T15:45:16+08:00</updated>
+  <id>http://localhost:4000/tag/yolo/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">李小肥的YY | </title>
+  
+
+  
+    <subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">目标检测(one stage)-YOLOv1</title>
+      <link href="http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1" rel="alternate" type="text/html" title="目标检测(one stage)-YOLOv1" />
+      <published>2021-03-11T04:21:00+08:00</published>
+      <updated>2021-03-11T04:21:00+08:00</updated>
+      <id>http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1</id>
+      <content type="html" xml:base="http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1">&lt;h3 id=&quot;一-目标检测算法的分类及历史&quot;&gt;一. 目标检测算法的分类及历史&lt;/h3&gt;
+
+&lt;h4 id=&quot;11-目标检测算法的分类&quot;&gt;1.1 目标检测算法的分类&lt;/h4&gt;
+
+&lt;p&gt;目标检测算法主要分为2大类：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;one-stage(one-shot object detectors) ：直接预测目标的bounding box及其类别。特点是一步到位，速度很快。比如：YOLO，SSD等系列模型。&lt;/li&gt;
+  &lt;li&gt;two-stage：需要先使用启发式方法(selective search)或者CNN网络(RPN)产生Region Proposal，然后再在Region Proposal上做分类与回归。特点是：慢，但是准确率高。比如：RCNN系列模型。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;由于在工业应用中，往往对模型预测速度有要求，而two-stage目标检测模型由于先天的不足，因此本文仅考虑one-stage目标检测模型。&lt;/p&gt;
+
+&lt;h4 id=&quot;12-目标检测发展流程&quot;&gt;1.2 目标检测发展流程&lt;/h4&gt;
+
+&lt;p&gt;目标检测（one-stage）的总体发展流程：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2015.06 — YOLOv1：第一个one-stage目标检测器。&lt;/li&gt;
+  &lt;li&gt;2015.12 — SSD：结合anchor box和多尺度特征的one-stage目标检测器。&lt;/li&gt;
+  &lt;li&gt;2016.12 — YOLOv2：YOLO的第二版。&lt;/li&gt;
+  &lt;li&gt;2016.12 — FPN：特征金字塔（结合不同尺寸的特征图像）&lt;/li&gt;
+  &lt;li&gt;2017.01 — DSSD：SSD结合FPN。&lt;/li&gt;
+  &lt;li&gt;2017.08 — RetinaNet：Focal Loss解决正负样本不均衡&lt;/li&gt;
+  &lt;li&gt;2018.04 — YOLOv3：YOLO的第三版。&lt;/li&gt;
+  &lt;li&gt;2018.07 — CBAM：Attention机制的目标检测。&lt;/li&gt;
+  &lt;li&gt;2019.11 — EfficientDet：Google提出的目标检测器。&lt;/li&gt;
+  &lt;li&gt;2020.04 — YOLOv4：YOLO的第四版。&lt;/li&gt;
+  &lt;li&gt;2020.06 — YOLOv5：YOLO第五版。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-yolo&quot;&gt;二. YOLO&lt;/h3&gt;
+
+&lt;p&gt;当我最初学习图像分类的时候，就一直疑惑：如果我利用卷积层抽取目标特征后直接把分类任务做成回归任务（包含目标的位置和类别信息）可以作为目标检测器么？答案来了——YOLO（You Look Only Once）。&lt;/p&gt;
+
+&lt;h4 id=&quot;21-模型结构&quot;&gt;2.1 模型结构&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/bAs2nLNVF5uWijZ.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;YOLO模型的结构如上所示：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;输入为一个448*448的一个图片输入。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;一共是经过24层的卷积层抽取特征，使用relu作为每一层的激活函数。&lt;/li&gt;
+  &lt;li&gt;最后通过全连接层，且output形式为[7,7,30]的输出。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;模型输出的理解：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;将448 * 448的图像分为7 * 7的grid（网格），每个grid都会进行判断：是否为前景，且会构建2个boundingbox来框出物体。因此，一共是有7 * 7 * 2个框。而每个grid都会输出x,y,w,h,c；这里的confidence的计算就是前景目标的概率 * iou的值。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/p5KV6fZGaQCqUMT.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;除了boundingbox的计算外，当然还需要输出目标是哪个类别，即输出检测到的目标是某个类别的概率。这样就可以计算每个grid属于某个类别下的iou情况了。&lt;/li&gt;
+  &lt;li&gt;最后利用NMS（非极大值抑制：顾名思义就是不是最大的置信度就不要了）找到每个目标的最合适的框。具体NMS的算法步骤如下：
+    &lt;ul&gt;
+      &lt;li&gt;（1）首先拿到的是YOLO模型输出的结果，即7 * 7 * 2个框，每个框都是由5个元素（x,y,w,h,c）。这里需要知道一张图片中有多少个目标且目标confidence最高的结果。&lt;/li&gt;
+      &lt;li&gt;（2）通过计算两两框之间的IOU（交并比），用来划分一张图片中有多少个目标（如果IOU&amp;gt;0说明属于同一目标下的框）。&lt;/li&gt;
+      &lt;li&gt;（3）对同一目标下的所有框的confidence进行排序，找到最大的的confidence对应的框。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;22-模型训练&quot;&gt;2.2 模型训练&lt;/h4&gt;
+
+&lt;p&gt;这里主要讲述模型训练过程中loss的定义过程。&lt;/p&gt;
+
+&lt;h5 id=&quot;221-location-loss&quot;&gt;2.2.1 Location Loss&lt;/h5&gt;
+
+&lt;p&gt;定义如下所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/ZLlQj29WeVTdzRI.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/oeTrzxY4auHEG8c.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如上所示，假定是将图片划分为3 * 3个grid，每个grid有且仅有一个预测框，由于只计算和前景目标匹配的框，因此只会计算grid5和grid7的location loss。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;grid5的loss：&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/G7TUCNdS5lWDKrw.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;grid7的loss：&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/nBHViDx8kpRjGZ9.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;但是这里看大大猫和小猫的loss竟然是一样的，大猫的loss应该明显要小一些，而小猫的loss明显要大一些。因此这种loss的计算还需要提升。这里就将w,h的分别先进行&lt;strong&gt;开根号&lt;/strong&gt;处理。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;grid5的loss：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/ZA2t1zlJKIu9XMD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;grid7的loss：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/hlRF8OMHrt6wXnk.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;222-object-loss&quot;&gt;2.2.2 Object Loss&lt;/h5&gt;
+
+&lt;p&gt;定义如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/N9KPlvfTF1OCuWE.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;那么上图的每个grid的confidence的值如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/jlszbUxcCQTLqIK.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;object loss的值为：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/HvNnV8h6eZdoWE7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;但是这个是只划分了3 * 3个grid的，那么如果是原论文中的7 * 7的情况下呢，此时的object loss的值为：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/WqYcKHxbveoRhQL.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我们可以看到，0.96这个检测的背景的loss就过大了，那么在反向传播的过程中，梯度的变化很大程度就着重在背景的部分，以至于学习前景的能力较差。&lt;/p&gt;
+
+&lt;p&gt;因此，重新定义object loss（其实就是在背景loss引入一个系数，比如0.5）：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/ctsYBoIguWzlab7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;223-classification-loss&quot;&gt;2.2.3 classification loss&lt;/h5&gt;
+
+&lt;p&gt;定义如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/fI6jQpviDU5Kswo.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;24-yolo存在问题&quot;&gt;2.4 YOLO存在问题&lt;/h4&gt;
+
+&lt;h5 id=&quot;241-同一个grid却是多个目标的中心点&quot;&gt;2.4.1 同一个grid却是多个目标的中心点&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/iLWdGr6kxPAUplD.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如上图所示，人和车的中心点基本都落在中心的grid中，对于yolo而言，就无法分辨到底是人还是车？一个grid下只能预测1个目标。&lt;/p&gt;
+
+&lt;h5 id=&quot;242-同一个grid中存在多个小目标&quot;&gt;2.4.2 同一个grid中存在多个小目标&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/16/UmrSYCLP7MdTXab.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如上图所示，同一个grid下有多个鸟（小目标），而对于yolo而言，一个grid下只能预测1个目标。&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="yolo" />
+      
+        <category term="ComputerVision" />
+      
+        <category term="DeepLearning" />
+      
+
+      
+        <summary type="html">目标检测（one stage）的开始——YOLOv1</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

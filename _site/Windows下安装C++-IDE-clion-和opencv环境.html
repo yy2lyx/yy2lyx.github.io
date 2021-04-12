@@ -52,7 +52,7 @@
     <meta property="article:author" content="https://www.facebook.com/" />
     <meta property="article:published_time" content="2019-10-01T18:18:00+08:00" />
     <meta property="article:modified_time" content="2019-10-01T18:18:00+08:00" />
-    <meta property="article:tag" content="Opencv" />
+    <meta property="article:tag" content="Computervision" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Windows下安装C++ IDE（clion）和opencv环境" />
     <meta name="twitter:description" content="1. 下载软件 clion：C++的IDE cmake : 这里需要添加到环境变量中 D:\Profile\mingw64\bin MinGW ：添加到环境变量 D:\Profile\mingw64\bin opencv3.4.10：开源的计算机视觉库 2. MinGW和OpenCV 主要是如何用你的编译器来编译OpenCV。我们需要有include文件夹，这个在写代码时就用的到，还有lib和dll，这俩货我也不是很懂，dll的话没有是可以编译成功的，但运行是要失败的，所以我们是肯定要把dll加入到系统环境变量Path里的。lib是编译时就需要的，所以我们得把lib放在CLion的CMakeLists里面。 下载完Windows的OpenCV，其实我们只有给Visual Studio用的dll和lib，可是我们想要g++来编译和运行，所以就得自己根据OpenCV的sources文件夹来自己编译OpenCV。 这里需要在cmake中加入OPENCV_ALLOCATOR_STATS_COUNTER_TYPE=int64_t，add Entry ==&gt; string，这里参考报错信息1 这里还需要再cmake中加入OPENCV_ENABLE_ALLOCATOR_STATS=OFF，参考报错信息2 需要2次Configure和1次Genrate即可编译完成。 cd opencv\mingw-build目录下输入mingw32-make 等待完成，mingw32-make install 打开你的mingw-build文件夹，里面有个install目录就是你要的，可以复制一下这个文件夹，以后就不用重新编译了。我在C盘建立了OpenCV目录，并且把install文件夹下的文件复制进去了,C:\OpenCV\x64\mingw\bin加入系统环境变量Path中。 3. 写CMakeList 其实就是加入lib目录和include目录 cmake_minimum_required(VERSION 3.16) project(opencv_test) set(CMAKE_CXX_STANDARD 14) add_executable(opencv_test main.cpp) ## 添加的OpenCVConfig.cmake的路径 set(OpenCV_DIR "D:/Profile/opencv_builded") ## 搜索OpenCV目录 find_package(OpenCV REQUIRED) ## 添加OpenCV头文件目录 include_directories("D:/Profile/opencv_builded/include") ## 链接OpenCV库文件" />
@@ -61,7 +61,7 @@
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="李小肥的YY" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Opencv" />
+    <meta name="twitter:data2" content="Computervision" />
     <meta name="twitter:site" content="@" />
     <meta name="twitter:creator" content="@" />
     <meta property="og:image:width" content="1400" />
@@ -125,8 +125,9 @@ into the {body} of the default.hbs template -->
         
             <ul class="nav" role="menu">
     <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
-    <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
-    <li class="nav-getting-started" role="menuitem"><a href="/tag/deeplearning/">深度学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/MachineLearning/">机器学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/DeepLearning/">深度学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/ComputerVision/">计算机视觉</a></li>
     <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
 </ul>
 
@@ -162,7 +163,7 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-opencv tag- post ">
+        <article class="post-full  tag-computervision tag- post ">
 
             <header class="post-full-header">
                 <section class="post-full-meta">
@@ -171,7 +172,7 @@ into the {body} of the default.hbs template -->
                         <span class="date-divider">/</span>
                         
                             
-                               <a href='/tag/opencv/'>OPENCV</a>,
+                               <a href='/tag/computervision/'>COMPUTERVISION</a>,
                             
                         
                             
@@ -302,7 +303,7 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
                         <header class="read-next-card-header">
                             <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
                             
-                                <h3 class="read-next-card-header-title"><a href="/tag/opencv/">Opencv</a></h3>
+                                <h3 class="read-next-card-header-title"><a href="/tag/computervision/">Computervision</a></h3>
                             
                         </header>
                         <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
@@ -312,11 +313,30 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
                                 
                                 
                                   
-                                
+                                    
+                                        
+                                        
+                                            <li><a href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85PCL">windows下安装python-pcl</a></li>
+                                        
+                                    
                                   
                                 
                                   
+                                    
+                                        
+                                        
+                                            <li><a href="/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_2">目标检测(one stage)-SSD</a></li>
+                                        
+                                    
+                                  
                                 
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1">目标检测(one stage)-YOLOv1</a></li>
+                                        
+                                    
                                   
                                 
                                   
@@ -339,7 +359,18 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
                                     
                                         
                                         
-                                            <li><a href="/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83">Visual Studio 2019 下搭建opencv3.4.11的C++环境</a></li>
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
                                         
                                     
                                   
@@ -347,8 +378,6 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
                                   
                                     
                                         
-                                        
-                                            <li><a href="/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83">Xcode搭建Opencv3环境</a></li>
                                         
                                     
                                   
@@ -374,9 +403,9 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
                             </ul>
                         </div>
                         <footer class="read-next-card-footer">
-                            <a href="/tag/opencv/">
+                            <a href="/tag/computervision/">
                                 
-                                    查看相关的 2 篇文章  →
+                                    查看相关的 6 篇文章  →
                                 
                             </a>
                         </footer>

@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/scoop/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-02-04T17:07:38+08:00</updated>
+  <updated>2021-04-12T15:45:16+08:00</updated>
   <id>http://localhost:4000/tag/scoop/feed.xml</id>
 
   
@@ -46,8 +46,8 @@
     <entry>
       <title type="html">Scoop软件推荐</title>
       <link href="http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90" rel="alternate" type="text/html" title="Scoop软件推荐" />
-      <published>2020-11-27T04:21:00+08:00</published>
-      <updated>2020-11-27T04:21:00+08:00</updated>
+      <published>2021-02-04T04:21:00+08:00</published>
+      <updated>2021-02-04T04:21:00+08:00</updated>
       <id>http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90</id>
       <content type="html" xml:base="http://localhost:4000/Scoop%E8%BD%AF%E4%BB%B6%E6%8E%A8%E8%8D%90">&lt;h3 id=&quot;一-scoop包管理器&quot;&gt;一. scoop包管理器&lt;/h3&gt;
 
@@ -106,6 +106,20 @@
   &lt;li&gt;安装&lt;code class=&quot;highlighter-rouge&quot;&gt;oh-my-posh&lt;/code&gt;模块：&lt;code class=&quot;highlighter-rouge&quot;&gt;Install-Module oh-my-posh &lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;设置&lt;code class=&quot;highlighter-rouge&quot;&gt;robbyrussell&lt;/code&gt;主题：&lt;code class=&quot;highlighter-rouge&quot;&gt;Set-Theme robbyrussell&lt;/code&gt;，这里由于本人比较喜欢linux的&lt;code class=&quot;highlighter-rouge&quot;&gt;oh my zsh&lt;/code&gt;这个主题，因此选择这个和他接近的主题，大家也可以根据自己喜欢来选择自己的主题。&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h4 id=&quot;23-设定每次开启都启用主题&quot;&gt;2.3 设定每次开启都启用主题&lt;/h4&gt;
+&lt;p&gt;选择好了自己喜欢的主题，但是发现每次都需要打这一行&lt;code class=&quot;highlighter-rouge&quot;&gt;Set-Theme robbyrussell&lt;/code&gt;代码才能启动主题，是不是觉着老蛋疼了，所以下面是介绍一劳永逸的方案。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;建立一个profile：
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (!(Test-Path -Path $PROFILE )) { New-Item -Type File -Path $PROFILE -Force }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;修改下这个profile：&lt;code class=&quot;highlighter-rouge&quot;&gt;vim $profile&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;添加自己喜欢的主题风格到profile中：&lt;code class=&quot;highlighter-rouge&quot;&gt;Set-Theme robbyrussell&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;接下来，你每次开启终端后发现自动加载自己喜欢的主题哦！&lt;/p&gt;
 
 &lt;h3 id=&quot;三-必备的一些软件推荐&quot;&gt;三. 必备的一些软件推荐&lt;/h3&gt;
 

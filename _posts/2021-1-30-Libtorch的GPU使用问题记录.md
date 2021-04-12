@@ -5,7 +5,7 @@ cover: assets/images/torch_err.jpeg
 navigation: True
 title: Libtorch的GPU使用问题记录
 date: 2021-1-30 20:21:00
-tags: [pytorch,deeplearning]
+tags: [pytorch,DeepLearning]
 excerpt: 介绍pytorch的C++版本的gpu使用的解决问题的过程记录
 class: post-template
 subclass: 'post'

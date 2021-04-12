@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/tag/ssd/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2021-04-12T15:45:16+08:00</updated>
+  <id>http://localhost:4000/tag/ssd/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">李小肥的YY | </title>
+  
+
+  
+    <subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">目标检测(one stage)-SSD</title>
+      <link href="http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_2" rel="alternate" type="text/html" title="目标检测(one stage)-SSD" />
+      <published>2021-04-04T04:21:00+08:00</published>
+      <updated>2021-04-04T04:21:00+08:00</updated>
+      <id>http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_2</id>
+      <content type="html" xml:base="http://localhost:4000/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_2">&lt;h3 id=&quot;一-yolo和ssd的对比&quot;&gt;一. YOLO和SSD的对比&lt;/h3&gt;
+
+&lt;p&gt;yolo和ssd两个模型结构如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/uC7PiazmWIbq2kJ.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;两个模型之间最主要的差别：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在特征抽取层其实相差不大：YOLO用的是器自己的conv架构；SSD用的是VGG-16&lt;/li&gt;
+  &lt;li&gt;主要差别在结果预测上：YOLO用的是全连接层后得到7*7的grid，利用每个grid的boundingbox来做目标检测；SSD利用不同大小的feature map来做目标检测。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-模型结构&quot;&gt;二. 模型结构&lt;/h3&gt;
+
+&lt;h4 id=&quot;21-特征抽取层&quot;&gt;2.1 特征抽取层&lt;/h4&gt;
+
+&lt;p&gt;那么如何从VGG-16的结构变成SSD的结构呢?下图是一个VGG-16的示意图。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/fKEV8UWLTvPGmQ3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;将VGG-16的最后一层pooling层变成3*3 的卷积层，再接一个atrous conv（空洞卷积）拿到不同大小的feature map。如下所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/qdFiaXwTlJUmS9p.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;22-空洞卷积&quot;&gt;2.2 空洞卷积&lt;/h4&gt;
+
+&lt;p&gt;这里运用atrous conv layer而不是普通的conv layer的目的：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在相同的感受野的同时，能获得更快的运算速度&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如下图所示，是5 * 5 的卷积的kernel和3 * 3的atrous conv的kernel的感受野。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/HPzOvInK6fhstr2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到，如果是3 * 3的conv层接5 * 5的conv层，那么feature map中单一点的感受野其实是7个像素点；而如果是3 * 3的conv层接3 * 3的atrous conv层，能达到相同的感受野，且计算速度更快。&lt;/p&gt;
+
+&lt;h4 id=&quot;22-推理层&quot;&gt;2.2 推理层&lt;/h4&gt;
+
+&lt;p&gt;下图是SSD的推理层的示意图。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/83wrMCQ5YJajBGz.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到，图片经过vgg16之后，首先会得到较浅的feature map,随后经过几层卷积之后，得到较为深层的feature map（所以在上图中仅有较深层的能检测到车这种大物体），同时每层的feature map都会经过一个检测器和分类器得到检测结果，最后经过NMS得到最终的检测结果。&lt;/p&gt;
+
+&lt;p&gt;那么整个SSD的anchor box的数量是：
+&lt;script type=&quot;math/tex&quot;&gt;38*38*3+19*19*6+10*10*6+5*5*6+3*3*6+1*1*6 = 7308&lt;/script&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;三-模型训练&quot;&gt;三. 模型训练&lt;/h3&gt;
+
+&lt;h4 id=&quot;31训练loss&quot;&gt;3.1训练loss&lt;/h4&gt;
+
+&lt;p&gt;SSD和YOLO的loss中的检测类别值有所不同：假定检测目标一共A个类别，那么YOLO的预测类别数位A个，而SSD的预测类别则是A+1个（包含了背景类）。如下图所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/nqH2h5B6CtupZSs.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;32-难负例挖掘&quot;&gt;3.2 难负例挖掘&lt;/h4&gt;
+
+&lt;p&gt;对于正负样本不均衡的情况，SSD采用了hard negative mining(难负例挖掘)技巧来解决。hard negative是指在图片中容易将负样本（背景）看成是正样本（前景）的样本。而mining的操作就是将这类样本放入模型进行学习，从而减少模型的false positive。&lt;/p&gt;
+
+&lt;p&gt;那么SSD是如何引用hard negative mining技巧呢？如下图，其中蓝色的box的我们希望它的confidence较低，而绿色的confidence较高。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;对于一张图而言，选出其中anchor box中negative置信度较高的box。&lt;/li&gt;
+  &lt;li&gt;正负比例的anchor box = 1：3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/Z8uVQvXyMs2SKhR.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;32-数据增强&quot;&gt;3.2 数据增强&lt;/h4&gt;
+
+&lt;p&gt;SSD模型在论文中也使用了很多不同的data augmentation(数据增强)的操作。&lt;/p&gt;
+
+&lt;p&gt;方式一：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;针对原始输入图片和ground truth进行IOU的操作&lt;/li&gt;
+  &lt;li&gt;对其中iou = 0.1，0.3，0.5，0.7和0.9来进行采样。&lt;/li&gt;
+  &lt;li&gt;对采样后的图片进行resize成相同大小的图片，然后进行水平翻转的操作。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/h4K3V1XzYRLFQwg.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;方式二（Random Expansion-得到的小目标训练样本）：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;对原始图像做不同比例的缩小。&lt;/li&gt;
+  &lt;li&gt;然后放在相同大小图片中不同的地方。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/E48HkqysBPFw9JV.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;四-结果比较&quot;&gt;四. 结果比较&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/06/uKA6pBnV71YRFah.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到，SSD相较于YOLO在准确性上有很大的提升，同时预测速度上也能达到很高的fps。&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="ComputerVision" />
+      
+        <category term="DeepLearning" />
+      
+        <category term="SSD" />
+      
+
+      
+        <summary type="html">目标检测（one stage）——SSD</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

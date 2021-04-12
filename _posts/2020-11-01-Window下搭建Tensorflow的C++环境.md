@@ -5,7 +5,7 @@ cover: assets/images/2.jpeg
 navigation: True
 title: Window下搭建Tensorflow的C++环境
 date: 2020-11-01 19:21:00
-tags: [环境搭建, Tensorflow, C++]
+tags: [环境搭建, Tensorflow, DeepLearning]
 excerpt: 介绍如何在windows下搭建tensorflow的C++环境
 class: post-template
 subclass: 'post'

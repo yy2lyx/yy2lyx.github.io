@@ -5,7 +5,7 @@ cover: assets/images/1.jpeg
 navigation: True
 title: Keras训练模型部署到C++环境并生成DLL
 date: 2020-11-03 14:21:00
-tags: [keras, C++,环境搭建]
+tags: [keras, DeepLearning,环境搭建]
 excerpt: 主要讲述将Keras训练好的.h5模型转换成.pt格式，并将其转换后的模型部署到C++环境中，并生成DLL
 class: post-template
 subclass: 'post'

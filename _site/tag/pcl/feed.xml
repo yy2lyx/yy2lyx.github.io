@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/tag/pcl/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2021-04-12T15:45:16+08:00</updated>
+  <id>http://localhost:4000/tag/pcl/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">李小肥的YY | </title>
+  
+
+  
+    <subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">windows下安装python-pcl</title>
+      <link href="http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85PCL" rel="alternate" type="text/html" title="windows下安装python-pcl" />
+      <published>2021-04-10T18:21:00+08:00</published>
+      <updated>2021-04-10T18:21:00+08:00</updated>
+      <id>http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85PCL</id>
+      <content type="html" xml:base="http://localhost:4000/Windows%E4%B8%8B%E5%AE%89%E8%A3%85PCL">&lt;h3 id=&quot;一-准备工作&quot;&gt;一. 准备工作&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;python 版本：3.7.9&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;cython&lt;/li&gt;
+      &lt;li&gt;numpy&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;python-pcl:1.9.1&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/strawlab/python-pcl&quot;&gt;python-pcl源码&lt;/a&gt;：后面需要进行编译&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/PointCloudLibrary/pcl/releases/&quot;&gt;PCL1.9.1的All-In-One Installer&lt;/a&gt; ：目前安装仅支持1.6到1.9的版本&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;visual studio 2019&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;http://www.tarnyko.net/dl/gtk.htm&quot;&gt;Windows Gtk&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;二-安装&quot;&gt;二. 安装&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;将下载好的ALL-In-One Installer进行安装，这里会要求你添加到环境变量（必须添加啊），并且会安装OpenNI这个工具。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;解压下载好的windows Gtk，将&lt;code class=&quot;highlighter-rouge&quot;&gt;bin&lt;/code&gt;目录下所有文件复制到python-pcl源码目录下的&lt;code class=&quot;highlighter-rouge&quot;&gt;pkg-config&lt;/code&gt;目录下。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;pkg-config&lt;/code&gt;目录下，运行脚本&lt;code class=&quot;highlighter-rouge&quot;&gt;InstallWindowsGTKPlus.bat&lt;/code&gt;，该脚本会下载必须的内容，下载完成后会多出这些文件夹，如下图所示&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/12/CtZmlOTNWhnakYU.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;安装python的pcl包：&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd 你安装python-pcl源码目录&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;python setup.py build_ext -i&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;python setup.py install&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;三-安装遇到的坑&quot;&gt;三. 安装遇到的坑&lt;/h3&gt;
+
+&lt;h4 id=&quot;31-坑一cannot-find-pcl&quot;&gt;3.1 坑一：cannot find PCL&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;问题：当你运行&lt;code class=&quot;highlighter-rouge&quot;&gt;python setup.py build_ext -i&lt;/code&gt;的时候报出：&lt;code class=&quot;highlighter-rouge&quot;&gt;setup.py: error: cannot find PCL, tried 		pkg-config pcl_common-1.7 		pkg-config pcl_common-1.6 		pkg-config pcl_common&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;解决方案：这里就是上面说的，别下除了1.6到1.9版本的pcl的All-In-One Installer啊。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;32-坑二dll-load-failed&quot;&gt;3.2 坑二：DLL load failed&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;问题：全部安装完成之后，一切没有问题了，当你打开python，运行&lt;code class=&quot;highlighter-rouge&quot;&gt;import pcl&lt;/code&gt;的时候报出：&lt;code class=&quot;highlighter-rouge&quot;&gt;DLL load failed&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;解决方案：重启电脑！&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;四-python版本的使用&quot;&gt;四. python版本的使用&lt;/h3&gt;
+
+&lt;h4 id=&quot;41--点云数据的展示python&quot;&gt;4.1  点云数据的展示（python）&lt;/h4&gt;
+
+&lt;p&gt;构建点云–Point_XYZRGBA格式(需要点云数据是N*4，分别表示x,y,z,RGB ,其中RGB 用一个整数表示颜色)，下面是python版本的点云数据展示&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pcl&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pcl.pcl_visualization&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewer&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;#可视化库&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# cloud = pcl.load(&quot;cloud.pcd&quot;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cloud_np&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cloud.npy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cloud&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pcl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PointCloud_PointXYZRGBA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cloud_np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;visual&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pcl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pcl_visualization&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CloudViewing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;visual&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ShowColorACloud&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cloud&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;visual&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WasStopped&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;42-命令行展示&quot;&gt;4.2 命令行展示&lt;/h4&gt;
+
+&lt;p&gt;由于上面已经下载了PCL1.9.1了，可以直接在命令行中进行展示：&lt;code class=&quot;highlighter-rouge&quot;&gt;pcl_viewer_release H cloud.PCD&lt;/code&gt;，下面的是来自Middlebury 2014数据集中经过立体匹配后的3D点云图。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/04/12/cPJwuA8LgHUmFDf.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="ComputerVision" />
+      
+        <category term="PCL" />
+      
+
+      
+        <summary type="html">介绍如何在win10下安装python版本的PCL点云库</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

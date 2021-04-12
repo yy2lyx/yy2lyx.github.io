@@ -5,7 +5,7 @@ cover: assets/images/yolov5.jpeg
 navigation: True
 title: windows下搭建libtorch和paddle的C++环境搭建
 date: 2020-12-25 20:21:00
-tags: [pytorch,paddle,C++,deeplearning]
+tags: [pytorch,paddle,Cplusplus,DeepLearning]
 excerpt: 介绍在C++平台下搭建torch和paddle的环境
 class: post-template
 subclass: 'post'

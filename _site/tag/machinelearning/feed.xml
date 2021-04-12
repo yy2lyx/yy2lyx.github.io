@@ -4,7 +4,7 @@
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
   <link href="http://localhost:4000/tag/machinelearning/feed.xml" rel="self" type="application/atom+xml" />
   <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2021-02-04T17:07:38+08:00</updated>
+  <updated>2021-04-12T15:45:16+08:00</updated>
   <id>http://localhost:4000/tag/machinelearning/feed.xml</id>
 
   
@@ -90,6 +90,12 @@ I(x0)=−log(p(x0))，可以理解为，一个事件发生的概率越大，则�
 p:真实样本分布，服从参数为p的0-1分布，即X∼B(1,p)X∼B(1,p)
 q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交叉熵为&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h4 id=&quot;23-svm的核函数&quot;&gt;2.3 SVM的核函数&lt;/h4&gt;
+&lt;p&gt;使用非线性核的支持向量机可以处理线性不可分的问题。通过核函数，支持向量机可以将特征向量映射到更高维的空间中，使得原本线性不可分的数据在映射之后的空间中变得线性可分，如下图所示，原本二维空间的线性不可分（异或问题）转成三维空间，就可以线性可分了。
+&lt;img src=&quot;https://i.loli.net/2021/02/26/Z1zYvUKGMfy86mb.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;常用的核函数：线性核、多项式核、高斯核（RBF）、拉普拉斯核等等。核函数的选择其实才是SVM模型的最大变数。&lt;/p&gt;
 
 &lt;h3 id=&quot;三-nlp&quot;&gt;三. NLP&lt;/h3&gt;
 &lt;h4 id=&quot;31--什么是tf-idf&quot;&gt;3.1  什么是TF-IDF?&lt;/h4&gt;
@@ -310,6 +316,13 @@ s_{y}=\left[\begin{array}{ccc}
   &lt;li&gt;CMOS（金属氧化物半导体元件）：CMOS芯片中每个像素都有自己的信号放大器，各自进行电荷到电压的转换，输出信号的一致性较差，比CCD的信号噪声更多。CMOS每个电荷元件都有独立的装换控制器，读出速度很快，FPS在500以上的高速相机大部分使用的都是CMOS。&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h4 id=&quot;413-小目标检测&quot;&gt;4.13 小目标检测&lt;/h4&gt;
+&lt;p&gt;在深度学习目标检测中，特别是人脸检测中，小目标、小人脸的检测由于&lt;strong&gt;分辨率低，图片模糊，信息少，噪音多&lt;/strong&gt;，所以一直是一个实际且常见的困难问题。
+FPN特征金字塔网络：参考文章：https://zhuanlan.zhihu.com/p/92005927&lt;/p&gt;
+
+&lt;h4 id=&quot;414-目标检测中的map&quot;&gt;4.14 目标检测中的mAP&lt;/h4&gt;
+&lt;p&gt;具体参考文章：https://www.cnblogs.com/itmorn/p/14193729.html&lt;/p&gt;
+
 &lt;h3 id=&quot;五-深度学习&quot;&gt;五. 深度学习&lt;/h3&gt;
 &lt;h4 id=&quot;51--梯度消失的原因和解决办法有哪些&quot;&gt;5.1  梯度消失的原因和解决办法有哪些？&lt;/h4&gt;
 &lt;ul&gt;
@@ -444,9 +457,9 @@ s_{y}=\left[\begin{array}{ccc}
       
 
       
-        <category term="deeplearning" />
+        <category term="DeepLearning" />
       
-        <category term="machinelearning" />
+        <category term="MachineLearning" />
       
 
       
@@ -740,7 +753,7 @@ RETURN n.name AS name, n.pagerank AS pagerank ORDER BY pagerank DESC LIMIT 10
       
         <category term="图算法" />
       
-        <category term="machinelearning" />
+        <category term="MachineLearning" />
       
 
       
@@ -912,7 +925,7 @@ RETURN n.name AS name, n.pagerank AS pagerank ORDER BY pagerank DESC LIMIT 10
       
 
       
-        <category term="machinelearning" />
+        <category term="MachineLearning" />
       
         <category term="无监督" />
       
@@ -1381,7 +1394,7 @@ RETURN n.name AS name, n.pagerank AS pagerank ORDER BY pagerank DESC LIMIT 10
       
 
       
-        <category term="machinelearning" />
+        <category term="MachineLearning" />
       
 
       

@@ -52,7 +52,7 @@
     <meta property="article:author" content="https://www.facebook.com/" />
     <meta property="article:published_time" content="2020-10-14T03:21:00+08:00" />
     <meta property="article:modified_time" content="2020-10-14T03:21:00+08:00" />
-    <meta property="article:tag" content="Opencv" />
+    <meta property="article:tag" content="Computervision" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Xcode搭建Opencv3环境" />
     <meta name="twitter:description" content="1. 下载opencv 使用简单粗暴的方式——brew进行安装：brew install opencv@3，注意这里通过brew下载的opencv3的地址为：/usr/local/Cellar/opencv@3/3.4.9_1（后面配置include和lib有用）。 这里存在很大的问题：brew除了下载opencv以外还需要下载opencv的依赖包（很多），这里强力推荐换brew的镜像源（本人用的清华的，当然也可以用中科大的）。具体配置方式如下： 第一步：替换brew.git： cd "$(brew --repo)" git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git 第二步：替换 homebrew-core.git： powershell cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core" git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git 2. 在Xcode上搭建opencv的环境 新建项目：macOS - Command Line Tool - 这里选择语言为C++ 点击项目，选择Build Settings- 在搜索框中搜索search。 在头文件路径Header Search Paths中debug中添加一下 /usr/local/Cellar/opencv@3/3.4.9_1/include /usr/local/Cellar/opencv@3/3.4.9_1/include/opencv /usr/local/Cellar/opencv@3/3.4.9_1/include/opencv2 在Library Search Paths中添加 /usr/local/Cellar/opencv@3/3.4.9_1/lib 在项目中添加动态链接库文件：选择项目- 右键New" />
@@ -61,7 +61,7 @@
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="李小肥的YY" />
     <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Opencv" />
+    <meta name="twitter:data2" content="Computervision" />
     <meta name="twitter:site" content="@" />
     <meta name="twitter:creator" content="@" />
     <meta property="og:image:width" content="1400" />
@@ -125,8 +125,9 @@ into the {body} of the default.hbs template -->
         
             <ul class="nav" role="menu">
     <li class="nav-home" role="menuitem"><a href="/">首页</a></li>
-    <li class="nav-getting-started" role="menuitem"><a href="/tag/machinelearning/">机器学习</a></li>
-    <li class="nav-getting-started" role="menuitem"><a href="/tag/deeplearning/">深度学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/MachineLearning/">机器学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/DeepLearning/">深度学习</a></li>
+    <li class="nav-getting-started" role="menuitem"><a href="/tag/ComputerVision/">计算机视觉</a></li>
     <li class="nav-about" role="menuitem"><a href="/about/">关于</a></li>
 </ul>
 
@@ -162,7 +163,7 @@ into the {body} of the default.hbs template -->
 <main id="site-main" class="site-main outer" role="main">
     <div class="inner">
 
-        <article class="post-full  tag-opencv tag- post ">
+        <article class="post-full  tag-computervision tag- post ">
 
             <header class="post-full-header">
                 <section class="post-full-meta">
@@ -171,7 +172,7 @@ into the {body} of the default.hbs template -->
                         <span class="date-divider">/</span>
                         
                             
-                               <a href='/tag/opencv/'>OPENCV</a>,
+                               <a href='/tag/computervision/'>COMPUTERVISION</a>,
                             
                         
                             
@@ -332,7 +333,7 @@ int main(int argc, const char * argv[]) {
                         <header class="read-next-card-header">
                             <small class="read-next-card-header-sitetitle">&mdash; 李小肥的YY &mdash;</small>
                             
-                                <h3 class="read-next-card-header-title"><a href="/tag/opencv/">Opencv</a></h3>
+                                <h3 class="read-next-card-header-title"><a href="/tag/computervision/">Computervision</a></h3>
                             
                         </header>
                         <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
@@ -342,11 +343,30 @@ int main(int argc, const char * argv[]) {
                                 
                                 
                                   
-                                
+                                    
+                                        
+                                        
+                                            <li><a href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85PCL">windows下安装python-pcl</a></li>
+                                        
+                                    
                                   
                                 
                                   
+                                    
+                                        
+                                        
+                                            <li><a href="/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_2">目标检测(one stage)-SSD</a></li>
+                                        
+                                    
+                                  
                                 
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1">目标检测(one stage)-YOLOv1</a></li>
+                                        
+                                    
                                   
                                 
                                   
@@ -369,7 +389,18 @@ int main(int argc, const char * argv[]) {
                                     
                                         
                                         
-                                            <li><a href="/Visual-Studio-2019-%E4%B8%8B%E6%90%AD%E5%BB%BAopencv3.4.11%E7%9A%84C++%E7%8E%AF%E5%A2%83">Visual Studio 2019 下搭建opencv3.4.11的C++环境</a></li>
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
                                         
                                     
                                   
@@ -389,8 +420,6 @@ int main(int argc, const char * argv[]) {
                                   
                                     
                                         
-                                        
-                                            <li><a href="/Windows%E4%B8%8B%E5%AE%89%E8%A3%85C++-IDE-clion-%E5%92%8Copencv%E7%8E%AF%E5%A2%83">Windows下安装C++ IDE（clion）和opencv环境</a></li>
                                         
                                     
                                   
@@ -404,9 +433,9 @@ int main(int argc, const char * argv[]) {
                             </ul>
                         </div>
                         <footer class="read-next-card-footer">
-                            <a href="/tag/opencv/">
+                            <a href="/tag/computervision/">
                                 
-                                    查看相关的 2 篇文章  →
+                                    查看相关的 6 篇文章  →
                                 
                             </a>
                         </footer>
@@ -434,7 +463,7 @@ int main(int argc, const char * argv[]) {
                             
                         
                             
-                                <span class="post-card-tags">Opencv</span>
+                                <span class="post-card-tags">Computervision</span>
                             
                         
                     
