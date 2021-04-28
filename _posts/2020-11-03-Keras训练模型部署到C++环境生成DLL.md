@@ -25,7 +25,7 @@ subclass: 'post'
 
 > python模型构建：[Kaggle猫狗分类](https://www.kaggle.com/tongpython/cat-and-dog)
 >
-> python完整代码放在本人的[git仓库]()上面
+> python完整代码放在本人的[git仓库](https://github.com/yy2lyx/catvsdog_python_train_C-_pred)上面
 
 #### 2.1 模型训练，保存.h5格式的模型文件
 
