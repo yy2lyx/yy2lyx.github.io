@@ -68,7 +68,7 @@ subclass: 'post'
 * 下载官方源码：`git clone https://github.com/matterport/Mask_RCNN.git`
 * 替换官方的核心代码`mrcnn`下的所有代码。
 
-PS：由于这里改的官方代码中`mrcnn/model.py`,`mrcnn/config.py`,`mrcnn/utils.py`,`parallel_model.py`需要修改的文件太多，直接给出git地址，大家可以直接下在`mrcnn`这个文件夹及其下面的py文件对官方的`mrcnn`这个文件夹进行替换（不然太折腾人了）。
+PS：由于这里改的官方代码中`mrcnn/model.py`,`mrcnn/config.py`,`mrcnn/utils.py`,`parallel_model.py`需要修改的文件太多，直接给出[git地址](https://github.com/yy2lyx/MaskRCNN_TF2)，大家可以直接下在`mrcnn`这个文件夹及其下面的py文件对官方的`mrcnn`这个文件夹进行替换（不然太折腾人了）。
 
 #### 2.3 训练代码修改
 
