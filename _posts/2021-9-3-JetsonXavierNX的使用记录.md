@@ -5,7 +5,7 @@ cover: assets/images/jetson.jpg
 navigation: True
 title: Jetson Xavier NX 的使用记录
 date: 2021-8-24 21:11:00
-tags: [pytorch,Jetson]
+tags: [pytorch,Jetson,ComputerVision]
 excerpt: 记录使用Jetson Xavier NX的使用体验中遇到的问题和记录
 class: post-template
 subclass: 'post'
