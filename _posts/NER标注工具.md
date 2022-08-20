@@ -1,0 +1,250 @@
+---
+layout: post
+current: post
+cover: assets/images/brat.jpg
+navigation: True
+title: 文本标注工具Brat
+date: 2022-8-19 00:00:00
+tags: [NLP,DeepLearning]
+excerpt: 记录文本领域好用的标注工具
+class: post-template
+subclass: 'post'
+---
+
+### 一. brat的介绍
+
+在文本领域，特别是需要对实体、关系进行标注的情况下，我们是十分需要一个开源便捷的打标工具帮助我们生成属于自己的数据集的。所以之前一直在想，文本里有没有像图像里标注labelme一样的开源打标工具呢？还真有，而且还不少。这里推荐一个本人用的很顺手的文本标注工具——brat。
+
+brat工具的特点：
+
+1. 使用方便，可直接应用于webserver端。
+2. 开源
+3. 支持**实体**、**关系**、事件的标注。
+4. python写的，因此方便改写脚本(支持python2和python3)
+5. 支持**中文**展示
+6. 支持Linux、Mac系统
+
+### 二. brat的安装及使用
+#### 1.2 安装
+> github仓库地址：https://github.com/nlplab/brat
+
+安装步骤：
+1. 直接clone仓库到本地
+2. 进入主目录下，并本地web服务：`cd brat & python standalone.py`
+3. 在看到`Serving brat at http://0.0.0.0:8001`后，在网页中输入`http://0.0.0.0:8001`即可看到本地brat服务了。
+4. 注意这里需要注册和登录账号
+
+以上全部流程走完后，你就可以真正开始使用brat了。
+
+#### 2.2 使用
+brat的使用也是特别简单，大家可以跟着我的流程一步一步走：
+1. 在brat的主目录下有一个`data`目录，其中是存放的我们需要打标的数据。
+2. 在data目录下`cd data`新建一个属于我们自己的数据集目录：`mkdir mydata`
+3. 在`mydata`目录下新建一个需要打标的txt文件并随便写点啥：`vim 1.txt`
+4. 新建专属于自己的标注类别conf文件：`vim annotation.conf`
+
+```bash
+[entities]
+person
+act
+	like
+	hate
+
+[relations]
+Act-Person Arg1:<ENTITY>, Arg2:<ENTITY>
+
+[events]
+
+[attributes]
+
+```
+
+这里我只需要对实体和关系进行标注，比如我需要标注实体：人物，动作（包含喜欢/讨厌）；关系：人物和动作的关系
+当我们在网页server端打开`/mydata/1.txt`后，可以如下图开始标注了
+
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/brat1.jpg)
+
+5. 定制化实体/关系**颜色**及**中文展示**，在`mydata`目录下新建一个conf文件:`vim visual.conf`
+
+```bash
+[labels]
+person | 人名
+like | 喜欢
+hate | 讨厌
+
+[drawing]
+SPAN_DEFAULT fgColor:black, bgColor:lightgreen, borderColor:darken
+ARC_DEFAULT color:black, arrowHead:triangle-5
+
+person bgColor:yellow, borderColor:red
+like bgColor:green, borderColor:red
+hate bgColor:gray, borderColor:red
+```
+接下来，就会在标注的页面看到如下所示了。
+
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/brat2.jpg)
+
+### 三. brat结果输出及扩展（干货）
+#### 3.1 实体BIO输出
+
+当我们标注完成之后，需要将实体的标注结果转成BIO进行输出，这该怎么输出呢？
+
+* 其实可以直接使用brat的python脚本直接将标注的.ann文件输出成BIO形式的.conll文件
+* 在brat的主目录下进入`tools`目录，利用python输出结果：`python anntoconll.py ../data/mydata/1.txt`
+* 这里就可以在`mydata`目录下看到`1.conll`文件了，如下所示
+
+```
+B-person	0	1	姚
+I-person	1	2	明
+B-like	2	3	喜
+I-like	3	4	欢
+O	4	5	打
+O	5	6	篮
+O	6	7	球
+
+B-person	8	9	小
+I-person	9	10	明
+B-like	10	11	喜
+I-like	11	12	欢
+B-person	12	13	姚
+I-person	13	14	明
+```
+
+#### 3.2 关系结果输出（干货）
+
+关系结果输出我实在是找不到啥脚本了，因此干脆自己写吧，下面是我自己写的脚本（随便写的，勿喷！）
+```python3
+import pandas as pd
+import numpy as np
+import sys
+
+
+if __name__ == '__main__':
+    path_txt = sys.argv[1]
+
+    line_start = []
+    line_end = []
+    line_len = []
+    with open(path_txt,'r',encoding='utf8') as txt_f:
+        txt_lines = txt_f.readlines()
+        num = 0
+        for txt_i in txt_lines:
+            txt_i = txt_i.split('\n')[0]
+            line_len.append(len(txt_i))
+            if num == 0:
+                start_i = num
+            else:
+                start_i = num + 1
+            line_start.append(start_i)
+            num = start_i + len(txt_i)
+            line_end.append(num)
+
+
+    rel_label = []
+    rel_index_1 = []
+    rel_index_2 = []
+    ent_index = []
+    ent_label = []
+    ent_start = []
+    ent_end = []
+    ent_words = []
+ 
+    with open(path_txt.split('.txt')[0] + '.ann','r',encoding='utf8') as ann_f:
+        ann_lines = ann_f.readlines()
+        for ann_i in ann_lines:
+            e_r_i = ann_i.split('\t')[0]
+            if 'R' in e_r_i:
+                rel_i = ann_i.split('\t')[1].split(' ')
+                rel_label.append(rel_i[0])
+                rel_index_1.append(rel_i[1].split(':')[1])
+                rel_index_2.append(rel_i[2].split(':')[1])
+
+            else:
+                rs_ent = ann_i.split('\t')
+                ent_index.append(rs_ent[0])
+                ent_words.append(rs_ent[2].strip())
+                rs_ent_in = rs_ent[1].split(' ')
+                ent_label.append(rs_ent_in[0])
+                ent_start.append(int(rs_ent_in[1]))
+                ent_end.append(int(rs_ent_in[2]) - 1)
+
+    df_ent = pd.DataFrame({'index':ent_index,'words':ent_words,'label':ent_label,'start':ent_start,'end':ent_end})
+    df_rel = pd.DataFrame({'label':rel_label,'ent_1':rel_index_1,'ent_2':rel_index_2})
+    df_line = pd.DataFrame({'txt':txt_lines,'start':line_start,'end':line_end})
+
+    ent_1_label = []
+    ent_1_words = []
+    ent_1_start = []
+    ent_1_end = []
+    ent_2_label = []
+    ent_2_words = []
+    ent_2_start = []
+    ent_2_end = []
+    txt_rep = []
+    txt_rep_start = []
+    for i in range(len(df_rel)):
+        ent_1_i = df_rel.loc[i,'ent_1']
+        ent_2_i = df_rel.loc[i,'ent_2']
+
+        ent_1_label.append(np.array(df_ent.loc[df_ent['index'] == ent_1_i,'label'])[0])
+        ent_1_words.append(np.array(df_ent.loc[df_ent['index'] == ent_1_i,'words'])[0])
+        ent_1_start.append(np.array(df_ent.loc[df_ent['index'] == ent_1_i,'start'])[0])
+        ent_1_end.append(np.array(df_ent.loc[df_ent['index'] == ent_1_i,'end'])[0])
+        ent_2_label.append(np.array(df_ent.loc[df_ent['index'] == ent_2_i, 'label'])[0])
+        ent_2_words.append(np.array(df_ent.loc[df_ent['index'] == ent_2_i, 'words'])[0])
+        ent_2_start.append(np.array(df_ent.loc[df_ent['index'] == ent_2_i, 'start'])[0])
+        ent_2_end.append(np.array(df_ent.loc[df_ent['index'] == ent_2_i, 'end'])[0])
+
+        # 匹配文档
+        ent_1_index = np.array(df_ent.loc[df_ent['index'] == ent_1_i, 'start'])[0]
+        df_line_i = df_line[(df_line['start'] <= ent_1_index) & (df_line['end'] >= ent_1_index)]
+
+
+        txt_rep_i = np.array(df_line_i['txt'])[0]
+        txt_rep_start_i = np.array(df_line_i['start'])[0]
+        txt_rep.append(txt_rep_i)
+        txt_rep_start.append(txt_rep_start_i)
+
+    df_rel['ent_1_label'] = ent_1_label
+    df_rel['ent_1_words'] = ent_1_words
+    df_rel['ent_1_start'] = ent_1_start
+    df_rel['ent_1_end'] = ent_1_end
+    df_rel['ent_2_label'] = ent_2_label
+    df_rel['ent_2_words'] = ent_2_words
+    df_rel['ent_2_start'] = ent_2_start
+    df_rel['ent_2_end'] = ent_2_end
+    df_rel['txt'] = txt_rep
+    df_rel['txt_start'] = txt_rep_start
+
+    df_rel.drop(['ent_1','ent_2'],axis=1,inplace=True)
+    csv_path = path_txt.split('.txt')[0] + '.csv'
+    df_rel.to_csv(csv_path, index=False)
+    print(f'Saved in {csv_path}!')
+```
+
+#### 3.3 模型预测结果展示为brat（干货）
+
+由于自己觉着brat蛮好看的，用来给模型的结果展示也不错，决定写个代码转成brat的.ann形式，这里不太方便代码展示了，这里就把整体思路说下：
+
+1. 将NER模型输出的words，tags转成结果的词语（比如上面的“姚明”）
+2. 并将这些词的开始的字和结尾的字所在位置索引记录下来
+3. 如果涉及换行，需要将索引 += 改行句子的长度
+
+这里用`mydata/1.ann`来举例，如下图所示
+
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/brat3.jpg)
+
+```
+T1	person 0 2	姚明
+T2	person 8 10	小明
+T3	person 12 14	姚明
+T4	like 10 12	喜欢
+T5	like 2 4	喜欢
+R1	Act-Person Arg1:T1 Arg2:T5	
+R2	Act-Person Arg1:T2 Arg2:T4	
+
+```
+
+规律：
+* 想要转成.ann格式，我们可以看到每一行都是固定的格式，即：`T总序列号\t类别名 该词开始所在索引 该词结束所在索引\t该词`
+* 如果换行了，比如第二行的“小明”，这里的开始索引 = 第一句长度 + “小”字所在第二句的位置
