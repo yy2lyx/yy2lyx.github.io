@@ -11,8 +11,6 @@ class: post-template
 subclass: 'post'
 ---
 
-
-## Selenium和webscraper爬虫
 ### 一. Selenium爬虫
 #### 1. 安装
 > Selenium 本身是一个自动化测试的工具，模拟人为在浏览器上进行操作，比如点击和下拉等等。
