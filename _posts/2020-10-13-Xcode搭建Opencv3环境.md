@@ -43,7 +43,7 @@ subclass: 'post'
 /usr/local/Cellar/opencv@3/3.4.9_1/include/opencv2
 ```
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjo3k6yqj6j31qa0ssaow.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/xc_1.jpg)
 
 * 在Library Search Paths中添加
 
@@ -53,7 +53,7 @@ subclass: 'post'
 
 * 在项目中添加动态链接库文件：选择项目- 右键New Group - 新建一个名字（比如lib）- 右键lib - Add files to - 按下`/`会直接提示到那个目录下找dylib，这里是`/usr/local/Cellar/opencv@3/3.4.9_1/lib`，把当前目录下的所有dylib都添加进去即可，如下图。
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjo3v21p6hj31q80f2tap.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/xc_2.jpg)
 
 * 以上就是整个opencv3在Xcode的环境了。
 

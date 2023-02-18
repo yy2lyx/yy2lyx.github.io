@@ -22,15 +22,15 @@ subclass: 'post'
 
 * 直接在[VIA官网](https://www.robots.ox.ac.uk/~vgg/software/via/)下载即可，下载完成后如下图所示，直接用浏览器打开`via.html`即可开箱使用。
 
-![](https://i.loli.net/2021/07/27/k43cn8PQ9NiZjua.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/rcnn_1.png)
 
 * 选择`Add Files`添加图片后，选择`Attributes`设置打标的label，然后用多边形工具进行打标，如下图。
 
-![](https://i.loli.net/2021/07/27/yPQadVnCREv5Ne4.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/rcnn_2.png)
 
 * 输出json格式的打标结果
 
-![](https://i.loli.net/2021/07/27/dEBjXekZutmL4aS.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/rcnn_3.png)
 
 * 将图片和json结果保存在同一个目录下，构建自己的数据集时可参考我的目录结构。
 

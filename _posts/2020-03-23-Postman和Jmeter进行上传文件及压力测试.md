@@ -49,15 +49,15 @@ postman分别在header和body中填入下图：
 
 * headers中需要填入value:multipart/form-data
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo0qznj0j30p605qmxn.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/post_1.jpg)
 
 * body 中需要填入key：file(这里参考index.html文件中name="file")，value:eml文件地址
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo1floa4j30m20463yp.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/post_2.jpg)
 
 * 然后将写好的保存在collections当中，并构建tests选项（如果不填入，后面的串行压力测试无法开始，报错）
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo31nohoj30on084aaz.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/post_3.jpg)
 
 * 通过collections中选中保存好的请求，run即可
 
@@ -67,17 +67,17 @@ postman分别在header和body中填入下图：
 
 * 新建一个线程组，如下图，包括http请求及监听
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo1myv4aj308903vq2y.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/post_4.jpg)
 
 
 
 * 线程中填入线程总数，和全部线程开启总的时间（这里由于需要测试并发1小时2万次访问）
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo3saf9cj30am0a63z4.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/post_5.jpg)
 
 * 在http请求页面填入请求的参数
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjgo41hoa3j30t1089jsj.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/post_6.jpg)
 
 * http页面下面不用填Parameters和BodyData，在Files Upload中填入下图，其中file和上面一致，而MIME Type需要访问https://www.freeformatter.com/mime-types-list.html，找到其中.eml格式前面的
 

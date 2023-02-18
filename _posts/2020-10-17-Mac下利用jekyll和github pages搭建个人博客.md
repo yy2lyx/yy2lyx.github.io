@@ -19,7 +19,7 @@ subclass: 'post'
 * [jekyll](https://www.jekyll.com.cn/)：这个是将纯文本转化为静态网站和博客，使用gem安装下载：`gem install bundler jekyll`。
 * [github pages]()：免费开源，并且可以自动生成域名，自己去构建一个属于自己的github账号和新建一个仓库（名字为：`XX.github.io`，这里`XX`就是你自己的账号名称）
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9dyt6cwj31lk0gigp9.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jek_1.jpg)
 
 * mac或者linux或者Windows平台。
 
@@ -31,12 +31,12 @@ subclass: 'post'
 
 * 本人选择的jekyll主题：[Flexible-Jekyll](https://github.com/artemsheludko/flexible-jekyll)，如下图所示：
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9xls4u4j31b40om7du.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jek_2.jpg)
 
 * 选择一个地方存放下载的主题（直接git下载）：`git clone https://github.com/artemsheludko/flexible-jekyll `
 * 这里直接在本地利用jekyll生成一个网页进行测试和调试：`bundle exec jekyll server`或者是`bundle exec jekyll s`，这里会生成一个本地的博客地址：`http://127.0.0.1:4000/`，可以直接查看
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjsa7qt24yj31d40fuk2x.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jek_3.jpg)
 
 #### 1.3 将主题放入自己的仓库中
 
@@ -49,7 +49,7 @@ subclass: 'post'
 * 这里可以直接在网页上打开`https://xx.github.io/`查看自己的博客，当然这里还是别人的内容，还需要自己修改成属于自己专属的博客。
 * 这里注意：如果无法访问github pages，这里需要修改dns服务器就可以了，修改为114.114.114.114，具体如下所示：
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjs9wjy9fwj30db0gcjrz.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jek_4.jpg)
 
 ### 二. 创建一个专属于自己的个人博客
 
@@ -57,7 +57,7 @@ subclass: 'post'
 
 整个下载jekyll主题的代码结构如下图所示：
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjsa15n5gsj30bq0l0ta3.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jek_5.jpg)
 
 * _drafts文件夹：主要是存放一些自己还没有写好的markdown文档，这里是不会在网页上展示的，但是没有写完的却可以通过git来保存
 * _posts文件夹：保存已经写好的markdown文章

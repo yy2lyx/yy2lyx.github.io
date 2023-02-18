@@ -29,7 +29,7 @@ subclass: 'post'
 * 这里需要在cmake中加入`OPENCV_ALLOCATOR_STATS_COUNTER_TYPE=int64_t`，`add Entry` ==> `string`，这里参考[报错信息1](https://github.com/opencv/opencv/issues/17065)
 * 这里还需要再cmake中加入`OPENCV_ENABLE_ALLOCATOR_STATS=OFF`，参考[报错信息2](https://answers.opencv.org/question/228737/gcc-error-long-no-such-file-or-directory/)
 
-![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gjehgzemrbj30fl0ep0ug.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/clion_1.jpg)
 
 * 需要2次Configure和1次Genrate即可编译完成。
 * `cd opencv\mingw-build`目录下输入`mingw32-make`
@@ -64,5 +64,4 @@ target_link_libraries(opencv_test ${OpenCV_LIBS})
 #### 4. 编译成可执行文件
 
 `main.cpp`文件中写完后，`cd 项目目录`，`cmake .`，即可看到项目中新加了文件夹`cmake-build-debug`中里面存在`.exe`可执行文件。
-
 

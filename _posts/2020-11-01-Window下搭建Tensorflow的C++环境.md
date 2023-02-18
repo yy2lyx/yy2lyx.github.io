@@ -233,13 +233,13 @@ int main()
 
 #### 4.1 生成解决方案的时候报错无法打开包括文件：
 
-![](https://tva1.sinaimg.cn/large/0081Kckwgy1gkelmo3blhj30gz01ia9t.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/tf_c_windows_1.jpg)
 
 解决方式：在本地的通过python pip安装后的tensorflow文件夹中（`C:\soft\python3.7.9\Lib\site-packages\tensorflow\include`）将`google`文件夹复制到`D:tf_test\tf\include`下面，即可解决
 
 #### 4.2 生成解决方案的时候报错Link1120:
 
-![](https://tva1.sinaimg.cn/large/0081Kckwgy1gkeln9lgpwj30zt01owec.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/tf_c_windows_2.jpg)
 
 解决方式：将vs2019上报错信息复制，cd到`tensorflow-master\tensorflow\tools\def_file_filter`(这里的tensorflow-master是自己下载tensorflow源码的地方），编辑`def_file_filter.py.tpl`文件：
 
