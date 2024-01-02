@@ -9,12 +9,12 @@ words_per_minute: 200
 baseurl: /
 
 # Website info
-title: 李小肥的YY
+title: 凡人炼丹传
 description: 欢迎各位看官光临本小站，希望共同学习进步哈！
 cover: assets/images/blog-cover.jpg
 logo: 
-logo_dark: assets/images/yy.jpg
-favicon: assets/images/yy.jpg
+logo_dark: assets/images/logo1.png
+favicon: assets/images/logo1.png
 CNAME: test.lixiaofei2yy.website #add cname for website to be created
 
 # Social info
