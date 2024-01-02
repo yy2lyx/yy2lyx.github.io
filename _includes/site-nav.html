@@ -19,9 +19,13 @@
             {% if site.mail %}
                 <a class="social-link social-link-mail" href="mailto:{{site.mail}}" target="_blank" rel="noopener">{% include mail.html %}</a>
             {% endif %}
+            {% if site.gongzhonghao %}
+                <a class="social-link social-link-gongzhonghao" href="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/qrcode_wx.png" target="_blank" rel="noopener">{% include gongzhonghao.html %}</a>
+            {% endif %}
             {% if site.zhihu %}
                 <a class="social-link social-link-zhihu" href="https://www.zhihu.com/people/{{site.zhihu}}" target="_blank" rel="noopener">{% include zhihu.html %}</a>
             {% endif %}
+            
         </div>
         {% if site.subscribers %}
             <a class="subscribe-button" href="#subscribe">Subscribe</a>
