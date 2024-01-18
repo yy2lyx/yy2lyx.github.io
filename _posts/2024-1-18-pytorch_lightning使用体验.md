@@ -5,7 +5,7 @@ cover: assets/images/lightning.jpg
 navigation: True
 title: pytorch_lightning使用体验
 date: 2023-12-28 00:00:00
-tags: [python]
+tags: [DeepLearning]
 excerpt: 记录pytorch_lightning的使用过程心得体会
 class: post-template
 subclass: 'post'
