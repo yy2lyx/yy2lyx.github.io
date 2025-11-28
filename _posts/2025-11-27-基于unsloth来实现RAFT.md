@@ -3,16 +3,14 @@ layout: post
 current: post
 cover: assets/images/raft.jpg
 navigation: True
-title: 大模型的检索增强-NanoGraphRAG
-date: 2025-06-09 00:00:00
+title: 大模型基于检索增强的微调-RAFT
+date: 2025-11-27 00:00:00
 tags: [NLP,DeepLearning]
 excerpt: 记录学习大模型的RAG
 class: post-template
 subclass: 'post'
 ---
 
-
-## 大模型基于检索增强的微调-RAFT
 
 > 论文：[《RAFT: Adapting Language Model to Domain Specific RAG》](https://arxiv.org/abs/2403.10131)
 
