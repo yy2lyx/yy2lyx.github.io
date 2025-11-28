@@ -6,15 +6,16 @@ navigation: True
 title: 大模型基于检索增强的微调-RAFT
 date: 2025-11-27 00:00:00
 tags: [NLP,DeepLearning]
-excerpt: 记录学习大模型的RAG
+excerpt: 记录学习大模型的RAFT
 class: post-template
 subclass: 'post'
 ---
 
 
-> 论文：[《RAFT: Adapting Language Model to Domain Specific RAG》](https://arxiv.org/abs/2403.10131)
 
 ### 一. RAFT简单介绍
+
+> 论文：[《RAFT: Adapting Language Model to Domain Specific RAG》](https://arxiv.org/abs/2403.10131)
 #### 1.1 RAFT的优势
 RAFT其实是基于RAG（检索增强）的SFT（有监督微调），那么他和这两者的差异是什么呢？
 
