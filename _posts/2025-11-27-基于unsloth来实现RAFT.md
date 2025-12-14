@@ -12,7 +12,6 @@ subclass: 'post'
 ---
 
 
-
 ### 一. RAFT简单介绍
 
 > 论文：[《RAFT: Adapting Language Model to Domain Specific RAG》](https://arxiv.org/abs/2403.10131)
