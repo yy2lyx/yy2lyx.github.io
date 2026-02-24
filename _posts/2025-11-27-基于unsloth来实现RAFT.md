@@ -117,12 +117,10 @@ dataset = datasets.Dataset.from_pandas(df)
 ```
 
 2. 构建dataset的template
-```python
 
-DEFAULT_CHAT_TEMPLATE = "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'system' %}\n{{ '<|system|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
+```python
 tokenizer.chat_template = DEFAULT_CHAT_TEMPLATE
 SYSTEM_PROMPT = """你是一位很有能力的问题解答者，能够根据问题和相关背景提供答案。"""
-
 def apply_chat_template(example, tokenizer):
     messages = example["messages"]
     messages = messages.replace('\n',',')
@@ -133,20 +131,20 @@ def apply_chat_template(example, tokenizer):
     example["text"] = tokenizer.apply_chat_template(messages, tokenize=False)
 
     return example
-
 column_names = list(dataset.features)
 raw_datasets = dataset.map(apply_chat_template,
                                 num_proc=cpu_count(),
                                 fn_kwargs={"tokenizer": tokenizer},
                                 remove_columns=column_names,
                                 desc="Applying chat template",)
-
 raw_datasets = raw_datasets.train_test_split(test_size=0.1)
 # create the splits
 train_dataset = raw_datasets["train"]
 eval_dataset = raw_datasets["test"]
 ```
+
 3. 加载模型
+
 ```python
 # 加载模型 - 使用Unsloth的FastLanguageModel加载预训练的Qwen3-8B模型
 model, tokenizer = FastLanguageModel.from_pretrained(
@@ -170,7 +168,9 @@ model = FastLanguageModel.get_peft_model(
     loftq_config = None,  # And LoftQ
 )
 ```
+
 4. 训练
+
 ```python
 trainer = SFTTrainer(
     model = model,
@@ -192,10 +192,8 @@ trainer = SFTTrainer(
         report_to = "none", # Use this for WandB etc
     ),
 )
-
 tokenizer.pad_token = tokenizer.eos_token
 train_result = trainer.train()
-
 ```
 
 ### 三. RAFT的总结
