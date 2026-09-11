@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/picgo.jpg
-navigation: True
-title: picgo下配置github图床
+layout: article
+title: "picgo下配置github图床"
 date: 2022-1-20 11:11:00
 tags: [图床,博客]
-excerpt: 记录在博客中上传图片的好用工具和github图床相关配置
-class: post-template
-subclass: 'post'
+excerpt: "记录在博客中上传图片的好用工具和github图床相关配置"
+cover: assets/images/picgo.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/picgo.jpg
+key: post-2022-1-22-picgo-github
 ---
 
 ### 一. 必须的安装

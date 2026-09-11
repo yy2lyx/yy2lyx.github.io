@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/my_cursor.png
-navigation: True
-title: 打造属于自己的免费Cursor：claude code+ollama+vscode
+layout: article
+title: "打造属于自己的免费Cursor：claude code+ollama+vscode"
 date: 2026-05-26 00:00:00
 tags: [NLP,DeepLearning]
-excerpt: 讲述利用claude code和ollama来打造属于自己免费的coding agent
-class: post-template
-subclass: 'post'
+excerpt: "讲述利用claude code和ollama来打造属于自己免费的coding agent"
+cover: assets/images/my_cursor.png
+article_header:
+  type: cover
+  image:
+    src: assets/images/my_cursor.png
+key: post-2026-05-26--cursor-claudecode-ollama-vs
 ---
 
 
@@ -80,7 +81,7 @@ claude code在vscode中使用的是2种方式，这里可以使用`cmd` + `shift
 
 当我们直接在命令行中输入`claude`后，会发现模型还是claude自带收费模型`Opus 4.7 (1M context)`，我们这里需要推出后，使用ollama模型：`claude --model minimax-m2.5:cloud`，就可以发现你可以直接在vscode中使用ollama模型的claude了，如下图。
 
-![claude_cli](/Users/carlyye/LLM/博客/claude_cli.png)
+![claude_cli](/assets/images/claude_cli.png)
 
 **永久在原生UI和CLI中使用ollama模型**
 
@@ -120,5 +121,5 @@ vscode 设置全局变量`settings.json`，这里需要将可选的模型和url�
 
 配置完上述的环境变量后，当你再次打开vscode后就发现默认使用的就是ollama的`minimax-m2.5:cloud`模型了。
 
-![claude_ui](/Users/carlyye/LLM/博客/claude_ui.png)
+![claude_ui](/assets/images/claude_ui.png)
 

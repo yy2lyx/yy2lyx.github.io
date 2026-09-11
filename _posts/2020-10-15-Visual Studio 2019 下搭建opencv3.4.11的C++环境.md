@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/balls.jpg
-navigation: True
-title: Visual Studio 2019 下搭建opencv3.4.11的C++环境
+layout: article
+title: "Visual Studio 2019 下搭建opencv3.4.11的C++环境"
 date: 2020-10-15 19:21:00
 tags: [环境搭建, ComputerVision]
-excerpt: 在Windows下利用Visual Studio2019 来搭建opencv3.4.11的C++环境
-class: post-template
-subclass: 'post'
+excerpt: "在Windows下利用Visual Studio2019 来搭建opencv3.4.11的C++环境"
+cover: assets/images/balls.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/balls.jpg
+key: post-2020-10-15-visual-studio-2019-opencv3-4-11-c
 ---
 
 

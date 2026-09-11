@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/blog.jpg
-navigation: True
-title: jekyll和github pages搭建个人博客
+layout: article
+title: "jekyll和github pages搭建个人博客"
 date: 2020-10-17 19:21:00
 tags: [Jekyll, 博客]
-excerpt: 在Windows环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。
-class: post-template
-subclass: 'post'
+excerpt: "在Windows环境中利用jekyll来本地测试jekyll主题，并结合github pages来搭建个人的博客。"
+cover: assets/images/blog.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/blog.jpg
+key: post-2020-10-17-mac-jekyll-github-pages
 ---
 
 

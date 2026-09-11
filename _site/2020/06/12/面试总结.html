@@ -1,0 +1,1467 @@
+<!DOCTYPE html><html lang="zh-Hans">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>面试深度学习算法总结 - 凡人炼丹传</title>
+
+<meta name="description" content="面试中机器学习，深度学习中常问的算法总结">
+<link rel="canonical" href="http://localhost:4001/2020/06/12/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico">
+
+<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+
+<meta name="theme-color" content="#ffffff">
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+
+<!-- end custom head snippets -->
+<script>(function() {
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.isOverallScroller = function(node) {
+    return node === document.documentElement || node === document.body || node === window;
+  };
+
+  window.isFormElement = function(node) {
+    var tagName = node.tagName;
+    return tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA';
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i;
+      loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cbs[i]();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();
+(function() {
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+})();
+(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (Object.prototype.hasOwnProperty.call(attrs, attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+})();
+</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      version: '2.2.6',
+      sources: {
+        font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      },
+      paths: {
+        search_js: '/assets/search.js'
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script>
+</head>
+  <body>
+    <div class="root" data-is-touch="false">
+      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport has-aside cell cell--auto">
+
+      <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
+      <div class="header__title">
+        <div class="header__brand"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24">
+<style type="text/css">
+	.st0{fill:#515151;}
+</style>
+<path class="st0" d="M1.7,22.3c5.7-5.7,11.3-5.7,17,0c3.3-3.3,3.5-5.3,0.8-6c2.7,0.7,3.5-1.1,2.3-5.6s-3.3-5.2-6.3-2.1
+	c3-3,2.3-5.2-2.1-6.3S7,1.8,7.7,4.6C7,1.8,5,2.1,1.7,5.3C7.3,11,7.3,16.7,1.7,22.3"/>
+</svg>
+<a title="欢迎各位看官光临本小站，希望共同学习进步哈！
+" href="/">凡人炼丹传</a></div><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></div><nav class="navigation">
+        <ul><li class="navigation__item"><a href="/">首页</a></li><li class="navigation__item"><a href="/archive.html">归档</a></li><li class="navigation__item"><a href="/samples.html">预览</a></li><li class="navigation__item"><a href="/about.html">关于</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
+      </nav></div>
+  </header>
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/question.jpg" /><div class ="main"><div class="grid grid--reverse">
+
+              <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
+</aside></div>
+
+              <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
+
+<!-- end custom main top snippet -->
+<article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>面试深度学习算法总结</h1></header><span class="split-space">&nbsp;</span>
+          <a class="edit-on-github"
+            title="在 Github 上修改"
+            href="https://github.com/yy2lyx/yy2lyx.github.io/tree/master/_posts/2020-06-12-面试总结.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="面试深度学习算法总结"><div class="article__info clearfix"><ul class="left-col menu"><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=DeepLearning">DeepLearning</a>
+            </li><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=MachineLearning">MachineLearning</a>
+            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>2020年 06月12日</span>
+            </li></ul></div><meta itemprop="author" content="李小肥"/><meta itemprop="datePublished" content="2020-06-12T23:21:00+08:00">
+    <meta itemprop="keywords" content="DeepLearning,MachineLearning"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
+
+<!-- end custom article top snippet -->
+<div class="article__content" itemprop="articleBody"><blockquote>
+  <p>面试官会根据自己简历中提到的一些点进行提问，这里先自己对某些点进行深挖。</p>
+</blockquote>
+
+<h3 id="一数据处理">一.数据处理</h3>
+<p>海量数据：</p>
+<ul>
+  <li>（1）数据量太大，无法短时间内处理完成</li>
+  <li>（2）无法一次性将数据放入内存中。</li>
+</ul>
+
+<h4 id="11-缺失值处理">1.1 缺失值处理</h4>
+<ul>
+  <li>填充固定值：选取某个固定值/默认值填充缺失值。</li>
+  <li>填充均值：对每一列的缺失值，填充当列的均值。</li>
+  <li>填充中位数：对每一列的缺失值，填充当列的中位数。</li>
+  <li>填充众数：对每一列的缺失值，填充当列的众数。由于存在某列缺失值过多，众数为nan的情况，因此这里取的是每列删除掉nan值后的众数。</li>
+  <li>填充上下条的数据：对每一条数据的缺失值，填充其上下条数据的值。</li>
+  <li>填充插值得到的数据：用插值法拟合出缺失的数据，然后进行填充。插值是离散函数逼近的重要方法，利用它可通过函数在有限个点处的取值状况，估算出函数在其他点处的近似值。</li>
+</ul>
+
+<h3 id="二机器学习">二.机器学习</h3>
+<h4 id="21--svm和lr的区别与联系">2.1  SVM和LR的区别与联系？</h4>
+<p>SVM 和 LR 都是属于分类算法，不过 SVM 是通过划分超平面的方法来进行分类，而 LR 则是通过计算样本属于哪个类别的概率，从而达到分类效果</p>
+
+<h4 id="22--交叉熵函数系列问题与最大似然函数的关系和区别">2.2  交叉熵函数系列问题？与最大似然函数的关系和区别？</h4>
+<p>在二分类中，交叉熵函数和负最大似然函数的表达式是相同的，但是交叉熵函数是从信息论角度得到的，而最大似然函数则是从概率论角度得到的</p>
+
+<p>交叉熵涉及到2点：</p>
+<ul>
+  <li>信息量：假设X是一个离散型随机变量，其取值集合为X，概率分布函数为p(x)=Pr(X=x),x∈X，我们定义事件X=x0的信息量为：
+I(x0)=−log(p(x0))，可以理解为，一个事件发生的概率越大，则它所携带的信息量就越小，而当p(x0)=1时，熵将等于0，也就是说该事件的发生不会导致任何信息量的增加。举个例子，小明平时不爱学习，考试经常不及格，而小王是个勤奋学习的好学生，经常得满分，所以我们可以做如下假设：
+事件A：小明考试及格，对应的概率P(xA)=0.1，信息量为I(xA)=−log(0.1)=3.3219
+事件B：小王考试及格，对应的概率P(xB)=0.999，信息量为I(xB)=−log(0.999)=0.0014
+可以看出，结果非常符合直观：小明及格的可能性很低(十次考试只有一次及格)，因此如果某次考试及格了（大家都会说：XXX竟然及格了！），必然会引入较大的信息量，对应的I值也较高。</li>
+  <li>熵：假设小明的考试结果是一个0-1分布XA只有两个取值{0：不及格，1：及格}，在某次考试结果公布前，小明的考试结果有多大的不确定度呢？你肯定会说：十有八九不及格！因为根据先验知识，小明及格的概率仅有0.1,90%的可能都是不及格的。怎么来度量这个不确定度？求期望！不错，我们对所有可能结果带来的额外信息量求取均值（期望），其结果不就能够衡量出小明考试成绩的不确定度了吗。<strong>熵其实是信息量的期望值，它是一个随机变量的确定性的度量。熵越大，变量的取值越不确定，反之就越确定。</strong></li>
+  <li>相对熵：称为<strong>KL散度</strong>，是两个随机分布间距离的度量。越小说明分布越一致。</li>
+  <li>交叉熵：交叉熵与KL距离在行为上是等价的，都反映了分布p，q的相似程度。特别的，在logistic regression中，
+p:真实样本分布，服从参数为p的0-1分布，即X∼B(1,p)X∼B(1,p)
+q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交叉熵为</li>
+</ul>
+
+<h4 id="23-svm的核函数">2.3 SVM的核函数</h4>
+<p>使用非线性核的支持向量机可以处理线性不可分的问题。通过核函数，支持向量机可以将特征向量映射到更高维的空间中，使得原本线性不可分的数据在映射之后的空间中变得线性可分，如下图所示，原本二维空间的线性不可分（异或问题）转成三维空间，就可以线性可分了。
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_1.jpg" alt="" /></p>
+
+<p>常用的核函数：线性核、多项式核、高斯核（RBF）、拉普拉斯核等等。核函数的选择其实才是SVM模型的最大变数。</p>
+
+<h4 id="24-l1和l2范数">2.4 L1和L2范数</h4>
+<p>范数的定义：
+\(\|\mathbf{x}\|_{p}:=\left(\sum_{i=1}^{n}\left|x_{i}\right|^{p}\right)^{1 / p}\)
+L1范数就是p=1,即：
+\(\|\boldsymbol{x}\|_{1}:=\sum_{i=1}^{n}\left|x_{i}\right|\)</p>
+
+<p>L2范数就是p = 2，即:
+\(\|\boldsymbol{x}\|_{2}:=\sqrt{x_{1}^{2}+\cdots+x_{n}^{2}}\)</p>
+
+<p>这里如果需要求解如何使得上述式子最小，无可避免三步走：求导，置零，解方程。因此L2范数计算就比L1范数计算更容易，因此L2范数应用较多。</p>
+
+<p>L1 和 L2 范数在机器学习上最主要的应用大概分下面两类：</p>
+<ul>
+  <li>作为损失函数使用(计算回归问题中需要计算拟合的线和点之间的距离)，这里L1是LAD（最小绝对偏差），L2是最小二乘法</li>
+  <li>作为正则项使用（防止过拟合）也即所谓 L1-regularization 和 L2-regularization：这里就是将x替换成权重w，</li>
+</ul>
+
+<p>这两个正则项最主要的不同，包括两点：如上面提到的，L2 计算起来更方便，而 L1 在特别是非稀疏向量上的计算效率就很低；还有就是 L1 最重要的一个特点，输出稀疏，会把不重要的特征直接置零，而 L2 则不会；最后，如之前多次提过，L2 有唯一解，而 L1 不是。</p>
+
+<h4 id="25-决策树">2.5 决策树</h4>
+
+<p>决策树属于典型的“<strong>白盒模型</strong>”，如下图所示，我是否应该接收一个新的offer？这里可以通过构建一个个节点，来判断我是否应该接收offer。</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_2.jpg" alt="" /></p>
+
+<p>比较常用的决策树有<strong>ID3</strong>，<strong>C4.5</strong>和<strong>CART</strong>（Classification And Regression Tree）。</p>
+
+<p><strong>熵</strong>：熵是随机变量的不确定程度。越混乱熵值越高，说明越混乱，分类越混乱。当熵值为0时，说明是纯物质。以下是熵的公式。
+\(H(X)=-\sum_{i=1}^{n} p_{i} \log p_{i}\)
+​		<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_3.jpg" alt="" /></p>
+
+<p>当Entropy最大为1的时候，是分类效果最差的状态，当它最小为0的时候，是完全分类的状态。因为熵等于零是理想状态，一般实际情况下，熵介于0和1之间。熵的不断最小化，实际上就是提高分类正确率的过程。</p>
+
+<p>例子：A = [1,1,1,1,2,2,1,1,1,1] , B = [1,2,3,4,5,6,6,7,8,0] ，显然A集合的熵值小很多。</p>
+
+<p><strong>信息增益</strong></p>
+
+<ul>
+  <li>信息增益表示得知特征X的信息而使得类Y的信息的不确定性减少的程度。</li>
+  <li>C4.5决策树学习应用信息增益准则选择特征。</li>
+</ul>
+
+<p>信息增益的<strong>定义</strong>：给定训练数据集D和特征A，经验熵H（D）表示对数据集D进行分类的不确定性。而<strong>经验条件熵H（D|A）表示在特征A 给定的条件下对数据集D进行分类的不确定性</strong>，那么它们的差，即信息增益。如下公式：
+\(g(D, A)=H(D)-H(D \mid A)\)
+<strong>表示由于特征A而使得对数据集D的分类的不确定性减少的程度。不同的特征往往具有不同的信息增益，信息增益大的特征具有更强的分类能力。</strong></p>
+
+<p><strong>基尼指数</strong></p>
+
+<ul>
+  <li>CART决策树采用基尼指数(Gini index)来选择划分特征。</li>
+</ul>
+
+<p>基尼指数的定义：在数据集中随机抽取2个样本，其类别不一样的概率。因此Gini越小，数据集D纯度越高。
+\(\operatorname{Gini}(D)=\sum_{k=1}^{Y} \sum_{k \neq j} p_{k} p_{j}=1-\sum_{k=1}^{Y} p_{k}^{2}\)
+<strong>决策树的过拟合</strong></p>
+
+<p>决策树很容易发生过拟合的现象。原因是由于可以通过不断的分枝使得信息熵为0.</p>
+
+<p>如何解决该现象？</p>
+
+<p>进行<strong>剪枝</strong>：</p>
+
+<ul>
+  <li><strong>预剪枝</strong>：在决策树生成过程中，对每个节点划分前估计出验证集的精度决定是否划分。</li>
+  <li><strong>后剪枝</strong>：先训练完成一个完整的决策树，再自底而上进行剪枝。</li>
+</ul>
+
+<h4 id="26-随机森林">2.6 随机森林</h4>
+
+<p>随机森林属于集成学习的Bagging方法，同时也是由多个弱分类器构建的强分类器。
+<strong>森林</strong>：</p>
+
+<ul>
+  <li>随机森林是由很多决策树并行构成的，决策树之间没有关联。</li>
+  <li>当我们进行分类任务时，新的输入样本进入，就让森林中的每一棵决策树分别进行判断和分类，每个决策树会得到一个自己的分类结果，决策树的分类结果中哪一个分类最多，那么随机森林就会把这个结果当做最终的结果。</li>
+</ul>
+
+<p><strong>随机</strong>：</p>
+
+<ul>
+  <li>样本的随机：在训练过程中，输入到每个决策树的样本是从总体样本中随机抽样的。</li>
+  <li>决策树节点的随机：对每个决策树而言，其节点属性都是从总的属性中随机抽取的。</li>
+</ul>
+
+<p><strong>特点</strong>：</p>
+
+<ul>
+  <li>由于是并行模型，训练快。</li>
+  <li>得到不同特征的对模型的重要程度。</li>
+  <li>不容易过拟合。</li>
+  <li>如果有很大一部分的特征遗失，仍可以维持准确度。</li>
+</ul>
+
+<h3 id="三-nlp">三. NLP</h3>
+<h4 id="31--什么是tf-idf">3.1  什么是TF-IDF?</h4>
+<p>词频-逆文档频率TF-IDF(term frequency–inverse document frequency)是一种用于信息检索与数据挖掘的常用加权技术，常用于挖掘文章中的关键词，而且算法简单高效，常被工业用于最开始的文本数据清洗。</p>
+
+<p>\(\text { 词频(TF) }=\frac{\text { 某个词在文章中的出现次数 }}{\text { 文章的总词数 }}\)
+\(\text { 逆文档频率(IDF) }=\log \left(\frac{\text { 语料库的文档总数 }}{\text { 包含该词的文档数 } x+1}\right)\)</p>
+
+<p>当有TF(词频)和IDF(逆文档频率)后，将这两个词相乘，就能得到一个词的TF-IDF的值。某个词在文章中的TF-IDF越大，那么一般而言这个词在这篇文章的重要性会越高，所以通过计算文章中各个词的TF-IDF，由大到小排序，排在最前面的几个词，就是该文章的关键词。</p>
+
+<h4 id="32--什么是word2vec">3.2  什么是word2vec</h4>
+
+<p>判断一个词的词性（动词，名词）这里可以用word2vec，</p>
+
+<p>嵌入到一个数学空间里，这种嵌入方式，就叫词嵌入（word embedding)，而 Word2vec是词嵌入的一种。</p>
+
+<ul>
+  <li>Skip-gram 模型：用一个词语作为输入，来预测它周围的上下文</li>
+  <li>CBOW 模型：拿一个词语的上下文作为输入，来预测这个词语本身</li>
+</ul>
+
+<h4 id="33--fasttext">3.3  fastText</h4>
+<ul>
+  <li>word2vec的CBOW模型架构和fastText模型非常相似</li>
+  <li>fastText 和CBOW差别：CBOW的输入是目标单词的上下文，fastText的输入是多个单词及其n-gram特征，这些特征用来表示单个文档；CBOW的输入单词被onehot编码过，fastText的输入特征是被embedding过；CBOW的输出是目标词汇，fastText的输出是文档对应的类标。</li>
+</ul>
+
+<h4 id="34--ner">3.4  NER</h4>
+<ul>
+  <li>named-entity-recognition（命名实体识别，又叫“专名识别”）。指识别文本中具有特定意义的实体，主要包括人名，地名，机构名，专有名词。<strong>NER系统就是从非结构化的输入文本中抽取出上述实体，并且可以按照业务需求识别出更多类别的实体</strong>，比如产品名称、型号、价格等。学术上NER所涉及的命名实体一般包括3大类（实体类，时间类，数字类）和7小类（人名、地名、组织机构名、时间、日期、货币、百分比）。货币、百分比等数字类实体可通过正则搞定。</li>
+  <li>NER是NLP中一项基础性关键任务。<strong>从自然语言处理的流程来看，NER可以看作词法分析中未登录词识别的一种，是未登录词中数量最多、识别难度最大、对分词效果影响最大问题。</strong>同时NER也是关系抽取、事件抽取、知识图谱、机器翻译、问答系统等诸多NLP任务的基础。</li>
+</ul>
+
+<blockquote>
+  <p>原句：姚明在NBA打篮球</p>
+
+  <p>如下标签：姚/B-PER 明/I-PER 在/O NBA/B_ORG 打/O 篮/O 球/O</p>
+</blockquote>
+
+<p>其中常见的方法是对字或者词打上标签。<code class="language-plaintext highlighter-rouge">B-type</code>, <code class="language-plaintext highlighter-rouge">I-type</code>, <code class="language-plaintext highlighter-rouge">O</code>， 其中<code class="language-plaintext highlighter-rouge">B-type</code>表示组成该类型实体的第一个字或词。<code class="language-plaintext highlighter-rouge">I-type</code>表示组成该类型实体的中间或最后字或词，<code class="language-plaintext highlighter-rouge">O</code>表示该字或词不组成命名实体，当然有的地方也采用<code class="language-plaintext highlighter-rouge">B-type</code>, <code class="language-plaintext highlighter-rouge">I-type</code>, <code class="language-plaintext highlighter-rouge">E-type</code>，<code class="language-plaintext highlighter-rouge">O</code>形式。</p>
+
+<p>整体结构如下：</p>
+
+<blockquote>
+  <p>字（词嵌入）==&gt; BiLSTM（拿到字的每一个标签的所有得分）==&gt; CRF（输出预测标签值）</p>
+</blockquote>
+
+<ul>
+  <li>这里问什么要用到CRF(直接用全连接分类即可)？==&gt; <strong>CRF层能从训练数据中获得约束性的规则</strong>：CRF层可以为最后预测的标签添加一些约束来保证预测的标签是合法的。在训练数据训练过程中，这些约束可以通过CRF层自动学习到。 这些约束可以是： I：句子中第一个词总是以标签“B-“ 或 “O”开始，而不是“I-” II：标签“B-label1 I-label2 I-label3 I-…”,label1, label2, label3应该属于同一类实体。例如，“B-Person I-Person” 是合法的序列, 但是“B-Person I-Organization” 是非法标签序列. III：标签序列“O I-label” is 非法的.实体标签的首个标签应该是 “B-“ ，而非 “I-“, 换句话说,有效的标签序列应该是“O B-label”。 有了这些约束，标签序列预测中非法序列出现的概率将会大大降低。</li>
+  <li>CRF（条件随机场）：属于判别式模型，条件随机场对多个变量在给定观测值后的条件概率进行建模。概率图模型是以某些可观测的变量为条件分布进行推断。假设某个字的前后（x_1,x_2,x_3）,推断问题的目标就是计算2在1的条件下发生的概率，然后所有条件概率相加。</li>
+</ul>
+
+<h4 id="35--文本增强技术">3.5  文本增强技术</h4>
+
+<ul>
+  <li><strong>词汇和短语进行替换</strong>：选择同义词进行替换；空间中找到相邻的词汇进行替换；利用TF-IDF对哪些非核心词汇（分值很低的）进行替换</li>
+  <li><strong>随机噪音</strong>：随机插入一些词汇，占位符；交换词汇或者shuffle句子；随机删除词汇或者句子</li>
+  <li><strong>混合增强</strong>：起源于图像的mixup（猫和狗的混合）。提出了wordMixup和sentMixup将词向量和句向量进行Mixup。</li>
+  <li><strong>回译</strong>：中文翻译成英文表达，然后再由英文翻译回中文。</li>
+  <li><strong>GAN对抗生成网络</strong>：GAN 主要分为两部分：生成模型和判别模型。生成模型的作用是模拟真实数据的分布，判别模型的作用是判断一个样本是真实的样本还是生成的样本。GAN 的目标是训练一个生成模型完美的拟合真实数据分布使得判别模型无法区分。</li>
+</ul>
+
+<h3 id="四-图像算法">四. 图像算法</h3>
+<blockquote>
+  <p>参考文章：
+<a href="https://zhuanlan.zhihu.com/p/80852438">图像总常用的变换</a>
+<a href="https://zhuanlan.zhihu.com/p/59640437">边缘检测</a>
+<a href="https://blog.csdn.net/samkieth/article/details/49533435">图像增强技术</a></p>
+</blockquote>
+
+<h4 id="41--图像特征提取的方法有哪些">4.1  图像特征提取的方法有哪些？</h4>
+
+<ul>
+  <li>SIFT（尺度不变特征变换）—— 图像拼接：</li>
+  <li>HOG（方向梯度直方图（Histogram of Oriented Gradient, HOG））—— 行人检测：特征是一种在计算机视觉和图像处理中用来进行物体检测的特征描述子。它通过计算和统计图像局部区域的梯度方向直方图来构成特征。）<strong>本质：梯度的统计信息，而梯度主要存在于边缘的地方</strong>。</li>
+  <li>LBP(Local Binary Pattern局部二值模式)：种描述图像局部纹理的特征算子，具有旋转不变性与灰度不变性等显著优点。LBP特征将窗口中心点与邻域点的关系进行比较，重新编码形成新特征以消除对外界场景对图像的影响，因此一定程度上解决了复杂场景下（光照变换）特征描述问题（<strong>局部纹理特征提取</strong>）。</li>
+</ul>
+
+<h4 id="42--为什么要图像的灰度化">4.2  为什么要图像的灰度化?</h4>
+
+<ul>
+  <li>图像识别中要识别物体：找到edge ==&gt; 计算梯度 ==&gt; 需要用到灰度图</li>
+  <li>有利于图像特征提取：RGB采用的是三通道，而灰度图用的是单通道，能加快特征抽取。</li>
+</ul>
+
+<h4 id="43--为什么预处理中要归一化和标准化">4.3  为什么预处理中要归一化和标准化</h4>
+
+<ul>
+  <li>取值范围从0～255已经转化为0～1之间了，这个对于后续的神经网络或者卷积神经网络处理有很大的好处，加快梯度下降求解的速度</li>
+  <li>减小了几何变换和仿射变化的影响。</li>
+</ul>
+
+<h4 id="44--为什么要中值滤波和均值滤波">4.4  为什么要中值滤波和均值滤波?</h4>
+
+<ul>
+  <li>
+    <p>目的：消除图像中的噪声成分叫作图像的平滑化或滤波操作。图像的能量大部分集中在幅度谱的低频和中频段是很常见的，而在较高频段，感兴趣的信息经常被噪声淹没。</p>
+  </li>
+  <li>中值滤波：一连串数字｛1，4，6，8，9｝中，数字6就是这串数字的中值.椒盐噪声很好的被平滑了，而且也没均值那样模糊化太过于严重。</li>
+  <li>均值滤波：图片中一个方块区域（一般为3*3）内，中心点的像素为全部点像素值的平均值。一般均值滤波过于模糊化了。</li>
+</ul>
+
+<h4 id="45--边缘检测算子">4.5  边缘检测算子</h4>
+
+<ul>
+  <li>
+    <p>Roberts算子：基于x轴和y轴的
+\(s_{x}=\left[\begin{array}{cc}
+1 &amp; 0 \\
+0 &amp; -1
+\end{array}\right]\)
+\(s_{y}=\left[\begin{array}{cc}
+0 &amp; -1 \\
+1 &amp; 0
+\end{array}\right]\)</p>
+  </li>
+  <li>Prewitt算子：
+\(s_{x}=\left[\begin{array}{ccc}
+-1 &amp; 0 &amp; 1 \\
+-1 &amp; 0 &amp; 1 \\
+-1 &amp; 0 &amp; 1
+\end{array}\right]\)
+\(s_{y}=\left[\begin{array}{ccc}
+1 &amp; 1 &amp; 1 \\
+0 &amp; 0 &amp; 0 \\
+-1 &amp; -1 &amp; -1
+\end{array}\right]\)</li>
+  <li>
+    <p>Sobel算子：
+\(s_{x}=\left[\begin{array}{ccc}
+-1 &amp; 0 &amp; 1 \\
+-2 &amp; 0 &amp; 2 \\
+-1 &amp; 0 &amp; 1
+\end{array}\right]\)
+\(s_{y}=\left[\begin{array}{ccc}
+1 &amp; 2 &amp; 1 \\
+0 &amp; 0 &amp; 0 \\
+-1 &amp; -2 &amp; -1
+\end{array}\right]\)</p>
+  </li>
+  <li><strong>基本的边缘算子</strong>如Sobel求得的边缘图存在很多问题，如<strong>噪声污染没有被排除、边缘线太过于粗宽</strong>等</li>
+  <li>Canny算子：目标是找到一个最优的边缘。具有以下优势
+    <ul>
+      <li>低错误率：标识尽可能多的实际边缘，剑豪噪声产生的误报。</li>
+      <li>高定位性：标识出的边缘要与图像的实际边缘尽可能的接近。</li>
+      <li>最小响应：图像中的边缘只能标识一次。</li>
+    </ul>
+  </li>
+  <li>canny检测的步骤：
+    <ol>
+      <li>使用高斯滤波器降噪。</li>
+      <li>利用Sobel算子进行卷积（x和y反向）</li>
+      <li>将像素点上x和y卷积之后的平方求根，并计算x，y方向上的角度，
+  \(G=\sqrt{G_{x}^{2}+G_{y}^{2}}\)，\(\theta=\arctan \left(\frac{G_{y}}{G_{x}}\right)\)</li>
+      <li>非极大值抑制，进一步排除非边缘的像素，仅保留一些细线条。</li>
+      <li>滞后阈值：高于某阈值，保留为边缘像素，反之排除。</li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="46--常用的插值方法">4.6  常用的插值方法</h4>
+
+<p>在图像几何变换时，无法给有些像素点直接赋值，例如，<strong>将图像放大两倍，必然会多出一些无法被直接映射的像素点，对于这些像素点，通过插值决定它们的值</strong>。于是，产生了图像插值算法。</p>
+
+<ul>
+  <li>线性插值：<strong>最近邻插值，双线性插值以及双三次插值等</strong>，\(f(x)=a_{1} x+a_{0}\)</li>
+</ul>
+
+<h4 id="47-深度学习和传统目标检测方法的优缺点">4.7 深度学习和传统目标检测方法的优缺点</h4>
+
+<p>传统的目标检测算法对光照，明暗，数据传输，物体遮挡等上模型的鲁棒性不强。</p>
+
+<h4 id="48--图像增强技术">4.8  图像增强技术</h4>
+
+<p>增强技术也可以有多种分类，如，可以分为平滑（抑制高频成分）与锐化（增强高频成分），空间域与频域。</p>
+
+<ul>
+  <li>空间域增强就是指增强构成图像的像素，是直接对这些像素进行操作的过程。</li>
+  <li>频域则是修改图像的傅立叶变换。</li>
+</ul>
+
+<h4 id="49-ssd和yolo">4.9 SSD和Yolo</h4>
+
+<ul>
+  <li>SSD：将物体检测这个问题的解空间，抽象为一组预先设定好（尺度，长宽比）的bounding box。在每个bounding box，预测分类label，以及box offset来更好的框出物体。对一张图片，结合多个大小不同的feature map的预测结果，以期能够处理大小不同的物体。
+    <ul>
+      <li>（优点）相比Fast RNN系列，删除了bounding box proposal这一步，及后续的重采样步骤，因而速度较快，达到59FPS。</li>
+      <li>（优点）</li>
+    </ul>
+  </li>
+  <li>YOLO：<strong>将物体检测这个问题定义为bounding box和分类置信度的回归问题。</strong>将整张图像作为输入，划分成SxS grid，每个cell预测B个bounding box（x, y, w, h）及对应的分类置信度（class-specific confidence score）。分类置信度是bounding box是物体的概率及其与真实值IOU相乘的结果。
+    <ul>
+      <li>（优点）速度快，45FPS</li>
+      <li>（优点）YOLO使用图像的全局信息做预测，因而对背景的误识别率低。</li>
+      <li>（缺点） 每个cell只能拥有一个label和两个bounding box，这个空间局限性，使得对小物体检测效果不好</li>
+      <li>（缺点）对于物体长宽比的泛化能力较弱，当一类物体新的长宽比出现时，检测准确率减低。</li>
+    </ul>
+  </li>
+  <li>二者之间的差别：YOLO在卷积层后接全连接层，即检测时只利用了最高层Feature maps（包括Faster RCNN也是如此）而SSD采用金字塔结构，即利用了conv4-3/fc7/conv6-2/conv7-2/conv8_2/conv9_2这些大小不同的feature maps，在多个feature maps上同时进行softmax分类和位置回归。SSD还加入了Prior box</li>
+</ul>
+
+<h4 id="410--零样本学习zero-shot-learning和单样本学习one-shot-learning">4.10  零样本学习（Zero-shot Learning）和单样本学习（One-shot Learning）</h4>
+
+<ul>
+  <li>零样本学习：基于可见标注数据集&amp;可见标签集合（seen），学习并预测不可见（unseen，无标注）数据集结果。</li>
+</ul>
+
+<h4 id="411--前景背景分割">4.11  前景背景分割</h4>
+
+<h4 id="412--工业相机ccd和cmos">4.12  工业相机CCD和CMOS</h4>
+<ul>
+  <li>CCD（电荷耦合元件）：输出节点统一输出数据，信号一致性好；CCD采用逐个光敏输出，速度较慢</li>
+  <li>CMOS（金属氧化物半导体元件）：CMOS芯片中每个像素都有自己的信号放大器，各自进行电荷到电压的转换，输出信号的一致性较差，比CCD的信号噪声更多。CMOS每个电荷元件都有独立的装换控制器，读出速度很快，FPS在500以上的高速相机大部分使用的都是CMOS。</li>
+</ul>
+
+<h4 id="413-小目标检测">4.13 小目标检测</h4>
+<p>在深度学习目标检测中，特别是人脸检测中，小目标、小人脸的检测由于<strong>分辨率低，图片模糊，信息少，噪音多</strong>，所以一直是一个实际且常见的困难问题。
+FPN特征金字塔网络：参考文章：https://zhuanlan.zhihu.com/p/92005927</p>
+
+<h4 id="414-目标检测中的map">4.14 目标检测中的mAP</h4>
+<p>具体参考文章：https://www.cnblogs.com/itmorn/p/14193729.html</p>
+
+<h3 id="五-深度学习">五. 深度学习</h3>
+<h4 id="51--梯度消失的原因和解决办法有哪些">5.1  梯度消失的原因和解决办法有哪些？</h4>
+<ul>
+  <li>梯度消失：每一层非线性层都可以视为是一个非线性函数 f(x)f(x)(非线性来自于非线性激活函数），因此整个深度网络可以视为是一个复合的非线性多元函数。那么根据“链式求导”法则，比如rnn来说，其激活函数为tanh，那么tanh的导数的最大值是1，那么如果连乘0.8的100次方，无线接近于0，导致梯度消失。</li>
+  <li>梯度爆炸：tanh导数 * W权重，这里如果W的值太大了，随着序列长度的增加，连乘无限大，导致梯度爆炸。</li>
+  <li>解决方案：一个是激活函数比如relu系列，一个初始化权重 ，一个是梯度裁剪</li>
+</ul>
+
+<h4 id="52--rnn-和lstm的差别在哪">5.2  RNN 和LSTM的差别在哪？</h4>
+
+<p>RNN的前向推导公式：</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_4.jpg" alt="" /></p>
+
+<p>LSTM的三种门控制如下：
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_5.jpg" alt="" /></p>
+
+<p>如上图所示，它们的名字、表示的计算过程及输出分别是：</p>
+
+<ul>
+  <li>
+    <p>遗忘门：
+  \(f_i=\sigma\left(W_f\left[x_i, h_{i-1}\right]+b_f\right)\)</p>
+  </li>
+  <li>
+    <p>输入们：
+  \(i_i=\sigma\left(W_i\left[x_i, h_{i-1}\right]+b_i\right)\)</p>
+  </li>
+  <li>
+    <p>输出们：
+  \(o_i=\sigma\left(W_o\left[x_i, h_{i-1}\right]+b_o\right)\)</p>
+  </li>
+</ul>
+
+<p>可以看到，除了参数不同，它们计算公式是一样的。啰嗦一句，上图中 [公式] 表示sigmoid函数， [公式] 表示tanh函数：</p>
+
+<ul>
+  <li>RNN来说，它能够处理一定的短期依赖，但无法处理长期依赖问题。原因：当序列较长时，序列后部的梯度很难反向传播到前面的序列，比如10个元素以前，这就产生了梯度消失问题</li>
+  <li>当然，RNN也存在梯度爆炸问题，但这个问题一般可以通过梯度裁剪（gradient clipping）来解决</li>
+  <li>RNN没有细胞状态；LSTM通过细胞状态记忆信息。</li>
+  <li>RNN激活函数只有tanh；LSTM通过输入门、遗忘门、输出门引入sigmoid函数并结合tanh函数，添加求和操作，减少梯度消失和梯度爆炸的可能性。</li>
+  <li>RNN只能够处理短期依赖问题；LSTM既能够处理短期依赖问题，又能够处理长期依赖问题。</li>
+</ul>
+
+<h4 id="53--注意力机制是为了解决什么问题为什么选用了双向循环神经网络">5.3  注意力机制是为了解决什么问题？为什么选用了双向循环神经网络？</h4>
+<ul>
+  <li>人脑在工作时具有一定注意力，当欣赏艺术品时，既可以看到全貌，也可以关注 细节，眼睛聚焦在局部，忽略其他位置信息。说明人脑在处理信息的时候有一定权重划分。而注意力机制的提出正是模仿了人脑的这种核心特性。</li>
+  <li>实际使用中，随着输入序列长度的增加，模型性能显著下降。因为<strong>编码时输入序列的全部信息被压缩到一个向量表示中去</strong>。<strong>序列越长，句子越前面的词的信息丢失就越严重</strong>。以100词的句子为例，编码时将整个句子的信息压缩到一个向量中去，而在解码时(比如翻译)，目标语言第一个单词大概率与源语言第一个单词对应，这就意味着第一步的解码需要考虑到100步之前的信息。一个小技巧是可以将<strong>源语言句子逆向输入</strong>，或者重复输入两遍，得到一定的提升，也可以使用<strong>LSTM</strong>缓解这个问题。但对于<strong>过长序列仍难以有很好表现</strong>。</li>
+</ul>
+
+<h4 id="54--batch-normalization和dropout差别">5.4  Batch Normalization和Dropout差别</h4>
+<ul>
+  <li><strong>BN训练和测试时的参数是一样的嘛？</strong>BN是对每一批训练数据进行归一化，使用每一批数据的均值和方差；测试的时候，每一批数据中仅有一个样本，没有batch概念了，这里的均值和方差就是全量数据均值和方差。</li>
+  <li>
+    <p><strong>BN训练时为什么不用全量训练集的均值和方差呢？</strong>对于BN，是对每一批数据进行归一化到一个相同的分布，而每一批数据的均值和方差会有一定的差别，而不是用固定的值，这个差别实际上也能够增加模型的鲁棒性，也会在一定程度上减少过拟合。<strong>BN操作把分布压缩在[-1,1],服从均值为0,方差为1的正太分布</strong>，相当于把大部分Activation的值落入非线性函数的线性区内，其对应的导数远离导数饱和区，这样来加速训练收敛过程。</p>
+  </li>
+  <li><strong>Dropout的作用是什么？</strong> 在训练的过程中以一定概率使得神经元失活，即输出为0，以提高模型的泛化能力，减少过拟合。</li>
+  <li><strong>Dropout 在训练和测试时都需要嘛？</strong>dropout仅在训练的时候采用，为了减少神经元对部分上层神经元的依赖，类似于将多个不同的网络结构的模型集成起来，减少过拟合和增强其鲁棒性。测试的时候用到的是整个训练完成的模型，不需要dropout。</li>
+  <li>
+    <p><strong>Dropout 如何平衡训练和测试时的差异呢？</strong>假设失活概率为 p ，就是这一层中的每个神经元都有p的概率失活，如下图的三层网络结构中，如果失活概率为0.5，则平均每一次训练有3个神经元失活，所以输出层每个神经元只有3个输入，而实际测试时是不会有dropout的，输出层每个神经元都有6个输入，这样在训练和测试时，输出层每个神经元的输入和的期望会有量级上的差异。</p>
+  </li>
+  <li><strong>BN和Dropout共同使用时会出现的问题</strong>BN和Dropout单独使用都能减少过拟合并加速训练速度，但如果一起使用的话并不会产生1+1&gt;2的效果，相反可能会得到比单独使用更差的效果。</li>
+</ul>
+
+<h4 id="55--batch-normalization和layer-normalization的差别">5.5  Batch Normalization和Layer Normalization的差别</h4>
+<ul>
+  <li>
+    <p>LN和BN都是一种归一化方式，差别是：BN是取的是不同样本的同一个特征进行归一化；LN取得是同一个样本的不同特征。</p>
+  </li>
+  <li>
+    <p>应用场景不同：LN适用于RNN或者batchsize较小；BN适用于CNN。</p>
+  </li>
+  <li>
+    <p>对于RNN来说，每个样本的长度都是不同的，那么当BN需要统计靠后的时间片段的时候，可能都没有这方面的信息，那么只基于某些长时间片段的样本的统计信息无法反应出全局分布，所以就不合适了。</p>
+  </li>
+</ul>
+
+<h4 id="56--bert的具体网络结构以及训练过程及其优势在哪">5.6  bert的具体网络结构，以及训练过程，及其优势在哪</h4>
+<ul>
+  <li>bert处理句子是整体处理的，不是逐字处理的，解决了不受长期依赖问题困扰的主要原因（不存在过去信息丢失的风险），同时提高了训练效率。</li>
+  <li>多头注意力和位置嵌入：提供了有关不同单词之间的关系信息。</li>
+  <li>总结：完全避免了递归操作，通过整体处理句子以及学习单词之间的关系来感谢多头注意机制和位置嵌入。</li>
+</ul>
+
+<h4 id="57--albert和bert的差别在哪">5.7  albert和bert的差别在哪</h4>
+<ul>
+  <li>albert的核心：<strong>训练出更小但效果更好的模型!</strong> 想让模型更轻，训练更快，效果更好！（期望的是<strong>用更少量的数据，得到更好的结果</strong>）。ALBERT提出了三种优化策略，做到了比BERT模型小很多的模型，但效果反而超越了BERT， XLNet。
+    <ul>
+      <li><strong>Factorized Embedding Parameterization</strong>. 他们做的第一个改进是针对于Vocabulary Embedding。在BERT、XLNet中，词表的embedding size(E)和transformer层的hidden size(H)是等同的，所以E=H。但实际上词库的大小一般都很大，这就导致模型参数个数就会变得很大。为了解决这些问题他们提出了一个基于factorization的方法。他们没有直接把one-hot映射到hidden layer, 而是先把one-hot映射到低维空间之后，再映射到hidden layer。这其实类似于做了矩阵的分解。</li>
+      <li><strong>Cross-layer parameter sharing</strong>. 每一层的layer可以共享参数，这样一来参数的个数不会以层数的增加而增加。所以最后得出来的模型相比BERT-large小18倍以上。</li>
+      <li><strong>Inter-sentence coherence loss</strong>. 在BERT的训练中提出了next sentence prediction loss, 也就是给定两个sentence segments, 然后让BERT去预测它俩之间的先后顺序，但在ALBERT文章里提出这种是有问题的，其实也说明这种训练方式用处不是很大。 所以他们做出了改进，他们使用的是setence-order prediction loss (SOP)，其实是基于主题的关联去预测是否两个句子调换了顺序。</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="58--cnn和rnn的差别">5.8  CNN和RNN的差别</h4>
+<ul>
+  <li>训练速度上：CNN快很多。RNN慢的原因是每个timestep的计算，都要依赖前一个时刻的输出。而cnn的卷积的时候，和空间上其他的点没有任何联系，适合并行计算。</li>
+  <li>数据约束：CNN对于数据的约束就很强了，图像识别，input的纬度是48*48的，必须定死了，而RNN其实对于数据的长度（句子的长度）没有要求（TF里面有动态rnn来在输入rnn之前去掉pad为0的地方）</li>
+  <li>卷积层不同空间位置的神经元共享权值，用于发现图像中不同空间位置的模式。共享参数是深度学习一个重要的思想，其在减少网络参数的同时仍然能保持很高的网络容量(capacity)。卷积层在空间方向共享参数，而循环神经网络(recurrent neural networks)在时间方向共享参数。</li>
+</ul>
+
+<h4 id="59-优化器和超参调节">5.9 优化器和超参调节</h4>
+
+<p><strong>SGD(随机梯度下降)</strong></p>
+
+<p>​	在随机梯度下降算法（SGD）中，优化器基于小批量估计梯度下降最快的方向，并朝该方向迈出一步。由于步长固定，因此 SGD 可能很快停滞在平稳区（plateaus）或者局部最小值上。
+\(w_{t+1}=w_{t}-\alpha \cdot g_{t}\)
+​	基本策略可以理解为随机梯度下降像是一个盲人下山，不用每走一步计算一次梯度，但是他总能下到山底，只不过过程会显得扭扭曲曲。</p>
+
+<h4 id="59--深度学习平台">5.9  深度学习平台</h4>
+<ul>
+  <li>阿里NASA计划的机器学习平台PAI（17年）
+    <ul>
+      <li>全面兼容TF，Caffe，MXNet深度学习框架</li>
+      <li>提供云端的计算资源</li>
+      <li>集成很多机器学习算法（分类，回归，聚类）</li>
+      <li>支持大规模的分布式数据训练</li>
+    </ul>
+  </li>
+  <li>百度paddlepaddle飞桨(18年)
+    <ul>
+      <li>支持大规模的分布式数据训练</li>
+      <li>多平台部署</li>
+      <li>产业级的开源模型库（语义理解，图像分类，目标检测，图像分割等多种场景）</li>
+    </ul>
+  </li>
+  <li>微软Microsoft Custom Vision Services（17年）
+    <ul>
+      <li>针对的是图像分类器</li>
+      <li>提供迁移学习的模型</li>
+    </ul>
+  </li>
+  <li>谷歌的Cloud AutoML
+    <ul>
+      <li>针对的是图像分类器</li>
+      <li>提供迁移学习的模型</li>
+    </ul>
+  </li>
+</ul>
+
+</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2020-06-12T23:21:00+08:00"><!-- start custom article footer snippet -->
+
+<!-- end custom article footer snippet -->
+</footer>
+<div class="article__section-navigator clearfix"><div class="previous"><span>上篇</span><a href="/2020/03/23/Postman%E5%92%8CJmeter%E8%BF%9B%E8%A1%8C%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%8F%8A%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95.html">Postman和Jmeter进行上传文件及压力测试</a></div><div class="next"><span>下篇</span><a href="/2020/10/14/Xcode%E6%90%AD%E5%BB%BAOpencv3%E7%8E%AF%E5%A2%83.html">Xcode搭建Opencv3环境</a></div></div></div>
+
+</div>
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
+
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor d-print-none" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();
+</script>
+</div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
+
+<!-- end custom main bottom snippet -->
+</div>
+            </div></div></div><div class="page__footer d-print-none">
+<footer class="footer py-4 js-page-footer">
+  <div class="main"><div itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李小肥"><meta itemprop="url" content="/"><meta itemprop="description" content="专注于机器学习、深度学习、NLP 和 CV，目前主语言为 python 和 C++。"><div class="footer__author-links"><div class="author-links">
+  <ul class="menu menu--nowrap menu--inline"><li title="给我发邮件。">
+      <a class="button button--circle mail-button" itemprop="email" href="mailto:yeyansiwangtt@gmail.com" target="_blank">
+        <i class="fas fa-envelope"></i>
+      </a><li title="在 Zhihu 上关注我。">
+        <a class="button button--circle zhihu-button" itemprop="sameAs" href="https://www.zhihu.com/people/xie-yan-44-84-33" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z" p-id="907"></path><path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z" />
+</svg>
+</div>
+        </a>
+      </li><li title="在 微信公众号「凡人炼丹传」 上关注我。">
+        <a class="button button--circle weixin-button" itemprop="sameAs" href="https://mp.weixin.qq.com/s/HWD2ni4WXaNkswg5NQHW7w" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M684.111464 364.088889c10.47478 0 20.949559 0.722399 31.424339 1.805996-28.173545-131.476543-168.680071-229.000353-329.052557-229.000353-179.15485 0-326.162963 122.085362-326.162963 277.401058 0 89.577425 48.761905 163.262081 130.392945 220.33157l-32.507937 98.246208L272.344268 675.442681c40.81552 7.946384 73.684656 16.253968 114.138977 16.253968 10.11358 0 20.22716-0.361199 30.340741-1.444797-6.501587-21.671958-10.11358-44.788713-10.11358-68.266667C406.710406 479.672663 529.156966 364.088889 684.111464 364.088889zM508.568607 275.595062c24.561552 0 40.81552 16.253968 40.81552 40.81552 0 24.561552-16.253968 40.81552-40.81552 40.81552-24.561552 0-49.123104-16.253968-49.123104-40.81552C459.806702 291.84903 484.368254 275.595062 508.568607 275.595062zM280.290653 357.226102c-24.561552 0-49.123104-16.253968-49.123104-40.81552 0-24.561552 24.561552-40.81552 49.123104-40.81552 24.561552 0 40.81552 16.253968 40.81552 40.81552C321.106173 340.610935 304.852205 357.226102 280.290653 357.226102z" p-id="792"></path><path d="M981.739683 618.373192c0-130.392945-130.392945-236.585538-277.039859-236.585538-155.315697 0-277.401058 106.192593-277.401058 236.585538 0 130.754145 122.085362 236.585538 277.401058 236.585538 32.507937 0 65.377072-8.307584 97.885009-16.253968l89.577425 49.123104-24.561552-81.631041C932.977778 757.073721 981.739683 691.696649 981.739683 618.373192zM614.761199 577.557672c-16.253968 0-32.507937-16.253968-32.507937-32.507937 0-16.253968 16.253968-32.507937 32.507937-32.507937 24.561552 0 40.81552 16.253968 40.81552 32.507937C655.57672 561.303704 639.322751 577.557672 614.761199 577.557672zM794.277249 577.557672c-16.253968 0-32.507937-16.253968-32.507937-32.507937 0-16.253968 16.253968-32.507937 32.507937-32.507937 24.561552 0 40.81552 16.253968 40.81552 32.507937C835.092769 561.303704 818.477601 577.557672 794.277249 577.557672z" />
+</svg>
+</div>
+        </a>
+      </li><li title="在 Github 上关注我。">
+        <a class="button button--circle github-button" itemprop="sameAs" href="https://github.com/yy2lyx" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path class="svgpath" data-index="path_0" fill="#272636" d="M0 525.2c0 223.6 143.3 413.7 343 483.5 26.9 6.8 22.8-12.4 22.8-25.4l0-88.7c-155.3 18.2-161.5-84.6-172-101.7-21.1-36-70.8-45.2-56-62.3 35.4-18.2 71.4 4.6 113.1 66.3 30.2 44.7 89.1 37.2 119 29.7 6.5-26.9 20.5-50.9 39.7-69.6C248.8 728.2 181.7 630 181.7 513.2c0-56.6 18.7-108.7 55.3-150.7-23.3-69.3 2.2-128.5 5.6-137.3 66.5-6 135.5 47.6 140.9 51.8 37.8-10.2 80.9-15.6 129.1-15.6 48.5 0 91.8 5.6 129.8 15.9 12.9-9.8 77-55.8 138.8-50.2 3.3 8.8 28.2 66.7 6.3 135 37.1 42.1 56 94.6 56 151.4 0 117-67.5 215.3-228.8 243.7 26.9 26.6 43.6 63.4 43.6 104.2l0 128.8c0.9 10.3 0 20.5 17.2 20.5C878.1 942.4 1024 750.9 1024 525.3c0-282.9-229.3-512-512-512C229.1 13.2 0 242.3 0 525.2L0 525.2z" />
+</svg>
+</div>
+        </a>
+      </li></ul>
+</div>
+</div>
+    </div><div class="site-info mt-2">
+      <div>© 凡人炼丹传 2026,
+        保留所有权利。
+      </div>
+    </div>
+  </div>
+</footer>
+</div></div>
+    </div><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $body = $('body'), $window = $(window);
+    var $pageRoot = $('.js-page-root'), $pageMain = $('.js-page-main');
+    var activeCount = 0;
+    function modal(options) {
+      var $root = this, visible, onChange, hideWhenWindowScroll = false;
+      var scrollTop;
+      function setOptions(options) {
+        var _options = options || {};
+        visible = _options.initialVisible === undefined ? false : show;
+        onChange = _options.onChange;
+        hideWhenWindowScroll = _options.hideWhenWindowScroll;
+      }
+      function init() {
+        setState(visible);
+      }
+      function setState(isShow) {
+        if (isShow === visible) {
+          return;
+        }
+        visible = isShow;
+        if (visible) {
+          activeCount++;
+          scrollTop = $(window).scrollTop() || $pageMain.scrollTop();
+          $root.addClass('modal--show');
+          $pageMain.scrollTop(scrollTop);
+          activeCount === 1 && ($pageRoot.addClass('show-modal'), $body.addClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.on('scroll', hide);
+          $window.on('keyup', handleKeyup);
+        } else {
+          activeCount > 0 && activeCount--;
+          $root.removeClass('modal--show');
+          $window.scrollTop(scrollTop);
+          activeCount === 0 && ($pageRoot.removeClass('show-modal'), $body.removeClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.off('scroll', hide);
+          $window.off('keyup', handleKeyup);
+        }
+        onChange && onChange(visible);
+      }
+      function show() {
+        setState(true);
+      }
+      function hide() {
+        setState(false);
+      }
+      function handleKeyup(e) {
+        // Char Code: 27  ESC
+        if (e.which ===  27) {
+          hide();
+        }
+      }
+      setOptions(options);
+      init();
+      return {
+        show: show,
+        hide: hide,
+        $el: $root
+      };
+    }
+    $.fn.modal = modal;
+  });
+})();
+</script><div class="modal modal--overflow page__search-modal d-print-none js-page-search-modal"><script>
+(function () {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    // search panel
+    var search = (window.search || (window.search = {}));
+    var useDefaultSearchBox = window.useDefaultSearchBox === undefined ?
+      true : window.useDefaultSearchBox ;
+
+    var $searchModal = $('.js-page-search-modal');
+    var $searchToggle = $('.js-search-toggle');
+    var searchModal = $searchModal.modal({ onChange: handleModalChange, hideWhenWindowScroll: true });
+    var modalVisible = false;
+    search.searchModal = searchModal;
+
+    var $searchBox = null;
+    var $searchInput = null;
+    var $searchClear;
+
+    function getModalVisible() {
+      return modalVisible;
+    }
+    search.getModalVisible = getModalVisible;
+
+    function handleModalChange(visible) {
+      modalVisible = visible;
+      if (visible) {
+        search.onShow && search.onShow();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].focus();
+      } else {
+        search.onShow && search.onHide();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].blur();
+        setTimeout(function() {
+          useDefaultSearchBox && ($searchInput.val(''), $searchBox.removeClass('not-empty'));
+          search.clear && search.clear();
+          window.pageAsideAffix && window.pageAsideAffix.refresh();
+        }, 400);
+      }
+    }
+
+    $searchToggle.on('click', function() {
+      modalVisible ? searchModal.hide() : searchModal.show();
+    });
+    // Char Code: 83  S, 191 /
+    $(window).on('keyup', function(e) {
+      if (!modalVisible && !window.isFormElement(e.target || e.srcElement) && (e.which === 83 || e.which === 191)) {
+        modalVisible || searchModal.show();
+      }
+    });
+
+    if (useDefaultSearchBox) {
+      $searchBox = $('.js-search-box');
+      $searchInput = $searchBox.children('input');
+      $searchClear = $searchBox.children('.js-icon-clear');
+      search.getSearchInput = function() {
+        return $searchInput.get(0);
+      };
+      search.getVal = function() {
+        return $searchInput.val();
+      };
+      search.setVal = function(val) {
+        $searchInput.val(val);
+      };
+
+      $searchInput.on('focus', function() {
+        $(this).addClass('focus');
+      });
+      $searchInput.on('blur', function() {
+        $(this).removeClass('focus');
+      });
+      $searchInput.on('input', window.throttle(function() {
+        var val = $(this).val();
+        if (val === '' || typeof val !== 'string') {
+          search.clear && search.clear();
+        } else {
+          $searchBox.addClass('not-empty');
+          search.onInputNotEmpty && search.onInputNotEmpty(val);
+        }
+      }, 400));
+      $searchClear.on('click', function() {
+        $searchInput.val(''); $searchBox.removeClass('not-empty');
+        search.clear && search.clear();
+      });
+    }
+  });
+})();
+</script><div class="search search--dark">
+  <div class="main">
+    <div class="search__header">搜索</div>
+    <div class="search-bar">
+      <div class="search-box js-search-box">
+        <div class="search-box__icon-search"><i class="fas fa-search"></i></div>
+        <input type="text" />
+        <div class="search-box__icon-clear js-icon-clear">
+          <a><i class="fas fa-times"></i></a>
+        </div>
+      </div>
+      <button class="button button--theme-dark button--pill search__cancel js-search-toggle">
+        取消</button>
+    </div>
+    <div class="search-result js-search-result"></div>
+  </div>
+</div>
+<script>var SOURCES = window.TEXT_VARIABLES.sources;
+var PAHTS = window.TEXT_VARIABLES.paths;
+window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
+  var search = (window.search || (window.search = {}));
+  var searchData = window.TEXT_SEARCH_DATA || {};
+
+  function memorize(f) {
+    var cache = {};
+    return function () {
+      var key = Array.prototype.join.call(arguments, ',');
+      if (key in cache) return cache[key];
+      else return cache[key] = f.apply(this, arguments);
+    };
+  }
+
+  /// search
+  function searchByQuery(query) {
+    var i, j, key, keys, cur, _title, result = {};
+    keys = Object.keys(searchData);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      for (j = 0; j < searchData[key].length; j++) {
+        cur = searchData[key][j], _title = cur.title;
+        if ((result[key] === undefined || result[key] && result[key].length < 4 )
+          && _title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+          if (result[key] === undefined) {
+            result[key] = [];
+          }
+          result[key].push(cur);
+        }
+      }
+    }
+    return result;
+  }
+
+  var renderHeader = memorize(function(header) {
+    return $('<p class="search-result__header">' + header + '</p>');
+  });
+
+  var renderItem = function(index, title, url) {
+    return $('<li class="search-result__item" data-index="' + index + '"><a class="button" href="' + url + '">' + title + '</a></li>');
+  };
+
+  function render(data) {
+    if (!data) { return null; }
+    var $root = $('<ul></ul>'), i, j, key, keys, cur, itemIndex = 0;
+    keys = Object.keys(data);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      $root.append(renderHeader(key));
+      for (j = 0; j < data[key].length; j++) {
+        cur = data[key][j];
+        $root.append(renderItem(itemIndex++, cur.title, cur.url));
+      }
+    }
+    return $root;
+  }
+
+  // search box
+  var $result = $('.js-search-result'), $resultItems;
+  var lastActiveIndex, activeIndex;
+
+  function clear() {
+    $result.html(null);
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+  }
+  function onInputNotEmpty(val) {
+    $result.html(render(searchByQuery(val)));
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+    $resultItems.eq(0).addClass('active');
+  }
+
+  search.clear = clear;
+  search.onInputNotEmpty = onInputNotEmpty;
+
+  function updateResultItems() {
+    lastActiveIndex >= 0 && $resultItems.eq(lastActiveIndex).removeClass('active');
+    activeIndex >= 0 && $resultItems.eq(activeIndex).addClass('active');
+  }
+
+  function moveActiveIndex(direction) {
+    var itemsCount = $resultItems ? $resultItems.length : 0;
+    if (itemsCount > 1) {
+      lastActiveIndex = activeIndex;
+      if (direction === 'up') {
+        activeIndex = (activeIndex - 1 + itemsCount) % itemsCount;
+      } else if (direction === 'down') {
+        activeIndex = (activeIndex + 1 + itemsCount) % itemsCount;
+      }
+      updateResultItems();
+    }
+  }
+
+  // Char Code: 13  Enter, 37  ⬅, 38  ⬆, 39  ➡, 40  ⬇
+  $(window).on('keyup', function(e) {
+    var modalVisible = search.getModalVisible && search.getModalVisible();
+    if (modalVisible) {
+      if (e.which === 38) {
+        modalVisible && moveActiveIndex('up');
+      } else if (e.which === 40) {
+        modalVisible && moveActiveIndex('down');
+      } else if (e.which === 13) {
+        modalVisible && $resultItems && activeIndex >= 0 && $resultItems.eq(activeIndex).children('a')[0].click();
+      }
+    }
+  });
+
+  $result.on('mouseover', '.search-result__item > a', function() {
+    var itemIndex = $(this).parent().data('index');
+    itemIndex >= 0 && (lastActiveIndex = activeIndex, activeIndex = itemIndex, updateResultItems());
+  });
+});
+</script>
+</div></div>
+
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function scrollToAnchor(anchor, duration, callback) {
+      var $root = this;
+      $root.animate({ scrollTop: $(anchor).position().top }, duration, function() {
+        window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+        callback && callback();
+      });
+    }
+    $.fn.scrollToAnchor = scrollToAnchor;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function affix(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroll,
+        offsetBottom = 0, scrollTarget = window, scroll = window.document, disabled = false, isOverallScroller = true,
+        rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop,
+        hasInit = false, curState;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroll && (scroll = _options.scroll);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $scrollTarget = $(scrollTarget);
+        isOverallScroller = window.isOverallScroller($scrollTarget[0]);
+        $scroll = $(scroll);
+      }
+      function preCalc() {
+        top();
+        rootHeight = $root.outerHeight();
+        rootTop = $root.offset().top + (isOverallScroller ? 0 :  $scrollTarget.scrollTop());
+        rootLeft = $root.offset().left;
+      }
+      function calc(needPreCalc) {
+        needPreCalc && preCalc();
+        scrollBottom = $scroll.outerHeight() - offsetBottom - rootHeight;
+        rootBottomTop = scrollBottom - rootTop;
+      }
+      function top() {
+        if (curState !== 'top') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: 0
+          });
+          curState = 'top';
+        }
+      }
+      function fixed() {
+        if (curState !== 'fixed') {
+          $root.addClass('fixed').css({
+            left: rootLeft + 'px',
+            top: 0
+          });
+          curState = 'fixed';
+        }
+      }
+      function bottom() {
+        if (curState !== 'bottom') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: rootBottomTop + 'px'
+          });
+          curState = 'bottom';
+        }
+      }
+      function setState() {
+        var scrollTop = $scrollTarget.scrollTop();
+        if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+          fixed();
+        } else if (scrollTop < rootTop) {
+          top();
+        } else {
+          bottom();
+        }
+      }
+      function init() {
+        if(!hasInit) {
+          var interval, timeout;
+          calc(true); setState();
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState();
+          });
+          $window.on('resize', function() {
+            disabled || (calc(true), setState());
+          });
+          hasInit = true;
+        }
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions,
+        refresh: function() {
+          calc(true, { animation: false }); setState();
+        }
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function toc(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroller, $tocUl = $('<ul class="toc toc--ellipsis"></ul>'), $tocLi, $headings, $activeLast, $activeCur,
+        selectors = 'h1,h2,h3', container = 'body', scrollTarget = window, scroller = 'html, body', disabled = false,
+        headingsPos, scrolling = false, hasRendered = false, hasInit = false;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.selectors && (selectors = _options.selectors);
+        _options.container && (container = _options.container);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroller && (scroller = _options.scroller);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $headings = $(container).find(selectors).filter('[id]');
+        $scrollTarget = $(scrollTarget);
+        $scroller = $(scroller);
+      }
+      function calc() {
+        headingsPos = [];
+        $headings.each(function() {
+          headingsPos.push(Math.floor($(this).position().top));
+        });
+      }
+      function setState(element, disabled) {
+        var scrollTop = $scrollTarget.scrollTop(), i;
+        if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+        if (element) {
+          $activeCur = element;
+        } else {
+          for (i = 0; i < headingsPos.length; i++) {
+            if (scrollTop >= headingsPos[i]) {
+              $activeCur = $tocLi.eq(i);
+            } else {
+              $activeCur || ($activeCur = $tocLi.eq(i));
+              break;
+            }
+          }
+        }
+        $activeLast && $activeLast.removeClass('active');
+        ($activeLast = $activeCur).addClass('active');
+      }
+      function render() {
+        if(!hasRendered) {
+          $root.append($tocUl);
+          $headings.each(function() {
+            var $this = $(this);
+            $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName').toLowerCase())
+              .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+          });
+          $tocLi = $tocUl.children('li');
+          $tocUl.on('click', 'a', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            scrolling = true;
+            setState($this.parent());
+            $scroller.scrollToAnchor($this.attr('href'), 400, function() {
+              scrolling = false;
+            });
+          });
+        }
+        hasRendered = true;
+      }
+      function init() {
+        var interval, timeout;
+        if(!hasInit) {
+          render(); calc(); setState(null, scrolling);
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState(null, scrolling);
+          });
+          $window.on('resize', window.throttle(function() {
+            if (!disabled) {
+              render(); calc(); setState(null, scrolling);
+            }
+          }, 100));
+        }
+        hasInit = true;
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.toc = toc;
+  });
+})();
+/*(function () {
+
+})();*/
+</script><script>
+  /* toc must before affix, since affix need to konw toc' height. */(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $articleContent = $('.js-article-content');
+    var $tocRoot = $('.js-toc-root'), $col2 = $('.js-col-aside');
+    var toc;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    tocDisabled = disabled();
+
+    toc = $tocRoot.toc({
+      selectors: TOC_SELECTOR,
+      container: $articleContent,
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $pageFooter = $('.js-page-footer');
+    var $pageAside = $('.js-page-aside');
+    var affix;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+
+    affix = $pageAside.affix({
+      offsetBottom: $pageFooter.outerHeight(),
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      scroll: hasSidebar ? $('.js-page-main').children() : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+    window.pageAsideAffix = affix;
+  });
+})();
+</script>
+    </div>
+    <script>(function () {
+  var $root = document.getElementsByClassName('root')[0];
+  if (window.hasEvent('touchstart')) {
+    $root.dataset.isTouch = true;
+    document.addEventListener('touchstart', function(){}, false);
+  }
+})();
+</script>
+  </body>
+</html>
+

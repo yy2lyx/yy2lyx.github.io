@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/langchain.jpg
-navigation: True
-title: LLM的应用开发框架——Langchain
+layout: article
+title: "LLM的应用开发框架——Langchain"
 date: 2024-7-4 00:00:00
 tags: [NLP,DeepLearning]
-excerpt: 记录Langchain的使用过程心得体会
-class: post-template
-subclass: 'post'
+excerpt: "记录Langchain的使用过程心得体会"
+cover: assets/images/langchain.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/langchain.jpg
+key: post-2024-7-4-langchain
 ---
 
 

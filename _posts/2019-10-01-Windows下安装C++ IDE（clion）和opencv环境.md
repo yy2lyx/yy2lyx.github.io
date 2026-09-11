@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/software.jpg 
-navigation: True
-title: Windows下安装C++ IDE（clion）和opencv环境
+layout: article
+title: "Windows下安装C++ IDE（clion）和opencv环境"
 date: 2019-10-01 10:18:00
 tags: [ComputerVision,环境搭建]
-excerpt: 讲述如何在Windows环境中安装clion和配置opencv环境
-class: post-template
-subclass: 'post'
+excerpt: "讲述如何在Windows环境中安装clion和配置opencv环境"
+cover: assets/images/software.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/software.jpg
+key: post-2019-10-01-windows-c-ide-clion-opencv
 ---
 
 

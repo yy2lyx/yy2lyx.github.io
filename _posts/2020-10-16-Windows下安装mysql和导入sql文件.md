@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/grapes.jpg
-navigation: True
-title: Windows下安装mysql和导入sql文件
+layout: article
+title: "Windows下安装mysql和导入sql文件"
 date: 2020-10-16 19:21:00
 tags: [mysql, 数据库]
-excerpt: 介绍在Windows环境下本地安装mysql和导入sql文件的使用
-class: post-template
-subclass: 'post'
+excerpt: "介绍在Windows环境下本地安装mysql和导入sql文件的使用"
+cover: assets/images/grapes.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/grapes.jpg
+key: post-2020-10-16-windows-mysql-sql
 ---
 
 

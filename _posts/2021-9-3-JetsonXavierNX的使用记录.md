@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/jetson.jpg
-navigation: True
-title: Jetson Xavier NX 的使用记录
+layout: article
+title: "Jetson Xavier NX 的使用记录"
 date: 2021-8-24 21:11:00
 tags: [pytorch,Jetson,ComputerVision]
-excerpt: 记录使用Jetson Xavier NX的使用体验中遇到的问题和记录
-class: post-template
-subclass: 'post'
+excerpt: "记录使用Jetson Xavier NX的使用体验中遇到的问题和记录"
+cover: assets/images/jetson.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/jetson.jpg
+key: post-2021-9-3-jetsonxaviernx
 ---
 
 ### 一. 远程桌面

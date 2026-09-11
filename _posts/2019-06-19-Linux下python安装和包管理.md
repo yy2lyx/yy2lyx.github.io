@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/linux.jpg
-navigation: True
-title: Linux下python安装和包管理
+layout: article
+title: "Linux下python安装和包管理"
 date: 2019-06-19 20:20:00
 tags: [python,环境搭建]
-excerpt: 讲述在Linux环境下python包编译及安装过程，以及包管理工具virtualenv
-class: post-template
-subclass: 'post'
+excerpt: "讲述在Linux环境下python包编译及安装过程，以及包管理工具virtualenv"
+cover: assets/images/linux.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/linux.jpg
+key: post-2019-06-19-linux-python
 ---
 
 

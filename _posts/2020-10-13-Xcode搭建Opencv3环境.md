@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/book1.jpg
-navigation: True
-title: Xcode搭建Opencv3环境
+layout: article
+title: "Xcode搭建Opencv3环境"
 date: 2020-10-13 19:21:00
 tags: [ComputerVision, 环境搭建]
-excerpt: 在Mac中利用Xcode神器搭建opencv3的C++环境
-class: post-template
-subclass: 'post'
+excerpt: "在Mac中利用Xcode神器搭建opencv3的C++环境"
+cover: assets/images/book1.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/book1.jpg
+key: post-2020-10-13-xcode-opencv3
 ---
 
 

@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/mir.png
-navigation: True
-title: pytorch使用YOLOv5训练数据
+layout: article
+title: "pytorch使用YOLOv5训练数据"
 date: 2020-10-26 19:21:00
 tags: [pytorch, ComputerVision, DeepLearning]
-excerpt: 介绍如何利用官方开源的Yolov5训练一个属于自己的模型
-class: post-template
-subclass: 'post'
+excerpt: "介绍如何利用官方开源的Yolov5训练一个属于自己的模型"
+cover: assets/images/mir.png
+article_header:
+  type: cover
+  image:
+    src: assets/images/mir.png
+key: post-2020-10-26-pytorch-yolov5
 ---
 
 

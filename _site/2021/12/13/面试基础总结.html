@@ -1,0 +1,1810 @@
+<!DOCTYPE html><html lang="zh-Hans">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>面试基础总结 - 凡人炼丹传</title>
+
+<meta name="description" content="记录算法面试中遇到的基础问题和过程记录">
+<link rel="canonical" href="http://localhost:4001/2021/12/13/%E9%9D%A2%E8%AF%95%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico">
+
+<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+
+<meta name="theme-color" content="#ffffff">
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+
+<!-- end custom head snippets -->
+<script>(function() {
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.isOverallScroller = function(node) {
+    return node === document.documentElement || node === document.body || node === window;
+  };
+
+  window.isFormElement = function(node) {
+    var tagName = node.tagName;
+    return tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA';
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i;
+      loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cbs[i]();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();
+(function() {
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+})();
+(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (Object.prototype.hasOwnProperty.call(attrs, attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+})();
+</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      version: '2.2.6',
+      sources: {
+        font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      },
+      paths: {
+        search_js: '/assets/search.js'
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script>
+</head>
+  <body>
+    <div class="root" data-is-touch="false">
+      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport has-aside cell cell--auto">
+
+      <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
+      <div class="header__title">
+        <div class="header__brand"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24">
+<style type="text/css">
+	.st0{fill:#515151;}
+</style>
+<path class="st0" d="M1.7,22.3c5.7-5.7,11.3-5.7,17,0c3.3-3.3,3.5-5.3,0.8-6c2.7,0.7,3.5-1.1,2.3-5.6s-3.3-5.2-6.3-2.1
+	c3-3,2.3-5.2-2.1-6.3S7,1.8,7.7,4.6C7,1.8,5,2.1,1.7,5.3C7.3,11,7.3,16.7,1.7,22.3"/>
+</svg>
+<a title="欢迎各位看官光临本小站，希望共同学习进步哈！
+" href="/">凡人炼丹传</a></div><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></div><nav class="navigation">
+        <ul><li class="navigation__item"><a href="/">首页</a></li><li class="navigation__item"><a href="/archive.html">归档</a></li><li class="navigation__item"><a href="/samples.html">预览</a></li><li class="navigation__item"><a href="/about.html">关于</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
+      </nav></div>
+  </header>
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/interview.jpeg" /><div class ="main"><div class="grid grid--reverse">
+
+              <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
+</aside></div>
+
+              <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
+
+<!-- end custom main top snippet -->
+<article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>面试基础总结</h1></header><span class="split-space">&nbsp;</span>
+          <a class="edit-on-github"
+            title="在 Github 上修改"
+            href="https://github.com/yy2lyx/yy2lyx.github.io/tree/master/_posts/2021-12-12-面试基础总结.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="面试基础总结"><div class="article__info clearfix"><ul class="left-col menu"><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=%E9%9D%A2%E8%AF%95">面试</a>
+            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>2021年 12月13日</span>
+            </li></ul></div><meta itemprop="author" content="李小肥"/><meta itemprop="datePublished" content="2021-12-13T05:11:00+08:00">
+    <meta itemprop="keywords" content="面试"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
+
+<!-- end custom article top snippet -->
+<div class="article__content" itemprop="articleBody"><h3 id="一-操作系统">一. 操作系统</h3>
+
+<h4 id="11-并行和并发">1.1 并行和并发</h4>
+
+<p><strong>并发</strong>：在操作系统中，某一时间段，几个程序在同一个CPU上运行，但在任意一个时间点上，只有一个程序在CPU上运行。</p>
+
+<p><strong>并行</strong>：当操作系统有多个CPU时，一个CPU处理A线程，另一个CPU处理B线程，<strong>两个线程互相不抢占CPU资源，可以同时进行</strong>，这种方式成为并行。</p>
+
+<p>知乎的例子：</p>
+
+<ul>
+  <li>你吃饭吃到一半，电话来了，你一直到吃完了以后才去接，这就说明你不支持并发也不支持并行。</li>
+  <li>你吃饭吃到一半，电话来了，你停了下来接了电话，接完后继续吃饭，这说明你支持并发。</li>
+  <li>你吃饭吃到一半，电话来了，你一边打电话一边吃饭，这说明你支持并行。</li>
+</ul>
+
+<h4 id="12-进程和线程">1.2 进程和线程</h4>
+
+<h5 id="121-进程">1.2.1 进程</h5>
+
+<p>​	<strong>进程是资源分配的基本单位，理解为一个程序</strong>。所以我们一般都要求进程池的进程数小于等于CPU的核心数。</p>
+
+<p>​	如果问<strong>单核CPU能否运行多进程？</strong>答案又是肯定的。单核CPU也可以运行多进程，只不过不是同时的，而是极快地在<strong>进程间来回切换实现的多进程</strong>。进<strong>程拥有自己的地址空间，全局变量，文件描述符，各种硬件等等资源</strong>。</p>
+
+<h5 id="122-线程">1.2.2 线程</h5>
+
+<p>​	<strong>线程</strong>：线程是依赖于进程的。<strong>如果说进程和进程之间相当于程序与程序之间的关系，那么线程与线程之间就相当于程序内的任务和任务之间的关系。</strong></p>
+
+<p>​	一个程序内包含了多种任务。加上了线程之后，线程能够共享进程的大部分资源，并参与CPU的调度。意味着它能够在<strong>进程间进行切换，实现并发</strong>。</p>
+
+<h5 id="123-为什么要用多进程适用条件">1.2.3 为什么要用多进程，适用条件</h5>
+
+<p>​	总是在运行一个进程上的任务，就会出现一个现象。就是任务不一定总是在执行 ”计算型“ 的任务，会有很大可能是在执行网络调用，阻塞了，CPU 岂不就浪费了？</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_1.jpg" alt="" /></p>
+
+<p>因此，多进程适用于<strong>CPU密集型任务(各种循环处理、计算等等)</strong>。多线程适用于<strong>IO密集型任务(文件处理、网络爬虫等)</strong>。</p>
+
+<h5 id="124-多进程通信">1.2.4 多进程通信</h5>
+
+<p><strong>管道pipe</strong>：管道是一种<strong>半双工</strong>的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指<strong>父子进程关系</strong>。类似于python的<code class="language-plaintext highlighter-rouge">multiprocessing.Pipe()</code></p>
+
+<p><strong>消息队列MessageQueue</strong>：消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。类似于python的<code class="language-plaintext highlighter-rouge">multiprocessing.Queue()</code></p>
+
+<p><strong>共享存储SharedMemory</strong>：共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。<strong>共享内存是最快的 IPC 方式</strong>，它是针对其他进程间通信方式运行效率低而专门设计的。它往往与其他通信机制，如信号两，配合使用，来实现进程间的同步和通信。</p>
+
+<h5 id="125-python的多线程是真的多线程么">1.2.5 python的多线程是真的多线程么</h5>
+
+<p>​	Python在设计之初就考虑要在主循环中，同时只有一个线程在执行，就像单CPU的系统中运行多个进程那样，内存中可以存放多个程序，但任意时刻，只有一个程序在CPU中运行。同样地，虽然Python解释器可以运行多个线程，只有一个线程在解释器中运行。</p>
+
+<p>​	Python虚拟机的访问由<strong>全局解释器锁（GIL）</strong>来控制，正是这个锁能保证同时只有一个线程在运行。</p>
+
+<p><strong>Python的多进程多线程测试</strong>：</p>
+
+<ul>
+  <li>
+    <p>在一个4核CPU上开4线程，发现电脑的CPU利用率没有占满，大致相当于单核水平。</p>
+  </li>
+  <li>
+    <p>在一个4核CPU上开4进程，发现CPU直接飙到了100%，说明进程是可以利用多核的！</p>
+
+    <p>Python多线程相当于单核多线程，多线程有两个好处：<strong>CPU并行，IO并行</strong>，单核多线程相当于自断一臂。所以，在Python中，可以使用多线程，但不要指望能有效利用多核。</p>
+  </li>
+</ul>
+
+<h5 id="126-多线程如何保证线程安全">1.2.6 多线程如何保证线程安全</h5>
+
+<p>当<strong>多个线程同时操作同一个共享全局变量</strong>的时候，就容易出现线程安全问题，线程安全问题只会影响到线程对同一个共享的全局变量的<strong>写操作</strong>。</p>
+
+<p>利用<strong>线程锁</strong>来保证同一个时刻，有且仅有一个线程对共享的全局变量进行写操作。且开始写操作前，需要<strong>加锁</strong>，完成后，需要<strong>解锁</strong>，让其他线程再对其进行写操作。</p>
+
+<h5 id="127-死锁问题">1.2.7 死锁问题</h5>
+
+<p>​	<strong>死锁</strong>是指两个或两个以上的进程（线程）在执行过程中，由于竞争资源或者由于<strong>彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去</strong>。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程（线程）称为死锁进程（线程）。</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_2.jpg" alt="" /></p>
+
+<p>死锁的<strong>4个必要条件</strong>：</p>
+
+<ul>
+  <li>互斥条件：线程(进程)对于所分配到的资源具有排它性，即<strong>一个资源只能被一个线程(进程)占用，直到被该线程(进程)释放</strong>。</li>
+  <li>请求与保持条件：一个线程(进程)因请求被占用资源而发生阻塞时，<strong>对已获得的资源保持不放</strong>。</li>
+  <li>不剥夺条件：线程(进程)已获得的资源在末使用完之前不能被其他线程强行剥夺，<strong>只有自己使用完毕后才释放资源</strong>。</li>
+  <li>循环等待条件：当发生死锁时，所等待的线程(进程)必定会<strong>形成一个环路（类似于死循环），造成永久阻塞</strong></li>
+</ul>
+
+<p><strong>如何避免死锁？</strong></p>
+
+<p>只要破坏产生死锁的四个条件中的其中一个就可以了。</p>
+
+<ul>
+  <li><strong>破坏互斥条件</strong>：这个条件我们没有办法破坏，因为我们用锁本来就是想让他们互斥的（临界资源需要互斥访问）。</li>
+  <li><strong>破坏请求与保持条件</strong>：一次性申请所有的资源。</li>
+  <li><strong>破坏不剥夺条件</strong>：占用部分资源的线程进一步申请其他资源时，如果申请不到，可以主动释放它占有的资源。</li>
+  <li><strong>破坏循环等待条件</strong>：靠按序申请资源来预防。按某一顺序申请资源，释放资源则反序释放。破坏循环等待条件。</li>
+</ul>
+
+<h4 id="13-同步和异步">1.3 同步和异步</h4>
+
+<h5 id="131-阻塞和非阻塞">1.3.1 阻塞和非阻塞</h5>
+
+<ul>
+  <li>
+    <p>阻塞：指调用线程或者进程被操作系统挂起。</p>
+  </li>
+  <li>
+    <p>非阻塞：指调用线程或者进程不会被操作系统挂起。</p>
+  </li>
+</ul>
+
+<h5 id="132-同步和异步">1.3.2 同步和异步</h5>
+
+<p>同步是阻塞模式，异步是非阻塞模式。</p>
+
+<ul>
+  <li>同步：指一个进程在执行某个请求的时候，若该请求需要一段时间才能返回信息，那么<strong>这个进程将会一直等待下去，直到收到返回信息才继续执行下去</strong>。</li>
+  <li>异步：指<strong>进程不需要一直等下去，而是继续执行下面的操作</strong>，不管其他进程的状态。当有消息返回式系统会通知进程进行处理，这样可以提高执行的效率。</li>
+</ul>
+
+<h4 id="14-协程">1.4 协程</h4>
+
+<p>协程是一种用户态的轻量级线程。</p>
+
+<p>子程序，或者称为函数，在所有语言中都是层级调用，比如A调用B，B在执行过程中又调用了C，C执行完毕返回，B执行完毕返回，最后是A执行完毕。<strong>所以子程序调用是通过栈实现的，一个线程就是执行一个子程序。</strong></p>
+
+<p>协程看上去也是子程序，但执行过程中，在<strong>子程序内部可中断</strong>，然后转而执行别的子程序，在适当的时候再返回来接着执行。</p>
+
+<p>例子：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">A</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">1</span><span class="sh">'</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">2</span><span class="sh">'</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">3</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">B</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">z</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>假设由协程执行，在执行A的过程中，可以随时中断，去执行B，B也可能在执行过程中中断再去执行A，结果可能是：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 x y 3 z
+</code></pre></div></div>
+
+<p>但是在A中是没有调用B的，<strong>看起来A、B的执行有点像多线程，但协程的特点在于是一个线程执行</strong></p>
+
+<p><strong>协程的优势：</strong></p>
+
+<ul>
+  <li>极高的执行效率：因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销，和多线程比，线程数量越多，协程的性能优势就越明显。</li>
+  <li>不需要多线程的锁机制：因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不加锁，只需要判断状态就好了，所以执行效率比多线程高很多。</li>
+</ul>
+
+<h4 id="14-内存分配管理">1.4 内存分配管理</h4>
+
+<h5 id="141-分段和分页">1.4.1 分段和分页</h5>
+
+<p><strong>分段</strong>：在段式存储管理中，将程序的地址空间划分为若干段（segment），如代码段，数据段，堆栈段；这样每个进程有一个<strong>二维地址空间</strong>，相互独立，互不干扰。</p>
+
+<p><strong>分页</strong>：在页式存储管理中，将程序的<strong>逻辑地址划分为固定大小的页（page）</strong>，而<strong>物理内存</strong>划分为同样大小的<strong>帧</strong>，程序加载时，可以将任意一页放入内存中任意一个帧，这些帧不必连续，从而实现了离散分离。</p>
+
+<h5 id="142-分段和分页不同点">1.4.2 分段和分页不同点</h5>
+
+<ul>
+  <li>段是信息的<strong>逻辑单位</strong>，它是根据<strong>用户的需要</strong>划分的，因此段对用户是可见的 ；页是信息的<strong>物理单位</strong>，是为了<strong>管理主存</strong>的方便而划分的，对用户是透明的。</li>
+  <li>段的大小<strong>不固定</strong>，有它所完成的功能决定；页大大小<strong>固定</strong>，由系统决定</li>
+  <li>段向用户提供<strong>二维地址空间</strong>；页向用户提供的是<strong>一维地址空间</strong></li>
+  <li>段是信息的逻辑单位，便于<strong>存储保护和信息的共享</strong>，页的保护和共享<strong>受到限制</strong>。</li>
+  <li>段式管理的优点是没有内碎片（因为段大小可变，改变段大小来消除内碎片）；页式存储管理的优点是没有外碎片（因为页的大小固定），但会产生内碎片（一个页可能填充不满）</li>
+</ul>
+
+<h5 id="143-堆和栈">1.4.3 堆和栈</h5>
+
+<p>对于一个由C/C++编译的程序，其所占用的内存可以划分为以下几个部分：</p>
+
+<ul>
+  <li>
+    <p><strong>栈区（stack）</strong>—— 由操作系统自动分配和释放，主要用于存放<strong>函数参数值，局部变量</strong>等。其操作方式类似于数据结构中的栈。</p>
+  </li>
+  <li>
+    <p><strong>堆区（heap）</strong>—— 一般由<strong>程序员动态分配和释放(malloc，free)</strong>，若程序员不主动释放，则程序结束后由操作系统回收。注意，它与数据结构中的堆是不同的，分配方式类似于链表。</p>
+  </li>
+  <li>
+    <p><strong>BSS段</strong>——主要用于存放未<strong>初始化的静态变量和全局变量</strong>，可读写，它在程序结束后由操作系统进行释放。</p>
+  </li>
+  <li><strong>数据段（data）</strong>——主要用于<strong>存放已初始化的静态变量和全局变量</strong>，可读写，它在程序结束后由操作系统释放。</li>
+  <li><strong>代码段（text）</strong>——主要用于<strong>保存程序代码，包括CPU执行的机器指令，同时全局常量也是保存在代码段的，如字符串字面值</strong>。</li>
+</ul>
+
+<h5 id="144-一个进程的内存结构">1.4.4 一个进程的内存结构</h5>
+<pre><code class="language-C++">/main.cpp
+int a = 0;                       // 全局初始化区域
+char *p1;                        // 全局未初始化区域
+int main(){
+    int b;                       // 栈
+    char s[] = "adoryn";         // 栈
+    char *p2;                    // 栈
+    char *p3 = "zhaobryant";     // 字符串字面量存放在常量区，p3存放在栈上
+    static int c = 0;            // 全局（静态）初始化区域
+    p1 = (char *)malloc(10);
+    p2 = (char *)malloc(20);     // 分配获得的10和20字节的内存区放在堆区
+    strcpy(p1, "zhaobryant");    // 字符串字面量存放在常量区，编译器可能会将它与p3所指向的"zhaobryant"优化为同一个地址
+    return 0;
+}
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_3.jpg" alt="" /></p>
+
+<h3 id="二-linux相关">二. linux相关</h3>
+
+<h4 id="21-查看cpu和内存占用情况">2.1 查看CPU和内存占用情况</h4>
+
+<ul>
+  <li>
+    <p>查看物理内存使用情况：<code class="language-plaintext highlighter-rouge">free</code></p>
+
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_4.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p>查看目前正在运行的进程所占的内存百分比和CPU百分比：<code class="language-plaintext highlighter-rouge">top</code>。<strong>假如某个进程显示400%，说明该程序利用了4核CPU。</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_5.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p>查看磁盘使用情况：<code class="language-plaintext highlighter-rouge">df</code></p>
+
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_6.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p>查看当前进程：<code class="language-plaintext highlighter-rouge">ps</code>，<code class="language-plaintext highlighter-rouge">ps -aux</code>则是当前所有的正在内存当中的程序</p>
+
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_7.jpg" alt="" /></p>
+  </li>
+</ul>
+
+<h4 id="22-查找匹配">2.2 查找匹配</h4>
+
+<ul>
+  <li>
+    <p>在某个路径下查找是否有某个<strong>文件</strong>：<code class="language-plaintext highlighter-rouge">find 路径 -name 文件名</code></p>
+
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_8.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p>根据<strong>字符串</strong>查找相应匹配的<strong>文件</strong>：<code class="language-plaintext highlighter-rouge">grep</code>。它是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。</p>
+
+    <ul>
+      <li>
+        <p>查找后缀有 py 字样的文件中包含 print 字符串的文件（当前路径下）：<code class="language-plaintext highlighter-rouge">grep print *.py</code></p>
+
+        <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_9.jpg" alt="" /></p>
+      </li>
+      <li>
+        <p>递归查找符合条件的<strong>文件</strong>，这里是查找指定目录（git_repo）下及其子目录所有文件中包含helloworld字符串的文件</p>
+
+        <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_10.jpg" alt="" /></p>
+      </li>
+      <li>
+        <p>联合<code class="language-plaintext highlighter-rouge">ps</code>检查当前进程中python3进程是否运行：<code class="language-plaintext highlighter-rouge">ps -aux | grep python3</code>。其中<code class="language-plaintext highlighter-rouge">|</code>是管道命令 是指ps命令与grep同时执行。</p>
+
+        <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_11.jpg" alt="" /></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="23-网络相关">2.3 网络相关</h4>
+
+<ul>
+  <li>
+    <p>显示各种网络相关信息：<code class="language-plaintext highlighter-rouge">netstat</code></p>
+
+    <ul>
+      <li>列出所有处于监听状态的Sockets</li>
+    </ul>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat <span class="nt">-l</span> <span class="c"># 只显示监听端口</span>
+netstat <span class="nt">-lt</span> <span class="c">#只列出所有监听 tcp 端口</span>
+netstat <span class="nt">-lu</span> <span class="c">#只列出所有监听 udp 端口</span>
+netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 端口</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>配合<code class="language-plaintext highlighter-rouge">grep</code>查找tcp下的指定端口号信息</li>
+    </ul>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat <span class="nt">-plnt</span> | <span class="nb">grep</span> :53
+<span class="c"># -p 输出中显示 PID 和进程名称</span>
+<span class="c"># -l 仅列出有在 Listen (监听) 的服务状态</span>
+<span class="c"># -n 不想让主机，端口和用户名显示，而是用ip显示</span>
+<span class="c"># -t 只列出所有监听 tcp 端口</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="24-selectpoll和epoll">2.4 select、poll和epoll</h4>
+
+<h5 id="用户空间和内核空间">用户空间和内核空间</h5>
+
+<p>操作系统的核心是<strong>内核</strong>，独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。</p>
+
+<p>为了保证用户进程不能直接操作内核（kernel），保证内核的安全，操心系统将虚拟空间划分为两部分，一部分为<strong>内核空间（供内核使用）</strong>，一部分为<strong>用户空间（供进程使用）</strong>。</p>
+
+<h5 id="进程切换">进程切换</h5>
+
+<p>为了控制进程的执行，内核必须有能力挂起正在CPU上运行的进程，并恢复以前挂起的某个进程的执行。这种行为被称为<strong>进程切换</strong>。</p>
+
+<p>进程的切换需要经过以下变换：</p>
+
+<ol>
+  <li>保存处理机上下文，包括程序计数器和其他寄存器。</li>
+  <li>更新PCB信息。</li>
+  <li>把进程的PCB移入相应的队列，如就绪、在某事件阻塞等队列。</li>
+  <li>选择另一个进程执行，并更新其PCB。</li>
+  <li>更新内存管理的数据结构。</li>
+  <li>恢复处理机上下文。</li>
+</ol>
+
+<h5 id="进程阻塞">进程阻塞</h5>
+
+<p>正在执行的进程，由于期待的某些事件未发生，如请求系统资源失败、等待某种操作的完成、新数据尚未到达或无新工作做等，则由系统自动执行阻塞原语(Block)，使自己由运行状态变为阻塞状态。</p>
+
+<p>进程的阻塞是进程自身的一种<strong>主动行为</strong>，也因此只有处于运行态的进程（获得CPU），才可能将其转为阻塞状态。当进程进入阻塞状态，是不占用CPU资源的。</p>
+
+<h5 id="文件描述符fd">文件描述符fd</h5>
+
+<p>文件描述符在形式上是一个非负整数。实际上，它是一个<strong>索引值</strong>，指向内核为每一个进程所维护的该进程打开文件的记录表。</p>
+
+<p>当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</p>
+
+<h5 id="缓存io">缓存IO</h5>
+
+<p>在 Linux 的缓存 I/O 机制中，操作系统会将 I/O 的数据缓存在文件系统的页缓存（ page cache ）中，也就是说，数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。</p>
+
+<p><strong>缓存 I/O 的缺点：</strong>数据在传输过程中需要在应用程序地址空间和内核进行多次数据拷贝操作，这些数据拷贝操作所带来的 CPU 以及内存开销是非常大的。</p>
+
+<h5 id="socket">Socket</h5>
+
+<p>socket是一种”打开—读/写—关闭”模式的实现，服务器和客户端各自维护一个”文件”，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
+
+<h5 id="io多路复用">IO多路复用</h5>
+
+<p>IO multiplexing就是我们说的select，poll，epoll。</p>
+
+<p>select/epoll的好处就在于<strong>单个process就可以同时处理多个网络连接的IO</strong>。它的基本原理就是select，poll，epoll这个function会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程。</p>
+
+<h5 id="select">select</h5>
+
+<p>调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。</p>
+
+<p>select的一 个缺点在于单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024</p>
+
+<h5 id="poll">poll</h5>
+
+<p>不同与select使用三个位图来表示三个fdset的方式，poll使用一个 pollfd的指针实现。</p>
+
+<p>pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。同时，pollfd并没有最大数量限制（但是数量过大后性能也是会下降）。 和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。</p>
+
+<blockquote>
+  <p>从上面看，select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。事实上，同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
+</blockquote>
+
+<h5 id="epoll">epoll</h5>
+
+<p>相对于select和poll来说，epoll更加灵活，没有描述符限制。<strong>epoll使用一个文件描述符管理多个描述符</strong>，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。</p>
+
+<p>epoll对文件描述符的操作有两种模式，<strong>LT（level trigger）</strong>和<strong>ET（edge trigger）</strong>。LT模式是默认模式，LT模式与ET模式的区别如下：　　</p>
+
+<ul>
+  <li><strong>LT模式</strong>：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。　　</li>
+  <li><strong>ET模式</strong>：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。</li>
+</ul>
+
+<p>在 select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而<strong>epoll事先通过epoll_ctl()来注册一 个文件描述符，一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait() 时便得到通知</strong>。</p>
+
+<p><strong>epoll的优点主要是以下个方面：</strong></p>
+
+<ol>
+  <li>监视的描述符数量不受限制</li>
+  <li>IO的效率不会随着监视fd的数量的增长而下降</li>
+</ol>
+
+<h4 id="25-tcp三握四挥">2.5 TCP三握四挥</h4>
+
+<h5 id="三次握手">三次握手</h5>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_12.jpg" alt="" /></p>
+
+<p>如图所示，双方之间的三个蓝色箭头就表示了三次握手过程中所发生的数据交换：</p>
+
+<ol>
+  <li>第一次握手：客户端向服务器发送报文段1，其中的 SYN 标志位 (前文已经介绍过各种标志位的作用)的值为 1，表示这是一个用于请求发起连接的报文段，其中的序号字段 (Sequence Number，图中简写为seq)被设置为初始序号x (Initial Sequence Number，ISN)，TCP 连接双方均可随机选择初始序号。发送完报文段1之后，客户端进入 SYN-SENT 状态，等待服务器的确认。</li>
+  <li>第二次握手：服务器在收到客户端的连接请求后，向客户端发送报文段2作为应答，其中 ACK 标志位设置为 1，表示对客户端做出应答，其确认序号字段 (Acknowledgment Number，图中简写为小写 ack) 生效，该字段值为 x + 1，也就是从客户端收到的报文段的序号加一，代表服务器期望下次收到客户端的数据的序号。此外，报文段2的 SYN 标志位也设置为1，代表这同时也是一个用于发起连接的报文段，序号 seq 设置为服务器初始序号y。发送完报文段2后，服务器进入 SYN-RECEIVED 状态。</li>
+  <li>第三次握手：客户端在收到报文段2后，向服务器发送报文段3，其 ACK 标志位为1，代表对服务器做出应答，确认序号字段 ack 为 y + 1，序号字段 seq 为 x + 1。此报文段发送完毕后，双方都进入 ESTABLISHED 状态，表示连接已建立。</li>
+</ol>
+
+<p><strong>常见面试题 1：</strong> TCP 建立连接为什么要三次握手而不是两次？</p>
+
+<ul>
+  <li>防止已过期的连接请求报文突然又传送到服务器，因而产生错误</li>
+  <li>三次握手才能让双方均确认自己和对方的发送和接收能力都正常</li>
+  <li>告知对方自己的初始序号值，并确认收到对方的初始序号值</li>
+</ul>
+
+<p><strong>常见面试题2：</strong> TCP 建立连接为什么要三次握手而不是四次？</p>
+
+<ul>
+  <li>相比上个问题而言，这个问题就简单多了。因为三次握手已经可以确认双方的发送接收能力正常，双方都知道彼此已经准备好，而且也可以完成对双方初始序号值得确认，也就无需再第四次握手了。</li>
+</ul>
+
+<h5 id="四次挥手">四次挥手</h5>
+
+<p>建立一个连接需要三次握手，而终止一个连接要经过 4次握手。这由 TCP 的半关闭( half-close) 造成的。既然一个 TCP 连接是全双工 (即数据在两个方向上能同时传递)， 因此每个方向必须单独地进行关闭。</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_13.jpg" alt="" /></p>
+
+<p>四次挥手详细过程如下：</p>
+
+<ol>
+  <li>客户端发送关闭连接的报文段，FIN 标志位1，请求关闭连接，并停止发送数据。序号字段 seq = x (等于之前发送的所有数据的最后一个字节的序号加一)，然后客户端会进入 FIN-WAIT-1 状态，等待来自服务器的确认报文。</li>
+  <li>服务器收到 FIN 报文后，发回确认报文，ACK = 1， ack = x + 1，并带上自己的序号 seq = y，然后服务器就进入 CLOSE-WAIT 状态。服务器还会通知上层的应用程序对方已经释放连接，此时 TCP 处于半关闭状态，也就是说客户端已经没有数据要发送了，但是服务器还可以发送数据，客户端也还能够接收。</li>
+  <li>客户端收到服务器的 ACK 报文段后随即进入 FIN-WAIT-2 状态，此时还能收到来自服务器的数据，直到收到 FIN 报文段。</li>
+  <li>服务器发送完所有数据后，会向客户端发送 FIN 报文段，各字段值如图所示，随后服务器进入 LAST-ACK 状态，等待来自客户端的确认报文段。</li>
+  <li>客户端收到来自服务器的 FIN 报文段后，向服务器发送 ACK 报文，随后进入 TIME-WAIT 状态，等待 2MSL(2 * Maximum Segment Lifetime，两倍的报文段最大存活时间) ，这是任何报文段在被丢弃前能在网络中存在的最长时间，常用值有30秒、1分钟和2分钟。如无特殊情况，客户端会进入 CLOSED 状态。</li>
+  <li>服务器在接收到客户端的 ACK 报文后会随即进入 CLOSED 状态，由于没有等待时间，一般而言，服务器比客户端更早进入 CLOSED 状态。</li>
+</ol>
+
+<h3 id="三-c">三. C++</h3>
+
+<h4 id="31-stl中listvectormapset区别">3.1 STL中list,vector,map,set区别</h4>
+
+<h5 id="vector">vector</h5>
+
+<ul>
+  <li>vector封装了数组，拥有<strong>一段连续的内存空间</strong>，并且<strong>起始地址不变</strong>。</li>
+  <li>存取复杂度：能实现高效的随机<strong>存取</strong>，其时间复杂度为O(1)。</li>
+  <li>增删复杂度：由于内存空间是连续的，因此<strong>插入</strong>和<strong>删除</strong>时，会造成内存块的拷贝，时间复杂度为O(n)。</li>
+  <li>特别是当数组空间不足时，会重新申请一块内存空间（2倍）并进行拷贝。</li>
+  <li>vector支持根据下标随机存取元素。其原因是“<strong>循秩访问</strong>”这种向量特有的元素访问方式。</li>
+</ul>
+
+<h5 id="list">list</h5>
+
+<ul>
+  <li>list 封装了链表，且是双向链表。因此<strong>内存空间是不连续的</strong>。</li>
+  <li>每一个结点都维护一个信息块、一个前向指针和一个后向指针，因此支持前向/后向遍历。</li>
+  <li>存取复杂度：只能通过指针访问数据，所以list的随机存取非常没有效率，时间复杂度为o(n)。原因是<strong>存储的对象是离散的，随机访问需要遍历整个链表</strong></li>
+  <li>增删复杂度：在已经定位到要增删元素的位置的情况下，增删元素能在常数时间内完成，即O(1) 。可以<strong>不分配必须的内存大小方便的进行添加和删除</strong>操作。</li>
+  <li>当要存储的是大型负责<strong>类对象</strong>时，list要优于vector。</li>
+  <li>
+    <p>list 容器不支持根据下标随机存取元素。<strong>不支持[ ]操作符和vector.at()</strong>。</p>
+
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_14.jpg" alt="" /></p>
+  </li>
+</ul>
+
+<h5 id="map">map</h5>
+
+<ul>
+  <li>map的本质其实就是映射，键值（key-value）一一对应。</li>
+  <li>map的实现是一颗<strong>红黑树</strong>，因此，map的内部键的数据都是排好序的，查找和删除、插入的效率都是n(logn)。</li>
+  <li>multimap 允许一个键对应多个值；而map则是一个键对应一个值。</li>
+</ul>
+
+<h5 id="set">set</h5>
+
+<ul>
+  <li>所得元素的<strong>只有key没有value，value就是key</strong>。不允许键值的重复，即在set中<strong>每个元素的值都唯一</strong>。</li>
+  <li>set的实现是一颗<strong>红黑树</strong>，因此，set的内部键的数据都是排好序的，查找和删除、插入的效率都是n(logn)。</li>
+  <li><strong>set不能通过迭代器修改set元素值</strong>，其原因是set的值就是键。</li>
+</ul>
+
+<h4 id="32-虚函数">3.2 虚函数</h4>
+
+<h5 id="虚函数使用条件">虚函数使用条件</h5>
+
+<p>​	当基类指针指向一个子类对象，通过这个指针调用子类和基类<strong>同名成员函数</strong>的时候，基类声明为虚函数「子类不写也可以」就会调子类的这个函数，不声明就会调用基类的。关键字：<strong>virtual</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_15.jpg" alt="" /></p>
+
+<h5 id="构造和析构可以是虚函数么">构造和析构可以是虚函数么</h5>
+
+<p>​	<strong>构造不能为虚函数</strong>：如果构造函数是虚函数，那么就需要通过<strong>vtable（虚函数指针表）</strong> 来调用，但此时面对一块 raw memeory，到哪里去找 <strong>vtable</strong> 呢？毕竟，<strong>vtable</strong> 是在构造函数中才初始化的啊，而不是在其之前。因此构造函数不能为虚函数。</p>
+
+<p>​	<strong>析构为虚函数</strong>：此时 vtable 已经初始化了；况且我们通常通过<strong>基类的指针来销毁对象</strong>，如果析构函数不为虚的话，就不能正确识别对象类型，从而不能正确销毁对象。</p>
+
+<h5 id="虚函数可以是内联函数inline么">虚函数可以是内联函数(inline)么</h5>
+
+<ul>
+  <li>
+    <p>内联函数：由于函数调用耗时长，因此<strong>在编译时将所调用的函数的代码直接嵌入到主调函数中</strong>，可以理解为<strong>内联函数体代码直接替换了调用函数这行代码</strong>。</p>
+  </li>
+  <li>虚函数可以是内联函数，内联是可以修饰虚函数的，但是当虚函数表现多态性的时候不能内联。</li>
+  <li>内联是在编译器建议编译器内联，而虚函数的多态性在运行期，编译器无法知道运行期调用哪个代码，因此虚函数表现为多态性时（运行期）不可以内联。</li>
+</ul>
+
+<h4 id="33-继承和多态">3.3 继承和多态</h4>
+
+<p>C++有其三大特性：<strong>封装、继承和多态</strong>。</p>
+
+<h5 id="继承">继承</h5>
+
+<p>​	以让某个类型的对象，获得另一种类型对象属性的方法。实际上就是类与类之间可以共用代码，实现代码重用。可以理解为子类继承父类的方法。</p>
+
+<p>​	例子：父类为Animal，其仅有2个成员函数，分别为bark()和eat()。子类为Dog，继承了父类的bark()和eat()，同时它还有自己的另一个方法run()。</p>
+
+<h5 id="多态">多态</h5>
+
+<p>​	多种形态，指一个类实例的相同方法在不同情况下有不同表现形式。</p>
+
+<p>​	即子类可以重写父类的某个函数，从而为这个函数提供不同于父类的行为。<strong>一个父类的多个子类可以为同一个函数提供不同的实现</strong>，从而在父类这个公共的接口下，表现出多种行为。</p>
+
+<p>​	例子：父类为Animal，其仅有2个成员函数，分别为bark()和eat()。子类为Dog，Cat，Snake，对于同一个方法bark()而言，不同的子类存在不同的喊叫方式，即为多态。</p>
+
+<h5 id="区别">区别</h5>
+
+<ul>
+  <li>多态的实现要求必须是共有继承。</li>
+  <li>继承关系中，并不要求基类方法一定是虚函数。而多态时，要求基类方法必须是虚函数。</li>
+  <li>多态：子类重写父类的方法，使得子类具有不同的实现。且运行时，根据实际创建的对象动态决定使用哪个方法。</li>
+</ul>
+
+<h3 id="四-数据结构和算法">四. 数据结构和算法</h3>
+
+<h4 id="41-排序算法">4.1 排序算法</h4>
+
+<p>排序算法可以分为两大类：</p>
+
+<ul>
+  <li><strong>比较类排序</strong>：通过比较来决定元素间的相对次序，由于其时间复杂度不能突破O(nlogn)，因此也称为非线性时间比较类排序。这里比如冒泡、插入、快排、归并、堆排序等。</li>
+  <li><strong>非比较类排序</strong>：不通过比较来决定元素间的相对次序，它可以突破基于比较排序的时间下界，以线性时间运行，因此也称为线性时间非比较类排序。 这里比如计数排序和位图排序。</li>
+</ul>
+
+<h5 id="算法复杂度">算法复杂度</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>排序方法</strong></th>
+      <th><strong>时间复杂度（平均）</strong></th>
+      <th><strong>时间复杂度（最坏）</strong></th>
+      <th><strong>时间复杂度（最好）</strong></th>
+      <th><strong>空间复杂度</strong></th>
+      <th><strong>稳定性</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>冒泡排序</strong></td>
+      <td><img src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
+      <td>稳定</td>
+    </tr>
+    <tr>
+      <td><strong>插入排序</strong></td>
+      <td><img src="https://i.loli.net/2021/11/07/DLuPJ4IwE1Q9HNr.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/DLuPJ4IwE1Q9HNr.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/miW3p9T164cCOaR.png" alt="" /></td>
+      <td>稳定</td>
+    </tr>
+    <tr>
+      <td><strong>快速排序</strong></td>
+      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td>不稳定</td>
+    </tr>
+    <tr>
+      <td><strong>归并排序</strong></td>
+      <td><img src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td>稳定</td>
+    </tr>
+    <tr>
+      <td><strong>堆排序</strong></td>
+      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
+      <td>不稳定</td>
+    </tr>
+    <tr>
+      <td><strong>计数排序</strong></td>
+      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td>稳定</td>
+    </tr>
+    <tr>
+      <td><strong>位图排序</strong></td>
+      <td><img src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
+      <td><img src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
+      <td>稳定</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="冒泡排序-bubble-sort">冒泡排序 Bubble sort</h5>
+
+<p>​	它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。</p>
+
+<p>算法步骤：</p>
+
+<ul>
+  <li>比较相邻的元素。如果第一个比第二个大，就交换它们两个；</li>
+  <li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对，这样在最后的元素应该会是最大的数；</li>
+  <li>针对所有的元素重复以上的步骤，除了最后一个；</li>
+  <li>重复步骤1~3，直到排序完成。</li>
+</ul>
+
+<h5 id="插入排序-insertion-sort">插入排序 Insertion Sort</h5>
+
+<p>​	它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</p>
+
+<p>算法步骤：</p>
+
+<ul>
+  <li>从第一个元素开始，该元素可以认为已经被排序；</li>
+  <li>取出下一个元素，在已经排序的元素序列中从后向前扫描；</li>
+  <li>如果该元素（已排序）大于新元素，将该元素移到下一位置；</li>
+  <li>重复步骤3，直到找到已排序的元素小于或者等于新元素的位置；</li>
+  <li>将新元素插入到该位置后；</li>
+  <li>重复步骤2~5。</li>
+</ul>
+
+<h5 id="快速排序-quick-sort">快速排序 Quick Sort</h5>
+
+<p>​	通过一趟排序将待排记录分隔成独立的两部分，其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。快速排序使用<strong>分治法</strong>来把一个串（list）分为两个子串（sub-lists）。</p>
+
+<p>算法步骤：</p>
+
+<ul>
+  <li>从数列中挑出一个元素，称为 “基准”（pivot）；</li>
+  <li>重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作；</li>
+  <li>递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。</li>
+</ul>
+
+<h5 id="归并排序-merge-sort">归并排序 Merge Sort</h5>
+
+<p>​	该算法是采用<strong>分治法</strong>（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为2-路归并。</p>
+
+<p>算法步骤：</p>
+
+<ul>
+  <li>把长度为n的输入序列分成两个长度为n/2的子序列；</li>
+  <li>对这两个子序列分别采用归并排序；</li>
+  <li>将两个排序好的子序列合并成一个最终的排序序列。</li>
+</ul>
+
+<h5 id="堆排序-heap-sort">堆排序 Heap Sort</h5>
+
+<p>​	利用堆这种数据结构所设计的一种排序算法。堆积是一个近似完全二叉树的结构，并同时满足堆积的性质：即子结点的键值或索引总是小于（或者大于）它的父节点，大顶堆和小顶堆。</p>
+
+<p>算法步骤：</p>
+
+<ul>
+  <li>将初始待排序关键字序列(R1,R2….Rn)构建成大顶堆，此堆为初始的无序区；</li>
+  <li>将堆顶元素R[1]与最后一个元素R[n]交换，此时得到新的无序区(R1,R2,……Rn-1)和新的有序区(Rn),且满足R[1,2…n-1]&lt;=R[n]；</li>
+  <li>由于交换后新的堆顶R[1]可能违反堆的性质，因此需要对当前无序区(R1,R2,……Rn-1)调整为新堆，然后再次将R[1]与无序区最后一个元素交换，得到新的无序区(R1,R2….Rn-2)和新的有序区(Rn-1,Rn)。不断重复此过程直到有序区的元素个数为n-1，则整个排序过程完成。</li>
+</ul>
+
+<h5 id="计数排序-counting-sort">计数排序 Counting Sort</h5>
+
+<p>​	计数排序不是基于比较的排序算法，其核心在于将输入的数据值转化为键存储在额外开辟的数组空间中。 作为一种线性时间复杂度的排序，计数排序要求输入的数据必须是有确定范围的整数。</p>
+
+<p>算法步骤：</p>
+
+<ul>
+  <li>找出待排序的数组中最大和最小的元素；</li>
+  <li>统计数组中每个值为i的元素出现的次数，存入数组C的第i项；</li>
+  <li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）；</li>
+  <li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1。</li>
+</ul>
+
+<h5 id="位图排序-bitmap-sort">位图排序 Bitmap Sort</h5>
+
+<p>​	位图排序是一种效率极高(复杂度可达O(n))并且很节省空间的一种排序方法，但是这种排序方法对输入的数据是有比较严格的要求(<strong>数据不能重复，大致知道数据的范围</strong>)。 位图排序即利用位图或者位向量来表示集合。</p>
+
+<p><strong>参考的面试题</strong>：40亿个QQ号码，如果使用O(1)的时间复杂度去查找一个QQ号是否存在。</p>
+
+<p>算法步骤：</p>
+
+<ul>
+  <li>根据待排序集合中最大的数，开辟一个位数组，用来表示待排序集合中的整数。</li>
+  <li>待排序集合中的数字在位数组中的对应位置置1，其他的置0。</li>
+  <li>将对应序号的整数放置到位对应的index上，并在每个对应的位上置位1.</li>
+  <li>检验每一位，如果该位位1，输出对应的整数。</li>
+</ul>
+
+<h4 id="42-红黑树">4.2 红黑树</h4>
+
+<h5 id="二叉查找树bst">二叉查找树(BST)</h5>
+
+<p>特性：</p>
+
+<ul>
+  <li>
+    <p><strong>左</strong>子树上所有结点的值均<strong>小于或等于</strong>它的根结点的值。</p>
+  </li>
+  <li>
+    <p><strong>右</strong>子树上所有结点的值均<strong>大于或等于</strong>它的根结点的值。</p>
+  </li>
+  <li>
+    <p>左、右子树也分别为二叉排序树。</p>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_16.jpg" alt="" /></p>
+
+<p>根据二分查找的思想，查找的最大次数等同于树的高度。但是二叉查找树有其自身的缺陷：在多次出入新的节点后可能会出现不平衡现象，如下图。</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_17.jpg" alt="" /></p>
+
+<h5 id="红黑树rbt">红黑树（RBT）</h5>
+
+<p>红黑树是一种<strong>自平衡</strong>的<strong>二叉查找树</strong>。其除了具有二查找树的特性外，还具有以下特性：</p>
+
+<ul>
+  <li>节点是红色或黑色。</li>
+  <li>根节点是黑色。</li>
+  <li>每个叶子节点都是黑色的空节点（NIL节点）。</li>
+  <li>每个红色节点的两个子节点都是黑色。(从每个叶子到根的所有路径上不能有两个连续的红色节点)</li>
+  <li>从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。</li>
+</ul>
+
+<p>如下图插入一个14的新节点。</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_18.jpg" alt="" /></p>
+
+<p>红黑树实现自平衡的三种操作：</p>
+
+<ul>
+  <li>
+    <p>左旋：<strong>逆时针</strong>旋转红黑树的两个节点，使得父节点被自己的右孩子取代，而自己成为自己的左孩子。</p>
+
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_19.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p>右旋：<strong>顺时针</strong>旋转红黑树的两个节点，使得父节点被自己的左孩子取代，而自己成为自己的右孩子。</p>
+
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_20.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p>变色</p>
+  </li>
+</ul>
+
+<h4 id="43-回溯算法">4.3 回溯算法</h4>
+
+<h5 id="递归实现-伪代码">递归实现-伪代码</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>算法 ReBack(k)
+if k&gt;n:
+	then &lt;x1,x2...xn&gt;是解
+else:
+	while S_k != 空集 do
+		找到S_k中的最小值x_k
+		S_k = S_k - {x_k}
+		计算S_k+1
+		ReBack(k+1)
+</code></pre></div></div>
+
+<h5 id="迭代实现-伪代码">迭代实现-伪代码</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>迭代算法 Backtrack
+输入：n
+输出：所有的解
+
+1. 对于i=1,2,...n 确定x_i # 确定初始值
+2. k = 1
+3. 计算S_k
+4. while S_k != 空集 do # 满足约束分支搜索
+		找到S_k中的最小值x_k
+		S_k = S_k - {x_k}
+		if k &lt; n then
+			k = k+1
+			计算S_k
+		else
+			&lt;x1,x2...xn&gt;是解
+5. if k&gt;1 then k = k-1 ; goto4 # 回溯
+</code></pre></div></div>
+
+<h5 id="四后问题">四后问题</h5>
+
+<blockquote>
+  <p><strong>问题描述</strong>：在4 * 4 的方格棋盘中放置4个皇后，使得没有2个皇后在同一行、同一列、也不在45°的斜线上。问有多少种可能的布局？</p>
+</blockquote>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_21.jpg" alt="" /></p>
+
+<p><strong>解</strong>是4维向量&lt;x_1,x_2,x_3,x_4&gt;，解为：&lt;2,4,1,3&gt;，&lt;3,1,4,2&gt;</p>
+
+<p>其<strong>搜索空间</strong>是一个<strong>4叉树</strong>，如下图。</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_22.jpg" alt="" /></p>
+
+<ul>
+  <li>每个结点有4个儿子，分别代表1，2，3，4列位置。</li>
+  <li>第 i 层选择解向量中第 i 个分量的值</li>
+  <li>最深层的树叶是解。</li>
+  <li>按深度优先次序便利树，找到所有的解。</li>
+</ul>
+
+<h5 id="0-1背包问题">0-1背包问题</h5>
+
+<blockquote>
+  <p><strong>问题描述</strong>：有n种物品，每种物品只有1个。第 i 种物品价值为v_i，重量位w_i，i = 1,2,…,n。问如何选择放入背包的物品，使得总重量不超过B，而价值达到最大？</p>
+</blockquote>
+
+<p><strong>解</strong>：n维 0-1 向量&lt;x_1,x_2,…x_n&gt;</p>
+
+<p><strong>节点</strong>：&lt;x_1,x_2,…x_k&gt;</p>
+
+<p><strong>搜索空间</strong>： 0-1 取值的<strong>二叉树</strong>，称为子集树，有2^n 片树叶。</p>
+
+<p><strong>可行解</strong>：满足约束条件
+\(\sum_{i=1}^{n} w_{i} x_{i} \leq B\)
+<strong>最优解</strong>：可行解中价值达到最大的解</p>
+
+<p>实例：V = {12,11,9,8}，W = {8,6,4,3},B = 13</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_23.jpg" alt="" /></p>
+
+<h5 id="货郎问题">货郎问题</h5>
+
+<blockquote>
+  <p><strong>问题描述</strong>：有n个城市，已知任两个城市之间的距离，求一条每个城市恰好经过一次的回路，使得总长度最小。</p>
+</blockquote>
+
+<p>实例：City = {1,2,3,4},d(1,2) = 5,d(1,3) = 9,d(1,4) = 4,d(2,3) = 13,d(2,4) = 2,d(3,4) = 7。</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_24.jpg" alt="" /></p>
+
+<p><strong>解</strong>：&lt;1,2,4,3&gt; 长度 = 5 + 2 + 7 + 9 = 23</p>
+
+<p><strong>搜索空间</strong>：<strong>排列树</strong>，每层有 (n-1)! 片树叶</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/interv_25.jpg" alt="" /></p>
+
+</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-12-13T05:11:00+08:00"><!-- start custom article footer snippet -->
+
+<!-- end custom article footer snippet -->
+</footer>
+<div class="article__section-navigator clearfix"><div class="previous"><span>上篇</span><a href="/2021/08/25/JetsonXavierNX%E7%9A%84%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95.html">Jetson Xavier NX 的使用记录</a></div><div class="next"><span>下篇</span><a href="/2022/01/20/Git%E5%91%BD%E4%BB%A4.html">Git命令学习</a></div></div></div>
+
+</div>
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
+
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor d-print-none" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();
+</script>
+</div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
+
+<!-- end custom main bottom snippet -->
+</div>
+            </div></div></div><div class="page__footer d-print-none">
+<footer class="footer py-4 js-page-footer">
+  <div class="main"><div itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李小肥"><meta itemprop="url" content="/"><meta itemprop="description" content="专注于机器学习、深度学习、NLP 和 CV，目前主语言为 python 和 C++。"><div class="footer__author-links"><div class="author-links">
+  <ul class="menu menu--nowrap menu--inline"><li title="给我发邮件。">
+      <a class="button button--circle mail-button" itemprop="email" href="mailto:yeyansiwangtt@gmail.com" target="_blank">
+        <i class="fas fa-envelope"></i>
+      </a><li title="在 Zhihu 上关注我。">
+        <a class="button button--circle zhihu-button" itemprop="sameAs" href="https://www.zhihu.com/people/xie-yan-44-84-33" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z" p-id="907"></path><path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z" />
+</svg>
+</div>
+        </a>
+      </li><li title="在 微信公众号「凡人炼丹传」 上关注我。">
+        <a class="button button--circle weixin-button" itemprop="sameAs" href="https://mp.weixin.qq.com/s/HWD2ni4WXaNkswg5NQHW7w" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M684.111464 364.088889c10.47478 0 20.949559 0.722399 31.424339 1.805996-28.173545-131.476543-168.680071-229.000353-329.052557-229.000353-179.15485 0-326.162963 122.085362-326.162963 277.401058 0 89.577425 48.761905 163.262081 130.392945 220.33157l-32.507937 98.246208L272.344268 675.442681c40.81552 7.946384 73.684656 16.253968 114.138977 16.253968 10.11358 0 20.22716-0.361199 30.340741-1.444797-6.501587-21.671958-10.11358-44.788713-10.11358-68.266667C406.710406 479.672663 529.156966 364.088889 684.111464 364.088889zM508.568607 275.595062c24.561552 0 40.81552 16.253968 40.81552 40.81552 0 24.561552-16.253968 40.81552-40.81552 40.81552-24.561552 0-49.123104-16.253968-49.123104-40.81552C459.806702 291.84903 484.368254 275.595062 508.568607 275.595062zM280.290653 357.226102c-24.561552 0-49.123104-16.253968-49.123104-40.81552 0-24.561552 24.561552-40.81552 49.123104-40.81552 24.561552 0 40.81552 16.253968 40.81552 40.81552C321.106173 340.610935 304.852205 357.226102 280.290653 357.226102z" p-id="792"></path><path d="M981.739683 618.373192c0-130.392945-130.392945-236.585538-277.039859-236.585538-155.315697 0-277.401058 106.192593-277.401058 236.585538 0 130.754145 122.085362 236.585538 277.401058 236.585538 32.507937 0 65.377072-8.307584 97.885009-16.253968l89.577425 49.123104-24.561552-81.631041C932.977778 757.073721 981.739683 691.696649 981.739683 618.373192zM614.761199 577.557672c-16.253968 0-32.507937-16.253968-32.507937-32.507937 0-16.253968 16.253968-32.507937 32.507937-32.507937 24.561552 0 40.81552 16.253968 40.81552 32.507937C655.57672 561.303704 639.322751 577.557672 614.761199 577.557672zM794.277249 577.557672c-16.253968 0-32.507937-16.253968-32.507937-32.507937 0-16.253968 16.253968-32.507937 32.507937-32.507937 24.561552 0 40.81552 16.253968 40.81552 32.507937C835.092769 561.303704 818.477601 577.557672 794.277249 577.557672z" />
+</svg>
+</div>
+        </a>
+      </li><li title="在 Github 上关注我。">
+        <a class="button button--circle github-button" itemprop="sameAs" href="https://github.com/yy2lyx" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path class="svgpath" data-index="path_0" fill="#272636" d="M0 525.2c0 223.6 143.3 413.7 343 483.5 26.9 6.8 22.8-12.4 22.8-25.4l0-88.7c-155.3 18.2-161.5-84.6-172-101.7-21.1-36-70.8-45.2-56-62.3 35.4-18.2 71.4 4.6 113.1 66.3 30.2 44.7 89.1 37.2 119 29.7 6.5-26.9 20.5-50.9 39.7-69.6C248.8 728.2 181.7 630 181.7 513.2c0-56.6 18.7-108.7 55.3-150.7-23.3-69.3 2.2-128.5 5.6-137.3 66.5-6 135.5 47.6 140.9 51.8 37.8-10.2 80.9-15.6 129.1-15.6 48.5 0 91.8 5.6 129.8 15.9 12.9-9.8 77-55.8 138.8-50.2 3.3 8.8 28.2 66.7 6.3 135 37.1 42.1 56 94.6 56 151.4 0 117-67.5 215.3-228.8 243.7 26.9 26.6 43.6 63.4 43.6 104.2l0 128.8c0.9 10.3 0 20.5 17.2 20.5C878.1 942.4 1024 750.9 1024 525.3c0-282.9-229.3-512-512-512C229.1 13.2 0 242.3 0 525.2L0 525.2z" />
+</svg>
+</div>
+        </a>
+      </li></ul>
+</div>
+</div>
+    </div><div class="site-info mt-2">
+      <div>© 凡人炼丹传 2026,
+        保留所有权利。
+      </div>
+    </div>
+  </div>
+</footer>
+</div></div>
+    </div><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $body = $('body'), $window = $(window);
+    var $pageRoot = $('.js-page-root'), $pageMain = $('.js-page-main');
+    var activeCount = 0;
+    function modal(options) {
+      var $root = this, visible, onChange, hideWhenWindowScroll = false;
+      var scrollTop;
+      function setOptions(options) {
+        var _options = options || {};
+        visible = _options.initialVisible === undefined ? false : show;
+        onChange = _options.onChange;
+        hideWhenWindowScroll = _options.hideWhenWindowScroll;
+      }
+      function init() {
+        setState(visible);
+      }
+      function setState(isShow) {
+        if (isShow === visible) {
+          return;
+        }
+        visible = isShow;
+        if (visible) {
+          activeCount++;
+          scrollTop = $(window).scrollTop() || $pageMain.scrollTop();
+          $root.addClass('modal--show');
+          $pageMain.scrollTop(scrollTop);
+          activeCount === 1 && ($pageRoot.addClass('show-modal'), $body.addClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.on('scroll', hide);
+          $window.on('keyup', handleKeyup);
+        } else {
+          activeCount > 0 && activeCount--;
+          $root.removeClass('modal--show');
+          $window.scrollTop(scrollTop);
+          activeCount === 0 && ($pageRoot.removeClass('show-modal'), $body.removeClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.off('scroll', hide);
+          $window.off('keyup', handleKeyup);
+        }
+        onChange && onChange(visible);
+      }
+      function show() {
+        setState(true);
+      }
+      function hide() {
+        setState(false);
+      }
+      function handleKeyup(e) {
+        // Char Code: 27  ESC
+        if (e.which ===  27) {
+          hide();
+        }
+      }
+      setOptions(options);
+      init();
+      return {
+        show: show,
+        hide: hide,
+        $el: $root
+      };
+    }
+    $.fn.modal = modal;
+  });
+})();
+</script><div class="modal modal--overflow page__search-modal d-print-none js-page-search-modal"><script>
+(function () {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    // search panel
+    var search = (window.search || (window.search = {}));
+    var useDefaultSearchBox = window.useDefaultSearchBox === undefined ?
+      true : window.useDefaultSearchBox ;
+
+    var $searchModal = $('.js-page-search-modal');
+    var $searchToggle = $('.js-search-toggle');
+    var searchModal = $searchModal.modal({ onChange: handleModalChange, hideWhenWindowScroll: true });
+    var modalVisible = false;
+    search.searchModal = searchModal;
+
+    var $searchBox = null;
+    var $searchInput = null;
+    var $searchClear;
+
+    function getModalVisible() {
+      return modalVisible;
+    }
+    search.getModalVisible = getModalVisible;
+
+    function handleModalChange(visible) {
+      modalVisible = visible;
+      if (visible) {
+        search.onShow && search.onShow();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].focus();
+      } else {
+        search.onShow && search.onHide();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].blur();
+        setTimeout(function() {
+          useDefaultSearchBox && ($searchInput.val(''), $searchBox.removeClass('not-empty'));
+          search.clear && search.clear();
+          window.pageAsideAffix && window.pageAsideAffix.refresh();
+        }, 400);
+      }
+    }
+
+    $searchToggle.on('click', function() {
+      modalVisible ? searchModal.hide() : searchModal.show();
+    });
+    // Char Code: 83  S, 191 /
+    $(window).on('keyup', function(e) {
+      if (!modalVisible && !window.isFormElement(e.target || e.srcElement) && (e.which === 83 || e.which === 191)) {
+        modalVisible || searchModal.show();
+      }
+    });
+
+    if (useDefaultSearchBox) {
+      $searchBox = $('.js-search-box');
+      $searchInput = $searchBox.children('input');
+      $searchClear = $searchBox.children('.js-icon-clear');
+      search.getSearchInput = function() {
+        return $searchInput.get(0);
+      };
+      search.getVal = function() {
+        return $searchInput.val();
+      };
+      search.setVal = function(val) {
+        $searchInput.val(val);
+      };
+
+      $searchInput.on('focus', function() {
+        $(this).addClass('focus');
+      });
+      $searchInput.on('blur', function() {
+        $(this).removeClass('focus');
+      });
+      $searchInput.on('input', window.throttle(function() {
+        var val = $(this).val();
+        if (val === '' || typeof val !== 'string') {
+          search.clear && search.clear();
+        } else {
+          $searchBox.addClass('not-empty');
+          search.onInputNotEmpty && search.onInputNotEmpty(val);
+        }
+      }, 400));
+      $searchClear.on('click', function() {
+        $searchInput.val(''); $searchBox.removeClass('not-empty');
+        search.clear && search.clear();
+      });
+    }
+  });
+})();
+</script><div class="search search--dark">
+  <div class="main">
+    <div class="search__header">搜索</div>
+    <div class="search-bar">
+      <div class="search-box js-search-box">
+        <div class="search-box__icon-search"><i class="fas fa-search"></i></div>
+        <input type="text" />
+        <div class="search-box__icon-clear js-icon-clear">
+          <a><i class="fas fa-times"></i></a>
+        </div>
+      </div>
+      <button class="button button--theme-dark button--pill search__cancel js-search-toggle">
+        取消</button>
+    </div>
+    <div class="search-result js-search-result"></div>
+  </div>
+</div>
+<script>var SOURCES = window.TEXT_VARIABLES.sources;
+var PAHTS = window.TEXT_VARIABLES.paths;
+window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
+  var search = (window.search || (window.search = {}));
+  var searchData = window.TEXT_SEARCH_DATA || {};
+
+  function memorize(f) {
+    var cache = {};
+    return function () {
+      var key = Array.prototype.join.call(arguments, ',');
+      if (key in cache) return cache[key];
+      else return cache[key] = f.apply(this, arguments);
+    };
+  }
+
+  /// search
+  function searchByQuery(query) {
+    var i, j, key, keys, cur, _title, result = {};
+    keys = Object.keys(searchData);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      for (j = 0; j < searchData[key].length; j++) {
+        cur = searchData[key][j], _title = cur.title;
+        if ((result[key] === undefined || result[key] && result[key].length < 4 )
+          && _title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+          if (result[key] === undefined) {
+            result[key] = [];
+          }
+          result[key].push(cur);
+        }
+      }
+    }
+    return result;
+  }
+
+  var renderHeader = memorize(function(header) {
+    return $('<p class="search-result__header">' + header + '</p>');
+  });
+
+  var renderItem = function(index, title, url) {
+    return $('<li class="search-result__item" data-index="' + index + '"><a class="button" href="' + url + '">' + title + '</a></li>');
+  };
+
+  function render(data) {
+    if (!data) { return null; }
+    var $root = $('<ul></ul>'), i, j, key, keys, cur, itemIndex = 0;
+    keys = Object.keys(data);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      $root.append(renderHeader(key));
+      for (j = 0; j < data[key].length; j++) {
+        cur = data[key][j];
+        $root.append(renderItem(itemIndex++, cur.title, cur.url));
+      }
+    }
+    return $root;
+  }
+
+  // search box
+  var $result = $('.js-search-result'), $resultItems;
+  var lastActiveIndex, activeIndex;
+
+  function clear() {
+    $result.html(null);
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+  }
+  function onInputNotEmpty(val) {
+    $result.html(render(searchByQuery(val)));
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+    $resultItems.eq(0).addClass('active');
+  }
+
+  search.clear = clear;
+  search.onInputNotEmpty = onInputNotEmpty;
+
+  function updateResultItems() {
+    lastActiveIndex >= 0 && $resultItems.eq(lastActiveIndex).removeClass('active');
+    activeIndex >= 0 && $resultItems.eq(activeIndex).addClass('active');
+  }
+
+  function moveActiveIndex(direction) {
+    var itemsCount = $resultItems ? $resultItems.length : 0;
+    if (itemsCount > 1) {
+      lastActiveIndex = activeIndex;
+      if (direction === 'up') {
+        activeIndex = (activeIndex - 1 + itemsCount) % itemsCount;
+      } else if (direction === 'down') {
+        activeIndex = (activeIndex + 1 + itemsCount) % itemsCount;
+      }
+      updateResultItems();
+    }
+  }
+
+  // Char Code: 13  Enter, 37  ⬅, 38  ⬆, 39  ➡, 40  ⬇
+  $(window).on('keyup', function(e) {
+    var modalVisible = search.getModalVisible && search.getModalVisible();
+    if (modalVisible) {
+      if (e.which === 38) {
+        modalVisible && moveActiveIndex('up');
+      } else if (e.which === 40) {
+        modalVisible && moveActiveIndex('down');
+      } else if (e.which === 13) {
+        modalVisible && $resultItems && activeIndex >= 0 && $resultItems.eq(activeIndex).children('a')[0].click();
+      }
+    }
+  });
+
+  $result.on('mouseover', '.search-result__item > a', function() {
+    var itemIndex = $(this).parent().data('index');
+    itemIndex >= 0 && (lastActiveIndex = activeIndex, activeIndex = itemIndex, updateResultItems());
+  });
+});
+</script>
+</div></div>
+
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function scrollToAnchor(anchor, duration, callback) {
+      var $root = this;
+      $root.animate({ scrollTop: $(anchor).position().top }, duration, function() {
+        window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+        callback && callback();
+      });
+    }
+    $.fn.scrollToAnchor = scrollToAnchor;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function affix(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroll,
+        offsetBottom = 0, scrollTarget = window, scroll = window.document, disabled = false, isOverallScroller = true,
+        rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop,
+        hasInit = false, curState;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroll && (scroll = _options.scroll);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $scrollTarget = $(scrollTarget);
+        isOverallScroller = window.isOverallScroller($scrollTarget[0]);
+        $scroll = $(scroll);
+      }
+      function preCalc() {
+        top();
+        rootHeight = $root.outerHeight();
+        rootTop = $root.offset().top + (isOverallScroller ? 0 :  $scrollTarget.scrollTop());
+        rootLeft = $root.offset().left;
+      }
+      function calc(needPreCalc) {
+        needPreCalc && preCalc();
+        scrollBottom = $scroll.outerHeight() - offsetBottom - rootHeight;
+        rootBottomTop = scrollBottom - rootTop;
+      }
+      function top() {
+        if (curState !== 'top') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: 0
+          });
+          curState = 'top';
+        }
+      }
+      function fixed() {
+        if (curState !== 'fixed') {
+          $root.addClass('fixed').css({
+            left: rootLeft + 'px',
+            top: 0
+          });
+          curState = 'fixed';
+        }
+      }
+      function bottom() {
+        if (curState !== 'bottom') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: rootBottomTop + 'px'
+          });
+          curState = 'bottom';
+        }
+      }
+      function setState() {
+        var scrollTop = $scrollTarget.scrollTop();
+        if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+          fixed();
+        } else if (scrollTop < rootTop) {
+          top();
+        } else {
+          bottom();
+        }
+      }
+      function init() {
+        if(!hasInit) {
+          var interval, timeout;
+          calc(true); setState();
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState();
+          });
+          $window.on('resize', function() {
+            disabled || (calc(true), setState());
+          });
+          hasInit = true;
+        }
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions,
+        refresh: function() {
+          calc(true, { animation: false }); setState();
+        }
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function toc(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroller, $tocUl = $('<ul class="toc toc--ellipsis"></ul>'), $tocLi, $headings, $activeLast, $activeCur,
+        selectors = 'h1,h2,h3', container = 'body', scrollTarget = window, scroller = 'html, body', disabled = false,
+        headingsPos, scrolling = false, hasRendered = false, hasInit = false;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.selectors && (selectors = _options.selectors);
+        _options.container && (container = _options.container);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroller && (scroller = _options.scroller);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $headings = $(container).find(selectors).filter('[id]');
+        $scrollTarget = $(scrollTarget);
+        $scroller = $(scroller);
+      }
+      function calc() {
+        headingsPos = [];
+        $headings.each(function() {
+          headingsPos.push(Math.floor($(this).position().top));
+        });
+      }
+      function setState(element, disabled) {
+        var scrollTop = $scrollTarget.scrollTop(), i;
+        if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+        if (element) {
+          $activeCur = element;
+        } else {
+          for (i = 0; i < headingsPos.length; i++) {
+            if (scrollTop >= headingsPos[i]) {
+              $activeCur = $tocLi.eq(i);
+            } else {
+              $activeCur || ($activeCur = $tocLi.eq(i));
+              break;
+            }
+          }
+        }
+        $activeLast && $activeLast.removeClass('active');
+        ($activeLast = $activeCur).addClass('active');
+      }
+      function render() {
+        if(!hasRendered) {
+          $root.append($tocUl);
+          $headings.each(function() {
+            var $this = $(this);
+            $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName').toLowerCase())
+              .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+          });
+          $tocLi = $tocUl.children('li');
+          $tocUl.on('click', 'a', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            scrolling = true;
+            setState($this.parent());
+            $scroller.scrollToAnchor($this.attr('href'), 400, function() {
+              scrolling = false;
+            });
+          });
+        }
+        hasRendered = true;
+      }
+      function init() {
+        var interval, timeout;
+        if(!hasInit) {
+          render(); calc(); setState(null, scrolling);
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState(null, scrolling);
+          });
+          $window.on('resize', window.throttle(function() {
+            if (!disabled) {
+              render(); calc(); setState(null, scrolling);
+            }
+          }, 100));
+        }
+        hasInit = true;
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.toc = toc;
+  });
+})();
+/*(function () {
+
+})();*/
+</script><script>
+  /* toc must before affix, since affix need to konw toc' height. */(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $articleContent = $('.js-article-content');
+    var $tocRoot = $('.js-toc-root'), $col2 = $('.js-col-aside');
+    var toc;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    tocDisabled = disabled();
+
+    toc = $tocRoot.toc({
+      selectors: TOC_SELECTOR,
+      container: $articleContent,
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $pageFooter = $('.js-page-footer');
+    var $pageAside = $('.js-page-aside');
+    var affix;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+
+    affix = $pageAside.affix({
+      offsetBottom: $pageFooter.outerHeight(),
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      scroll: hasSidebar ? $('.js-page-main').children() : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+    window.pageAsideAffix = affix;
+  });
+})();
+</script>
+    </div>
+    <script>(function () {
+  var $root = document.getElementsByClassName('root')[0];
+  if (window.hasEvent('touchstart')) {
+    $root.dataset.isTouch = true;
+    document.addEventListener('touchstart', function(){}, false);
+  }
+})();
+</script>
+  </body>
+</html>
+

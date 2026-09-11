@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/tools.png
-navigation: True
-title: Function call、MCP、SKILL下哪个才是大模型的最优解
+layout: article
+title: "Function call、MCP、SKILL下哪个才是大模型的最优解"
 date: 2026-05-19 00:00:00
 tags: [NLP,DeepLearning]
-excerpt: 大模型的工具对比
-class: post-template
-subclass: 'post'
+excerpt: "大模型的工具对比"
+cover: assets/images/tools.png
+article_header:
+  type: cover
+  image:
+    src: assets/images/tools.png
+key: post-2026-05-19-function-call-mcp-skill
 ---
 
 ### 一. Function Call和MCP

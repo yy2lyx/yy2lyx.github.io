@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/pointcloud.png
-navigation: True
-title: windows下安装python-pcl
+layout: article
+title: "windows下安装python-pcl"
 date: 2021-4-10 10:21:00
 tags: [ComputerVision,PCL]
-excerpt: 介绍如何在win10下安装python版本的PCL点云库
-class: post-template
-subclass: 'post'
+excerpt: "介绍如何在win10下安装python版本的PCL点云库"
+cover: assets/images/pointcloud.png
+article_header:
+  type: cover
+  image:
+    src: assets/images/pointcloud.png
+key: post-2021-4-10-windows-pcl
 ---
 
 ### 一. 准备工作

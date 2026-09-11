@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/nuitka.jpeg
-navigation: True
-title: python的打包神器——Nuitka
+layout: article
+title: "python的打包神器——Nuitka"
 date: 2021-8-10 15:11:00
 tags: [python]
-excerpt: 对比pyinstaller和nuitka打包工具及nuitka的使用过程
-class: post-template
-subclass: 'post'
+excerpt: "对比pyinstaller和nuitka打包工具及nuitka的使用过程"
+cover: assets/images/nuitka.jpeg
+article_header:
+  type: cover
+  image:
+    src: assets/images/nuitka.jpeg
+key: post-2021-8-10-python-nuitka
 ---
 
 

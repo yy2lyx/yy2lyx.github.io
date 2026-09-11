@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/mrcnn.jpg
-navigation: True
-title: Mask_RCNN在TF2下跑通自己的数据集
+layout: article
+title: "Mask_RCNN在TF2下跑通自己的数据集"
 date: 2021-7-26 12:11:00
 tags: [ComputerVision,DeepLearning]
-excerpt: 讲述Mask RCNN在tensorflow2.x下如何跑通自己的数据集
-class: post-template
-subclass: 'post'
+excerpt: "讲述Mask RCNN在tensorflow2.x下如何跑通自己的数据集"
+cover: assets/images/mrcnn.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/mrcnn.jpg
+key: post-2021-7-26-mask-rcnn-tf2
 ---
 
 

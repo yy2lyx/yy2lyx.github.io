@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/raft.jpg
-navigation: True
-title: 大模型基于检索增强的微调-RAFT
+layout: article
+title: "大模型基于检索增强的微调-RAFT"
 date: 2025-11-27 00:00:00
 tags: [NLP,DeepLearning]
-excerpt: 记录学习大模型的RAFT
-class: post-template
-subclass: 'post'
+excerpt: "记录学习大模型的RAFT"
+cover: assets/images/raft.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/raft.jpg
+key: post-2025-11-27--unsloth-raft
 ---
 
 

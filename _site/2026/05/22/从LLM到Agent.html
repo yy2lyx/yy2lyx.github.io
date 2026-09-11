@@ -1,0 +1,1405 @@
+<!DOCTYPE html><html lang="zh-Hans">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>从 LLM 到 Agent：原理、架构与协作模式全景 - 凡人炼丹传</title>
+
+<meta name="description" content="讲述agent的原理、架构与协作模式全景">
+<link rel="canonical" href="http://localhost:4001/2026/05/22/%E4%BB%8ELLM%E5%88%B0Agent.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico">
+
+<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+
+<meta name="theme-color" content="#ffffff">
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+
+<!-- end custom head snippets -->
+<script>(function() {
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.isOverallScroller = function(node) {
+    return node === document.documentElement || node === document.body || node === window;
+  };
+
+  window.isFormElement = function(node) {
+    var tagName = node.tagName;
+    return tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA';
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i;
+      loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cbs[i]();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();
+(function() {
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+})();
+(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (Object.prototype.hasOwnProperty.call(attrs, attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+})();
+</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      version: '2.2.6',
+      sources: {
+        font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      },
+      paths: {
+        search_js: '/assets/search.js'
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script>
+</head>
+  <body>
+    <div class="root" data-is-touch="false">
+      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport has-aside cell cell--auto">
+
+      <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
+      <div class="header__title">
+        <div class="header__brand"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24">
+<style type="text/css">
+	.st0{fill:#515151;}
+</style>
+<path class="st0" d="M1.7,22.3c5.7-5.7,11.3-5.7,17,0c3.3-3.3,3.5-5.3,0.8-6c2.7,0.7,3.5-1.1,2.3-5.6s-3.3-5.2-6.3-2.1
+	c3-3,2.3-5.2-2.1-6.3S7,1.8,7.7,4.6C7,1.8,5,2.1,1.7,5.3C7.3,11,7.3,16.7,1.7,22.3"/>
+</svg>
+<a title="欢迎各位看官光临本小站，希望共同学习进步哈！
+" href="/">凡人炼丹传</a></div><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></div><nav class="navigation">
+        <ul><li class="navigation__item"><a href="/">首页</a></li><li class="navigation__item"><a href="/archive.html">归档</a></li><li class="navigation__item"><a href="/samples.html">预览</a></li><li class="navigation__item"><a href="/about.html">关于</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
+      </nav></div>
+  </header>
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/harness.png" /><div class ="main"><div class="grid grid--reverse">
+
+              <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
+</aside></div>
+
+              <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
+
+<!-- end custom main top snippet -->
+<article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>从 LLM 到 Agent：原理、架构与协作模式全景</h1></header><span class="split-space">&nbsp;</span>
+          <a class="edit-on-github"
+            title="在 Github 上修改"
+            href="https://github.com/yy2lyx/yy2lyx.github.io/tree/master/_posts/2026-05-22-从LLM到Agent.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="从 LLM 到 Agent：原理、架构与协作模式全景"><div class="article__info clearfix"><ul class="left-col menu"><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=NLP">NLP</a>
+            </li><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=DeepLearning">DeepLearning</a>
+            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>2026年 05月22日</span>
+            </li></ul></div><meta itemprop="author" content="李小肥"/><meta itemprop="datePublished" content="2026-05-22T08:00:00+08:00">
+    <meta itemprop="keywords" content="NLP,DeepLearning"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
+
+<!-- end custom article top snippet -->
+<div class="article__content" itemprop="articleBody"><h3 id="一-agent的由来">一. Agent的由来</h3>
+
+<h4 id="11-什么是agent">1.1 什么是Agent</h4>
+
+<p>这里使用Claude Code作为例子来解释Agent到底是什么</p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/claudcode.png" alt="claudcode" /></p>
+
+<p>我们可以将Claude Code当作为一个Coding Agent：</p>
+
+<ul>
+  <li>没有Coding Agent：LLM模型没有相关的权限和工具来解决用户提出的问题</li>
+  <li>有Coding Agent：
+    <ul>
+      <li><strong>用户提问</strong>：直接问 “garden.jpg 里有几朵花？”</li>
+      <li>Claude Code 自动调用工具：
+        <ul>
+          <li>用 <code class="language-plaintext highlighter-rouge">read file</code> 工具读取本地图片文件，获取文件内容</li>
+          <li>将图片内容传给 Claude Opus，进行视觉分析。如果这里是其他复杂任务，这里Coding Agent才会自动生成并运行脚本</li>
+          <li>Claude Opus 分析后，直接返回 “找到了 5 朵花”</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>因此，Agent具备<strong>三要素</strong>：</p>
+
+<ul>
+  <li>Prompts：
+    <ul>
+      <li>角色是什么</li>
+      <li>能做什么</li>
+      <li>不能做什么</li>
+    </ul>
+  </li>
+  <li>Context Management：
+    <ul>
+      <li>有限的context window</li>
+      <li>对话历史</li>
+      <li>RAG匹配的数据</li>
+    </ul>
+  </li>
+  <li>Tools：
+    <ul>
+      <li>做事的：比如订酒店，输出文档等</li>
+      <li>查询的：查询数据库、天气</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="12-llm为什么需要agentharness">1.2 LLM为什么需要Agent—Harness</h4>
+
+<p>LangChain 团队 “用 LLM+Agent 打败纯 LLM”，最典型、最权威的公开案例是：<strong>在不换底层模型的前提下，通过给 LLM 套上 Agent 框架 + 系统化工程（Harness Engineering），把编码智能体成绩从 52.8% 提升到 66.5%，从榜单 30 名开外打进前 5 名</strong>。</p>
+
+<p>纯LLM有以下天然的<strong>短板（52.8%）</strong>：</p>
+
+<ul>
+  <li><strong>知识截止</strong>：不会查资料，硬编命令，知识也截止到LLM训练的预料时间节点内。</li>
+  <li><strong>幻觉</strong>：没见过的，可能硬生成虚无缥缈的东西。</li>
+  <li><strong>偏离路径</strong>：过于发散，生成的结果可能会飘的很远。</li>
+  <li><strong>没有分步规划</strong>：复杂任务（调试、多文件、环境配置）一步到位，容易崩。</li>
+  <li><strong>无法使用工具</strong>：无法调用其他工具来执行指令。</li>
+</ul>
+
+<p>Langchain团队的<strong>Harness Engineering（66.5%）</strong>：</p>
+
+<ol>
+  <li>强化 System Prompt（给 Agent 一本 “工作手册”）</li>
+</ol>
+
+<ul>
+  <li>明确要求<strong>分步思考、先规划再行动、必须校验结果</strong>。</li>
+  <li>强制格式：每次输出必须包含 <code class="language-plaintext highlighter-rouge">Thought</code>、<code class="language-plaintext highlighter-rouge">Action</code>、<code class="language-plaintext highlighter-rouge">Action Input</code>，便于解析和执行。</li>
+  <li>禁止幻觉：<strong>不知道就去查，不许瞎编</strong>。</li>
+</ul>
+
+<ol>
+  <li>接入强工具集（让 LLM 有手脚）</li>
+</ol>
+
+<ul>
+  <li><strong>Bash 工具</strong>：执行命令、安装依赖、运行程序、看报错。</li>
+  <li><strong>文件工具</strong>：读 / 写 / 编辑代码、配置文件。</li>
+  <li><strong>Python REPL</strong>：运行代码、算结果、调试片段。</li>
+  <li><strong>搜索工具</strong>：查文档、查报错、查最新 API。</li>
+</ul>
+
+<ol>
+  <li>加中间件 / 钩子（Middleware/Hooks）—— 防崩、防死循环</li>
+</ol>
+
+<ul>
+  <li><strong>超时控制</strong>：单步超时自动终止，避免卡死。</li>
+  <li><strong>死循环检测</strong>：连续 3 步重复动作 → 强制换策略或终止。</li>
+  <li><strong>结果校验</strong>：关键步骤（如编译、运行）自动检查返回码 / 输出，失败自动重试或回退。</li>
+  <li><strong>错误回溯</strong>：保存失败前状态，支持 “回到上一步换方法”。</li>
+</ul>
+
+<ol>
+  <li>用 LangSmith 做迭代优化（数据驱动）</li>
+</ol>
+
+<ul>
+  <li>跑大量测试，<strong>追踪每一步 Thought/Action/Observation</strong>。</li>
+  <li>分析失败模式：是规划错、工具用错、校验漏了，还是 Prompt 不好。</li>
+  <li>针对性改 Prompt、工具、流程 → 再测 → 再分析，闭环优化。</li>
+</ul>
+
+<h3 id="二-agent的多种模式">二. Agent的多种模式</h3>
+
+<blockquote>
+  <p>这里推荐的是一片git代码，对agent的多种模式讲述的非常清晰：https://github.com/FareedKhan-dev/all-agentic-architectures，下面是针对这段代码的解读</p>
+</blockquote>
+
+<h4 id="21-基础增强模式让单-agent-更聪明-">2.1 基础增强模式：让单 Agent 更聪明 🧠</h4>
+
+<p>让一个 Agent 从「直接出答案」进化到「能反思、能用工具、能规划」。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>agent本质</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>01 Reflection（反思）</strong></td>
+      <td>生成 → 自我批判 → 修正，循环改稿</td>
+    </tr>
+    <tr>
+      <td><strong>02 Tool Use（工具调用）</strong></td>
+      <td>让 LLM 调外部 API/函数突破知识截止</td>
+    </tr>
+    <tr>
+      <td><strong>03 ReAct（推理+行动）</strong></td>
+      <td>Thought → Action → Observation 交错循环</td>
+    </tr>
+    <tr>
+      <td><strong>04 Planning（规划）</strong></td>
+      <td>先列好完整步骤，再按计划执行</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>典型流程</strong>：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Reflection: Generate → Critique → Refine
+ReAct:      Thought ⇄ Action ⇄ Observation → Final
+Planning:   Plan → Execute step by step → Aggregate
+</code></pre></div></div>
+
+<p><strong>何时用</strong>：单一 Agent 任务，输出质量、信息时效或步骤复杂度需要提升。</p>
+
+<h4 id="22-多-agent-协作让-agent-像团队一样工作-">2.2 多 Agent 协作：让 Agent 像团队一样工作 👥</h4>
+
+<p>把任务交给一组分工的专家，或并行多视角，或动态路由。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>agent本质</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>05 Multi-Agent</strong></td>
+      <td>固定流水线分工（PM → 架构师 → Coder → Reviewer）</td>
+    </tr>
+    <tr>
+      <td><strong>07 Blackboard</strong></td>
+      <td>所有 Agent 共享黑板，控制器机会式调度</td>
+    </tr>
+    <tr>
+      <td><strong>11 Meta-Controller</strong></td>
+      <td>主管 Agent 把任务路由给最合适的专家</td>
+    </tr>
+    <tr>
+      <td><strong>13 Ensemble</strong></td>
+      <td>多 Agent 并行独立分析 + Aggregator 综合</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>对比要点</strong>：</p>
+
+<ul>
+  <li><strong>Multi-Agent</strong>：流程固定 → 软件开发流水线</li>
+  <li><strong>Meta-Controller</strong>：智能路由 → 多功能 AI 平台一个入口</li>
+  <li><strong>Blackboard</strong>：开放协作 → 复杂诊断、动态情境</li>
+  <li><strong>Ensemble</strong>：投票式 → 高风险决策、降低偏见</li>
+</ul>
+
+<p><strong>何时用</strong>：单一 Agent 撑不起任务，需要专业分工或多视角综合。</p>
+
+<h4 id="23-高级记忆与推理让-agent-想得更深记得更久-">2.3 高级记忆与推理：让 Agent 想得更深、记得更久 🧬</h4>
+
+<p>赋予 Agent 长期记忆与复杂关系推理能力。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>Agent本质</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>08 Episodic + Semantic Memory</strong></td>
+      <td>向量库记对话 + 图库记事实，双记忆系统</td>
+    </tr>
+    <tr>
+      <td><strong>09 Tree of Thoughts</strong></td>
+      <td>推理建模为树搜索，多分支评估剪枝</td>
+    </tr>
+    <tr>
+      <td><strong>12 Graph（世界模型）</strong></td>
+      <td>知识存为「实体 + 关系」图，多跳遍历推理</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>记忆 vs 推理</strong>：</p>
+
+<ul>
+  <li><strong>08 + 12</strong> 偏「记得更多」（FAISS 向量 / Neo4j 图谱）</li>
+  <li><strong>09</strong> 偏「想得更深」（指数级思维分支搜索）</li>
+</ul>
+
+<p><strong>何时用</strong>：</p>
+
+<ul>
+  <li>长期个性化助手 → 08</li>
+  <li>关系密集型问答（投资关系、文献引用）→ 12</li>
+  <li>强约束逻辑/数学难题（狼羊菜过河类）→ 09</li>
+</ul>
+
+<h4 id="24-安全与可靠让-agent-真敢上生产-️">2.4 安全与可靠：让 Agent 真敢上生产 🛡️</h4>
+
+<p>为 Agent 装上「三思而后行」与「自知之明」的护栏。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>Agent本质</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>06 PEV（Plan-Execute-Verify）</strong></td>
+      <td>每步执行后由 Verifier 检查，错了就重规划</td>
+    </tr>
+    <tr>
+      <td><strong>10 Mental Loop（心智仿真）</strong></td>
+      <td>在沙盒中先模拟，再决定真实动作</td>
+    </tr>
+    <tr>
+      <td><strong>14 Dry-Run Harness</strong></td>
+      <td>干跑 + 人审批，再真实执行</td>
+    </tr>
+    <tr>
+      <td><strong>17 Reflexive Metacognitive</strong></td>
+      <td>维护「自我模型」，能说”我不知道，建议找人”</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>安全光谱</strong>：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PEV          → 自动错误恢复
+Mental Loop  → Agent 自己模拟自己审
+Dry-Run      → 人类把关，最强护栏
+Metacognitive→ 越界即拒绝/转交人类
+</code></pre></div></div>
+
+<p><strong>何时用</strong>：金融、医疗、法律、生产环境的不可逆操作；任何「错答即灾难」的领域。</p>
+
+<h4 id="25-学习与适应让-agent-越用越好-">2.5 学习与适应：让 Agent 越用越好 📈</h4>
+
+<p>通过反馈与涌现机制，让系统自我演进。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>Agent本质</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>15 RLHF（自我改进）</strong></td>
+      <td>Editor 批评 Author，沉淀高质量样本到金标库</td>
+    </tr>
+    <tr>
+      <td><strong>16 Cellular Automata</strong></td>
+      <td>网格上多个简单 Agent 用局部规则涌现复杂行为</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>两种适应方式</strong>：</p>
+
+<ul>
+  <li><strong>15</strong> 集中式：靠反馈闭环逐步优化（适合内容生产、代码生成）</li>
+  <li><strong>16</strong> 分布式：靠涌现解决空间/规模问题（适合路径规划、群体仿真）</li>
+</ul>
+
+<p><strong>何时用</strong>：长期运行、需持续优化的系统；或大规模、高鲁棒性的分布式问题。</p>
+
+<h4 id="26-选型速查">2.6 选型速查</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>你的需求</th>
+      <th>推荐</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>输出质量不够</td>
+      <td>01 Reflection / 15 RLHF</td>
+    </tr>
+    <tr>
+      <td>要查实时信息</td>
+      <td>02 Tool Use / 03 ReAct</td>
+    </tr>
+    <tr>
+      <td>任务步骤多且复杂</td>
+      <td>04 Planning / 06 PEV</td>
+    </tr>
+    <tr>
+      <td>需要专家团队</td>
+      <td>05 Multi-Agent / 11 Meta-Controller</td>
+    </tr>
+    <tr>
+      <td>多视角降低偏见</td>
+      <td>13 Ensemble</td>
+    </tr>
+    <tr>
+      <td>灵活开放式协作</td>
+      <td>07 Blackboard</td>
+    </tr>
+    <tr>
+      <td>长期个性化</td>
+      <td>08 Episodic+Semantic</td>
+    </tr>
+    <tr>
+      <td>关系/逻辑深推理</td>
+      <td>12 Graph / 09 ToT</td>
+    </tr>
+    <tr>
+      <td>不可逆动作要安全</td>
+      <td>14 Dry-Run / 10 Mental Loop / 06 PEV</td>
+    </tr>
+    <tr>
+      <td>高风险领域咨询</td>
+      <td>17 Metacognitive</td>
+    </tr>
+    <tr>
+      <td>大规模空间问题</td>
+      <td>16 Cellular Automata</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="三-multi-agent">三. Multi Agent</h3>
+
+<h4 id="31-单agent和multi-agent的差异">3.1 单agent和multi agent的差异</h4>
+
+<p>一般而言，我们是鼓励使用单agent来解题，下面是单agent和multi agent的在定差异：</p>
+
+<ul>
+  <li><strong>单agent</strong>：单个智能体独立思考、规划、调用工具、闭环完成全流程任务</li>
+  <li><strong>multi agent</strong>：多个分工智能体协同，各司其职、消息交互、分工协作完成复杂任务</li>
+</ul>
+
+<p>核心差异如下：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>对比项</th>
+      <th>单 Agent</th>
+      <th>多 Agent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>分工模式</td>
+      <td>一人全包，无角色拆分</td>
+      <td>按职责拆分角色，各司其职</td>
+    </tr>
+    <tr>
+      <td>决策逻辑</td>
+      <td>统一大脑决策，串行执行</td>
+      <td>多角色协商、表决、分工决策</td>
+    </tr>
+    <tr>
+      <td>资源调用</td>
+      <td>独占工具与上下文</td>
+      <td>工具分片使用，信息互通共享</td>
+    </tr>
+    <tr>
+      <td>上下文复杂度</td>
+      <td>低，任务链路简单</td>
+      <td>高，多角色会话交互</td>
+    </tr>
+    <tr>
+      <td>开发成本</td>
+      <td>低，逻辑简洁易维护</td>
+      <td>高，需设计角色、通信、权限</td>
+    </tr>
+    <tr>
+      <td>容错能力</td>
+      <td>单点故障任务中断</td>
+      <td>可替补分工，容错性更强</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="32-multi-agent的2个场景例子">3.2 Multi agent的2个场景例子</h4>
+
+<p><strong>case1-平行处理: 旅游场景，需要参考和建议下航班，酒店和天气等情况</strong></p>
+
+<p>在这个场景中：</p>
+
+<ul>
+  <li>单agent：找航班 -&gt; 找酒店 -&gt; 看天气，需要<strong>agent一个一个做</strong>。</li>
+  <li>Muti agent：设定三个agent，分别是订航班agent、订酒店agent、查天气agent，<strong>三个agent并行处理</strong>。</li>
+</ul>
+
+<p><strong>case2-层级处理: 智慧家居场景，其中包含中央节点通过层级的方式来管理、控制其他的agent</strong></p>
+
+<ul>
+  <li><strong>Orchestrator（中央大脑）</strong>：是层级（Hierarchical）主节点，负责接收用户指令、统筹任务、协调灯光 / 保全 / 温控 / 能源等设备 Agent。</li>
+  <li><strong>A2A（agent-to-agent，点对点）</strong>：是<strong>设备 Agent 之间的直接通信链路</strong>，不经过中央 Orchestrator，直接交互。</li>
+</ul>
+</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2026-05-22T08:00:00+08:00"><!-- start custom article footer snippet -->
+
+<!-- end custom article footer snippet -->
+</footer>
+<div class="article__section-navigator clearfix"><div class="previous"><span>上篇</span><a href="/2026/05/19/function-call_MCP_SKILL%E4%B8%8B%E5%93%AA%E4%B8%AA%E6%89%8D%E6%98%AF%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%9C%80%E4%BC%98%E8%A7%A3.html">Function call、MCP、SKILL下哪个才是大模型的最优解</a></div><div class="next"><span>下篇</span><a href="/2026/05/26/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84cursor_claudecode_ollama_vs.html">打造属于自己的免费Cursor：claude code+ollama+vscode</a></div></div></div>
+
+</div>
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
+
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor d-print-none" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();
+</script>
+</div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
+
+<!-- end custom main bottom snippet -->
+</div>
+            </div></div></div><div class="page__footer d-print-none">
+<footer class="footer py-4 js-page-footer">
+  <div class="main"><div itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李小肥"><meta itemprop="url" content="/"><meta itemprop="description" content="专注于机器学习、深度学习、NLP 和 CV，目前主语言为 python 和 C++。"><div class="footer__author-links"><div class="author-links">
+  <ul class="menu menu--nowrap menu--inline"><li title="给我发邮件。">
+      <a class="button button--circle mail-button" itemprop="email" href="mailto:yeyansiwangtt@gmail.com" target="_blank">
+        <i class="fas fa-envelope"></i>
+      </a><li title="在 Zhihu 上关注我。">
+        <a class="button button--circle zhihu-button" itemprop="sameAs" href="https://www.zhihu.com/people/xie-yan-44-84-33" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z" p-id="907"></path><path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z" />
+</svg>
+</div>
+        </a>
+      </li><li title="在 微信公众号「凡人炼丹传」 上关注我。">
+        <a class="button button--circle weixin-button" itemprop="sameAs" href="https://mp.weixin.qq.com/s/HWD2ni4WXaNkswg5NQHW7w" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M684.111464 364.088889c10.47478 0 20.949559 0.722399 31.424339 1.805996-28.173545-131.476543-168.680071-229.000353-329.052557-229.000353-179.15485 0-326.162963 122.085362-326.162963 277.401058 0 89.577425 48.761905 163.262081 130.392945 220.33157l-32.507937 98.246208L272.344268 675.442681c40.81552 7.946384 73.684656 16.253968 114.138977 16.253968 10.11358 0 20.22716-0.361199 30.340741-1.444797-6.501587-21.671958-10.11358-44.788713-10.11358-68.266667C406.710406 479.672663 529.156966 364.088889 684.111464 364.088889zM508.568607 275.595062c24.561552 0 40.81552 16.253968 40.81552 40.81552 0 24.561552-16.253968 40.81552-40.81552 40.81552-24.561552 0-49.123104-16.253968-49.123104-40.81552C459.806702 291.84903 484.368254 275.595062 508.568607 275.595062zM280.290653 357.226102c-24.561552 0-49.123104-16.253968-49.123104-40.81552 0-24.561552 24.561552-40.81552 49.123104-40.81552 24.561552 0 40.81552 16.253968 40.81552 40.81552C321.106173 340.610935 304.852205 357.226102 280.290653 357.226102z" p-id="792"></path><path d="M981.739683 618.373192c0-130.392945-130.392945-236.585538-277.039859-236.585538-155.315697 0-277.401058 106.192593-277.401058 236.585538 0 130.754145 122.085362 236.585538 277.401058 236.585538 32.507937 0 65.377072-8.307584 97.885009-16.253968l89.577425 49.123104-24.561552-81.631041C932.977778 757.073721 981.739683 691.696649 981.739683 618.373192zM614.761199 577.557672c-16.253968 0-32.507937-16.253968-32.507937-32.507937 0-16.253968 16.253968-32.507937 32.507937-32.507937 24.561552 0 40.81552 16.253968 40.81552 32.507937C655.57672 561.303704 639.322751 577.557672 614.761199 577.557672zM794.277249 577.557672c-16.253968 0-32.507937-16.253968-32.507937-32.507937 0-16.253968 16.253968-32.507937 32.507937-32.507937 24.561552 0 40.81552 16.253968 40.81552 32.507937C835.092769 561.303704 818.477601 577.557672 794.277249 577.557672z" />
+</svg>
+</div>
+        </a>
+      </li><li title="在 Github 上关注我。">
+        <a class="button button--circle github-button" itemprop="sameAs" href="https://github.com/yy2lyx" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path class="svgpath" data-index="path_0" fill="#272636" d="M0 525.2c0 223.6 143.3 413.7 343 483.5 26.9 6.8 22.8-12.4 22.8-25.4l0-88.7c-155.3 18.2-161.5-84.6-172-101.7-21.1-36-70.8-45.2-56-62.3 35.4-18.2 71.4 4.6 113.1 66.3 30.2 44.7 89.1 37.2 119 29.7 6.5-26.9 20.5-50.9 39.7-69.6C248.8 728.2 181.7 630 181.7 513.2c0-56.6 18.7-108.7 55.3-150.7-23.3-69.3 2.2-128.5 5.6-137.3 66.5-6 135.5 47.6 140.9 51.8 37.8-10.2 80.9-15.6 129.1-15.6 48.5 0 91.8 5.6 129.8 15.9 12.9-9.8 77-55.8 138.8-50.2 3.3 8.8 28.2 66.7 6.3 135 37.1 42.1 56 94.6 56 151.4 0 117-67.5 215.3-228.8 243.7 26.9 26.6 43.6 63.4 43.6 104.2l0 128.8c0.9 10.3 0 20.5 17.2 20.5C878.1 942.4 1024 750.9 1024 525.3c0-282.9-229.3-512-512-512C229.1 13.2 0 242.3 0 525.2L0 525.2z" />
+</svg>
+</div>
+        </a>
+      </li></ul>
+</div>
+</div>
+    </div><div class="site-info mt-2">
+      <div>© 凡人炼丹传 2026,
+        保留所有权利。
+      </div>
+    </div>
+  </div>
+</footer>
+</div></div>
+    </div><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $body = $('body'), $window = $(window);
+    var $pageRoot = $('.js-page-root'), $pageMain = $('.js-page-main');
+    var activeCount = 0;
+    function modal(options) {
+      var $root = this, visible, onChange, hideWhenWindowScroll = false;
+      var scrollTop;
+      function setOptions(options) {
+        var _options = options || {};
+        visible = _options.initialVisible === undefined ? false : show;
+        onChange = _options.onChange;
+        hideWhenWindowScroll = _options.hideWhenWindowScroll;
+      }
+      function init() {
+        setState(visible);
+      }
+      function setState(isShow) {
+        if (isShow === visible) {
+          return;
+        }
+        visible = isShow;
+        if (visible) {
+          activeCount++;
+          scrollTop = $(window).scrollTop() || $pageMain.scrollTop();
+          $root.addClass('modal--show');
+          $pageMain.scrollTop(scrollTop);
+          activeCount === 1 && ($pageRoot.addClass('show-modal'), $body.addClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.on('scroll', hide);
+          $window.on('keyup', handleKeyup);
+        } else {
+          activeCount > 0 && activeCount--;
+          $root.removeClass('modal--show');
+          $window.scrollTop(scrollTop);
+          activeCount === 0 && ($pageRoot.removeClass('show-modal'), $body.removeClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.off('scroll', hide);
+          $window.off('keyup', handleKeyup);
+        }
+        onChange && onChange(visible);
+      }
+      function show() {
+        setState(true);
+      }
+      function hide() {
+        setState(false);
+      }
+      function handleKeyup(e) {
+        // Char Code: 27  ESC
+        if (e.which ===  27) {
+          hide();
+        }
+      }
+      setOptions(options);
+      init();
+      return {
+        show: show,
+        hide: hide,
+        $el: $root
+      };
+    }
+    $.fn.modal = modal;
+  });
+})();
+</script><div class="modal modal--overflow page__search-modal d-print-none js-page-search-modal"><script>
+(function () {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    // search panel
+    var search = (window.search || (window.search = {}));
+    var useDefaultSearchBox = window.useDefaultSearchBox === undefined ?
+      true : window.useDefaultSearchBox ;
+
+    var $searchModal = $('.js-page-search-modal');
+    var $searchToggle = $('.js-search-toggle');
+    var searchModal = $searchModal.modal({ onChange: handleModalChange, hideWhenWindowScroll: true });
+    var modalVisible = false;
+    search.searchModal = searchModal;
+
+    var $searchBox = null;
+    var $searchInput = null;
+    var $searchClear;
+
+    function getModalVisible() {
+      return modalVisible;
+    }
+    search.getModalVisible = getModalVisible;
+
+    function handleModalChange(visible) {
+      modalVisible = visible;
+      if (visible) {
+        search.onShow && search.onShow();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].focus();
+      } else {
+        search.onShow && search.onHide();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].blur();
+        setTimeout(function() {
+          useDefaultSearchBox && ($searchInput.val(''), $searchBox.removeClass('not-empty'));
+          search.clear && search.clear();
+          window.pageAsideAffix && window.pageAsideAffix.refresh();
+        }, 400);
+      }
+    }
+
+    $searchToggle.on('click', function() {
+      modalVisible ? searchModal.hide() : searchModal.show();
+    });
+    // Char Code: 83  S, 191 /
+    $(window).on('keyup', function(e) {
+      if (!modalVisible && !window.isFormElement(e.target || e.srcElement) && (e.which === 83 || e.which === 191)) {
+        modalVisible || searchModal.show();
+      }
+    });
+
+    if (useDefaultSearchBox) {
+      $searchBox = $('.js-search-box');
+      $searchInput = $searchBox.children('input');
+      $searchClear = $searchBox.children('.js-icon-clear');
+      search.getSearchInput = function() {
+        return $searchInput.get(0);
+      };
+      search.getVal = function() {
+        return $searchInput.val();
+      };
+      search.setVal = function(val) {
+        $searchInput.val(val);
+      };
+
+      $searchInput.on('focus', function() {
+        $(this).addClass('focus');
+      });
+      $searchInput.on('blur', function() {
+        $(this).removeClass('focus');
+      });
+      $searchInput.on('input', window.throttle(function() {
+        var val = $(this).val();
+        if (val === '' || typeof val !== 'string') {
+          search.clear && search.clear();
+        } else {
+          $searchBox.addClass('not-empty');
+          search.onInputNotEmpty && search.onInputNotEmpty(val);
+        }
+      }, 400));
+      $searchClear.on('click', function() {
+        $searchInput.val(''); $searchBox.removeClass('not-empty');
+        search.clear && search.clear();
+      });
+    }
+  });
+})();
+</script><div class="search search--dark">
+  <div class="main">
+    <div class="search__header">搜索</div>
+    <div class="search-bar">
+      <div class="search-box js-search-box">
+        <div class="search-box__icon-search"><i class="fas fa-search"></i></div>
+        <input type="text" />
+        <div class="search-box__icon-clear js-icon-clear">
+          <a><i class="fas fa-times"></i></a>
+        </div>
+      </div>
+      <button class="button button--theme-dark button--pill search__cancel js-search-toggle">
+        取消</button>
+    </div>
+    <div class="search-result js-search-result"></div>
+  </div>
+</div>
+<script>var SOURCES = window.TEXT_VARIABLES.sources;
+var PAHTS = window.TEXT_VARIABLES.paths;
+window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
+  var search = (window.search || (window.search = {}));
+  var searchData = window.TEXT_SEARCH_DATA || {};
+
+  function memorize(f) {
+    var cache = {};
+    return function () {
+      var key = Array.prototype.join.call(arguments, ',');
+      if (key in cache) return cache[key];
+      else return cache[key] = f.apply(this, arguments);
+    };
+  }
+
+  /// search
+  function searchByQuery(query) {
+    var i, j, key, keys, cur, _title, result = {};
+    keys = Object.keys(searchData);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      for (j = 0; j < searchData[key].length; j++) {
+        cur = searchData[key][j], _title = cur.title;
+        if ((result[key] === undefined || result[key] && result[key].length < 4 )
+          && _title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+          if (result[key] === undefined) {
+            result[key] = [];
+          }
+          result[key].push(cur);
+        }
+      }
+    }
+    return result;
+  }
+
+  var renderHeader = memorize(function(header) {
+    return $('<p class="search-result__header">' + header + '</p>');
+  });
+
+  var renderItem = function(index, title, url) {
+    return $('<li class="search-result__item" data-index="' + index + '"><a class="button" href="' + url + '">' + title + '</a></li>');
+  };
+
+  function render(data) {
+    if (!data) { return null; }
+    var $root = $('<ul></ul>'), i, j, key, keys, cur, itemIndex = 0;
+    keys = Object.keys(data);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      $root.append(renderHeader(key));
+      for (j = 0; j < data[key].length; j++) {
+        cur = data[key][j];
+        $root.append(renderItem(itemIndex++, cur.title, cur.url));
+      }
+    }
+    return $root;
+  }
+
+  // search box
+  var $result = $('.js-search-result'), $resultItems;
+  var lastActiveIndex, activeIndex;
+
+  function clear() {
+    $result.html(null);
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+  }
+  function onInputNotEmpty(val) {
+    $result.html(render(searchByQuery(val)));
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+    $resultItems.eq(0).addClass('active');
+  }
+
+  search.clear = clear;
+  search.onInputNotEmpty = onInputNotEmpty;
+
+  function updateResultItems() {
+    lastActiveIndex >= 0 && $resultItems.eq(lastActiveIndex).removeClass('active');
+    activeIndex >= 0 && $resultItems.eq(activeIndex).addClass('active');
+  }
+
+  function moveActiveIndex(direction) {
+    var itemsCount = $resultItems ? $resultItems.length : 0;
+    if (itemsCount > 1) {
+      lastActiveIndex = activeIndex;
+      if (direction === 'up') {
+        activeIndex = (activeIndex - 1 + itemsCount) % itemsCount;
+      } else if (direction === 'down') {
+        activeIndex = (activeIndex + 1 + itemsCount) % itemsCount;
+      }
+      updateResultItems();
+    }
+  }
+
+  // Char Code: 13  Enter, 37  ⬅, 38  ⬆, 39  ➡, 40  ⬇
+  $(window).on('keyup', function(e) {
+    var modalVisible = search.getModalVisible && search.getModalVisible();
+    if (modalVisible) {
+      if (e.which === 38) {
+        modalVisible && moveActiveIndex('up');
+      } else if (e.which === 40) {
+        modalVisible && moveActiveIndex('down');
+      } else if (e.which === 13) {
+        modalVisible && $resultItems && activeIndex >= 0 && $resultItems.eq(activeIndex).children('a')[0].click();
+      }
+    }
+  });
+
+  $result.on('mouseover', '.search-result__item > a', function() {
+    var itemIndex = $(this).parent().data('index');
+    itemIndex >= 0 && (lastActiveIndex = activeIndex, activeIndex = itemIndex, updateResultItems());
+  });
+});
+</script>
+</div></div>
+
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function scrollToAnchor(anchor, duration, callback) {
+      var $root = this;
+      $root.animate({ scrollTop: $(anchor).position().top }, duration, function() {
+        window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+        callback && callback();
+      });
+    }
+    $.fn.scrollToAnchor = scrollToAnchor;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function affix(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroll,
+        offsetBottom = 0, scrollTarget = window, scroll = window.document, disabled = false, isOverallScroller = true,
+        rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop,
+        hasInit = false, curState;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroll && (scroll = _options.scroll);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $scrollTarget = $(scrollTarget);
+        isOverallScroller = window.isOverallScroller($scrollTarget[0]);
+        $scroll = $(scroll);
+      }
+      function preCalc() {
+        top();
+        rootHeight = $root.outerHeight();
+        rootTop = $root.offset().top + (isOverallScroller ? 0 :  $scrollTarget.scrollTop());
+        rootLeft = $root.offset().left;
+      }
+      function calc(needPreCalc) {
+        needPreCalc && preCalc();
+        scrollBottom = $scroll.outerHeight() - offsetBottom - rootHeight;
+        rootBottomTop = scrollBottom - rootTop;
+      }
+      function top() {
+        if (curState !== 'top') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: 0
+          });
+          curState = 'top';
+        }
+      }
+      function fixed() {
+        if (curState !== 'fixed') {
+          $root.addClass('fixed').css({
+            left: rootLeft + 'px',
+            top: 0
+          });
+          curState = 'fixed';
+        }
+      }
+      function bottom() {
+        if (curState !== 'bottom') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: rootBottomTop + 'px'
+          });
+          curState = 'bottom';
+        }
+      }
+      function setState() {
+        var scrollTop = $scrollTarget.scrollTop();
+        if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+          fixed();
+        } else if (scrollTop < rootTop) {
+          top();
+        } else {
+          bottom();
+        }
+      }
+      function init() {
+        if(!hasInit) {
+          var interval, timeout;
+          calc(true); setState();
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState();
+          });
+          $window.on('resize', function() {
+            disabled || (calc(true), setState());
+          });
+          hasInit = true;
+        }
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions,
+        refresh: function() {
+          calc(true, { animation: false }); setState();
+        }
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function toc(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroller, $tocUl = $('<ul class="toc toc--ellipsis"></ul>'), $tocLi, $headings, $activeLast, $activeCur,
+        selectors = 'h1,h2,h3', container = 'body', scrollTarget = window, scroller = 'html, body', disabled = false,
+        headingsPos, scrolling = false, hasRendered = false, hasInit = false;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.selectors && (selectors = _options.selectors);
+        _options.container && (container = _options.container);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroller && (scroller = _options.scroller);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $headings = $(container).find(selectors).filter('[id]');
+        $scrollTarget = $(scrollTarget);
+        $scroller = $(scroller);
+      }
+      function calc() {
+        headingsPos = [];
+        $headings.each(function() {
+          headingsPos.push(Math.floor($(this).position().top));
+        });
+      }
+      function setState(element, disabled) {
+        var scrollTop = $scrollTarget.scrollTop(), i;
+        if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+        if (element) {
+          $activeCur = element;
+        } else {
+          for (i = 0; i < headingsPos.length; i++) {
+            if (scrollTop >= headingsPos[i]) {
+              $activeCur = $tocLi.eq(i);
+            } else {
+              $activeCur || ($activeCur = $tocLi.eq(i));
+              break;
+            }
+          }
+        }
+        $activeLast && $activeLast.removeClass('active');
+        ($activeLast = $activeCur).addClass('active');
+      }
+      function render() {
+        if(!hasRendered) {
+          $root.append($tocUl);
+          $headings.each(function() {
+            var $this = $(this);
+            $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName').toLowerCase())
+              .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+          });
+          $tocLi = $tocUl.children('li');
+          $tocUl.on('click', 'a', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            scrolling = true;
+            setState($this.parent());
+            $scroller.scrollToAnchor($this.attr('href'), 400, function() {
+              scrolling = false;
+            });
+          });
+        }
+        hasRendered = true;
+      }
+      function init() {
+        var interval, timeout;
+        if(!hasInit) {
+          render(); calc(); setState(null, scrolling);
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState(null, scrolling);
+          });
+          $window.on('resize', window.throttle(function() {
+            if (!disabled) {
+              render(); calc(); setState(null, scrolling);
+            }
+          }, 100));
+        }
+        hasInit = true;
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.toc = toc;
+  });
+})();
+/*(function () {
+
+})();*/
+</script><script>
+  /* toc must before affix, since affix need to konw toc' height. */(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $articleContent = $('.js-article-content');
+    var $tocRoot = $('.js-toc-root'), $col2 = $('.js-col-aside');
+    var toc;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    tocDisabled = disabled();
+
+    toc = $tocRoot.toc({
+      selectors: TOC_SELECTOR,
+      container: $articleContent,
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $pageFooter = $('.js-page-footer');
+    var $pageAside = $('.js-page-aside');
+    var affix;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+
+    affix = $pageAside.affix({
+      offsetBottom: $pageFooter.outerHeight(),
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      scroll: hasSidebar ? $('.js-page-main').children() : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+    window.pageAsideAffix = affix;
+  });
+})();
+</script>
+    </div>
+    <script>(function () {
+  var $root = document.getElementsByClassName('root')[0];
+  if (window.hasEvent('touchstart')) {
+    $root.dataset.isTouch = true;
+    document.addEventListener('touchstart', function(){}, false);
+  }
+})();
+</script>
+  </body>
+</html>
+

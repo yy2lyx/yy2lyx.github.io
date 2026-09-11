@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/lightning.jpg
-navigation: True
-title: pytorch_lightning使用体验
+layout: article
+title: "pytorch_lightning使用体验"
 date: 2023-12-28 00:00:00
 tags: [DeepLearning]
-excerpt: 记录pytorch_lightning的使用过程心得体会
-class: post-template
-subclass: 'post'
+excerpt: "记录pytorch_lightning的使用过程心得体会"
+cover: assets/images/lightning.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/lightning.jpg
+key: post-2024-1-18-pytorch-lightning
 ---
 
 

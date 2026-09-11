@@ -1,0 +1,1250 @@
+<!DOCTYPE html><html lang="zh-Hans">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Mac真的适合跑本地Agent吗 - 凡人炼丹传</title>
+
+<meta name="description" content="讲述agent在Mac上的使用场景和底层技术">
+<link rel="canonical" href="http://localhost:4001/2026/09/11/Mac%E9%80%82%E5%90%88%E8%B7%91%E6%9C%AC%E5%9C%B0Agent.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico">
+
+<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+
+<meta name="theme-color" content="#ffffff">
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+
+<!-- end custom head snippets -->
+<script>(function() {
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.isOverallScroller = function(node) {
+    return node === document.documentElement || node === document.body || node === window;
+  };
+
+  window.isFormElement = function(node) {
+    var tagName = node.tagName;
+    return tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA';
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i;
+      loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cbs[i]();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();
+(function() {
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+})();
+(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (Object.prototype.hasOwnProperty.call(attrs, attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+})();
+</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      version: '2.2.6',
+      sources: {
+        font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      },
+      paths: {
+        search_js: '/assets/search.js'
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script>
+</head>
+  <body>
+    <div class="root" data-is-touch="false">
+      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport has-aside cell cell--auto">
+
+      <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
+      <div class="header__title">
+        <div class="header__brand"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24">
+<style type="text/css">
+	.st0{fill:#515151;}
+</style>
+<path class="st0" d="M1.7,22.3c5.7-5.7,11.3-5.7,17,0c3.3-3.3,3.5-5.3,0.8-6c2.7,0.7,3.5-1.1,2.3-5.6s-3.3-5.2-6.3-2.1
+	c3-3,2.3-5.2-2.1-6.3S7,1.8,7.7,4.6C7,1.8,5,2.1,1.7,5.3C7.3,11,7.3,16.7,1.7,22.3"/>
+</svg>
+<a title="欢迎各位看官光临本小站，希望共同学习进步哈！
+" href="/">凡人炼丹传</a></div><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></div><nav class="navigation">
+        <ul><li class="navigation__item"><a href="/">首页</a></li><li class="navigation__item"><a href="/archive.html">归档</a></li><li class="navigation__item"><a href="/samples.html">预览</a></li><li class="navigation__item"><a href="/about.html">关于</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
+      </nav></div>
+  </header>
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/mac_ai.png" /><div class ="main"><div class="grid grid--reverse">
+
+              <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
+</aside></div>
+
+              <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
+
+<!-- end custom main top snippet -->
+<article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Mac真的适合跑本地Agent吗</h1></header><span class="split-space">&nbsp;</span>
+          <a class="edit-on-github"
+            title="在 Github 上修改"
+            href="https://github.com/yy2lyx/yy2lyx.github.io/tree/master/_posts/2026-09-11-Mac适合跑本地Agent.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Mac真的适合跑本地Agent吗"><div class="article__info clearfix"><ul class="left-col menu"><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=NLP">NLP</a>
+            </li><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=DeepLearning">DeepLearning</a>
+            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>2026年 09月11日</span>
+            </li></ul></div><meta itemprop="author" content="李小肥"/><meta itemprop="datePublished" content="2026-09-11T08:00:00+08:00">
+    <meta itemprop="keywords" content="NLP,DeepLearning"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
+
+<!-- end custom article top snippet -->
+<div class="article__content" itemprop="articleBody"><h2 id="一本地-agent-为什么和普通聊天完全不是一回事">一、本地 Agent 为什么和普通聊天完全不是一回事？</h2>
+<p>很多人第一次在 Mac 上跑本地大模型，都会有一种很强烈的感受：<strong>安静、顺滑、吐字快，体验比想象中好很多</strong>。于是一个问题自然就来了：<strong>Mac 真的适合跑本地 Agent 吗？</strong></p>
+
+<p>我的结论很直接：<strong>适合，但要分场景。</strong></p>
+
+<p>如果你主要是和模型做普通对话，Mac 的体验往往非常好；但如果你开始跑 Coding Agent、工具调用、多 Agent 协作这类任务，你会发现瓶颈并不总在“吐字速度”，而常常出在 <strong>Prefill（预填充）</strong> 这一段。也就是说，<strong>Mac 很擅长做本地推理链路的后半程，却不一定擅长前半程。</strong></p>
+
+<p>这篇文章就想把这个问题讲透：</p>
+
+<ul>
+  <li>为什么普通聊天和本地 Agent 的体验差异会这么大？</li>
+  <li>Mac 在本地推理这件事上，真正的优势和短板分别是什么？</li>
+  <li>如果你想把本地 Agent 跑得更舒服，Mac 最适合扮演什么角色？</li>
+</ul>
+
+<h3 id="11-kv-cache-到底解决了什么问题">1.1 KV Cache 到底解决了什么问题？</h3>
+
+<p>可以把大模型理解成一个<strong>边看上下文、边往后续写</strong>的系统。</p>
+
+<p>如果它每生成一个新 Token，都必须把从头到尾的上下文重新完整读一遍，那推理速度会慢得无法接受。为了解决这个问题，推理系统会把之前已经算过的注意力结果缓存下来，这就是 <strong>KV Cache（Key-Value Cache）</strong>。</p>
+
+<p>KV Cache 的核心作用可以概括成两点：</p>
+
+<ul>
+  <li><strong>避免重复计算</strong>：历史 Token 对应的 Key 和 Value 会被缓存起来。</li>
+  <li><strong>只计算最新内容</strong>：生成下一个 Token 时，模型只需要处理新增部分，再结合已有缓存继续往下推理。</li>
+</ul>
+
+<p>你可以把它理解成：模型不是每次都从头“重读全文”，而是在<strong>不断复用前面已经做好的笔记</strong>。</p>
+
+<blockquote>
+  <p>在 <code class="language-plaintext highlighter-rouge">ollama</code> 和 <code class="language-plaintext highlighter-rouge">GGUF</code>（<code class="language-plaintext highlighter-rouge">llama.cpp</code>）相关模型或量化配置里，后缀中如果出现 <code class="language-plaintext highlighter-rouge">KV</code>、<code class="language-plaintext highlighter-rouge">K_V</code> 等标识，通常是在表达 <strong>KV Cache 的量化或优化配置</strong>。在长上下文场景（例如 32k、128k）中，KV Cache 会占用大量显存/内存，因此对 KV Cache 做量化，往往可以显著降低上下文缓存成本。</p>
+</blockquote>
+
+<h3 id="12-llm-推理其实分成两个阶段">1.2 LLM 推理其实分成两个阶段</h3>
+
+<p>很多人把“模型推理速度”理解成一个单一指标，但实际上，大模型推理通常可以拆成两个体验非常不同的阶段：</p>
+
+<h4 id="预填充阶段prefill--context-phase">预填充阶段（Prefill / Context Phase）</h4>
+
+<p>这是模型<strong>一次性读完整段 Prompt</strong> 的过程。</p>
+
+<p>在这个阶段，模型要把整段输入上下文都处理一遍，并建立后续解码所需的 KV Cache。这个过程更吃 <strong>算力</strong>，尤其当上下文非常长时，等待时间会迅速上升。</p>
+
+<h4 id="解码阶段decode-phase">解码阶段（Decode Phase）</h4>
+
+<p>这是模型<strong>一个 Token 一个 Token 往外吐字</strong> 的过程。</p>
+
+<p>这个阶段通常更偏向 <strong>带宽主导</strong>：每生成一个新 Token，系统都要反复读取模型权重与已有缓存。计算本身未必极重，但对内存带宽和整体数据搬运效率非常敏感。</p>
+
+<p>所以你会看到一个很典型的现象：</p>
+
+<ul>
+  <li>有些设备<strong>吐字很快</strong>，看起来聊天体验很好；</li>
+  <li>但只要 Prompt 一长，或者上下文一复杂，<strong>按下发送后的第一段等待时间会明显变长</strong>。</li>
+</ul>
+
+<p>这其实就是 <strong>Prefill 和 Decode 侧重点不同</strong> 导致的体验分裂。</p>
+
+<h3 id="13-为什么本地-agent-对-prefill-更敏感">1.3 为什么本地 Agent 对 Prefill 更敏感？</h3>
+
+<p>普通聊天通常是：<strong>输入短，输出长</strong>。</p>
+
+<p>而很多本地 Agent 场景刚好反过来：<strong>输入极长，输出极短</strong>。</p>
+
+<p>例如在 Coding Agent 或多 Agent 系统中，一次请求里可能包含：</p>
+
+<ul>
+  <li>System Prompt</li>
+  <li>工具定义</li>
+  <li>历史对话</li>
+  <li>文件片段</li>
+  <li>搜索结果</li>
+  <li>工具返回值</li>
+  <li>子代理上下文</li>
+</ul>
+
+<p>最终输入长度可能非常大，但模型输出往往只是一小段计划、一个工具调用，或者几百字结论。此时，时间主要耗在 <strong>Prefill</strong>，而不是 Decode。也正因为如此，<strong>本地 Agent 的体感，并不能简单等同于“吐字速度快不快”。</strong></p>
+
+<p>更麻烦的是，KV Cache 不是永远都能复用。它能复用的前提是：<strong>前缀 Token 序列及其对应的 Attention Mask 必须保持一致。</strong> 一旦这个条件被破坏，之前缓存的结果就失效，系统必须重新做一遍 Prefill。</p>
+
+<p>常见的缓存失效场景包括：</p>
+
+<ul>
+  <li><strong>插入工具回传结果</strong>：例如插入 JSON、搜索结果、执行日志，这会改变上下文中间部分，导致后续缓存失效。</li>
+  <li><strong>新建子代理</strong>：子代理往往拥有独立的 System Prompt 和任务结构，无法直接复用主代理的缓存。</li>
+  <li><strong>重启程序</strong>：KV Cache 通常驻留在显存或运行时内存中，程序重启后自然也就没法继承。</li>
+</ul>
+
+<p>所以一旦进入 Agent 场景，很多人会第一次意识到：<strong>本地推理的真正痛点，往往不是模型“吐得慢”，而是“想得太久”。</strong></p>
+
+<h2 id="二mac-在本地大模型上的真实位置">二、Mac 在本地大模型上的真实位置</h2>
+
+<h3 id="21-mac-在-llm-推理上的优劣势">2.1 Mac 在 LLM 推理上的优劣势</h3>
+
+<p>如果从真实使用体验出发，我会把 Mac 的优劣势总结成下面这张表：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>规格类别</th>
+      <th>决定什么</th>
+      <th>Mac 的表现</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>内存（RAM）</strong></td>
+      <td>能否装下更大模型</td>
+      <td><strong>优势很大</strong>：统一内存架构让 CPU / GPU 共用同一块内存池，适合承载更大模型</td>
+    </tr>
+    <tr>
+      <td><strong>内存带宽</strong></td>
+      <td>吐字速度有多快</td>
+      <td><strong>中上优势</strong>：高阶芯片带宽足够高，日常聊天与常规本地推理体验通常很好</td>
+    </tr>
+    <tr>
+      <td><strong>GPU 算力</strong></td>
+      <td>按下发送后的等待时间</td>
+      <td><strong>相对弱项</strong>：在 Prefill 阶段往往不占优，长上下文和 Agent 类任务更容易暴露这一点</td>
+    </tr>
+    <tr>
+      <td><strong>能效与散热</strong></td>
+      <td>噪音、功耗、稳定性</td>
+      <td><strong>优势非常明显</strong>：安静、省电、桌面友好，长时间本地推理体验很舒服</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>简单说，Mac 的核心优势不是“无脑全能”，而是它在以下几个维度很强：</p>
+
+<ul>
+  <li><strong>大内存模型承载能力强</strong></li>
+  <li><strong>解码体验好，吐字顺</strong></li>
+  <li><strong>噪音低、功耗低、桌面使用幸福感高</strong></li>
+</ul>
+
+<p>但它的短板也很明确：</p>
+
+<ul>
+  <li><strong>一旦进入长上下文 / Agent / 工具频繁回写的场景，Prefill 的等待会变得很显眼</strong></li>
+</ul>
+
+<p>这也是为什么很多人会有一种“聊天真香、Agent 却没那么爽”的体验落差。</p>
+
+<h3 id="22-三种使用场景下怎么买-mac-更合理">2.2 三种使用场景下，怎么买 Mac 更合理？</h3>
+
+<p>如果按用户画像来分，我会把建议拆成三类：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>使用场景</th>
+      <th>适用对象</th>
+      <th>推荐机型</th>
+      <th>配置重点</th>
+      <th>本地模型能力</th>
+      <th>预算范围</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>纯云端 AI 用户</strong></td>
+      <td>主要使用 ChatGPT、Claude、Gemini 等在线服务</td>
+      <td><code class="language-plaintext highlighter-rouge">Mac mini</code></td>
+      <td>16GB 内存起步</td>
+      <td>以云端 AI 为主，本地模型需求较低</td>
+      <td>入门到中端</td>
+    </tr>
+    <tr>
+      <td><strong>本地跑中小型模型</strong></td>
+      <td>希望在本地长期运行 LLM</td>
+      <td><code class="language-plaintext highlighter-rouge">Mac mini</code> / <code class="language-plaintext highlighter-rouge">Mac Studio</code></td>
+      <td>32GB - 64GB 内存，更高带宽更好</td>
+      <td>适合 30B 级别 MoE 或 70B 级别密集模型</td>
+      <td>中端到高端</td>
+    </tr>
+    <tr>
+      <td><strong>硬核本地大模型玩家</strong></td>
+      <td>需要运行 200B+ 级别超大开源模型</td>
+      <td><code class="language-plaintext highlighter-rouge">Mac Studio</code> 高内存版本</td>
+      <td>256GB / 512GB 统一内存</td>
+      <td>面向超大模型、本地实验与极限部署</td>
+      <td>极高预算</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>如果你只是想把 AI 真正融入日常工作流，<strong>并不一定需要一步到位堆最顶配</strong>。很多时候，决定你体验的不是参数表上的“绝对最强”，而是：</p>
+
+<ul>
+  <li>模型能不能装下；</li>
+  <li>日常是否安静稳定；</li>
+  <li>你是不是经常在做长上下文 Agent 任务。</li>
+</ul>
+
+<h2 id="三真正有意思的方案dgx-spark-负责-prefillmac-studio-负责-decode">三、真正有意思的方案：DGX Spark 负责 Prefill，Mac Studio 负责 Decode</h2>
+
+<p>如果把本地推理链路拆开来看，其实会得到一个非常自然的组合思路：</p>
+
+<ul>
+  <li><strong>DGX Spark</strong>：更适合承担 <strong>Prefill</strong> 这类更依赖算力的工作</li>
+  <li><strong>Mac Studio</strong>：更适合承担 <strong>Decode</strong> 这类更依赖大内存与高带宽的工作</li>
+</ul>
+
+<p>这也是我觉得最有意思的地方：<strong>Mac 未必是本地 Agent 的全能主机，但它很可能是本地 Agent 链路里体验最好的“后半程机器”。</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mac-local-agent-cover.png" alt="mac-local-agent-cover" /></p>
+
+<p>我这里也整理了一组测试结果。基准测试为 <strong>Llama-3.1 8B（8k 上下文）</strong>：输入 <code class="language-plaintext highlighter-rouge">8,192</code> Token 的提示词，并生成 <code class="language-plaintext highlighter-rouge">32</code> 个 Token。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>配置方案</th>
+      <th>预填充时间</th>
+      <th>生成时间</th>
+      <th>总耗时</th>
+      <th>提升倍数</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>DGX Spark 单机</strong></td>
+      <td>1.47s</td>
+      <td>2.87s</td>
+      <td>4.34s</td>
+      <td>1.9×</td>
+    </tr>
+    <tr>
+      <td><strong>M3 Ultra Mac Studio 单机</strong></td>
+      <td>5.57s</td>
+      <td>0.85s</td>
+      <td>6.42s</td>
+      <td>1.0×（基准）</td>
+    </tr>
+    <tr>
+      <td><strong>DGX Spark + M3 Ultra 组合</strong></td>
+      <td><strong>1.47s</strong></td>
+      <td><strong>0.85s</strong></td>
+      <td><strong>2.32s</strong></td>
+      <td><strong>2.8×</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这个结果其实非常能说明问题：</p>
+
+<ul>
+  <li><strong>DGX Spark</strong> 的优势在于把前面的“读题”和建缓存做快；</li>
+  <li><strong>Mac Studio</strong> 的优势在于后面的持续输出阶段足够顺；</li>
+  <li>二者组合后，整体体验比单独使用任何一台都更均衡。</li>
+</ul>
+
+<p>从这个角度看，<strong>“Mac 适不适合跑本地 Agent？”</strong> 这个问题本身就应该被改写成：</p>
+
+<blockquote>
+  <p><strong>在本地 Agent 的整条推理链路里，Mac 最适合扮演什么角色？</strong></p>
+</blockquote>
+
+<p>如果你追求的是一台安静、稳定、桌面友好、能承载大模型、日常解码体验又很出色的机器，那么 Mac 依然是非常有吸引力的选择。</p>
+
+<p>但如果你要追求的是：</p>
+
+<ul>
+  <li>极长上下文的启动速度</li>
+  <li>高频工具调用后的重新预填充效率</li>
+  <li>多 Agent 协同场景下的整体等待时间</li>
+</ul>
+
+<p>那么单靠 Mac，未必就是最优解。</p>
+
+<h2 id="四结论mac-适合跑本地-agent但别用聊天体验去想象-agent-体验">四、结论：Mac 适合跑本地 Agent，但别用“聊天体验”去想象 Agent 体验</h2>
+
+<p>最后给一个尽量短的结论：</p>
+
+<ul>
+  <li><strong>Mac 适合跑本地 Agent，但它最强的地方不是 Prefill，而是 Decode。</strong></li>
+  <li><strong>如果你主要是普通对话、轻量本地推理、注重安静和桌面体验，Mac 很香。</strong></li>
+  <li><strong>如果你经常跑 Coding Agent、多 Agent、长上下文任务，真正卡你的往往不是吐字，而是前面的等待时间。</strong></li>
+  <li><strong>如果预算和条件允许，DGX Spark + Mac Studio 这种“前后程分工”的方案，可能才是更接近理想状态的本地 Agent 组合。</strong></li>
+</ul>
+
+<p>所以，Mac 当然适合本地 AI。</p>
+
+<p>只是对 Agent 来说，<strong>它更像一个特别强的“后半程选手”，而不是一个全场无短板的万能答案。</strong></p>
+</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2026-09-11T08:00:00+08:00"><!-- start custom article footer snippet -->
+
+<!-- end custom article footer snippet -->
+</footer>
+<div class="article__section-navigator clearfix"><div class="previous"><span>上篇</span><a href="/2026/09/04/Codex%E4%BD%BF%E7%94%A8.html">Codex 使用指南：从一次对话，到一套可复用的开发工作流</a></div></div></div>
+
+</div>
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
+
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor d-print-none" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();
+</script>
+</div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
+
+<!-- end custom main bottom snippet -->
+</div>
+            </div></div></div><div class="page__footer d-print-none">
+<footer class="footer py-4 js-page-footer">
+  <div class="main"><div itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李小肥"><meta itemprop="url" content="/"><meta itemprop="description" content="专注于机器学习、深度学习、NLP 和 CV，目前主语言为 python 和 C++。"><div class="footer__author-links"><div class="author-links">
+  <ul class="menu menu--nowrap menu--inline"><li title="给我发邮件。">
+      <a class="button button--circle mail-button" itemprop="email" href="mailto:yeyansiwangtt@gmail.com" target="_blank">
+        <i class="fas fa-envelope"></i>
+      </a><li title="在 Zhihu 上关注我。">
+        <a class="button button--circle zhihu-button" itemprop="sameAs" href="https://www.zhihu.com/people/xie-yan-44-84-33" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z" p-id="907"></path><path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z" />
+</svg>
+</div>
+        </a>
+      </li><li title="在 微信公众号「凡人炼丹传」 上关注我。">
+        <a class="button button--circle weixin-button" itemprop="sameAs" href="https://mp.weixin.qq.com/s/HWD2ni4WXaNkswg5NQHW7w" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M684.111464 364.088889c10.47478 0 20.949559 0.722399 31.424339 1.805996-28.173545-131.476543-168.680071-229.000353-329.052557-229.000353-179.15485 0-326.162963 122.085362-326.162963 277.401058 0 89.577425 48.761905 163.262081 130.392945 220.33157l-32.507937 98.246208L272.344268 675.442681c40.81552 7.946384 73.684656 16.253968 114.138977 16.253968 10.11358 0 20.22716-0.361199 30.340741-1.444797-6.501587-21.671958-10.11358-44.788713-10.11358-68.266667C406.710406 479.672663 529.156966 364.088889 684.111464 364.088889zM508.568607 275.595062c24.561552 0 40.81552 16.253968 40.81552 40.81552 0 24.561552-16.253968 40.81552-40.81552 40.81552-24.561552 0-49.123104-16.253968-49.123104-40.81552C459.806702 291.84903 484.368254 275.595062 508.568607 275.595062zM280.290653 357.226102c-24.561552 0-49.123104-16.253968-49.123104-40.81552 0-24.561552 24.561552-40.81552 49.123104-40.81552 24.561552 0 40.81552 16.253968 40.81552 40.81552C321.106173 340.610935 304.852205 357.226102 280.290653 357.226102z" p-id="792"></path><path d="M981.739683 618.373192c0-130.392945-130.392945-236.585538-277.039859-236.585538-155.315697 0-277.401058 106.192593-277.401058 236.585538 0 130.754145 122.085362 236.585538 277.401058 236.585538 32.507937 0 65.377072-8.307584 97.885009-16.253968l89.577425 49.123104-24.561552-81.631041C932.977778 757.073721 981.739683 691.696649 981.739683 618.373192zM614.761199 577.557672c-16.253968 0-32.507937-16.253968-32.507937-32.507937 0-16.253968 16.253968-32.507937 32.507937-32.507937 24.561552 0 40.81552 16.253968 40.81552 32.507937C655.57672 561.303704 639.322751 577.557672 614.761199 577.557672zM794.277249 577.557672c-16.253968 0-32.507937-16.253968-32.507937-32.507937 0-16.253968 16.253968-32.507937 32.507937-32.507937 24.561552 0 40.81552 16.253968 40.81552 32.507937C835.092769 561.303704 818.477601 577.557672 794.277249 577.557672z" />
+</svg>
+</div>
+        </a>
+      </li><li title="在 Github 上关注我。">
+        <a class="button button--circle github-button" itemprop="sameAs" href="https://github.com/yy2lyx" target="_blank">
+          <div class="icon"><svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path class="svgpath" data-index="path_0" fill="#272636" d="M0 525.2c0 223.6 143.3 413.7 343 483.5 26.9 6.8 22.8-12.4 22.8-25.4l0-88.7c-155.3 18.2-161.5-84.6-172-101.7-21.1-36-70.8-45.2-56-62.3 35.4-18.2 71.4 4.6 113.1 66.3 30.2 44.7 89.1 37.2 119 29.7 6.5-26.9 20.5-50.9 39.7-69.6C248.8 728.2 181.7 630 181.7 513.2c0-56.6 18.7-108.7 55.3-150.7-23.3-69.3 2.2-128.5 5.6-137.3 66.5-6 135.5 47.6 140.9 51.8 37.8-10.2 80.9-15.6 129.1-15.6 48.5 0 91.8 5.6 129.8 15.9 12.9-9.8 77-55.8 138.8-50.2 3.3 8.8 28.2 66.7 6.3 135 37.1 42.1 56 94.6 56 151.4 0 117-67.5 215.3-228.8 243.7 26.9 26.6 43.6 63.4 43.6 104.2l0 128.8c0.9 10.3 0 20.5 17.2 20.5C878.1 942.4 1024 750.9 1024 525.3c0-282.9-229.3-512-512-512C229.1 13.2 0 242.3 0 525.2L0 525.2z" />
+</svg>
+</div>
+        </a>
+      </li></ul>
+</div>
+</div>
+    </div><div class="site-info mt-2">
+      <div>© 凡人炼丹传 2026,
+        保留所有权利。
+      </div>
+    </div>
+  </div>
+</footer>
+</div></div>
+    </div><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $body = $('body'), $window = $(window);
+    var $pageRoot = $('.js-page-root'), $pageMain = $('.js-page-main');
+    var activeCount = 0;
+    function modal(options) {
+      var $root = this, visible, onChange, hideWhenWindowScroll = false;
+      var scrollTop;
+      function setOptions(options) {
+        var _options = options || {};
+        visible = _options.initialVisible === undefined ? false : show;
+        onChange = _options.onChange;
+        hideWhenWindowScroll = _options.hideWhenWindowScroll;
+      }
+      function init() {
+        setState(visible);
+      }
+      function setState(isShow) {
+        if (isShow === visible) {
+          return;
+        }
+        visible = isShow;
+        if (visible) {
+          activeCount++;
+          scrollTop = $(window).scrollTop() || $pageMain.scrollTop();
+          $root.addClass('modal--show');
+          $pageMain.scrollTop(scrollTop);
+          activeCount === 1 && ($pageRoot.addClass('show-modal'), $body.addClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.on('scroll', hide);
+          $window.on('keyup', handleKeyup);
+        } else {
+          activeCount > 0 && activeCount--;
+          $root.removeClass('modal--show');
+          $window.scrollTop(scrollTop);
+          activeCount === 0 && ($pageRoot.removeClass('show-modal'), $body.removeClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.off('scroll', hide);
+          $window.off('keyup', handleKeyup);
+        }
+        onChange && onChange(visible);
+      }
+      function show() {
+        setState(true);
+      }
+      function hide() {
+        setState(false);
+      }
+      function handleKeyup(e) {
+        // Char Code: 27  ESC
+        if (e.which ===  27) {
+          hide();
+        }
+      }
+      setOptions(options);
+      init();
+      return {
+        show: show,
+        hide: hide,
+        $el: $root
+      };
+    }
+    $.fn.modal = modal;
+  });
+})();
+</script><div class="modal modal--overflow page__search-modal d-print-none js-page-search-modal"><script>
+(function () {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    // search panel
+    var search = (window.search || (window.search = {}));
+    var useDefaultSearchBox = window.useDefaultSearchBox === undefined ?
+      true : window.useDefaultSearchBox ;
+
+    var $searchModal = $('.js-page-search-modal');
+    var $searchToggle = $('.js-search-toggle');
+    var searchModal = $searchModal.modal({ onChange: handleModalChange, hideWhenWindowScroll: true });
+    var modalVisible = false;
+    search.searchModal = searchModal;
+
+    var $searchBox = null;
+    var $searchInput = null;
+    var $searchClear;
+
+    function getModalVisible() {
+      return modalVisible;
+    }
+    search.getModalVisible = getModalVisible;
+
+    function handleModalChange(visible) {
+      modalVisible = visible;
+      if (visible) {
+        search.onShow && search.onShow();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].focus();
+      } else {
+        search.onShow && search.onHide();
+        useDefaultSearchBox && $searchInput[0] && $searchInput[0].blur();
+        setTimeout(function() {
+          useDefaultSearchBox && ($searchInput.val(''), $searchBox.removeClass('not-empty'));
+          search.clear && search.clear();
+          window.pageAsideAffix && window.pageAsideAffix.refresh();
+        }, 400);
+      }
+    }
+
+    $searchToggle.on('click', function() {
+      modalVisible ? searchModal.hide() : searchModal.show();
+    });
+    // Char Code: 83  S, 191 /
+    $(window).on('keyup', function(e) {
+      if (!modalVisible && !window.isFormElement(e.target || e.srcElement) && (e.which === 83 || e.which === 191)) {
+        modalVisible || searchModal.show();
+      }
+    });
+
+    if (useDefaultSearchBox) {
+      $searchBox = $('.js-search-box');
+      $searchInput = $searchBox.children('input');
+      $searchClear = $searchBox.children('.js-icon-clear');
+      search.getSearchInput = function() {
+        return $searchInput.get(0);
+      };
+      search.getVal = function() {
+        return $searchInput.val();
+      };
+      search.setVal = function(val) {
+        $searchInput.val(val);
+      };
+
+      $searchInput.on('focus', function() {
+        $(this).addClass('focus');
+      });
+      $searchInput.on('blur', function() {
+        $(this).removeClass('focus');
+      });
+      $searchInput.on('input', window.throttle(function() {
+        var val = $(this).val();
+        if (val === '' || typeof val !== 'string') {
+          search.clear && search.clear();
+        } else {
+          $searchBox.addClass('not-empty');
+          search.onInputNotEmpty && search.onInputNotEmpty(val);
+        }
+      }, 400));
+      $searchClear.on('click', function() {
+        $searchInput.val(''); $searchBox.removeClass('not-empty');
+        search.clear && search.clear();
+      });
+    }
+  });
+})();
+</script><div class="search search--dark">
+  <div class="main">
+    <div class="search__header">搜索</div>
+    <div class="search-bar">
+      <div class="search-box js-search-box">
+        <div class="search-box__icon-search"><i class="fas fa-search"></i></div>
+        <input type="text" />
+        <div class="search-box__icon-clear js-icon-clear">
+          <a><i class="fas fa-times"></i></a>
+        </div>
+      </div>
+      <button class="button button--theme-dark button--pill search__cancel js-search-toggle">
+        取消</button>
+    </div>
+    <div class="search-result js-search-result"></div>
+  </div>
+</div>
+<script>var SOURCES = window.TEXT_VARIABLES.sources;
+var PAHTS = window.TEXT_VARIABLES.paths;
+window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
+  var search = (window.search || (window.search = {}));
+  var searchData = window.TEXT_SEARCH_DATA || {};
+
+  function memorize(f) {
+    var cache = {};
+    return function () {
+      var key = Array.prototype.join.call(arguments, ',');
+      if (key in cache) return cache[key];
+      else return cache[key] = f.apply(this, arguments);
+    };
+  }
+
+  /// search
+  function searchByQuery(query) {
+    var i, j, key, keys, cur, _title, result = {};
+    keys = Object.keys(searchData);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      for (j = 0; j < searchData[key].length; j++) {
+        cur = searchData[key][j], _title = cur.title;
+        if ((result[key] === undefined || result[key] && result[key].length < 4 )
+          && _title.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
+          if (result[key] === undefined) {
+            result[key] = [];
+          }
+          result[key].push(cur);
+        }
+      }
+    }
+    return result;
+  }
+
+  var renderHeader = memorize(function(header) {
+    return $('<p class="search-result__header">' + header + '</p>');
+  });
+
+  var renderItem = function(index, title, url) {
+    return $('<li class="search-result__item" data-index="' + index + '"><a class="button" href="' + url + '">' + title + '</a></li>');
+  };
+
+  function render(data) {
+    if (!data) { return null; }
+    var $root = $('<ul></ul>'), i, j, key, keys, cur, itemIndex = 0;
+    keys = Object.keys(data);
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      $root.append(renderHeader(key));
+      for (j = 0; j < data[key].length; j++) {
+        cur = data[key][j];
+        $root.append(renderItem(itemIndex++, cur.title, cur.url));
+      }
+    }
+    return $root;
+  }
+
+  // search box
+  var $result = $('.js-search-result'), $resultItems;
+  var lastActiveIndex, activeIndex;
+
+  function clear() {
+    $result.html(null);
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+  }
+  function onInputNotEmpty(val) {
+    $result.html(render(searchByQuery(val)));
+    $resultItems = $('.search-result__item'); activeIndex = 0;
+    $resultItems.eq(0).addClass('active');
+  }
+
+  search.clear = clear;
+  search.onInputNotEmpty = onInputNotEmpty;
+
+  function updateResultItems() {
+    lastActiveIndex >= 0 && $resultItems.eq(lastActiveIndex).removeClass('active');
+    activeIndex >= 0 && $resultItems.eq(activeIndex).addClass('active');
+  }
+
+  function moveActiveIndex(direction) {
+    var itemsCount = $resultItems ? $resultItems.length : 0;
+    if (itemsCount > 1) {
+      lastActiveIndex = activeIndex;
+      if (direction === 'up') {
+        activeIndex = (activeIndex - 1 + itemsCount) % itemsCount;
+      } else if (direction === 'down') {
+        activeIndex = (activeIndex + 1 + itemsCount) % itemsCount;
+      }
+      updateResultItems();
+    }
+  }
+
+  // Char Code: 13  Enter, 37  ⬅, 38  ⬆, 39  ➡, 40  ⬇
+  $(window).on('keyup', function(e) {
+    var modalVisible = search.getModalVisible && search.getModalVisible();
+    if (modalVisible) {
+      if (e.which === 38) {
+        modalVisible && moveActiveIndex('up');
+      } else if (e.which === 40) {
+        modalVisible && moveActiveIndex('down');
+      } else if (e.which === 13) {
+        modalVisible && $resultItems && activeIndex >= 0 && $resultItems.eq(activeIndex).children('a')[0].click();
+      }
+    }
+  });
+
+  $result.on('mouseover', '.search-result__item > a', function() {
+    var itemIndex = $(this).parent().data('index');
+    itemIndex >= 0 && (lastActiveIndex = activeIndex, activeIndex = itemIndex, updateResultItems());
+  });
+});
+</script>
+</div></div>
+
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function scrollToAnchor(anchor, duration, callback) {
+      var $root = this;
+      $root.animate({ scrollTop: $(anchor).position().top }, duration, function() {
+        window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+        callback && callback();
+      });
+    }
+    $.fn.scrollToAnchor = scrollToAnchor;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function affix(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroll,
+        offsetBottom = 0, scrollTarget = window, scroll = window.document, disabled = false, isOverallScroller = true,
+        rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop,
+        hasInit = false, curState;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroll && (scroll = _options.scroll);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $scrollTarget = $(scrollTarget);
+        isOverallScroller = window.isOverallScroller($scrollTarget[0]);
+        $scroll = $(scroll);
+      }
+      function preCalc() {
+        top();
+        rootHeight = $root.outerHeight();
+        rootTop = $root.offset().top + (isOverallScroller ? 0 :  $scrollTarget.scrollTop());
+        rootLeft = $root.offset().left;
+      }
+      function calc(needPreCalc) {
+        needPreCalc && preCalc();
+        scrollBottom = $scroll.outerHeight() - offsetBottom - rootHeight;
+        rootBottomTop = scrollBottom - rootTop;
+      }
+      function top() {
+        if (curState !== 'top') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: 0
+          });
+          curState = 'top';
+        }
+      }
+      function fixed() {
+        if (curState !== 'fixed') {
+          $root.addClass('fixed').css({
+            left: rootLeft + 'px',
+            top: 0
+          });
+          curState = 'fixed';
+        }
+      }
+      function bottom() {
+        if (curState !== 'bottom') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: rootBottomTop + 'px'
+          });
+          curState = 'bottom';
+        }
+      }
+      function setState() {
+        var scrollTop = $scrollTarget.scrollTop();
+        if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+          fixed();
+        } else if (scrollTop < rootTop) {
+          top();
+        } else {
+          bottom();
+        }
+      }
+      function init() {
+        if(!hasInit) {
+          var interval, timeout;
+          calc(true); setState();
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState();
+          });
+          $window.on('resize', function() {
+            disabled || (calc(true), setState());
+          });
+          hasInit = true;
+        }
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions,
+        refresh: function() {
+          calc(true, { animation: false }); setState();
+        }
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function toc(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroller, $tocUl = $('<ul class="toc toc--ellipsis"></ul>'), $tocLi, $headings, $activeLast, $activeCur,
+        selectors = 'h1,h2,h3', container = 'body', scrollTarget = window, scroller = 'html, body', disabled = false,
+        headingsPos, scrolling = false, hasRendered = false, hasInit = false;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.selectors && (selectors = _options.selectors);
+        _options.container && (container = _options.container);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroller && (scroller = _options.scroller);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $headings = $(container).find(selectors).filter('[id]');
+        $scrollTarget = $(scrollTarget);
+        $scroller = $(scroller);
+      }
+      function calc() {
+        headingsPos = [];
+        $headings.each(function() {
+          headingsPos.push(Math.floor($(this).position().top));
+        });
+      }
+      function setState(element, disabled) {
+        var scrollTop = $scrollTarget.scrollTop(), i;
+        if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+        if (element) {
+          $activeCur = element;
+        } else {
+          for (i = 0; i < headingsPos.length; i++) {
+            if (scrollTop >= headingsPos[i]) {
+              $activeCur = $tocLi.eq(i);
+            } else {
+              $activeCur || ($activeCur = $tocLi.eq(i));
+              break;
+            }
+          }
+        }
+        $activeLast && $activeLast.removeClass('active');
+        ($activeLast = $activeCur).addClass('active');
+      }
+      function render() {
+        if(!hasRendered) {
+          $root.append($tocUl);
+          $headings.each(function() {
+            var $this = $(this);
+            $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName').toLowerCase())
+              .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+          });
+          $tocLi = $tocUl.children('li');
+          $tocUl.on('click', 'a', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            scrolling = true;
+            setState($this.parent());
+            $scroller.scrollToAnchor($this.attr('href'), 400, function() {
+              scrolling = false;
+            });
+          });
+        }
+        hasRendered = true;
+      }
+      function init() {
+        var interval, timeout;
+        if(!hasInit) {
+          render(); calc(); setState(null, scrolling);
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState(null, scrolling);
+          });
+          $window.on('resize', window.throttle(function() {
+            if (!disabled) {
+              render(); calc(); setState(null, scrolling);
+            }
+          }, 100));
+        }
+        hasInit = true;
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.toc = toc;
+  });
+})();
+/*(function () {
+
+})();*/
+</script><script>
+  /* toc must before affix, since affix need to konw toc' height. */(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $articleContent = $('.js-article-content');
+    var $tocRoot = $('.js-toc-root'), $col2 = $('.js-col-aside');
+    var toc;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    tocDisabled = disabled();
+
+    toc = $tocRoot.toc({
+      selectors: TOC_SELECTOR,
+      container: $articleContent,
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $pageFooter = $('.js-page-footer');
+    var $pageAside = $('.js-page-aside');
+    var affix;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+
+    affix = $pageAside.affix({
+      offsetBottom: $pageFooter.outerHeight(),
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      scroll: hasSidebar ? $('.js-page-main').children() : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+    window.pageAsideAffix = affix;
+  });
+})();
+</script>
+    </div>
+    <script>(function () {
+  var $root = document.getElementsByClassName('root')[0];
+  if (window.hasEvent('touchstart')) {
+    $root.dataset.isTouch = true;
+    document.addEventListener('touchstart', function(){}, false);
+  }
+})();
+</script>
+  </body>
+</html>
+

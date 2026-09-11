@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/spider.jpeg
-navigation: True
-title: Selenium和webscraper爬虫
+layout: article
+title: "Selenium和webscraper爬虫"
 date: 2022-12-24 00:00:00
 tags: [爬虫]
-excerpt: 记录自动化爬虫的使用过程和技巧
-class: post-template
-subclass: 'post'
+excerpt: "记录自动化爬虫的使用过程和技巧"
+cover: assets/images/spider.jpeg
+article_header:
+  type: cover
+  image:
+    src: assets/images/spider.jpeg
+key: post-2022-12-24-selenium-webscraper
 ---
 
 ### 一. Selenium爬虫

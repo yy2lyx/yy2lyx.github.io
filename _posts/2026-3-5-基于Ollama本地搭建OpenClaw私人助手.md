@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/claw.jpg
-navigation: True
-title: 基于Ollama本地搭建OpenClaw私人助手
+layout: article
+title: "基于Ollama本地搭建OpenClaw私人助手"
 date: 2026-03-05 00:00:00
 tags: [NLP,DeepLearning]
-excerpt: 记录学习openclaw的过程
-class: post-template
-subclass: 'post'
+excerpt: "记录学习openclaw的过程"
+cover: assets/images/claw.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/claw.jpg
+key: post-2026-3-5--ollama-openclaw
 ---
 
 

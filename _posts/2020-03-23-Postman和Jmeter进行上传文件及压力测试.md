@@ -1,14 +1,15 @@
 ---
-layout: post
-current: post
-cover: assets/images/hannah-cover.jpg
-navigation: True
-title: Postman和Jmeter进行上传文件及压力测试
+layout: article
+title: "Postman和Jmeter进行上传文件及压力测试"
 date: 2020-03-23 15:21:00
 tags: [压力测试]
-excerpt: 讲述如何利用Postman和Jmeter对网络接口进行压力测试
-class: post-template
-subclass: 'post'
+excerpt: "讲述如何利用Postman和Jmeter对网络接口进行压力测试"
+cover: assets/images/hannah-cover.jpg
+article_header:
+  type: cover
+  image:
+    src: assets/images/hannah-cover.jpg
+key: post-2020-03-23-postman-jmeter
 ---
 
 
