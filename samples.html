@@ -1,10 +1,44 @@
 ---
-layout: articles
-title: 预览
+layout: doc-index
+title: Docs
 key: page-samples
-show_title: true
-articles:
-  data_source: site.posts
-  type: grid
-  article_type: BlogPosting
 ---
+
+<main class="yy-docs">
+  <div class="yy-docs__intro">
+    <p class="yy-docs__eyebrow">A LIVING NOTEBOOK</p>
+    <h1>Docs</h1>
+    <p>关于模型、工具和工程实践的持续记录。</p>
+  </div>
+
+  <div class="yy-docs__list">
+    {%- for post in site.posts -%}
+      <article class="yy-doc-card">
+        <a class="yy-doc-card__image" href="{{ post.url | relative_url }}">
+          {%- if post.cover -%}
+            <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+          {%- else -%}
+            <img src="{{ '/assets/images/blog-cover.jpg' | relative_url }}" alt="">
+          {%- endif -%}
+        </a>
+
+        <div class="yy-doc-card__content">
+          <p class="yy-doc-card__number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</p>
+          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+          {%- if post.excerpt -%}
+            <p class="yy-doc-card__excerpt">{{ post.excerpt | strip_html | strip | truncate: 150 }}</p>
+          {%- endif -%}
+          <a class="yy-doc-card__read" href="{{ post.url | relative_url }}">阅读更多 <span aria-hidden="true">↗</span></a>
+          <div class="yy-doc-card__footer">
+            <div class="yy-doc-card__tags">
+              {%- for tag in post.tags limit: 3 -%}
+                <span>{{ tag }}</span>
+              {%- endfor -%}
+            </div>
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+          </div>
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</main>

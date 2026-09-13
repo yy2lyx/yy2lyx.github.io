@@ -1,6 +1,114 @@
 ---
-layout: home
-articles:
-  show_cover: true
-  cover_size: lg
+layout: home-landing
+title: 首页
 ---
+
+<main class="yy-homepage">
+  <section class="yy-showcase" data-home-showcase aria-label="精选文章">
+    <div class="yy-showcase__stage">
+      <div class="yy-showcase__slides" aria-live="polite">
+        <article class="yy-showcase__slide yy-showcase__slide--light is-active" data-slide="0">
+          <img src="{{ '/assets/images/home-network.jpg' | relative_url }}" alt="抽象网络结构的文章配图">
+          <div class="yy-showcase__shade"></div>
+          <div class="yy-showcase__content">
+            <p class="yy-showcase__eyebrow">01 / INTELLIGENCE IN MOTION</p>
+            <h1>让模型理解世界，<br><span>也让世界更懂模型。</span></h1>
+            <p class="yy-showcase__summary">记录机器学习、深度学习与本地 Agent 的实践，把想法变成可以运行的系统。</p>
+            <a class="yy-showcase__link" href="{{ '/archive.html' | relative_url }}">开始阅读 <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="yy-showcase__caption">MODEL / DATA / SYSTEM</p>
+        </article>
+
+        <article class="yy-showcase__slide yy-showcase__slide--light" data-slide="1">
+          <img src="{{ '/assets/images/home-hand.jpg' | relative_url }}" alt="人与人工智能协作的文章配图">
+          <div class="yy-showcase__shade"></div>
+          <div class="yy-showcase__content">
+            <p class="yy-showcase__eyebrow">02 / HUMAN + MACHINE</p>
+            <h2>技术是工具，<br><span>理解才是开始。</span></h2>
+            <p class="yy-showcase__summary">关注模型、工具和工程之间的连接，也记录每一次动手验证的过程。</p>
+            <a class="yy-showcase__link" href="{{ '/archive.html' | relative_url }}">浏览全部记录 <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="yy-showcase__caption">PEOPLE / TOOLS / IDEAS</p>
+        </article>
+
+        <article class="yy-showcase__slide yy-showcase__slide--dark" data-slide="2">
+          <img src="{{ '/assets/images/home-code.jpg' | relative_url }}" alt="代码与人工智能的文章配图">
+          <div class="yy-showcase__shade"></div>
+          <div class="yy-showcase__content">
+            <p class="yy-showcase__eyebrow">03 / MODELS IN MOTION</p>
+            <h2>每一次推理，<br><span>都是一次新的连接。</span></h2>
+            <p class="yy-showcase__summary">从 NLP、CV 到多模态，保持好奇，也保持对真实问题的耐心。</p>
+            <a class="yy-showcase__link" href="{{ '/samples.html' | relative_url }}">探索主题 <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="yy-showcase__caption">NLP / CV / REASONING</p>
+        </article>
+
+        <article class="yy-showcase__slide yy-showcase__slide--dark" data-slide="3">
+          <img src="{{ '/assets/images/home-toolkit.jpg' | relative_url }}" alt="人工智能工具与符号的文章配图">
+          <div class="yy-showcase__shade"></div>
+          <div class="yy-showcase__content">
+            <p class="yy-showcase__eyebrow">04 / THE TOOLKIT</p>
+            <h2>好的工具，<br><span>让想法走得更远。</span></h2>
+            <p class="yy-showcase__summary">用 Python 快速验证想法，用 C++ 把性能推到更远。能够复现、能够部署，才是完整的答案。</p>
+            <a class="yy-showcase__link" href="{{ '/about.html' | relative_url }}">了解我 <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="yy-showcase__caption">PYTHON / C++ / TOOLING</p>
+        </article>
+      </div>
+
+      <div class="yy-showcase__meta">
+        <div class="yy-showcase__progress" aria-hidden="true"><span></span></div>
+        <div class="yy-showcase__controls">
+          <button type="button" class="yy-showcase__control" data-showcase-prev aria-label="上一张">←</button>
+          <span class="yy-showcase__counter"><strong data-showcase-current>01</strong><i>/</i><span data-showcase-total>04</span></span>
+          <button type="button" class="yy-showcase__control" data-showcase-next aria-label="下一张">→</button>
+        </div>
+      </div>
+
+      <nav class="yy-showcase__dots" aria-label="精选文章导航">
+        <button type="button" class="is-active" data-showcase-dot="0" aria-label="第 1 张" aria-current="true"><span>01</span></button>
+        <button type="button" data-showcase-dot="1" aria-label="第 2 张"><span>02</span></button>
+        <button type="button" data-showcase-dot="2" aria-label="第 3 张"><span>03</span></button>
+        <button type="button" data-showcase-dot="3" aria-label="第 4 张"><span>04</span></button>
+      </nav>
+
+      <div class="yy-showcase__scroll" aria-hidden="true"><span></span> SCROLL TO EXPLORE</div>
+    </div>
+
+    <div class="yy-showcase__track" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </section>
+
+  <section class="yy-latest" id="latest-notes">
+    <div class="yy-section-head">
+      <div>
+        <p class="yy-kicker">LATEST NOTES</p>
+        <h2>最近的记录</h2>
+      </div>
+      <a class="yy-link-arrow" href="{{ '/archive.html' | relative_url }}">全部文章 <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="yy-post-list">
+      {%- for post in site.posts limit: 6 -%}
+        <article class="yy-post-row">
+          <a class="yy-post-row__image" href="{{ post.url | relative_url }}">
+            {%- if post.cover -%}
+              <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+            {%- else -%}
+              <img src="{{ '/assets/images/blog-cover.jpg' | relative_url }}" alt="">
+            {%- endif -%}
+          </a>
+          <div class="yy-post-row__body">
+            <p class="yy-post-row__date">{{ post.date | date: "%Y.%m.%d" }}</p>
+            <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+            {%- if post.excerpt -%}<p>{{ post.excerpt | strip_html | strip | truncate: 120 }}</p>{%- endif -%}
+          </div>
+          <a class="yy-post-row__arrow" href="{{ post.url | relative_url }}" aria-label="阅读 {{ post.title | escape }}">↗</a>
+        </article>
+      {%- endfor -%}
+    </div>
+  </section>
+</main>
+
+<script src="{{ '/assets/js/home-parallax.js' | relative_url }}"></script>
