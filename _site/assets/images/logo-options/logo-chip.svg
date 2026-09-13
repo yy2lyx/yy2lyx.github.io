@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Core Chip</title>
+  <desc id="desc">A rounded AI chip with a glowing central core</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="23" y="23" width="50" height="50" rx="14" stroke-width="5"/>
+    <rect x="35" y="35" width="26" height="26" rx="8" stroke-width="4"/>
+    <path stroke-width="5" d="M35 12v11M48 12v11M61 12v11M35 73v11M48 73v11M61 73v11M12 35h11M12 48h11M12 61h11M73 35h11M73 48h11M73 61h11"/>
+    <path stroke-width="3" d="m48 40 3 6 7 2-7 2-3 6-3-6-7-2 7-2 3-6Z"/>
+  </g>
+</svg>
