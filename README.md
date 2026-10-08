@@ -19,3 +19,10 @@ ruby scripts/check-picgo-images.rb
 ```
 
 校验脚本会同时检查文章源码、生成页面和相邻目录中的 `../picgo/img` 本地图床仓库。
+
+更新文章封面或首页轮播图后，先生成轻量 WebP 图片再构建：
+
+```bash
+python3 scripts/optimize_site_images.py
+bundle exec jekyll build
+```

@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/beyes.jpg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/beyes.jpg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -305,30 +308,30 @@
 </ul>
 
 <p>如下图所示，将所有的样本空间展示出来，并圈出事件A、B两种情况的所有可能性。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_1.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_1.png" alt="" /></p>
 
 <p>那么，针对每个不同的事件所发生的概率如下：</p>
 
 <ul>
   <li>
     <p>事件A发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_2.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_2.png" alt="" /></p>
   </li>
   <li>
     <p>事件B发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_3.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_3.png" alt="" /></p>
   </li>
   <li>
     <p>事件A、B同时发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_4.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_4.png" alt="" /></p>
   </li>
   <li>
     <p>在A发生的条件下，B发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_5.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_5.png" alt="" /></p>
   </li>
   <li>
     <p>在B发生的条件下，A发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_6.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_6.png" alt="" /></p>
   </li>
 </ul>
 
@@ -337,11 +340,11 @@
 <ul>
   <li>
     <p>$A和B同时发生的概率 = 在B发生条件下A发生的概率 \times B发生的概率$，如下
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_7.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_7.png" alt="" /></p>
   </li>
   <li>
     <p>$A和B同时发生的概率 = 在A发生条件下B发生的概率 \times A发生的概率$，如下
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_8.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_8.png" alt="" /></p>
   </li>
   <li>
     <p>由上面2个式子，可得$在B发生条件下A发生的概率 \times B发生的概率 = 在A发生条件下B发生的概率 \times A发生的概率$，即得到了贝叶斯公式，如下。</p>
@@ -360,18 +363,18 @@
   <li>圆和长方形交集：表示A事件和B事件同时发生时的事件。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_9.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_9.png" alt="" /></p>
 
 <p>那么交集事件的概率就如下所示：</p>
 
 <ul>
   <li>
     <p>$A和B同时发生的概率 = 在B发生条件下A发生的概率 \times B发生的概率$
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_10.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_10.png" alt="" /></p>
   </li>
   <li>
     <p>$A和B同时发生的概率 = 在A发生条件下B发生的概率 \times A发生的概率$
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_11.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_11.png" alt="" /></p>
   </li>
 </ul>
 

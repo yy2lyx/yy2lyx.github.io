@@ -11,7 +11,8 @@ type: article
 <div class="layout--article">
   {%- include article/top/custom.html -%}
 
-  <div class="article__content" itemprop="articleBody">{{ content }}</div>
+  {%- assign lazy_content = content | replace: '<img ', '<img loading="lazy" decoding="async" ' -%}
+  <div class="article__content" itemprop="articleBody">{{ lazy_content }}</div>
 
   {%- if _sharing -%}
     <section class="article__sharing d-print-none">{%- include sharing.html -%}</section>

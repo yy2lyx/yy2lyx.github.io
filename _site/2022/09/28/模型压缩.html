@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/kd1.jpg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/kd1.jpg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -338,7 +341,7 @@
 
 <p>比如我现在需要一个极小的model来学习图像分类任务。这里完全可以使用以上技巧来混合压缩模型，如下图所示</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression0.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression0.png" alt="" /></p>
 
 <ol>
   <li>可以先选择小的cv模型架构(这里选择mobilenet)来对大的图像分类模型(比如resnet101这种大且深的model)进行<strong>知识蒸馏</strong>。</li>
@@ -380,7 +383,7 @@
   <li>核心方法：让大的model的logits除掉T（原因是由于大model其实已经学很好，导致logits都是1，除掉T之后变得不要那么完美）之后得到soft target，然后让小model去学习hard target和soft target结合起来的loss。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression2.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression2.png" alt="" /></p>
 
 <p><strong>Deep Mutual Learning</strong></p>
 
@@ -389,7 +392,7 @@
   <li>核心方法：让两个network同时学习，互相学习对方的logits，同时让其看到真实的label的样子。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression3.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression3.png" alt="" /></p>
 
 <p><strong>Improved Knowledge Distillation via Teacher Assistant</strong></p>
 
@@ -398,7 +401,7 @@
   <li>核心方法：当小的model无法理解/学习大型model的时候，这里引出“Teacher Assistant”（助教）来作为中间model，起到学习大model，来教小model。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression4.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression4.png" alt="" /></p>
 
 <h3 id="22-中间值蒸馏">2.2 中间值蒸馏</h3>
 
@@ -417,7 +420,7 @@
 
 <p>这个repo是哈工大开源的知识蒸馏的工具包（基于pytorch、bert的工具包，偏向于文本）。下面是具体的使用的流程</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression5.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression5.png" alt="" /></p>
 </div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-28T08:00:00+08:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet -->

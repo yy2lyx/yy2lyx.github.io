@@ -17,8 +17,10 @@
 {%- include snippets/prepend-baseurl.html path='/assets/css/main.css' -%}
 <link rel="stylesheet" href="{{ __return }}">
 
-{%- include snippets/get-sources.html -%}
-{%- assign _sources = __return -%}
-<link rel="stylesheet" href="{{ _sources.font_awesome }}" >
+{%- include snippets/prepend-baseurl.html path='/assets/vendor/fontawesome/css/all.min.css' -%}
+<link rel="stylesheet" href="{{ __return }}">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com">
 
 {%- include head/custom.html -%}

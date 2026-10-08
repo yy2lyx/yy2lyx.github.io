@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/interview.jpeg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/interview.jpeg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -327,7 +330,7 @@
 
 <p>​	总是在运行一个进程上的任务，就会出现一个现象。就是任务不一定总是在执行 ”计算型“ 的任务，会有很大可能是在执行网络调用，阻塞了，CPU 岂不就浪费了？</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_1.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_1.jpg" alt="" /></p>
 
 <p>因此，多进程适用于<strong>CPU密集型任务(各种循环处理、计算等等)</strong>。多线程适用于<strong>IO密集型任务(文件处理、网络爬虫等)</strong>。</p>
 
@@ -368,7 +371,7 @@
 
 <p>​	<strong>死锁</strong>是指两个或两个以上的进程（线程）在执行过程中，由于竞争资源或者由于<strong>彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去</strong>。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程（线程）称为死锁进程（线程）。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_2.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_2.jpg" alt="" /></p>
 
 <p>死锁的<strong>4个必要条件</strong>：</p>
 
@@ -500,7 +503,7 @@ int main(){
 }
 </code></pre>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_3.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_3.jpg" alt="" /></p>
 
 <h3 id="二-linux相关">二. linux相关</h3>
 
@@ -510,22 +513,22 @@ int main(){
   <li>
     <p>查看物理内存使用情况：<code class="language-plaintext highlighter-rouge">free</code></p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_4.jpg" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_4.jpg" alt="" /></p>
   </li>
   <li>
     <p>查看目前正在运行的进程所占的内存百分比和CPU百分比：<code class="language-plaintext highlighter-rouge">top</code>。<strong>假如某个进程显示400%，说明该程序利用了4核CPU。</strong></p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_5.jpg" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_5.jpg" alt="" /></p>
   </li>
   <li>
     <p>查看磁盘使用情况：<code class="language-plaintext highlighter-rouge">df</code></p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_6.jpg" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_6.jpg" alt="" /></p>
   </li>
   <li>
     <p>查看当前进程：<code class="language-plaintext highlighter-rouge">ps</code>，<code class="language-plaintext highlighter-rouge">ps -aux</code>则是当前所有的正在内存当中的程序</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_7.jpg" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_7.jpg" alt="" /></p>
   </li>
 </ul>
 
@@ -535,7 +538,7 @@ int main(){
   <li>
     <p>在某个路径下查找是否有某个<strong>文件</strong>：<code class="language-plaintext highlighter-rouge">find 路径 -name 文件名</code></p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_8.jpg" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_8.jpg" alt="" /></p>
   </li>
   <li>
     <p>根据<strong>字符串</strong>查找相应匹配的<strong>文件</strong>：<code class="language-plaintext highlighter-rouge">grep</code>。它是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。</p>
@@ -544,17 +547,17 @@ int main(){
       <li>
         <p>查找后缀有 py 字样的文件中包含 print 字符串的文件（当前路径下）：<code class="language-plaintext highlighter-rouge">grep print *.py</code></p>
 
-        <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_9.jpg" alt="" /></p>
+        <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_9.jpg" alt="" /></p>
       </li>
       <li>
         <p>递归查找符合条件的<strong>文件</strong>，这里是查找指定目录（git_repo）下及其子目录所有文件中包含helloworld字符串的文件</p>
 
-        <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_10.jpg" alt="" /></p>
+        <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_10.jpg" alt="" /></p>
       </li>
       <li>
         <p>联合<code class="language-plaintext highlighter-rouge">ps</code>检查当前进程中python3进程是否运行：<code class="language-plaintext highlighter-rouge">ps -aux | grep python3</code>。其中<code class="language-plaintext highlighter-rouge">|</code>是管道命令 是指ps命令与grep同时执行。</p>
 
-        <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_11.jpg" alt="" /></p>
+        <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_11.jpg" alt="" /></p>
       </li>
     </ul>
   </li>
@@ -680,7 +683,7 @@ netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 
 
 <h5 id="三次握手">三次握手</h5>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_12.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_12.jpg" alt="" /></p>
 
 <p>如图所示，双方之间的三个蓝色箭头就表示了三次握手过程中所发生的数据交换：</p>
 
@@ -708,7 +711,7 @@ netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 
 
 <p>建立一个连接需要三次握手，而终止一个连接要经过 4次握手。这由 TCP 的半关闭( half-close) 造成的。既然一个 TCP 连接是全双工 (即数据在两个方向上能同时传递)， 因此每个方向必须单独地进行关闭。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_13.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_13.jpg" alt="" /></p>
 
 <p>四次挥手详细过程如下：</p>
 
@@ -746,7 +749,7 @@ netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 
   <li>
     <p>list 容器不支持根据下标随机存取元素。<strong>不支持[ ]操作符和vector.at()</strong>。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_14.jpg" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_14.jpg" alt="" /></p>
   </li>
 </ul>
 
@@ -772,7 +775,7 @@ netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 
 
 <p>​	当基类指针指向一个子类对象，通过这个指针调用子类和基类<strong>同名成员函数</strong>的时候，基类声明为虚函数「子类不写也可以」就会调子类的这个函数，不声明就会调用基类的。关键字：<strong>virtual</strong></p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_15.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_15.jpg" alt="" /></p>
 
 <h5 id="构造和析构可以是虚函数么">构造和析构可以是虚函数么</h5>
 
@@ -843,58 +846,58 @@ netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 
   <tbody>
     <tr>
       <td><strong>冒泡排序</strong></td>
-      <td><img src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
       <td>稳定</td>
     </tr>
     <tr>
       <td><strong>插入排序</strong></td>
-      <td><img src="https://i.loli.net/2021/11/07/DLuPJ4IwE1Q9HNr.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/DLuPJ4IwE1Q9HNr.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/miW3p9T164cCOaR.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/DLuPJ4IwE1Q9HNr.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/DLuPJ4IwE1Q9HNr.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/miW3p9T164cCOaR.png" alt="" /></td>
       <td>稳定</td>
     </tr>
     <tr>
       <td><strong>快速排序</strong></td>
-      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/fCuHGsq1VyabrY4.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
       <td>不稳定</td>
     </tr>
     <tr>
       <td><strong>归并排序</strong></td>
-      <td><img src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/5qMAQrFUsJfLTnb.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
       <td>稳定</td>
     </tr>
     <tr>
       <td><strong>堆排序</strong></td>
-      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/qZTGoYNd89snwPD.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
       <td>不稳定</td>
     </tr>
     <tr>
       <td><strong>计数排序</strong></td>
-      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/j4gCOS73LqwAXxv.png" alt="" /></td>
       <td>稳定</td>
     </tr>
     <tr>
       <td><strong>位图排序</strong></td>
-      <td><img src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
-      <td><img src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/SYbJGCZliqtu1R7.png" alt="" /></td>
+      <td><img loading="lazy" decoding="async" src="https://i.loli.net/2021/11/07/gHGzLTpifxBJ7oa.png" alt="" /></td>
       <td>稳定</td>
     </tr>
   </tbody>
@@ -1010,11 +1013,11 @@ netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 
   </li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_16.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_16.jpg" alt="" /></p>
 
 <p>根据二分查找的思想，查找的最大次数等同于树的高度。但是二叉查找树有其自身的缺陷：在多次出入新的节点后可能会出现不平衡现象，如下图。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_17.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_17.jpg" alt="" /></p>
 
 <h5 id="红黑树rbt">红黑树（RBT）</h5>
 
@@ -1030,7 +1033,7 @@ netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 
 
 <p>如下图插入一个14的新节点。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_18.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_18.jpg" alt="" /></p>
 
 <p>红黑树实现自平衡的三种操作：</p>
 
@@ -1038,12 +1041,12 @@ netstat <span class="nt">-lx</span> <span class="c">#只列出所有监听 UNIX 
   <li>
     <p>左旋：<strong>逆时针</strong>旋转红黑树的两个节点，使得父节点被自己的右孩子取代，而自己成为自己的左孩子。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_19.jpg" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_19.jpg" alt="" /></p>
   </li>
   <li>
     <p>右旋：<strong>顺时针</strong>旋转红黑树的两个节点，使得父节点被自己的左孩子取代，而自己成为自己的右孩子。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_20.jpg" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_20.jpg" alt="" /></p>
   </li>
   <li>
     <p>变色</p>
@@ -1091,13 +1094,13 @@ else:
   <p><strong>问题描述</strong>：在4 * 4 的方格棋盘中放置4个皇后，使得没有2个皇后在同一行、同一列、也不在45°的斜线上。问有多少种可能的布局？</p>
 </blockquote>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_21.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_21.jpg" alt="" /></p>
 
 <p><strong>解</strong>是4维向量&lt;x_1,x_2,x_3,x_4&gt;，解为：&lt;2,4,1,3&gt;，&lt;3,1,4,2&gt;</p>
 
 <p>其<strong>搜索空间</strong>是一个<strong>4叉树</strong>，如下图。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_22.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_22.jpg" alt="" /></p>
 
 <ul>
   <li>每个结点有4个儿子，分别代表1，2，3，4列位置。</li>
@@ -1124,7 +1127,7 @@ else:
 
 <p>实例：V = {12,11,9,8}，W = {8,6,4,3},B = 13</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_23.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_23.jpg" alt="" /></p>
 
 <h5 id="货郎问题">货郎问题</h5>
 
@@ -1134,13 +1137,13 @@ else:
 
 <p>实例：City = {1,2,3,4},d(1,2) = 5,d(1,3) = 9,d(1,4) = 4,d(2,3) = 13,d(2,4) = 2,d(3,4) = 7。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_24.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_24.jpg" alt="" /></p>
 
 <p><strong>解</strong>：&lt;1,2,4,3&gt; 长度 = 5 + 2 + 7 + 9 = 23</p>
 
 <p><strong>搜索空间</strong>：<strong>排列树</strong>，每层有 (n-1)! 片树叶</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_25.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20211212/interv_25.jpg" alt="" /></p>
 
 </div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-12-13T05:11:00+08:00"><!-- start custom article footer snippet -->
 

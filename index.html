@@ -8,7 +8,7 @@ title: 首页
     <div class="yy-showcase__stage">
       <div class="yy-showcase__slides" aria-live="polite">
         <article class="yy-showcase__slide yy-showcase__slide--light is-active" data-slide="0">
-          <img src="{{ '/assets/images/home-network.jpg' | relative_url }}" alt="抽象网络结构的文章配图">
+          <img src="{{ '/assets/images/home-network-1920.webp' | relative_url }}" width="1920" height="1080" fetchpriority="high" decoding="async" alt="抽象网络结构的文章配图">
           <div class="yy-showcase__shade"></div>
           <div class="yy-showcase__content">
             <p class="yy-showcase__eyebrow">01 / INTELLIGENCE IN MOTION</p>
@@ -20,7 +20,7 @@ title: 首页
         </article>
 
         <article class="yy-showcase__slide yy-showcase__slide--light" data-slide="1">
-          <img src="{{ '/assets/images/home-hand.jpg' | relative_url }}" alt="人与人工智能协作的文章配图">
+          <img data-src="{{ '/assets/images/home-hand-1920.webp' | relative_url }}" width="1920" height="1280" decoding="async" alt="人与人工智能协作的文章配图">
           <div class="yy-showcase__shade"></div>
           <div class="yy-showcase__content">
             <p class="yy-showcase__eyebrow">02 / HUMAN + MACHINE</p>
@@ -32,7 +32,7 @@ title: 首页
         </article>
 
         <article class="yy-showcase__slide yy-showcase__slide--dark" data-slide="2">
-          <img src="{{ '/assets/images/home-code.jpg' | relative_url }}" alt="代码与人工智能的文章配图">
+          <img data-src="{{ '/assets/images/home-code-1920.webp' | relative_url }}" width="1920" height="1080" decoding="async" alt="代码与人工智能的文章配图">
           <div class="yy-showcase__shade"></div>
           <div class="yy-showcase__content">
             <p class="yy-showcase__eyebrow">03 / MODELS IN MOTION</p>
@@ -44,7 +44,7 @@ title: 首页
         </article>
 
         <article class="yy-showcase__slide yy-showcase__slide--dark" data-slide="3">
-          <img src="{{ '/assets/images/home-toolkit.jpg' | relative_url }}" alt="人工智能工具与符号的文章配图">
+          <img data-src="{{ '/assets/images/home-toolkit-1920.webp' | relative_url }}" width="1920" height="1080" decoding="async" alt="人工智能工具与符号的文章配图">
           <div class="yy-showcase__shade"></div>
           <div class="yy-showcase__content">
             <p class="yy-showcase__eyebrow">04 / THE TOOLKIT</p>
@@ -91,9 +91,10 @@ title: 首页
         <article class="yy-post-row">
           <a class="yy-post-row__image" href="{{ post.url | relative_url }}">
             {%- if post.cover -%}
-              <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+              {%- assign post_thumbnail = post.cover | replace: '.jpeg', '-thumb.webp' | replace: '.jpg', '-thumb.webp' | replace: '.png', '-thumb.webp' -%}
+              <img src="{{ post_thumbnail | relative_url }}" width="640" height="360" loading="lazy" decoding="async" alt="{{ post.title | escape }}">
             {%- else -%}
-              <img src="{{ '/assets/images/blog-cover.jpg' | relative_url }}" alt="">
+              <img src="{{ '/assets/images/blog-cover-thumb.webp' | relative_url }}" width="640" height="360" loading="lazy" decoding="async" alt="">
             {%- endif -%}
           </a>
           <div class="yy-post-row__body">

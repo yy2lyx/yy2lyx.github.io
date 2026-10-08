@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/brat.jpg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/brat.jpg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -354,7 +357,7 @@ Act-Person Arg1:&lt;ENTITY&gt;, Arg2:&lt;ENTITY&gt;
 <p>这里我只需要对实体和关系进行标注，比如我需要标注实体：人物，动作（包含喜欢/讨厌）；关系：人物和动作的关系
 当我们在网页server端打开<code class="language-plaintext highlighter-rouge">/mydata/1.txt</code>后，可以如下图开始标注了</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220819/brat1.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220819/brat1.jpg" alt="" /></p>
 
 <ol>
   <li>定制化实体/关系<strong>颜色</strong>及<strong>中文展示</strong>，在<code class="language-plaintext highlighter-rouge">mydata</code>目录下新建一个conf文件:<code class="language-plaintext highlighter-rouge">vim visual.conf</code></li>
@@ -375,7 +378,7 @@ hate bgColor:gray, borderColor:red
 </code></pre></div></div>
 <p>接下来，就会在标注的页面看到如下所示了。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220819/brat2.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220819/brat2.jpg" alt="" /></p>
 
 <h3 id="三-brat结果输出及扩展干货">三. brat结果输出及扩展（干货）</h3>
 <h4 id="31-实体bio输出">3.1 实体BIO输出</h4>
@@ -640,7 +643,7 @@ if __name__ == '__main__':
 
 <p>这里用<code class="language-plaintext highlighter-rouge">mydata/1.ann</code>来举例，如下图所示</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220819/brat3.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220819/brat3.jpg" alt="" /></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T1	person 0 2	姚明
 T2	person 8 10	小明

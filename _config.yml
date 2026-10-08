@@ -196,6 +196,7 @@ exclude:
   - jekyll-text-theme.gemspec
   - package-lock.json
   - package.json
+  - netlify.toml
   - /docs
   - /node_modules
   - /screenshots

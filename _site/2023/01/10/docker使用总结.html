@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/docker.jpg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/docker.jpg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -313,7 +316,7 @@
 <h3 id="二-docker使用流程">二. docker使用流程</h3>
 <h4 id="21-docker的流程">2.1 docker的流程</h4>
 <p>整个docker的使用流程基本是：编写docker file ==&gt; 创建image(镜像) ==&gt; 实例化为container(容器) ==&gt; 跑container。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_1.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_1.png" alt="" /></p>
 
 <h4 id="22-拉取使用的例子">2.2 拉取使用的例子</h4>
 <blockquote>
@@ -372,13 +375,13 @@ CMD <span class="o">[</span><span class="s2">"3"</span><span class="o">]</span>
 
 <h4 id="33-推送镜像到docker-hub">3.3 推送镜像到docker hub</h4>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_2.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_2.png" alt="" /></p>
 
 <p>docker hub我们可以理解为一个云仓库，可以和github上类似，用以在远程仓库上存储自己的镜像，方便我们随时拉取。</p>
 
 <p>这里我们需要在dockerhub的<a href="https://hub.docker.com/">官网</a>上进行注册，然后创建属于自己的私有远程仓库。如下所示</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_3.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_3.png" alt="" /></p>
 
 <p>之后我们就可以将自己的镜像上传到dockerhub远程仓库中了。</p>
 
@@ -389,7 +392,7 @@ CMD <span class="o">[</span><span class="s2">"3"</span><span class="o">]</span>
 </ul>
 
 <p>至此，我们就可以在dockerhub上看到我们刚刚上传的镜像咯。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_4.png" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_4.png" alt="" /></p>
 
 </div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-10T08:00:00+08:00"><!-- start custom article footer snippet -->
 

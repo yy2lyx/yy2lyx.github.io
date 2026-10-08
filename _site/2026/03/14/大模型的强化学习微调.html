@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/rft.jpg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/rft.jpg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -317,9 +320,9 @@
 
 <p>这里使用<strong>李宏毅老师</strong>的讲解RF的ppt，我们就能很直观的了解RF是什么了</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/lhy_1.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/lhy_1.png" alt="" /></p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/lhy_2.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/lhy_2.png" alt="" /></p>
 
 <h4 id="13-为什么llm需要rft">1.3 为什么LLM需要RFT</h4>
 
@@ -428,7 +431,7 @@
   <li>不需要迭代循环：利用<strong>类似分类的损失——直接使用logits</strong>损失函数，该函数直接比较两个模型的概率 ，直接基于人类偏好数据优化 LLM</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/dpo.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/dpo.png" alt="" /></p>
 
 <h4 id="24-grpo">2.4 GRPO</h4>
 
@@ -443,7 +446,7 @@
   <li>核心Group Relative Policy Optimization：不再通过分组分数来估算基线，从而显著减少训练资源消耗。使用一组由 LLM 生成的针对同一提示的回答，来评估每个回答相对于组内其他回答的“优劣” 。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/grpo.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/grpo.png" alt="" /></p>
 
 <h3 id="三-基于gsm8k数据集的grpo的实操">三. 基于GSM8K数据集的GRPO的实操</h3>
 

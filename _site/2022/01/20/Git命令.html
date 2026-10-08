@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/git.jpeg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/git.jpeg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -350,10 +353,10 @@
 <ul>
   <li>
     <p>查看当前分支：<code class="language-plaintext highlighter-rouge">git brach</code>，我们可以看到如下图所示，目前我们创建了一个新分支，但是还在master分支下，并没有切换到branch_1分支下（* 即代表当前所处的分支）
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/1.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/1.jpg" alt="" /></p>
   </li>
   <li>切换到指定分支：<code class="language-plaintext highlighter-rouge">git checkout branch_1</code>，这里如果是想直接新建一个分支并切换到该分支下，即可用命令<code class="language-plaintext highlighter-rouge">git checkout -b branch_2</code>
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/2.jpg" alt="" /></li>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/2.jpg" alt="" /></li>
   <li>删除本地分支：<code class="language-plaintext highlighter-rouge">git branch -d branch_1</code></li>
   <li>合并分支branch_1：<code class="language-plaintext highlighter-rouge">git merge branch_1</code></li>
 </ul>
@@ -388,9 +391,9 @@
 <p><strong>查看git日志的栗子</strong></p>
 
 <p>当我们在分支branch_2 下新建了一个b.txt文件后commit提交了之后，通过<code class="language-plaintext highlighter-rouge">git merge branch_2</code>来合并到master上，来查看下日志：<code class="language-plaintext highlighter-rouge">git dog</code>，如下图所示
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/3.jpg" alt="" />
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/3.jpg" alt="" />
 我们会发现这次提交是master还是branch_2的操作，因此我们需要git帮我们创建一次合并的commit，帮助我们区分啥时候发生的合并：<code class="language-plaintext highlighter-rouge">git merge branch_2 --no-ff</code>，这时候看日志就是如下图所示
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/4.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/4.jpg" alt="" /></p>
 
 <p>在上图我们可以看到git日志中先是分支branch_2（可以看到发生了分叉）添加了内容，然后合并到了master上，十分清晰明了。</p>
 
@@ -399,11 +402,11 @@
 <p>我们的branch_2是基于branch_1进行创建的，然后我们在branch_2中修改了a.txt内容，并commit提交。然后在切换回branch_1，同时也修改了a.txt内容，依然commit提交。这个时候branch_2的同学想要基于branch_1的同学来修改代码继续做，因此branch_2会合并branch_1，即<code class="language-plaintext highlighter-rouge">git merge branch_1</code>，这时候就会发生分支冲突。那么解决冲突的方式就是去修改a.txt中的内容。</p>
 
 <p>这里推荐使用命令<code class="language-plaintext highlighter-rouge">git mergetool</code>来进行修改，如下图所示。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/5.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/5.jpg" alt="" /></p>
 
 <h3 id="三-回滚">三. 回滚</h3>
 <p>我们提交之后发现想回滚到之前的提交下，如下图所示
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/6.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/6.jpg" alt="" /></p>
 
 <ul>
   <li>想要回滚一次：<code class="language-plaintext highlighter-rouge">git reset master^</code></li>

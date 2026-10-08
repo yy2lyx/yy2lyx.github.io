@@ -16,9 +16,10 @@ key: page-samples
       <article class="yy-doc-card">
         <a class="yy-doc-card__image" href="{{ post.url | relative_url }}">
           {%- if post.cover -%}
-            <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+            {%- assign post_thumbnail = post.cover | replace: '.jpeg', '-thumb.webp' | replace: '.jpg', '-thumb.webp' | replace: '.png', '-thumb.webp' -%}
+            <img src="{{ post_thumbnail | relative_url }}" width="640" height="360" loading="lazy" decoding="async" alt="{{ post.title | escape }}">
           {%- else -%}
-            <img src="{{ '/assets/images/blog-cover.jpg' | relative_url }}" alt="">
+            <img src="{{ '/assets/images/blog-cover-thumb.webp' | relative_url }}" width="640" height="360" loading="lazy" decoding="async" alt="">
           {%- endif -%}
         </a>
 

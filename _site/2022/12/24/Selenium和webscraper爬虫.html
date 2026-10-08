@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/spider.jpeg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/spider.jpeg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -400,7 +403,7 @@ while scrolling:
 
 <p>直接打开chrome应用商店进行搜索<code class="language-plaintext highlighter-rouge">Web Scraper</code>,下载安装插件即可。
 在chrome中打开一个页面，点击右键，选择<code class="language-plaintext highlighter-rouge">检查</code>，即可看到web scraper了。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider1.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider1.jpg" alt="" /></p>
 
 <h4 id="22-使用">2.2 使用</h4>
 <blockquote>
@@ -410,31 +413,31 @@ while scrolling:
 <ol>
   <li>
     <p>新建一个sitemap，选择<code class="language-plaintext highlighter-rouge">create new sitemap</code>, 填写名称和url，如下图
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider2.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider2.jpg" alt="" /></p>
   </li>
   <li>
     <p>选择初始的选择器，这里选择的是公众号名字。注意这里是需要点击“公众号”，因此选择link。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider3.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider3.jpg" alt="" /></p>
   </li>
   <li>
     <p>在上面选择的选择器中点进去后，新建一个选择器，这里是需要下拉动作，因此选择element scroll down。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider4.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider4.jpg" alt="" /></p>
   </li>
   <li>
     <p>点击scroller，新建一个选择器，用以保存文章标题。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider5.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider5.jpg" alt="" /></p>
   </li>
   <li>
     <p>同时在scroller下新建一个选择器，用以保存文章链接。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider6.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider6.jpg" alt="" /></p>
   </li>
   <li>
     <p>我们可以通过查看graph的形式来查看整个workflow（点击<code class="language-plaintext highlighter-rouge">sitemap</code>下的<code class="language-plaintext highlighter-rouge">Selector graph</code>）。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider7.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider7.jpg" alt="" /></p>
   </li>
   <li>
     <p>至此，配置部分就全部完成了，现在只需要跑起来就行，点击<code class="language-plaintext highlighter-rouge">sitemap</code>下的<code class="language-plaintext highlighter-rouge">Scrape</code>即可。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider8.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider8.jpg" alt="" /></p>
   </li>
 </ol>
 

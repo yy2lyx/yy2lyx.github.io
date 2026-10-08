@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/codex_use.png" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/codex_use.png" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -362,7 +365,7 @@
   </tbody>
 </table>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/01_codex_configuration_layers.png" alt="Codex 配置层级示意" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/01_codex_configuration_layers.png" alt="Codex 配置层级示意" /></p>
 
 <p>一个简单的判断原则是：</p>
 
@@ -461,7 +464,7 @@
 <span class="p">4.</span> State remaining test gaps.
 </code></pre></div></div>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/02_skill_setup.png" alt="Skill 配置与调用示意" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/02_skill_setup.png" alt="Skill 配置与调用示意" /></p>
 
 <h4 id="33-codex如何调用-skill">3.3 codex如何调用 Skill</h4>
 
@@ -499,13 +502,13 @@
   <li><strong>URL / HTTP：</strong> Codex 连接一个远程 MCP endpoint，认证方式取决于服务本身。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/03_mcp_setup.png" alt="MCP 配置示意" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/03_mcp_setup.png" alt="MCP 配置示意" /></p>
 
 <h4 id="42-一个本地-mcp-server-示例">4.2 一个本地 MCP Server 示例</h4>
 
 <p>下面是一个完整的接入本地mcp服务的例子，直接让AI帮你生成：</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/mcpserver.png" alt="image-20260904161049651" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/mcpserver.png" alt="image-20260904161049651" /></p>
 
 <p>项目级配置可以放在项目内的 <code class="language-plaintext highlighter-rouge">.codex/config.toml</code>，用户级配置可以放在 <code class="language-plaintext highlighter-rouge">~/.codex/config.toml</code>。下面是一个通过本地 Python 进程启动 MCP Server 的示例：</p>
 

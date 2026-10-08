@@ -46,11 +46,11 @@
           {%- assign _article_cover = __return -%}
           <div class="item__image">
           {%- if include.cover_size == 'lg' -%}
-            <img class="image image--lg" src="{{ _article_cover }}" />
+            <img class="image image--lg" src="{{ _article_cover }}" loading="lazy" decoding="async" />
           {%- elsif include.cover_size == 'sm' -%}
-            <img class="image image--sm" src="{{ _article_cover }}" />
+            <img class="image image--sm" src="{{ _article_cover }}" loading="lazy" decoding="async" />
           {%- else -%}
-            <img class="image" src="{{ _article_cover }}" />
+            <img class="image" src="{{ _article_cover }}" loading="lazy" decoding="async" />
           {%- endif -%}
           </div>
         {%- endif -%}
@@ -113,7 +113,7 @@
           <div class="card card--flat">
             {%- if _article.cover -%}
               <div class="card__image">
-                <img class="image" src="{{ _article_cover }}" />
+                <img class="image" src="{{ _article_cover }}" loading="lazy" decoding="async" />
                 <div class="overlay overlay--bottom">
                   <header>
                     <a href="{{ _article_url }}"><h2 class="card__header">{{ _article.title }}</h2></a>
@@ -128,7 +128,7 @@
         <div class="cell cell--12 cell--md-6 cell--lg-4">
           <div class="card card--flat">
             {%- if _article.cover -%}
-              <div class="card__image"><img src="{{ _article_cover }}" /></div>
+              <div class="card__image"><img src="{{ _article_cover }}" loading="lazy" decoding="async" /></div>
             {%- endif -%}
               <div class="card__content">
                 <header>

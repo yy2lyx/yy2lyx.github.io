@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/jetson.jpg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/jetson.jpg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -331,13 +334,13 @@
   <li>在Windows10上安装vnc-client，官网地址：https://www.realvnc.com/en/connect/download/viewer/windows/</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_1.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_1.png" alt="" /></p>
 
 <ul>
   <li>
     <p>输入linux的ip后，直接连接即可。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_2.png" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_2.png" alt="" /></p>
   </li>
 </ul>
 
@@ -389,7 +392,7 @@
   <li>用JetPack刷机（本人选用的是Jetpack4.4.1），jetpack地址：https://developer.nvidia.com/embedded/jetpack-archive</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_3.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_3.png" alt="" /></p>
 
 <ul>
   <li>安装完成后，我们可以查看jetpack的版本：<code class="language-plaintext highlighter-rouge">cat /etc/nv_tegra_release</code>，同时已经给我们安装好了CUDA 10.2 、cudnn 8.0 、opencv、python3.6。</li>
@@ -469,7 +472,7 @@ sudo make
 
 <p>Pytorch的jetson版本下载地址：https://forums.developer.nvidia.com/t/pytorch-for-jetson-version-1-9-0-now-available/72048</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_4.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_4.png" alt="" /></p>
 
 <ul>
   <li>

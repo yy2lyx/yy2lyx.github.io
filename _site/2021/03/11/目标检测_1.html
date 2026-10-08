@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/ob_det_1.jpeg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/ob_det_1.jpeg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -336,7 +339,7 @@
 
 <h4 id="21-模型结构">2.1 模型结构</h4>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_1.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_1.jpg" alt="" /></p>
 
 <p>YOLO模型的结构如上所示：</p>
 
@@ -354,7 +357,7 @@
   <li>将448 * 448的图像分为7 * 7的grid（网格），每个grid都会进行判断：是否为前景，且会构建2个boundingbox来框出物体。因此，一共是有7 * 7 * 2个框。而每个grid都会输出x,y,w,h,c；这里的confidence的计算就是前景目标的概率 * iou的值。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_2.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_2.jpg" alt="" /></p>
 
 <ul>
   <li>除了boundingbox的计算外，当然还需要输出目标是哪个类别，即输出检测到的目标是某个类别的概率。这样就可以计算每个grid属于某个类别下的iou情况了。</li>
@@ -375,9 +378,9 @@
 
 <p>定义如下所示：</p>
 
-<p><img src="https://i.loli.net/2021/03/16/ZLlQj29WeVTdzRI.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/ZLlQj29WeVTdzRI.png" alt="" /></p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_3.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_3.jpg" alt="" /></p>
 
 <p>如上所示，假定是将图片划分为3 * 3个grid，每个grid有且仅有一个预测框，由于只计算和前景目标匹配的框，因此只会计算grid5和grid7的location loss。</p>
 
@@ -385,12 +388,12 @@
   <li>
     <p>grid5的loss：</p>
 
-    <p><img src="https://i.loli.net/2021/03/16/G7TUCNdS5lWDKrw.png" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/G7TUCNdS5lWDKrw.png" alt="" /></p>
   </li>
   <li>
     <p>grid7的loss：</p>
 
-    <p><img src="https://i.loli.net/2021/03/16/nBHViDx8kpRjGZ9.png" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/nBHViDx8kpRjGZ9.png" alt="" /></p>
   </li>
 </ul>
 
@@ -400,55 +403,55 @@
   <li>grid5的loss：</li>
 </ul>
 
-<p><img src="https://i.loli.net/2021/03/16/ZA2t1zlJKIu9XMD.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/ZA2t1zlJKIu9XMD.png" alt="" /></p>
 
 <ul>
   <li>grid7的loss：</li>
 </ul>
 
-<p><img src="https://i.loli.net/2021/03/16/hlRF8OMHrt6wXnk.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/hlRF8OMHrt6wXnk.png" alt="" /></p>
 
 <h5 id="222-object-loss">2.2.2 Object Loss</h5>
 
 <p>定义如下：</p>
 
-<p><img src="https://i.loli.net/2021/03/16/N9KPlvfTF1OCuWE.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/N9KPlvfTF1OCuWE.png" alt="" /></p>
 
 <p>那么上图的每个grid的confidence的值如下：</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_4.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_4.jpg" alt="" /></p>
 
 <p>object loss的值为：</p>
 
-<p><img src="https://i.loli.net/2021/03/16/HvNnV8h6eZdoWE7.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/HvNnV8h6eZdoWE7.png" alt="" /></p>
 
 <p>但是这个是只划分了3 * 3个grid的，那么如果是原论文中的7 * 7的情况下呢，此时的object loss的值为：</p>
 
-<p><img src="https://i.loli.net/2021/03/16/WqYcKHxbveoRhQL.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/WqYcKHxbveoRhQL.png" alt="" /></p>
 
 <p>我们可以看到，0.96这个检测的背景的loss就过大了，那么在反向传播的过程中，梯度的变化很大程度就着重在背景的部分，以至于学习前景的能力较差。</p>
 
 <p>因此，重新定义object loss（其实就是在背景loss引入一个系数，比如0.5）：</p>
 
-<p><img src="https://i.loli.net/2021/03/16/ctsYBoIguWzlab7.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/ctsYBoIguWzlab7.png" alt="" /></p>
 
 <h5 id="223-classification-loss">2.2.3 classification loss</h5>
 
 <p>定义如下：</p>
 
-<p><img src="https://i.loli.net/2021/03/16/fI6jQpviDU5Kswo.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://i.loli.net/2021/03/16/fI6jQpviDU5Kswo.png" alt="" /></p>
 
 <h4 id="24-yolo存在问题">2.4 YOLO存在问题</h4>
 
 <h5 id="241-同一个grid却是多个目标的中心点">2.4.1 同一个grid却是多个目标的中心点</h5>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_5.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_5.jpg" alt="" /></p>
 
 <p>如上图所示，人和车的中心点基本都落在中心的grid中，对于yolo而言，就无法分辨到底是人还是车？一个grid下只能预测1个目标。</p>
 
 <h5 id="242-同一个grid中存在多个小目标">2.4.2 同一个grid中存在多个小目标</h5>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_6.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_6.jpg" alt="" /></p>
 
 <p>如上图所示，同一个grid下有多个鸟（小目标），而对于yolo而言，一个grid下只能预测1个目标。</p>
 

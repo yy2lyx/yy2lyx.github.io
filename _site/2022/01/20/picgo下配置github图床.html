@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/picgo.jpg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/picgo.jpg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -306,7 +309,7 @@
 <h4 id="21-新建一个共有仓库">2.1 新建一个共有仓库</h4>
 
 <p>首先，要搭建一个github图床，我们需要创建一个<strong>共有仓库</strong>（注意：如果是创建私有仓库根本无法显示图片出来）来存储上传的图片。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/new-rep.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/new-rep.jpg" alt="" /></p>
 
 <h4 id="22-创建admin分支">2.2 创建admin分支</h4>
 <p>这里如果不会用git创建分支的同学可参考我上一篇文章<a href="https://www.lixiaofei2yy.website/git%E5%91%BD%E4%BB%A4">GIT命令学习</a>。</p>
@@ -319,16 +322,16 @@
 </ul>
 
 <p>这时，我们就可以在仓库中看到admin分支了，如下图。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/admin.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/admin.jpg" alt="" /></p>
 
 <h4 id="23-设置token">2.3 设置token</h4>
 <p>这里我们还需要设置token，直接点击该<a href="https://github.com/settings/tokens">链接</a>即可。注意，这里需要将repo选择。如下图所示。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/token.jpg" alt="" />
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/token.jpg" alt="" />
 然后点击generate token就完成了。</p>
 
 <h3 id="三-在picgo下配置github图床">三. 在picgo下配置github图床</h3>
 <p>记住上面刚刚配置好的token和仓库名字及分支名admin，按照下图进行配置即可。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/picgo.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/picgo.jpg" alt="" /></p>
 
 <p>至此，我们就可以愉快的上传图片咯！</p>
 

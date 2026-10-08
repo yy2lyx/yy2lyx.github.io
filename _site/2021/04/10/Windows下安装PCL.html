@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/pointcloud.png" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/pointcloud.png" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -327,7 +330,7 @@
   <li>
     <p>在<code class="language-plaintext highlighter-rouge">pkg-config</code>目录下，运行脚本<code class="language-plaintext highlighter-rouge">InstallWindowsGTKPlus.bat</code>，该脚本会下载必须的内容，下载完成后会多出这些文件夹，如下图所示</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210410/pcl_1.png" alt="" /></p>
+    <p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210410/pcl_1.png" alt="" /></p>
   </li>
   <li>
     <p>安装python的pcl包：</p>
@@ -380,7 +383,7 @@
 
 <p>由于上面已经下载了PCL1.9.1了，可以直接在命令行中进行展示：<code class="language-plaintext highlighter-rouge">pcl_viewer_release H cloud.PCD</code>，下面的是来自Middlebury 2014数据集中经过立体匹配后的3D点云图。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210410/pcl_2.png" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210410/pcl_2.png" alt="" /></p>
 </div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-04-10T18:21:00+08:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet -->

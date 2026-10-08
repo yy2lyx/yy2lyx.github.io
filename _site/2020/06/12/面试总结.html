@@ -10,7 +10,10 @@
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
-<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css" ><!-- start custom head snippets -->
+<link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="//raw.githubusercontent.com"><!-- start custom head snippets -->
 
 <!-- end custom head snippets -->
 <script>(function() {
@@ -229,7 +232,7 @@
       version: '2.2.6',
       sources: {
         font_awesome: 'https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: '/assets/vendor/jquery/jquery-3.7.1.min.js',
         leancloud_js_sdk: '//cdn.jsdelivr.net/npm/leancloud-storage@3.13.2/dist/av-min.js',
         chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
         gitalk: {
@@ -273,7 +276,7 @@
         <ul><li class="navigation__item"><a href="/">Home</a></li><li class="navigation__item"><a href="/archive.html">Archive</a></li><li class="navigation__item"><a href="/samples.html">Docs</a></li><li class="navigation__item"><a href="/about.html">About</a></li><li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li></ul>
       </nav></div>
   </header>
-</div><div class="page__content"><img class="article__header--cover" src="/assets/images/question.jpg" /><div class ="main"><div class="grid grid--reverse">
+</div><div class="page__content"><img class="article__header--cover" src="/assets/images/question.jpg" fetchpriority="high" decoding="async" /><div class ="main"><div class="grid grid--reverse">
 
               <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div>
 </aside></div>
@@ -340,7 +343,7 @@ q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交�
 
 <h4 id="23-svm的核函数">2.3 SVM的核函数</h4>
 <p>使用非线性核的支持向量机可以处理线性不可分的问题。通过核函数，支持向量机可以将特征向量映射到更高维的空间中，使得原本线性不可分的数据在映射之后的空间中变得线性可分，如下图所示，原本二维空间的线性不可分（异或问题）转成三维空间，就可以线性可分了。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_1.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_1.jpg" alt="" /></p>
 
 <p>常用的核函数：线性核、多项式核、高斯核（RBF）、拉普拉斯核等等。核函数的选择其实才是SVM模型的最大变数。</p>
 
@@ -367,13 +370,13 @@ L1范数就是p=1,即：
 
 <p>决策树属于典型的“<strong>白盒模型</strong>”，如下图所示，我是否应该接收一个新的offer？这里可以通过构建一个个节点，来判断我是否应该接收offer。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_2.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_2.jpg" alt="" /></p>
 
 <p>比较常用的决策树有<strong>ID3</strong>，<strong>C4.5</strong>和<strong>CART</strong>（Classification And Regression Tree）。</p>
 
 <p><strong>熵</strong>：熵是随机变量的不确定程度。越混乱熵值越高，说明越混乱，分类越混乱。当熵值为0时，说明是纯物质。以下是熵的公式。
 \(H(X)=-\sum_{i=1}^{n} p_{i} \log p_{i}\)
-​		<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_3.jpg" alt="" /></p>
+​		<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_3.jpg" alt="" /></p>
 
 <p>当Entropy最大为1的时候，是分类效果最差的状态，当它最小为0的时候，是完全分类的状态。因为熵等于零是理想状态，一般实际情况下，熵介于0和1之间。熵的不断最小化，实际上就是提高分类正确率的过程。</p>
 
@@ -670,10 +673,10 @@ FPN特征金字塔网络：参考文章：https://zhuanlan.zhihu.com/p/92005927<
 
 <p>RNN的前向推导公式：</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_4.jpg" alt="" /></p>
+<p><img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_4.jpg" alt="" /></p>
 
 <p>LSTM的三种门控制如下：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_5.jpg" alt="" /></p>
+<img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_5.jpg" alt="" /></p>
 
 <p>如上图所示，它们的名字、表示的计算过程及输出分别是：</p>
 
