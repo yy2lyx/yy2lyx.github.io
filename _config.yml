@@ -21,6 +21,7 @@ highlight_theme: default # "default" (default), "tomorrow", "tomorrow-night", "t
 url     : https://lixiaofei2yy.website
 baseurl : # does not include hostname
 title   : 凡人炼丹传
+asset_version: 20261008-1
 description: > # this means to ignore newlines until "Language & timezone"
   欢迎各位看官光临本小站，希望共同学习进步哈！
 

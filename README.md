@@ -26,3 +26,5 @@ ruby scripts/check-picgo-images.rb
 python3 scripts/optimize_site_images.py
 bundle exec jekyll build
 ```
+
+Netlify 必须使用仓库根目录的 `netlify.toml`：构建命令为 `bundle exec jekyll build`，发布目录为 `_site`。不要将仓库中已有的 `_site` 直接作为未构建的静态目录发布。

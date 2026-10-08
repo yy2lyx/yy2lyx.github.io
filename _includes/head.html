@@ -15,7 +15,7 @@
 {%- include head/favicon.html -%}
 
 {%- include snippets/prepend-baseurl.html path='/assets/css/main.css' -%}
-<link rel="stylesheet" href="{{ __return }}">
+<link rel="stylesheet" href="{{ __return }}?v={{ site.asset_version }}">
 
 {%- include snippets/prepend-baseurl.html path='/assets/vendor/fontawesome/css/all.min.css' -%}
 <link rel="stylesheet" href="{{ __return }}">
