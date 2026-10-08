@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>贝叶斯公式及模型的理解 - 凡人炼丹传</title>
 
 <meta name="description" content="记录对于贝叶斯公式及模型的理解">
-<link rel="canonical" href="https://lixiaofei2yy.website/2022/02/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%90%86%E8%A7%A3.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2022/02/10/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%90%86%E8%A7%A3.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -305,30 +305,30 @@
 </ul>
 
 <p>如下图所示，将所有的样本空间展示出来，并圈出事件A、B两种情况的所有可能性。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_1.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_1.png" alt="" /></p>
 
 <p>那么，针对每个不同的事件所发生的概率如下：</p>
 
 <ul>
   <li>
     <p>事件A发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_2.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_2.png" alt="" /></p>
   </li>
   <li>
     <p>事件B发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_3.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_3.png" alt="" /></p>
   </li>
   <li>
     <p>事件A、B同时发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_4.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_4.png" alt="" /></p>
   </li>
   <li>
     <p>在A发生的条件下，B发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_5.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_5.png" alt="" /></p>
   </li>
   <li>
     <p>在B发生的条件下，A发生的概率：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_6.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_6.png" alt="" /></p>
   </li>
 </ul>
 
@@ -337,11 +337,11 @@
 <ul>
   <li>
     <p>$A和B同时发生的概率 = 在B发生条件下A发生的概率 \times B发生的概率$，如下
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_7.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_7.png" alt="" /></p>
   </li>
   <li>
     <p>$A和B同时发生的概率 = 在A发生条件下B发生的概率 \times A发生的概率$，如下
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_8.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_8.png" alt="" /></p>
   </li>
   <li>
     <p>由上面2个式子，可得$在B发生条件下A发生的概率 \times B发生的概率 = 在A发生条件下B发生的概率 \times A发生的概率$，即得到了贝叶斯公式，如下。</p>
@@ -360,18 +360,18 @@
   <li>圆和长方形交集：表示A事件和B事件同时发生时的事件。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_9.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_9.png" alt="" /></p>
 
 <p>那么交集事件的概率就如下所示：</p>
 
 <ul>
   <li>
     <p>$A和B同时发生的概率 = 在B发生条件下A发生的概率 \times B发生的概率$
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_10.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_10.png" alt="" /></p>
   </li>
   <li>
     <p>$A和B同时发生的概率 = 在A发生条件下B发生的概率 \times A发生的概率$
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/b_11.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220210/b_11.png" alt="" /></p>
   </li>
 </ul>
 

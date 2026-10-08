@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>目标检测(one stage)-从FPN到DSSD - 凡人炼丹传</title>
 
 <meta name="description" content="讲述目标检测(one stage)-从FPN到DSSD">
-<link rel="canonical" href="https://lixiaofei2yy.website/2021/04/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_4.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2021/04/28/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_4.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -323,13 +323,13 @@
   <li>如下图所示，经过多次特征抽取后，越到高层的feature map所囊括的细节信息就越少，对于底层信息（比如小的目标）预测就越难。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_4_1.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210427/mu_4_1.jpg" alt="" /></p>
 
 <ul>
   <li>那么图像特征金字塔做了什么呢？既对同一张图片进行多次下采样，从而得到多张不同尺寸的图片，进而生成不同尺寸的feature map，从而使模型拥有对不同尺度大小的物体进行检测的能力。但是论文中也提出它的问题：<strong>消耗太大的内存和计算量</strong>。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_4_2.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210427/mu_4_2.jpg" alt="" /></p>
 
 <ul>
   <li>
@@ -338,7 +338,7 @@
   <li>
     <p>如下图所示，是不是感觉和上面的图像特征金字塔很像？差别还是有的，SSD是对同一张图片进行卷积抽取其不同尺度的feature map进行分别做预测，而特征金字塔是对不同尺度的图片分别做特征抽取得到不同尺度的feature map在分别做预测。这里论文中也提到SSD的<strong>缺点</strong>：<strong>失去了高层语义信息重用的机会，导致低层语义信息不足</strong>。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_4_3.jpg" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210427/mu_4_3.jpg" alt="" /></p>
   </li>
 </ul>
 
@@ -350,7 +350,7 @@
 
 <p>FPN的网络结构如下图所示：</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_4_4.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210427/mu_4_4.jpg" alt="" /></p>
 
 <p>我们可以看到，其实说白了FPN相较于SSD和特征金字塔厉害的地方：</p>
 
@@ -361,7 +361,7 @@
 
 <p>下面是来源于我上面推荐的git仓库的FPN网络的细节架构图。方便我们很好的理解FPN中到底做了什么。如下图所示，从底层的feature map（1067 * 800）到高层的feature map(34 * 25)，每层feature map经过1 * 1的卷积之后和经过up sample之后的上层feature map做一个add操作，在进行推理。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_4_5.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210427/mu_4_5.jpg" alt="" /></p>
 
 <p>下面是细节复现的pytorch代码：</p>
 
@@ -398,7 +398,7 @@
 
 <p>下图是SSD和DSSD的网络架构示意图。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_4_6.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210427/mu_4_6.jpg" alt="" /></p>
 
 <p>SSD和DSSD在前面特征抽取层的backbone都是一样的，差别在于后面推理的过程：</p>
 
@@ -416,7 +416,7 @@
 
 <p>下图是SSD（左1和右1）和DSSD（左2和右2）的模型在同一张图片上的检测效果。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_4_7.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210427/mu_4_7.jpg" alt="" /></p>
 
 <p>可以明显的发现：</p>
 

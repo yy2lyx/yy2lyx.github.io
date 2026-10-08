@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>无监督异常检测模型 - 凡人炼丹传</title>
 
 <meta name="description" content="主要讲述无监督的异常检测模型">
-<link rel="canonical" href="https://lixiaofei2yy.website/2019/12/05/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2019/12/05/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -308,7 +308,7 @@
 <h4 id="11-3σ原则">1.1 3σ原则</h4>
 <p>如果特征服从正态分布，那么，在\(\pm 3 \sigma\)的范围内包含了99.73%的“几乎所有”的内容（所有正常的值都在平均值正负三个标准差的范围内），而可能存在的异常值都在其之外。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_1.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_1.jpg" alt="" /></p>
 
 <h4 id="12-3σ原则的适用条件">1.2 3σ原则的适用条件</h4>
 <ul>
@@ -331,7 +331,7 @@
 
 <p>假设数据在低维空间上有嵌入，那么无法、或者在低维空间投射后表现不好的数据可以认为是异常点。PCA有两种检测异常的方法，一种是将数据映射到低维空间，然后在特征空间不同维度上查看每个数据点和其他数据点的偏差，另一种是看重构误差，先映射到低维再映射回高维，异常点的重构误差较大。这两种方法的本质一样，都是关注较小特征值对应的特征向量方向上的信息。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_2.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_2.jpg" alt="" /></p>
 
 <p>可以利用PCA将二维的特征数据映射到一维上（尽量保持原始信息），然后再映射到二维空间，对比重构的二维数据和初始的二维数据的误差值（MSE），设定阈值，大于阈值的为异常，小于等于阈值的为正常。</p>
 
@@ -353,9 +353,9 @@
 <h4 id="22-oneclass-svm">2.2 OneClass-SVM</h4>
 <ul>
   <li>（1）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_3.jpg" alt="" /></li>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_3.jpg" alt="" /></li>
   <li>（2）与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。与传统SVM不同的是，one class SVM是一种非监督的算法。它是指在训练集中只有一类positive（或者negative）的数据，而没有另外的一类。而这时，需要学习（learn）的就是边界（boundary），而不是最大间隔（maximum margin）。</li>
-  <li><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_4.jpg" alt="" /></li>
+  <li><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_4.jpg" alt="" /></li>
 </ul>
 
 <h3 id="三-非线性模型">三. 非线性模型</h3>
@@ -387,7 +387,7 @@
 
 <p>这里sigma是非线性激活函数。AutoEncoder一般都会堆叠多层（多层神经层同样也能增加模型的非线性），方便起见我们只写了一层。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_5.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_5.jpg" alt="" /></p>
 
 <p>Autoencoder可以参与构建2种不同的异常检测模型。</p>
 <ul>
@@ -400,13 +400,13 @@
 
 <p>VAE其实可以看作AutoEncoder的一个变种，它在AutoEncoder区别在于在Encoder映射到低维空间中映射成了2个Vector，一个属于原始的CODE，而另一个作为噪声增加到新的CODE中。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_6.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_6.jpg" alt="" /></p>
 
 <p>上图中，M_1，M_2，M_3作为Original Code，sigma_1，sigma_2，sigma_3这种变分的噪点则是通过模型自动训练学习得到的，e_1,e_2,e_3定义为服从一个标准的正太分布的向量，那么在AutoEncoder中的低维空间code在VAE中就是上图中的c_i了。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_7.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_7.jpg" alt="" /></p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_8.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_8.jpg" alt="" /></p>
 
 <p>code的定义公式如下：
 \(c_{i}=\exp \left(\sigma_{i}\right) \times e_{i}+m_{i}\)</p>
@@ -416,7 +416,7 @@
 
 <p>VAE相较于AutoEncoder的优势在于：映射到低维空间的code增加了噪声，导致重构的高维空间中的值可以和原始数据不太一样，比如AutoEncoder模型原始输入是满月和斜月，那么输出一定是满月和斜月，而VAE则是可以生成满月和斜月的结合体。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_9.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_9.jpg" alt="" /></p>
 
 <h3 id="四-基于划分超平面的模型isolation-forest">四. 基于划分超平面的模型——Isolation Forest</h3>
 <h4 id="41-孤立森林的思想是">4.1 孤立森林的思想是</h4>
@@ -444,9 +444,9 @@
 
 <p>K-Means算法对于凸性数据具有良好的效果，能够根据距离来讲数据分为球状类的簇，但对于非凸形状的数据点，就无能为力了，比如环形数据等等，此时基于密度的算法DBSCAN就更令人满意了。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_10.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_10.jpg" alt="" /></p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/ab_11.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191204/ab_11.jpg" alt="" /></p>
 
 <h4 id="52-评价聚类效果指标">5.2 评价聚类效果指标</h4>
 <p>聚类算法的目标是：簇内相似度高，簇间相似度低。</p>

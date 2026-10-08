@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>大模型基于检索增强的微调-RAFT - 凡人炼丹传</title>
 
 <meta name="description" content="记录学习大模型的RAFT">
-<link rel="canonical" href="https://lixiaofei2yy.website/2025/11/27/%E5%9F%BA%E4%BA%8Eunsloth%E6%9D%A5%E5%AE%9E%E7%8E%B0RAFT.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2025/11/27/%E5%9F%BA%E4%BA%8Eunsloth%E6%9D%A5%E5%AE%9E%E7%8E%B0RAFT.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -316,7 +316,7 @@
 </ol>
 
 <p>这也就是整片文章中一致强调的RAFT其实是一种“开卷考试” + “特定领域的提前学习”。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/raft.png" alt="raft" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20251127/raft.png" alt="raft" /></p>
 
 <h4 id="12-raft如何训练">1.2 RAFT如何训练</h4>
 <p>区别于常规的SFT，RAFT在训练中加入了干扰的文档 + 正确的文档让模型来学习。<strong>这使得模型学习到的是基于记忆和文档的混合判断</strong>，参考论文中的“which is a mixture of both memorization and reading”。</p>
@@ -331,7 +331,7 @@
   <li>训练的核心：通过思维链来解释找到的答案，从而基于上下文信息，思考其答案，并链接到相关文档。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/raft_train.png" alt="raft_train" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20251127/raft_train.png" alt="raft_train" /></p>
 <h3 id="二-基于unsloth和lamma_index来实现faft">二. 基于unsloth和lamma_index来实现FAFT</h3>
 <h4 id="21-基于ollama和lamma_index来构建数据集">2.1 基于ollama和lamma_index来构建数据集</h4>
 

@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>面试深度学习算法总结 - 凡人炼丹传</title>
 
 <meta name="description" content="面试中机器学习，深度学习中常问的算法总结">
-<link rel="canonical" href="https://lixiaofei2yy.website/2020/06/12/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2020/06/12/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -340,7 +340,7 @@ q:待估计的模型，服从参数为q的0-1分布，即X∼B(1,q)两者的交�
 
 <h4 id="23-svm的核函数">2.3 SVM的核函数</h4>
 <p>使用非线性核的支持向量机可以处理线性不可分的问题。通过核函数，支持向量机可以将特征向量映射到更高维的空间中，使得原本线性不可分的数据在映射之后的空间中变得线性可分，如下图所示，原本二维空间的线性不可分（异或问题）转成三维空间，就可以线性可分了。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_1.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_1.jpg" alt="" /></p>
 
 <p>常用的核函数：线性核、多项式核、高斯核（RBF）、拉普拉斯核等等。核函数的选择其实才是SVM模型的最大变数。</p>
 
@@ -367,13 +367,13 @@ L1范数就是p=1,即：
 
 <p>决策树属于典型的“<strong>白盒模型</strong>”，如下图所示，我是否应该接收一个新的offer？这里可以通过构建一个个节点，来判断我是否应该接收offer。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_2.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_2.jpg" alt="" /></p>
 
 <p>比较常用的决策树有<strong>ID3</strong>，<strong>C4.5</strong>和<strong>CART</strong>（Classification And Regression Tree）。</p>
 
 <p><strong>熵</strong>：熵是随机变量的不确定程度。越混乱熵值越高，说明越混乱，分类越混乱。当熵值为0时，说明是纯物质。以下是熵的公式。
 \(H(X)=-\sum_{i=1}^{n} p_{i} \log p_{i}\)
-​		<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_3.jpg" alt="" /></p>
+​		<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_3.jpg" alt="" /></p>
 
 <p>当Entropy最大为1的时候，是分类效果最差的状态，当它最小为0的时候，是完全分类的状态。因为熵等于零是理想状态，一般实际情况下，熵介于0和1之间。熵的不断最小化，实际上就是提高分类正确率的过程。</p>
 
@@ -670,10 +670,10 @@ FPN特征金字塔网络：参考文章：https://zhuanlan.zhihu.com/p/92005927<
 
 <p>RNN的前向推导公式：</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_4.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_4.jpg" alt="" /></p>
 
 <p>LSTM的三种门控制如下：
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/int_5.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20200612/int_5.jpg" alt="" /></p>
 
 <p>如上图所示，它们的名字、表示的计算过程及输出分别是：</p>
 

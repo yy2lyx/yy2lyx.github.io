@@ -10,7 +10,6 @@
   var activeIndex = 0;
   var intervalId;
   var scrollFrame;
-  var isPointerDown = false;
 
   function setSlide(index, shouldRestart) {
     activeIndex = (index + slides.length) % slides.length;
@@ -51,13 +50,7 @@
 
   function updateParallax() {
     var rect = showcase.getBoundingClientRect();
-    var trackHeight = Math.max(showcase.offsetHeight - window.innerHeight, 1);
-    var progressValue = Math.min(Math.max(-rect.top / trackHeight, 0), 1);
-    var activeFromScroll = Math.min(slides.length - 1, Math.floor(progressValue * slides.length + 0.15));
-
-    if (!isPointerDown && rect.top <= 0 && rect.bottom >= window.innerHeight && activeFromScroll !== activeIndex) {
-      setSlide(activeFromScroll, true);
-    }
+    var progressValue = Math.min(Math.max(-rect.top / Math.max(window.innerHeight, 1), 0), 1);
 
     slides.forEach(function (slide) {
       var image = slide.querySelector('img');
@@ -87,9 +80,6 @@
     });
   });
 
-  showcase.addEventListener('pointerdown', function () { isPointerDown = true; });
-  showcase.addEventListener('pointerup', function () { isPointerDown = false; });
-  showcase.addEventListener('pointercancel', function () { isPointerDown = false; });
   document.addEventListener('visibilitychange', restartAutoplay);
   window.addEventListener('scroll', requestParallax, { passive: true });
   window.addEventListener('resize', requestParallax);

@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>机器学习常用函数 - 凡人炼丹传</title>
 
 <meta name="description" content="介绍python的数据分析常用工具pandas、numpy和机器学习工具sklearn的总结">
-<link rel="canonical" href="https://lixiaofei2yy.website/2018/11/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2018/11/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -473,7 +473,7 @@
 <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mach_1.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20181121/mach_1.jpg" alt="" /></p>
 
 <h4 id="22-散点图">2.2 散点图</h4>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
@@ -493,7 +493,7 @@
 </span>    <span class="n">g</span><span class="p">.</span><span class="nf">set_axis_labels</span><span class="p">(</span><span class="sh">"</span><span class="s">${}$</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">xlabel</span><span class="p">),</span> <span class="sh">"</span><span class="s">${}$</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">ylabel</span><span class="p">))</span>
     <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mach_2.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20181121/mach_2.jpg" alt="" /></p>
 
 <h4 id="25-多变量两两之间的分布图">2.5 多变量两两之间的分布图</h4>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">all_two_feature_distribution</span><span class="p">(</span><span class="n">df</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">load_dataset</span><span class="p">(</span><span class="sh">'</span><span class="s">iris</span><span class="sh">'</span><span class="p">)):</span>
@@ -501,7 +501,7 @@
     <span class="n">sns</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="sh">"</span><span class="s">species</span><span class="sh">"</span><span class="p">)</span>
     <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mach_3.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20181121/mach_3.jpg" alt="" /></p>
 
 <h4 id="26-热度图">2.6 热度图</h4>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scores_h</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">scores_h</span><span class="p">).</span><span class="nf">reshape</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>

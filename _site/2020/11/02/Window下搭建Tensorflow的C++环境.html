@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Window下搭建Tensorflow的C++环境 - 凡人炼丹传</title>
 
 <meta name="description" content="介绍如何在windows下搭建tensorflow的C++环境">
-<link rel="canonical" href="https://lixiaofei2yy.website/2020/11/02/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2020/11/02/Window%E4%B8%8B%E6%90%AD%E5%BB%BATensorflow%E7%9A%84C++%E7%8E%AF%E5%A2%83.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -537,13 +537,13 @@ int main()
 
 <h4 id="41-生成解决方案的时候报错无法打开包括文件">4.1 生成解决方案的时候报错无法打开包括文件：</h4>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/tf_c_windows_1.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20201101/tf_c_windows_1.jpg" alt="" /></p>
 
 <p>解决方式：在本地的通过python pip安装后的tensorflow文件夹中（<code class="language-plaintext highlighter-rouge">C:\soft\python3.7.9\Lib\site-packages\tensorflow\include</code>）将<code class="language-plaintext highlighter-rouge">google</code>文件夹复制到<code class="language-plaintext highlighter-rouge">D:tf_test\tf\include</code>下面，即可解决</p>
 
 <h4 id="42-生成解决方案的时候报错link1120">4.2 生成解决方案的时候报错Link1120:</h4>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/tf_c_windows_2.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20201101/tf_c_windows_2.jpg" alt="" /></p>
 
 <p>解决方式：将vs2019上报错信息复制，cd到<code class="language-plaintext highlighter-rouge">tensorflow-master\tensorflow\tools\def_file_filter</code>(这里的tensorflow-master是自己下载tensorflow源码的地方），编辑<code class="language-plaintext highlighter-rouge">def_file_filter.py.tpl</code>文件：</p>
 

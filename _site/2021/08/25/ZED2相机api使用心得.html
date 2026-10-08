@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>ZED2相机api使用心得 - 凡人炼丹传</title>
 
 <meta name="description" content="记录ZED双目相机的python API使用过程">
-<link rel="canonical" href="https://lixiaofei2yy.website/2021/08/25/ZED2%E7%9B%B8%E6%9C%BAapi%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2021/08/25/ZED2%E7%9B%B8%E6%9C%BAapi%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -307,7 +307,7 @@
 
 <p>ZED双目相机有以下四种型号：</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/zed_1.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/zed_1.png" alt="" /></p>
 
 <p><a href="https://www.stereolabs.com/zed-2i/">ZED 2i</a>：ZED相机最新款（ZED相机二代的进阶版，<strong>防尘防水</strong>）</p>
 
@@ -327,11 +327,11 @@
 
 <p>我们可以看到是，所有的SDK基本都需要你<strong>安装cuda</strong>，因此我选择了cuda11.0进行安装，具体的cuda安装过程可参考我之前的一篇博客：<a href="https://www.lixiaofei2yy.website/windows10%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%90%AD%E5%BB%BAcuda10.1%E5%92%8Cpytorch1.6">Windows10环境下搭建CUDA10.1和pytorch1.6</a>。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/zed_2.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/zed_2.png" alt="" /></p>
 
 <p>直接安装即可，将下载下来的exe双击运行<code class="language-plaintext highlighter-rouge">ZED_SDK_Windows10_cuda11.0_v3.5.2_4.exe</code>即可，如下图所示</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/zed_3.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/zed_3.png" alt="" /></p>
 
 <p>一直往下走即可。</p>
 
@@ -339,7 +339,7 @@
 
 <p>安装完成之后，可以在 <code class="language-plaintext highlighter-rouge">C:\Program Files (x86)\ZED SDK\</code>下看到<code class="language-plaintext highlighter-rouge">get_python_api.py</code>，如下图</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/zed_4.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/zed_4.png" alt="" /></p>
 
 <p>直接进行安装python的api：<code class="language-plaintext highlighter-rouge">python get_python_api.py</code></p>
 
@@ -377,7 +377,7 @@
   <li>
     <p>拿到相机的惯导(IMU)信息，注意这里使用的是<strong>Y轴向上的右手定律</strong>，这里即Z轴方向是车头/飞机头的方向。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/zed_5.png" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/zed_5.png" alt="" /></p>
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 初始化
 </span><span class="n">zed</span> <span class="o">=</span> <span class="n">sl</span><span class="p">.</span><span class="nc">Camera</span><span class="p">()</span>  <span class="c1"># Create a ZED camera object

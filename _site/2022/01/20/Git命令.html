@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Git命令学习 - 凡人炼丹传</title>
 
 <meta name="description" content="记录学习git中遇到的一些常用命令">
-<link rel="canonical" href="https://lixiaofei2yy.website/2022/01/20/Git%E5%91%BD%E4%BB%A4.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2022/01/20/Git%E5%91%BD%E4%BB%A4.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -350,10 +350,10 @@
 <ul>
   <li>
     <p>查看当前分支：<code class="language-plaintext highlighter-rouge">git brach</code>，我们可以看到如下图所示，目前我们创建了一个新分支，但是还在master分支下，并没有切换到branch_1分支下（* 即代表当前所处的分支）
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/1.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/1.jpg" alt="" /></p>
   </li>
   <li>切换到指定分支：<code class="language-plaintext highlighter-rouge">git checkout branch_1</code>，这里如果是想直接新建一个分支并切换到该分支下，即可用命令<code class="language-plaintext highlighter-rouge">git checkout -b branch_2</code>
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/2.jpg" alt="" /></li>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/2.jpg" alt="" /></li>
   <li>删除本地分支：<code class="language-plaintext highlighter-rouge">git branch -d branch_1</code></li>
   <li>合并分支branch_1：<code class="language-plaintext highlighter-rouge">git merge branch_1</code></li>
 </ul>
@@ -388,9 +388,9 @@
 <p><strong>查看git日志的栗子</strong></p>
 
 <p>当我们在分支branch_2 下新建了一个b.txt文件后commit提交了之后，通过<code class="language-plaintext highlighter-rouge">git merge branch_2</code>来合并到master上，来查看下日志：<code class="language-plaintext highlighter-rouge">git dog</code>，如下图所示
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/3.jpg" alt="" />
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/3.jpg" alt="" />
 我们会发现这次提交是master还是branch_2的操作，因此我们需要git帮我们创建一次合并的commit，帮助我们区分啥时候发生的合并：<code class="language-plaintext highlighter-rouge">git merge branch_2 --no-ff</code>，这时候看日志就是如下图所示
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/4.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/4.jpg" alt="" /></p>
 
 <p>在上图我们可以看到git日志中先是分支branch_2（可以看到发生了分叉）添加了内容，然后合并到了master上，十分清晰明了。</p>
 
@@ -399,11 +399,11 @@
 <p>我们的branch_2是基于branch_1进行创建的，然后我们在branch_2中修改了a.txt内容，并commit提交。然后在切换回branch_1，同时也修改了a.txt内容，依然commit提交。这个时候branch_2的同学想要基于branch_1的同学来修改代码继续做，因此branch_2会合并branch_1，即<code class="language-plaintext highlighter-rouge">git merge branch_1</code>，这时候就会发生分支冲突。那么解决冲突的方式就是去修改a.txt中的内容。</p>
 
 <p>这里推荐使用命令<code class="language-plaintext highlighter-rouge">git mergetool</code>来进行修改，如下图所示。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/5.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/5.jpg" alt="" /></p>
 
 <h3 id="三-回滚">三. 回滚</h3>
 <p>我们提交之后发现想回滚到之前的提交下，如下图所示
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/6.jpg" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/6.jpg" alt="" /></p>
 
 <ul>
   <li>想要回滚一次：<code class="language-plaintext highlighter-rouge">git reset master^</code></li>

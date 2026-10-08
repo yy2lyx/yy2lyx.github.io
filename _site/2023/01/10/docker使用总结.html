@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>docker使用总结 - 凡人炼丹传</title>
 
 <meta name="description" content="记录docker的使用过程">
-<link rel="canonical" href="https://lixiaofei2yy.website/2023/01/10/docker%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2023/01/10/docker%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -313,7 +313,7 @@
 <h3 id="二-docker使用流程">二. docker使用流程</h3>
 <h4 id="21-docker的流程">2.1 docker的流程</h4>
 <p>整个docker的使用流程基本是：编写docker file ==&gt; 创建image(镜像) ==&gt; 实例化为container(容器) ==&gt; 跑container。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/docker_1.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_1.png" alt="" /></p>
 
 <h4 id="22-拉取使用的例子">2.2 拉取使用的例子</h4>
 <blockquote>
@@ -372,13 +372,13 @@ CMD <span class="o">[</span><span class="s2">"3"</span><span class="o">]</span>
 
 <h4 id="33-推送镜像到docker-hub">3.3 推送镜像到docker hub</h4>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/docker_2.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_2.png" alt="" /></p>
 
 <p>docker hub我们可以理解为一个云仓库，可以和github上类似，用以在远程仓库上存储自己的镜像，方便我们随时拉取。</p>
 
 <p>这里我们需要在dockerhub的<a href="https://hub.docker.com/">官网</a>上进行注册，然后创建属于自己的私有远程仓库。如下所示</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/docker_3.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_3.png" alt="" /></p>
 
 <p>之后我们就可以将自己的镜像上传到dockerhub远程仓库中了。</p>
 
@@ -389,7 +389,7 @@ CMD <span class="o">[</span><span class="s2">"3"</span><span class="o">]</span>
 </ul>
 
 <p>至此，我们就可以在dockerhub上看到我们刚刚上传的镜像咯。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/docker_4.png" alt="" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230110/docker_4.png" alt="" /></p>
 
 </div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-10T08:00:00+08:00"><!-- start custom article footer snippet -->
 

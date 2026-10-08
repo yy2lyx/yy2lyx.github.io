@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-Hans"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://lixiaofei2yy.website/feed.xml" rel="self" type="application/atom+xml" /><link href="https://lixiaofei2yy.website/" rel="alternate" type="text/html" hreflang="zh-Hans" /><updated>2026-09-13T12:26:13+08:00</updated><id>https://lixiaofei2yy.website/feed.xml</id><title type="html">凡人炼丹传</title><subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-Hans"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://lixiaofei2yy.website/feed.xml" rel="self" type="application/atom+xml" /><link href="https://lixiaofei2yy.website/" rel="alternate" type="text/html" hreflang="zh-Hans" /><updated>2026-10-08T11:36:48+08:00</updated><id>https://lixiaofei2yy.website/feed.xml</id><title type="html">凡人炼丹传</title><subtitle>欢迎各位看官光临本小站，希望共同学习进步哈！
 </subtitle><author><name>李小肥</name><email>yeyansiwangtt@gmail.com</email></author><entry><title type="html">Mac真的适合跑本地Agent吗</title><link href="https://lixiaofei2yy.website/2026/09/11/Mac%E9%80%82%E5%90%88%E8%B7%91%E6%9C%AC%E5%9C%B0Agent.html" rel="alternate" type="text/html" title="Mac真的适合跑本地Agent吗" /><published>2026-09-11T08:00:00+08:00</published><updated>2026-09-11T08:00:00+08:00</updated><id>https://lixiaofei2yy.website/2026/09/11/Mac%E9%80%82%E5%90%88%E8%B7%91%E6%9C%AC%E5%9C%B0Agent</id><content type="html" xml:base="https://lixiaofei2yy.website/2026/09/11/Mac%E9%80%82%E5%90%88%E8%B7%91%E6%9C%AC%E5%9C%B0Agent.html"><![CDATA[<h2 id="一本地-agent-为什么和普通聊天完全不是一回事">一、本地 Agent 为什么和普通聊天完全不是一回事？</h2>
 <p>很多人第一次在 Mac 上跑本地大模型，都会有一种很强烈的感受：<strong>安静、顺滑、吐字快，体验比想象中好很多</strong>。于是一个问题自然就来了：<strong>Mac 真的适合跑本地 Agent 吗？</strong></p>
 
@@ -206,7 +206,7 @@
 
 <p>这也是我觉得最有意思的地方：<strong>Mac 未必是本地 Agent 的全能主机，但它很可能是本地 Agent 链路里体验最好的“后半程机器”。</strong></p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mac-local-agent-cover.png" alt="mac-local-agent-cover" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260911/mac-local-agent-cover.png" alt="mac-local-agent-cover" /></p>
 
 <p>我这里也整理了一组测试结果。基准测试为 <strong>Llama-3.1 8B（8k 上下文）</strong>：输入 <code class="language-plaintext highlighter-rouge">8,192</code> Token 的提示词，并生成 <code class="language-plaintext highlighter-rouge">32</code> 个 Token。</p>
 
@@ -350,7 +350,7 @@
   </tbody>
 </table>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/01_codex_configuration_layers.png" alt="Codex 配置层级示意" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/01_codex_configuration_layers.png" alt="Codex 配置层级示意" /></p>
 
 <p>一个简单的判断原则是：</p>
 
@@ -449,7 +449,7 @@
 <span class="p">4.</span> State remaining test gaps.
 </code></pre></div></div>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/02_skill_setup.png" alt="Skill 配置与调用示意" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/02_skill_setup.png" alt="Skill 配置与调用示意" /></p>
 
 <h4 id="33-codex如何调用-skill">3.3 codex如何调用 Skill</h4>
 
@@ -487,13 +487,13 @@
   <li><strong>URL / HTTP：</strong> Codex 连接一个远程 MCP endpoint，认证方式取决于服务本身。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/03_mcp_setup.png" alt="MCP 配置示意" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/03_mcp_setup.png" alt="MCP 配置示意" /></p>
 
 <h4 id="42-一个本地-mcp-server-示例">4.2 一个本地 MCP Server 示例</h4>
 
 <p>下面是一个完整的接入本地mcp服务的例子，直接让AI帮你生成：</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mcpserver.png" alt="image-20260904161049651" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260904/mcpserver.png" alt="image-20260904161049651" /></p>
 
 <p>项目级配置可以放在项目内的 <code class="language-plaintext highlighter-rouge">.codex/config.toml</code>，用户级配置可以放在 <code class="language-plaintext highlighter-rouge">~/.codex/config.toml</code>。下面是一个通过本地 Python 进程启动 MCP Server 的示例：</p>
 
@@ -770,7 +770,7 @@ MCP
 
 <p>这里使用Claude Code作为例子来解释Agent到底是什么</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/claudcode.png" alt="claudcode" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260522/claudcode.png" alt="claudcode" /></p>
 
 <p>我们可以将Claude Code当作为一个Coding Agent：</p>
 
@@ -1288,7 +1288,7 @@ Metacognitive→ 越界即拒绝/转交人类
 
 <p>MCP：工具自己告诉模型我能做什么，相当于上述需要自定义的内容直接不用做了，<strong>全自动</strong>了属于是。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mcp.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260519/mcp.png" alt="" /></p>
 
 <h4 id="14-两者适用场景">1.4 两者适用场景</h4>
 
@@ -1480,9 +1480,9 @@ MCP 服务端会<span class="k">**</span>自动暴露<span class="k">**</span>�
 
 <p>这里使用<strong>李宏毅老师</strong>的讲解RF的ppt，我们就能很直观的了解RF是什么了</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/lhy_1.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/lhy_1.png" alt="" /></p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/lhy_2.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/lhy_2.png" alt="" /></p>
 
 <h4 id="13-为什么llm需要rft">1.3 为什么LLM需要RFT</h4>
 
@@ -1591,7 +1591,7 @@ MCP 服务端会<span class="k">**</span>自动暴露<span class="k">**</span>�
   <li>不需要迭代循环：利用<strong>类似分类的损失——直接使用logits</strong>损失函数，该函数直接比较两个模型的概率 ，直接基于人类偏好数据优化 LLM</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/dpo.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/dpo.png" alt="" /></p>
 
 <h4 id="24-grpo">2.4 GRPO</h4>
 
@@ -1606,7 +1606,7 @@ MCP 服务端会<span class="k">**</span>自动暴露<span class="k">**</span>�
   <li>核心Group Relative Policy Optimization：不再通过分组分数来估算基线，从而显著减少训练资源消耗。使用一组由 LLM 生成的针对同一提示的回答，来评估每个回答相对于组内其他回答的“优劣” 。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/grpo.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260314/grpo.png" alt="" /></p>
 
 <h3 id="三-基于gsm8k数据集的grpo的实操">三. 基于GSM8K数据集的GRPO的实操</h3>
 
@@ -1879,7 +1879,7 @@ xattr -dr com.apple.quarantine /Applications/Chromium.app
 
 <p>这里推荐使用的是我们直接clawhub的官网搜索需要的skills，找到对应的名字，比如我这里找到的就是浏览器的agent skills——Agent Browser，它可以帮助我们实现自动爬虫的功能（模拟人浏览页面的操作），我们在安装的时候也能发现，安装这个skill，需要安装playwright这个框架。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/clawhub.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260305/clawhub.png" alt="" /></p>
 
 <ol>
   <li>安装clawhub插件：<code class="language-plaintext highlighter-rouge">npm i -g clawhub</code></li>
@@ -1916,7 +1916,7 @@ agent-browser <span class="nb">install</span>
 </ol>
 
 <p>这也就是整片文章中一致强调的RAFT其实是一种“开卷考试” + “特定领域的提前学习”。
-<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/raft.png" alt="raft" /></p>
+<img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20251127/raft.png" alt="raft" /></p>
 
 <h4 id="12-raft如何训练">1.2 RAFT如何训练</h4>
 <p>区别于常规的SFT，RAFT在训练中加入了干扰的文档 + 正确的文档让模型来学习。<strong>这使得模型学习到的是基于记忆和文档的混合判断</strong>，参考论文中的“which is a mixture of both memorization and reading”。</p>
@@ -1931,7 +1931,7 @@ agent-browser <span class="nb">install</span>
   <li>训练的核心：通过思维链来解释找到的答案，从而基于上下文信息，思考其答案，并链接到相关文档。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/raft_train.png" alt="raft_train" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20251127/raft_train.png" alt="raft_train" /></p>
 <h3 id="二-基于unsloth和lamma_index来实现faft">二. 基于unsloth和lamma_index来实现FAFT</h3>
 <h4 id="21-基于ollama和lamma_index来构建数据集">2.1 基于ollama和lamma_index来构建数据集</h4>
 
@@ -2116,7 +2116,7 @@ unsloth
 </ul>
 
 <h4 id="12-rag在llm中langchain的例子">1.2 RAG在LLM中LangChain的例子</h4>
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/rag_lanchain.jpg" alt="LangChain" />
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20250609/rag_lanchain.jpg" alt="LangChain" />
 如上图所示，整个RAG的过程分为三个部分：</p>
 <ul>
   <li>文本嵌入阶段：将本地文本进行分段后，利用embedding模型对其每个段落进行词嵌入，并将其vector存入向量数据库（比如FAISS、Chroma）中。</li>
@@ -2137,7 +2137,7 @@ unsloth
 </ul>
 
 <h4 id="14-graphrag的流程">1.4 GraphRAG的流程</h4>
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/graphrag.png" alt="LangChain" />
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20250609/graphrag.png" alt="LangChain" />
 如上图所示，就是GraphRAG的处理流程图，其实总结起来就两个部分：
 第一部分：构建知识图谱</p>
 <ul>

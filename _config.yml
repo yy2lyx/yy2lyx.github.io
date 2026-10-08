@@ -199,6 +199,7 @@ exclude:
   - /docs
   - /node_modules
   - /screenshots
+  - /scripts
   - /test
   - /vendor
 

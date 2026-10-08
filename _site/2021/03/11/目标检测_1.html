@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>目标检测(one stage)-YOLOv1 - 凡人炼丹传</title>
 
 <meta name="description" content="目标检测（one stage）的开始——YOLOv1">
-<link rel="canonical" href="https://lixiaofei2yy.website/2021/03/11/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2021/03/11/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_1.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -336,7 +336,7 @@
 
 <h4 id="21-模型结构">2.1 模型结构</h4>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_1_1.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_1.jpg" alt="" /></p>
 
 <p>YOLO模型的结构如上所示：</p>
 
@@ -354,7 +354,7 @@
   <li>将448 * 448的图像分为7 * 7的grid（网格），每个grid都会进行判断：是否为前景，且会构建2个boundingbox来框出物体。因此，一共是有7 * 7 * 2个框。而每个grid都会输出x,y,w,h,c；这里的confidence的计算就是前景目标的概率 * iou的值。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_1_2.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_2.jpg" alt="" /></p>
 
 <ul>
   <li>除了boundingbox的计算外，当然还需要输出目标是哪个类别，即输出检测到的目标是某个类别的概率。这样就可以计算每个grid属于某个类别下的iou情况了。</li>
@@ -377,7 +377,7 @@
 
 <p><img src="https://i.loli.net/2021/03/16/ZLlQj29WeVTdzRI.png" alt="" /></p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_1_3.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_3.jpg" alt="" /></p>
 
 <p>如上所示，假定是将图片划分为3 * 3个grid，每个grid有且仅有一个预测框，由于只计算和前景目标匹配的框，因此只会计算grid5和grid7的location loss。</p>
 
@@ -416,7 +416,7 @@
 
 <p>那么上图的每个grid的confidence的值如下：</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_1_4.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_4.jpg" alt="" /></p>
 
 <p>object loss的值为：</p>
 
@@ -442,13 +442,13 @@
 
 <h5 id="241-同一个grid却是多个目标的中心点">2.4.1 同一个grid却是多个目标的中心点</h5>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_1_5.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_5.jpg" alt="" /></p>
 
 <p>如上图所示，人和车的中心点基本都落在中心的grid中，对于yolo而言，就无法分辨到底是人还是车？一个grid下只能预测1个目标。</p>
 
 <h5 id="242-同一个grid中存在多个小目标">2.4.2 同一个grid中存在多个小目标</h5>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_1_6.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210310/mu_1_6.jpg" alt="" /></p>
 
 <p>如上图所示，同一个grid下有多个鸟（小目标），而对于yolo而言，一个grid下只能预测1个目标。</p>
 

@@ -6358,8 +6358,7 @@ html,
 }
 
 .yy-showcase__stage {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100svh;
   min-height: 40rem;
   overflow: hidden;
@@ -6726,16 +6725,6 @@ html,
   width: 2rem;
   height: 1px;
   background: rgba(255, 255, 255, 0.75);
-}
-
-.yy-showcase__track {
-  height: 400vh;
-  pointer-events: none;
-}
-
-.yy-showcase__track span {
-  display: block;
-  height: 100vh;
 }
 
 .yy-kicker {

@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>目标检测(one stage)-YOLOv2 - 凡人炼丹传</title>
 
 <meta name="description" content="目标检测（one stage）——YOLOv2">
-<link rel="canonical" href="https://lixiaofei2yy.website/2021/04/21/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_3.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2021/04/21/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B_3.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -300,7 +300,7 @@
 
 <p>YOLOv2相较于YOLOv1在VOC2007数据集上表现从63.4%提升到78.6%。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_1.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_1.jpg" alt="" /></p>
 
 <p>YOLOv2与YOLOv1的不同之处一共体现在下面几个方面：</p>
 
@@ -314,22 +314,22 @@
   <li>
     <p><strong>Convolutional With Anchor Boxes</strong>（提高检测目标数量）：原本yolov1中将其中一个pool层拿掉后， feature map的大小由7 * 7 变成了13 * 13，然后每个1 * 1的grid里面增加了K个anchor boxes，因此从yolov1只能检测7 * 7 = 49个目标，增加到了13 * 13 * K个目标。在VOC2007数据集上效果<strong>虽然mAP下降了0.3%，但是在Recall上提升了7%</strong>。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_2.jpg" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_2.jpg" alt="" /></p>
   </li>
   <li>
     <p><strong>New Network</strong>（DarkNet-19）：提出了一个新的网络架构DarkNet-19（19个Conv 和 5个MaxPool），能够在YOLOv1的基础上减少33%的计算量。在VOC2007数据集上效果<strong>mAP提升0.4%</strong>。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_3.jpg" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_3.jpg" alt="" /></p>
   </li>
   <li>
     <p><strong>Dimension Clusters</strong>（尺度聚类）：如果Anchor boxes一开始就能和实际的物体的宽高比很接近，那么对于模型的收敛是否有帮助呢？YOLOv2这里就是使用了KMeans对所有的图片的宽高比（利用IOU计算之间的距离）进行聚类，结果是聚类个数K取5效果最好，从而每个grid中找到5个最好的预选框。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_4.jpg" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_4.jpg" alt="" /></p>
   </li>
   <li>
     <p><strong>Direct Location Prediction</strong>（绝对位置预测）：模型原本的anchor box在预测物体的x,y坐标时候会发生数值不稳定的现象（而R-CNN网络的boundingbox并非随机，而是由RPN网络生成），毕竟随机初始化的anchor box的位置，肯定需要花费大量时间才能学习到合适的位置。那么yolov2是如何完成？这里红色为anchor box，蓝色为模型的预测框，这里引入sigmoid函数来缩小到(0,1)之间，同时对计算后的结果进行归一化的处理，</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_5.jpg" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_5.jpg" alt="" /></p>
 
     <p>使用尺度聚类和直接位置预测两种方式后模型在VOC2007数据集上效果<strong>mAP提升4.8%</strong>。</p>
   </li>
@@ -338,18 +338,18 @@
   </li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_6.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_6.jpg" alt="" /></p>
 
 <ul>
   <li>
     <p><strong>Muti-Scale Training</strong>（多尺度训练）：每10个batch去做一个resize的动作，从一开始的320 * 320到最终的608 * 608，最后得到的feature map从开始的10 * 10到19 * 19。VOC2007数据集上效果<strong>mAP提升1.2%</strong>。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_7.jpg" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_7.jpg" alt="" /></p>
   </li>
   <li>
     <p><strong>High Resolution Detector</strong>（输入大size的input）：通过输入图像尺寸更大，使得模型检测到更小物体。下图是从288到544尺寸之间mAP提升效果，当然fps会相应的减少。VOC2007数据集上效果<strong>mAP提升2%</strong>。</p>
 
-    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_8.jpg" alt="" /></p>
+    <p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_8.jpg" alt="" /></p>
   </li>
 </ul>
 
@@ -357,7 +357,7 @@
 
 <p>下图是YOLOv2在COCO2015数据集上的表现。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mu_3_9.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210420/mu_3_9.jpg" alt="" /></p>
 
 <p>可以看到YOLOv2相较于SSD还有一些的差距的。</p>
 </div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-04-21T04:21:00+08:00"><!-- start custom article footer snippet -->

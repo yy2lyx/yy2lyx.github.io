@@ -110,8 +110,7 @@
 }
 
 .yy-showcase__stage {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100svh;
   min-height: 40rem;
   overflow: hidden;
@@ -483,16 +482,6 @@
   width: 2rem;
   height: 1px;
   background: rgba(#fff, .75);
-}
-
-.yy-showcase__track {
-  height: 400vh;
-  pointer-events: none;
-}
-
-.yy-showcase__track span {
-  display: block;
-  height: 100vh;
 }
 
 .yy-kicker {

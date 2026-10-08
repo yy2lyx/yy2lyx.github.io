@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>模型压缩 - 凡人炼丹传</title>
 
 <meta name="description" content="记录模型压缩的技巧和方法">
-<link rel="canonical" href="https://lixiaofei2yy.website/2022/09/28/%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2022/09/28/%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -338,7 +338,7 @@
 
 <p>比如我现在需要一个极小的model来学习图像分类任务。这里完全可以使用以上技巧来混合压缩模型，如下图所示</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/compression0.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression0.png" alt="" /></p>
 
 <ol>
   <li>可以先选择小的cv模型架构(这里选择mobilenet)来对大的图像分类模型(比如resnet101这种大且深的model)进行<strong>知识蒸馏</strong>。</li>
@@ -380,7 +380,7 @@
   <li>核心方法：让大的model的logits除掉T（原因是由于大model其实已经学很好，导致logits都是1，除掉T之后变得不要那么完美）之后得到soft target，然后让小model去学习hard target和soft target结合起来的loss。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/compression2.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression2.png" alt="" /></p>
 
 <p><strong>Deep Mutual Learning</strong></p>
 
@@ -389,7 +389,7 @@
   <li>核心方法：让两个network同时学习，互相学习对方的logits，同时让其看到真实的label的样子。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/compression3.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression3.png" alt="" /></p>
 
 <p><strong>Improved Knowledge Distillation via Teacher Assistant</strong></p>
 
@@ -398,7 +398,7 @@
   <li>核心方法：当小的model无法理解/学习大型model的时候，这里引出“Teacher Assistant”（助教）来作为中间model，起到学习大model，来教小model。</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/compression4.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression4.png" alt="" /></p>
 
 <h3 id="22-中间值蒸馏">2.2 中间值蒸馏</h3>
 
@@ -417,7 +417,7 @@
 
 <p>这个repo是哈工大开源的知识蒸馏的工具包（基于pytorch、bert的工具包，偏向于文本）。下面是具体的使用的流程</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/compression5.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220928/compression5.png" alt="" /></p>
 </div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-28T08:00:00+08:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet -->

@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>事件抽取实战 - 凡人炼丹传</title>
 
 <meta name="description" content="记录实战中NLP的事件抽取">
-<link rel="canonical" href="https://lixiaofei2yy.website/2023/02/14/%E4%BA%8B%E4%BB%B6%E6%8A%BD%E5%8F%96%E5%AE%9E%E6%88%98.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2023/02/14/%E4%BA%8B%E4%BB%B6%E6%8A%BD%E5%8F%96%E5%AE%9E%E6%88%98.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -310,7 +310,7 @@
   <p>下面用百度的LIC2021事件抽取任务来举例，事件抽取到底做了什么事？</p>
 </blockquote>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/event1.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230214/event1.png" alt="" /></p>
 
 <p>如上图所示，给定了一个句子，通过事件抽取我们可以得到：</p>
 
@@ -356,7 +356,7 @@
 
 <p>NER模型这边选用的文本标注模式为BIOES这种模式，其原因是对比BIO这种标注模式而言，对于实体最尾端的“E”标识能更好的帮助我们在预测时找到实体的尾端，对于错误实体的修正更加有帮助。比如预测的结果为”I-I-I-O-I-I”（BIO）可能识别为2个实体，然是如果是BIOES预测结果为“I-I-I-O-I-E”则其实就是一个实体。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/event2.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230214/event2.png" alt="" /></p>
 
 <p>这边主要介绍下选用的层的各自作用：</p>
 
@@ -370,7 +370,7 @@
   <p>推荐的git仓库：https://github.com/monologg/R-BERT</p>
 </blockquote>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/event3.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230214/event3.png" alt="" /></p>
 
 <p>选用该模型的原因：它的模型结构和我起初看的snow ball(雪球算法)很像，在抽取的关系规则上很近似，都是<code class="language-plaintext highlighter-rouge">开始词向量 + 实体1 + 中间词向量 + 实体2 + 尾词向量</code>。</p>
 
@@ -399,7 +399,7 @@
   <p>官方的git仓库：https://github.com/lavis-nlp/spert</p>
 </blockquote>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/event4.png" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20230214/event4.png" alt="" /></p>
 
 <p>在官方的代码中，模型的训练阶段和推理阶段其实模型结构是不同的：</p>
 

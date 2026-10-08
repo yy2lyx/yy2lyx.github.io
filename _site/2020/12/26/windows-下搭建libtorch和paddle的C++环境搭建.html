@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>windows下搭建libtorch和paddle的C++环境搭建 - 凡人炼丹传</title>
 
 <meta name="description" content="介绍在C++平台下搭建torch和paddle的环境">
-<link rel="canonical" href="https://lixiaofei2yy.website/2020/12/26/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ --><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-2"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-2"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-2"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-2">
+<link rel="canonical" href="https://lixiaofei2yy.website/2020/12/26/windows-%E4%B8%8B%E6%90%AD%E5%BB%BAlibtorch%E5%92%8Cpaddle%E7%9A%84C++%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html"><link rel="alternate" type="application/rss+xml" title="凡人炼丹传" href="/feed.xml"><!-- start favicons snippet --><link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png?v=orbit-3"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=orbit-3"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png?v=orbit-3"><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png?v=orbit-3"><link rel="manifest" href="/assets/site.webmanifest"><link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#fc4d50"><link rel="shortcut icon" href="/assets/favicon.ico?v=orbit-3">
 
-<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
 <!-- end favicons snippet -->
@@ -390,14 +390,14 @@ int main() {
   <li>编译顺利的话，就可以看到<code class="language-plaintext highlighter-rouge">build</code>目录下生成了如下所示：</li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/libtorch_1.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20201225/libtorch_1.jpg" alt="" /></p>
 
 <ul>
   <li>利用vs2019打开项目<code class="language-plaintext highlighter-rouge">example-app.sln</code></li>
   <li>点击<code class="language-plaintext highlighter-rouge">example-app</code> 右键选择<code class="language-plaintext highlighter-rouge">设为启动项</code>，并且将版本选择<code class="language-plaintext highlighter-rouge">release</code>版本，点击<code class="language-plaintext highlighter-rouge">本地Windows调试器</code></li>
 </ul>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/libtorch_2.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20201225/libtorch_2.jpg" alt="" /></p>
 
 <h4 id="23-调试问题的解决">2.3 调试问题的解决</h4>
 
@@ -424,7 +424,7 @@ int main() {
 
 <p>这里官网有2种方式在windows上安装paddle环境：一个是通过git下载paddle源码进行编译安装，另一种直接从官网下载zip编译好的文件（本文使用该种方式）。</p>
 
-<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/libtorch_3.jpg" alt="" /></p>
+<p><img src="https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20201225/libtorch_3.jpg" alt="" /></p>
 
 <h4 id="32-结合paddleocr测试并使用paddle预测库">3.2 结合paddleOCR测试并使用paddle预测库</h4>
 
