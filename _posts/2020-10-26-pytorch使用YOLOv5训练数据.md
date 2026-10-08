@@ -133,11 +133,11 @@ ForkingPickler(file, protocol).dump(obj) BrokenPipeError: [Errno 32] Broken pipe
 
 这里可以参考文章：https://github.com/pytorch/pytorch/issues/2341。解决方案：将`utils\datasets.py`文件中`num_workers`改成0即可（代码第68行）。训练完成后如下图：
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/torch_yolo1.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20201026/torch_yolo1.jpg)
 
 * 可以查看本地tensorboard训练过程：`tensorboard --logdir=runs`，如果这里出现问题，可以换成一下命令：`python -m tensorboard.main --logdir logs`
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/torch_yolo2.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20201026/torch_yolo2.jpg)
 
 * 这里还可以使用coco数据集的[预训练模型](https://drive.google.com/drive/folders/1Drs_Aiu7xx6S-ix95f9kNsA6ueKRpN2J)进行训练，可能效果会更好
 

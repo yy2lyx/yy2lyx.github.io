@@ -30,7 +30,7 @@ key: post-2019-10-01-windows-c-ide-clion-opencv
 * 这里需要在cmake中加入`OPENCV_ALLOCATOR_STATS_COUNTER_TYPE=int64_t`，`add Entry` ==> `string`，这里参考[报错信息1](https://github.com/opencv/opencv/issues/17065)
 * 这里还需要再cmake中加入`OPENCV_ENABLE_ALLOCATOR_STATS=OFF`，参考[报错信息2](https://answers.opencv.org/question/228737/gcc-error-long-no-such-file-or-directory/)
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/clion_1.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20191001/clion_1.jpg)
 
 * 需要2次Configure和1次Genrate即可编译完成。
 * `cd opencv\mingw-build`目录下输入`mingw32-make`

@@ -20,7 +20,7 @@ key: post-2022-1-22-picgo-github
 #### 2.1 新建一个共有仓库
 
 首先，要搭建一个github图床，我们需要创建一个**共有仓库**（注意：如果是创建私有仓库根本无法显示图片出来）来存储上传的图片。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/new-rep.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/new-rep.jpg)
 
 #### 2.2 创建admin分支
 这里如果不会用git创建分支的同学可参考我上一篇文章[GIT命令学习](https://www.lixiaofei2yy.website/git%E5%91%BD%E4%BB%A4)。
@@ -31,16 +31,16 @@ key: post-2022-1-22-picgo-github
 * 向远端仓库推送admin分支：`git push orgin admin`
 
 这时，我们就可以在仓库中看到admin分支了，如下图。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/admin.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/admin.jpg)
 
 #### 2.3 设置token
 这里我们还需要设置token，直接点击该[链接](https://github.com/settings/tokens)即可。注意，这里需要将repo选择。如下图所示。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/token.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/token.jpg)
 然后点击generate token就完成了。
 
 ### 三. 在picgo下配置github图床
 记住上面刚刚配置好的token和仓库名字及分支名admin，按照下图进行配置即可。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/picgo.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20220120/picgo.jpg)
 
 至此，我们就可以愉快的上传图片咯！
 

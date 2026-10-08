@@ -113,31 +113,31 @@ while scrolling:
 
 直接打开chrome应用商店进行搜索`Web Scraper`,下载安装插件即可。
 在chrome中打开一个页面，点击右键，选择`检查`，即可看到web scraper了。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/spider1.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider1.jpg)
 
 #### 2.2 使用
 > 还是利用上面的例子，这里用Web Scraper来不写代码进行爬取。
 
 1. 新建一个sitemap，选择`create new sitemap`, 填写名称和url，如下图
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/spider2.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider2.jpg)
 
 2. 选择初始的选择器，这里选择的是公众号名字。注意这里是需要点击“公众号”，因此选择link。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/spider3.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider3.jpg)
 
 3. 在上面选择的选择器中点进去后，新建一个选择器，这里是需要下拉动作，因此选择element scroll down。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/spider4.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider4.jpg)
 
 4. 点击scroller，新建一个选择器，用以保存文章标题。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/spider5.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider5.jpg)
 
 5. 同时在scroller下新建一个选择器，用以保存文章链接。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/spider6.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider6.jpg)
 
 6. 我们可以通过查看graph的形式来查看整个workflow（点击`sitemap`下的`Selector graph`）。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/spider7.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider7.jpg)
 
 7. 至此，配置部分就全部完成了，现在只需要跑起来就行，点击`sitemap`下的`Scrape`即可。
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/spider8.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20221224/spider8.jpg)
 
 ### 三. AutoScraper推荐
 > 这里推荐一个不需要xpath来选择元素的自动爬取器，很有意思。

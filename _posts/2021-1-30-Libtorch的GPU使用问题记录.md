@@ -117,11 +117,11 @@ int main()
 
 * 直接在项目中将`Release`版本选择为`RelWithDebInfo`
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/libtorch_gpu_1.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210130/libtorch_gpu_1.png)
 
 * 禁用代码优化功能：这里是防止出现“变量已被优化掉 因而不可用”这种问题
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/libtorch_gpu_2.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210130/libtorch_gpu_2.png)
 
 在这里debug的时候发现，`device`这个我定义的变量是可以加载cuda的！因此可以推翻我之前想的（cuda环境的问题）。
 

@@ -22,7 +22,7 @@ key: post-2020-10-16-windows-mysql-sql
 
 ### 二. 初始化mysql
 * 初始化数据库：`mysqld --initialize --console`,并记录红色标注的字符，这是随机生成的密码
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mys_1.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20201016/mys_1.jpg)
 * 输入`mysqld -install`将mysql安装为Windows的服务：
 * 启动mysql：`net start mysql`
 * 首次进入mysql：`mysql -u root -p`，输入第一次的系统生成的密码

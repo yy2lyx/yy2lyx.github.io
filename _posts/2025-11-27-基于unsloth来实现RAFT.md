@@ -26,7 +26,7 @@ RAFT其实是基于RAG（检索增强）的SFT（有监督微调），那么他�
     * 通过训练模型来将“理解问题”、“检索知识”和“正确答案”进行关联，从而提高达模型回答的准确性。
 
 这也就是整片文章中一致强调的RAFT其实是一种“开卷考试” + “特定领域的提前学习”。
-![raft](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/raft.png)
+![raft](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20251127/raft.png)
 
 #### 1.2 RAFT如何训练
 区别于常规的SFT，RAFT在训练中加入了干扰的文档 + 正确的文档让模型来学习。**这使得模型学习到的是基于记忆和文档的混合判断**，参考论文中的“which is a mixture of both memorization and reading”。
@@ -36,7 +36,7 @@ RAFT其实是基于RAG（检索增强）的SFT（有监督微调），那么他�
     * 正确的例子：QA对 + 标准答案的文档 + 思维链
 * 训练的核心：通过思维链来解释找到的答案，从而基于上下文信息，思考其答案，并链接到相关文档。
 
-![raft_train](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/raft_train.png)
+![raft_train](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20251127/raft_train.png)
 ### 二. 基于unsloth和lamma_index来实现FAFT
 #### 2.1 基于ollama和lamma_index来构建数据集
 

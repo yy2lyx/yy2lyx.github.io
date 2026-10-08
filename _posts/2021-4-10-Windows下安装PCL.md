@@ -31,7 +31,7 @@ key: post-2021-4-10-windows-pcl
 
 * 在`pkg-config`目录下，运行脚本`InstallWindowsGTKPlus.bat`，该脚本会下载必须的内容，下载完成后会多出这些文件夹，如下图所示
 
-  ![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/pcl_1.png)
+  ![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210410/pcl_1.png)
 
 * 安装python的pcl包：
   * `cd 你安装python-pcl源码目录`
@@ -76,4 +76,4 @@ while v:
 
 由于上面已经下载了PCL1.9.1了，可以直接在命令行中进行展示：`pcl_viewer_release H cloud.PCD`，下面的是来自Middlebury 2014数据集中经过立体匹配后的3D点云图。
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/pcl_2.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210410/pcl_2.png)

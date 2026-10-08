@@ -34,11 +34,11 @@ key: post-2021-9-3-jetsonxaviernx
 
 * 在Windows10上安装vnc-client，官网地址：https://www.realvnc.com/en/connect/download/viewer/windows/
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jet_1.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_1.png)
 
 * 输入linux的ip后，直接连接即可。
 
-  ![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jet_2.png)
+  ![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_2.png)
 
 #### 1.3 建立双击可执行文件.desktop
 
@@ -78,7 +78,7 @@ key: post-2021-9-3-jetsonxaviernx
 
 * 用JetPack刷机（本人选用的是Jetpack4.4.1），jetpack地址：https://developer.nvidia.com/embedded/jetpack-archive
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jet_3.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_3.png)
 
 * 安装完成后，我们可以查看jetpack的版本：`cat /etc/nv_tegra_release`，同时已经给我们安装好了CUDA 10.2 、cudnn 8.0 、opencv、python3.6。
 
@@ -150,7 +150,7 @@ sudo make
 
 Pytorch的jetson版本下载地址：https://forums.developer.nvidia.com/t/pytorch-for-jetson-version-1-9-0-now-available/72048
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/jet_4.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20210824/jet_4.png)
 
 * 下载完成后直接使用pip进行安装：`sudo pip3 install numpy torch-1.9.0-cp36-cp36m-linux_aarch64.whl`
 

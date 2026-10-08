@@ -119,7 +119,7 @@ examples = [
 
 方案：LangChain + ChatGLM，[GitHub - chatchat-space/Langchain-Chatchat](https://github.com/chatchat-space/Langchain-Chatchat)
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/2024/07/04/1720076916450-5f8f9bb0-a4ce-4e21-adab-6ba043264124.jpg)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20240704/1720076916450-5f8f9bb0-a4ce-4e21-adab-6ba043264124.jpg)
 
 整体流程：
 

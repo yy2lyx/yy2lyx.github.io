@@ -72,7 +72,7 @@ key: post-2026-05-19-function-call-mcp-skill
 
 MCP：工具自己告诉模型我能做什么，相当于上述需要自定义的内容直接不用做了，**全自动**了属于是。
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/mcp.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260519/mcp.png)
 
 
 

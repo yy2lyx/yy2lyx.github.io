@@ -141,7 +141,7 @@ OpenClaw（原 Clawdbot/Moltbot）能快速爆火，核心是精准击中本地�
 
 这里推荐使用的是我们直接clawhub的官网搜索需要的skills，找到对应的名字，比如我这里找到的就是浏览器的agent skills——Agent Browser，它可以帮助我们实现自动爬虫的功能（模拟人浏览页面的操作），我们在安装的时候也能发现，安装这个skill，需要安装playwright这个框架。
 
-![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/clawhub.png)
+![](https://raw.githubusercontent.com/yy2lyx/picgo/admin/img/20260305/clawhub.png)
 
 1. 安装clawhub插件：`npm i -g clawhub`
 2. 安装agent-browser：`clawhub install "agent-browser"`
