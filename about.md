@@ -67,12 +67,12 @@ key: page-about
 
   <div class="yy-about-profile__content">
     <h1 id="yy-about-name">CarlYe</h1>
-    <p class="yy-about-profile__role">AI Practitioner · Deep Learning / NLP / CV</p>
+    <p class="yy-about-profile__role">AI Practitioner · LLM / NLP / CV</p>
 
-    <p>你好，我是 CarlYe，一名专注于机器学习与深度学习的 AI 实践者。我的研究与实践横跨自然语言处理和计算机视觉，并以 Python 与 C++ 为主要工具，兼顾算法创新与系统性能。</p>
+    <p>你好，我是 CarlYe，一名专注于机器学习与深度学习的 AI 实践者。我的研究与实践横跨自然语言处理和计算机视觉，兼顾算法创新与系统性能。</p>
 
     <p>这个博客记录我在模型、工具和工程实践中的思考与经验。希望这些内容能为你带来启发，也期待与你共同学习、彼此成就。</p>
 
-    <p class="yy-about-profile__motto">Python for ideas, C++ for performance.</p>
+    <p class="yy-about-profile__motto">AI is all you need.</p>
   </div>
 </section>
