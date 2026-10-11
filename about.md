@@ -26,12 +26,20 @@ titles:
 key: page-about
 ---
 
-#  YY Station
+<section class="yy-about-profile" aria-labelledby="yy-about-name">
+  <div class="yy-about-profile__portrait">
+    <img src="{{ '/assets/images/yy-ai-avatar.webp' | relative_url }}" alt="CarlYe 的头像" width="720" height="720">
+  </div>
 
-**AI Practitioner · Deep Learning / NLP / CV**
+  <div class="yy-about-profile__content">
+    <p class="yy-about-profile__eyebrow">ABOUT ME</p>
+    <h1 id="yy-about-name">CarlYe</h1>
+    <p class="yy-about-profile__role">AI Practitioner · Deep Learning / NLP / CV</p>
 
-专注于机器学习与深度学习，研究兴趣跨越语言与视觉两大模态；以 Python 与 C++ 为主要工具，兼顾算法创新与系统性能。
+    <p>你好，我是 CarlYe，一名专注于机器学习与深度学习的 AI 实践者。我的研究与实践横跨自然语言处理和计算机视觉，并以 Python 与 C++ 为主要工具，兼顾算法创新与系统性能。</p>
 
-*Python for ideas, C++ for performance.*
+    <p>这个博客记录我在模型、工具和工程实践中的思考与经验。希望这些内容能为你带来启发，也期待与你共同学习、彼此成就。</p>
 
-期待与你共同学习、彼此成就。
+    <p class="yy-about-profile__motto">Python for ideas, C++ for performance.</p>
+  </div>
+</section>
