@@ -7,7 +7,7 @@ titles:
   en-US   : *EN
   en-CA   : *EN
   en-AU   : *EN
-  zh-Hans : &ZH_HANS  关于
+  zh-Hans : &ZH_HANS  About Me
   zh      : *ZH_HANS
   zh-CN   : *ZH_HANS
   zh-SG   : *ZH_HANS
@@ -66,7 +66,6 @@ key: page-about
   </div>
 
   <div class="yy-about-profile__content">
-    <p class="yy-about-profile__eyebrow">ABOUT ME</p>
     <h1 id="yy-about-name">CarlYe</h1>
     <p class="yy-about-profile__role">AI Practitioner · Deep Learning / NLP / CV</p>
 
