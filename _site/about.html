@@ -287,7 +287,41 @@
 <article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>关于</h1></header></div><meta itemprop="headline" content="关于"><meta itemprop="author" content="李小肥"/><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet -->
-<div class="article__content" itemprop="articleBody"><section class="yy-about-profile" aria-labelledby="yy-about-name">
+<div class="article__content" itemprop="articleBody"><style>
+  .yy-about-profile {
+    display: grid !important;
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+    gap: 56px !important;
+    align-items: center !important;
+  }
+
+  .yy-about-profile__portrait {
+    width: 220px !important;
+    height: 220px !important;
+  }
+
+  .yy-about-profile__portrait img {
+    display: block !important;
+    width: 220px !important;
+    height: 220px !important;
+    object-fit: cover !important;
+  }
+
+  @media (max-width: 680px) {
+    .yy-about-profile {
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+    }
+
+    .yy-about-profile__portrait,
+    .yy-about-profile__portrait img {
+      width: 180px !important;
+      height: 180px !important;
+    }
+  }
+</style>
+
+<section class="yy-about-profile" aria-labelledby="yy-about-name">
   <div class="yy-about-profile__portrait">
     <img loading="lazy" decoding="async" src="/assets/images/yy-ai-avatar.webp" alt="CarlYe 的头像" width="720" height="720" />
   </div>

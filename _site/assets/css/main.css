@@ -6297,7 +6297,7 @@ html,
 
 .yy-about-profile {
   display: grid;
-  grid-template-columns: minmax(14rem, 19rem) minmax(0, 1fr);
+  grid-template-columns: 13.75rem minmax(0, 1fr);
   gap: clamp(2.5rem, 6vw, 5.5rem);
   align-items: center;
   margin: 1rem 0 4rem;
@@ -6308,7 +6308,7 @@ html,
 
 .yy-about-profile__portrait {
   position: relative;
-  width: 100%;
+  width: 13.75rem;
   aspect-ratio: 1;
   overflow: hidden;
   background: #f3f3f1;
@@ -6379,8 +6379,11 @@ html,
 
 @media (max-width: 499px) {
   .yy-about-profile {
-    grid-template-columns: minmax(10rem, 15rem) minmax(0, 1fr);
+    grid-template-columns: 11.25rem minmax(0, 1fr);
     gap: 2rem;
+  }
+  .yy-about-profile__portrait {
+    width: 11.25rem;
   }
   .article__content .yy-about-profile h1 {
     font-size: 3.5rem;

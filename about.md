@@ -26,6 +26,40 @@ titles:
 key: page-about
 ---
 
+<style>
+  .yy-about-profile {
+    display: grid !important;
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+    gap: 56px !important;
+    align-items: center !important;
+  }
+
+  .yy-about-profile__portrait {
+    width: 220px !important;
+    height: 220px !important;
+  }
+
+  .yy-about-profile__portrait img {
+    display: block !important;
+    width: 220px !important;
+    height: 220px !important;
+    object-fit: cover !important;
+  }
+
+  @media (max-width: 680px) {
+    .yy-about-profile {
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+    }
+
+    .yy-about-profile__portrait,
+    .yy-about-profile__portrait img {
+      width: 180px !important;
+      height: 180px !important;
+    }
+  }
+</style>
+
 <section class="yy-about-profile" aria-labelledby="yy-about-name">
   <div class="yy-about-profile__portrait">
     <img src="{{ '/assets/images/yy-ai-avatar.webp' | relative_url }}" alt="CarlYe 的头像" width="720" height="720">
